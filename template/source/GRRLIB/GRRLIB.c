@@ -1,9 +1,17 @@
 /*===========================================
         GRRLIB (GX version) 3.0.5 alpha
         Code     : NoNameNo
+        Additional Code : Crayon
         GX hints : RedShade
 ===========================================*/
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <malloc.h>
+#include <stdarg.h>
+#include <string.h>
+#include "../libpng/pngu/pngu.h"
+#include "../libjpeg/jpeglib.h"
 #include "GRRLIB.h"
 #define DEFAULT_FIFO_SIZE (256 * 1024)
 
@@ -94,7 +102,7 @@ void GRRLIB_InitTileSet(struct GRRLIB_texImg *tex, unsigned int tilew, unsigned 
  * @param my_png the PNG buffer to load.
  * @return A GRRLIB_texImg structure filled with PNG informations.
  */
-GRRLIB_texImg GRRLIB_LoadTexture(const unsigned char my_png[]) {
+GRRLIB_texImg GRRLIB_LoadTexturePNG(const unsigned char my_png[]) {
     PNGUPROP imgProp;
     IMGCTX ctx;
     GRRLIB_texImg my_texture;
@@ -111,24 +119,112 @@ GRRLIB_texImg GRRLIB_LoadTexture(const unsigned char my_png[]) {
 }
 
 /**
- * Load a texture from a file.
- * @author GRILLO
- * @param filename the PNG file to load.
+* Convert a raw bmp (RGB, no alpha) to 4x4RGBA 
+ * @author DrTwox
+*/
+static void RawTo4x4RGBA(const unsigned char *src, void *dst, const unsigned int width, const unsigned int height) {
+    unsigned int block = 0;
+    unsigned int i = 0;
+    unsigned int c = 0;
+    unsigned int ar = 0;
+    unsigned int gb = 0;
+    unsigned char *p = (unsigned char*)dst;
+
+    for (block = 0; block < height; block += 4) {
+        for (i = 0; i < width; i += 4) {
+            /* Alpha and Red */
+            for (c = 0; c < 4; ++c) {
+                for (ar = 0; ar < 4; ++ar) {
+                    /* Alpha pixels */
+                    *p++ = 255;
+                    /* Red pixels */    
+                    *p++ = src[((i + ar) + ((block + c) * width)) * 3];
+                }
+            }
+
+            /* Green and Blue */
+            for (c = 0; c < 4; ++c) {
+                for (gb = 0; gb < 4; ++gb) {
+                    /* Green pixels */
+                    *p++ = src[(((i + gb) + ((block + c) * width)) * 3) + 1];
+                    /* Blue pixels */
+                    *p++ = src[(((i + gb) + ((block + c) * width)) * 3) + 2];
+                }
+            }
+        } /* i */
+    } /* block */
+}
+
+/**
+ * Load a texture from a buffer.
+ * Take Care to have a JPG Finnishing by 0xFF 0xD9 !!!!
+ * @author DrTwox
+ * @param my_jpg the JPG buffer to load.
  * @return A GRRLIB_texImg structure filled with PNG informations.
  */
-GRRLIB_texImg GRRLIB_LoadTextureFromFile(const char *filename) {
-    PNGUPROP imgProp;
-    IMGCTX ctx;
+GRRLIB_texImg GRRLIB_LoadTextureJPG(const unsigned char my_jpg[]) {
+    struct jpeg_decompress_struct cinfo;
+    struct jpeg_error_mgr jerr;
     GRRLIB_texImg my_texture;
+    int n=0;
 
-    ctx = PNGU_SelectImageFromDevice(filename);
-    PNGU_GetImageProperties (ctx, &imgProp);
-    my_texture.data = memalign (32, imgProp.imgWidth * imgProp.imgHeight * 4);
-    PNGU_DecodeTo4x4RGBA8 (ctx, imgProp.imgWidth, imgProp.imgHeight, my_texture.data, 255);
-    PNGU_ReleaseImageContext (ctx);
-    DCFlushRange (my_texture.data, imgProp.imgWidth * imgProp.imgHeight * 4);
-    my_texture.w = imgProp.imgWidth;
-    my_texture.h = imgProp.imgHeight;
+    if((my_jpg[0]==0xff) && (my_jpg[1]==0xd8) && (my_jpg[2]==0xff)){
+        while(1){
+            if((my_jpg[n]==0xff) && (my_jpg[n+1]==0xd9))
+                break;
+            n++;
+        }
+        n+=2;
+    }
+
+    /* Init the JPEG decompressor */
+    jpeg_create_decompress(&cinfo);
+
+    /* Use the standard error handler */
+    cinfo.err = jpeg_std_error(&jerr);
+
+    /* Don't use a progress handler */
+    cinfo.progress = NULL;
+
+    /* Set the source buffer */
+    jpeg_memory_src(&cinfo, my_jpg, n);
+
+    /* Read the default header information */
+    jpeg_read_header(&cinfo, TRUE);
+
+    /* Get ready to decompress */
+    jpeg_start_decompress(&cinfo);
+
+    /* Create a buffer to hold the final image */
+    unsigned char *tempBuffer = (unsigned char*) malloc(cinfo.output_width * cinfo.output_height * cinfo.num_components);
+
+    /* Decompress the JPEG into tempBuffer, one row at a time */
+    JSAMPROW row_pointer[1];
+    row_pointer[0] = (unsigned char*) malloc(cinfo.output_width * cinfo.num_components);
+    unsigned int i = 0;
+    size_t location = 0;
+    while (cinfo.output_scanline < cinfo.output_height) {
+        jpeg_read_scanlines(&cinfo, row_pointer, 1);
+        for (i = 0; i < cinfo.image_width * cinfo.num_components; i++) {
+            /* Put the decoded scanline into the tempBuffer */
+            tempBuffer[ location++ ] = row_pointer[0][i];
+        }
+    }
+
+    /* Create a buffer to hold the final texture */
+    my_texture.data = memalign(32, cinfo.output_width * cinfo.output_height * 4);
+    RawTo4x4RGBA(tempBuffer, my_texture.data, cinfo.output_width, cinfo.output_height);
+    DCFlushRange(my_texture.data, cinfo.output_width * cinfo.output_height * 4);
+
+    /* Done - do cleanup and release memory */
+    jpeg_finish_decompress(&cinfo);
+    jpeg_destroy_decompress(&cinfo);
+    free(row_pointer[0]);
+    free(tempBuffer);
+
+    my_texture.w = cinfo.output_width;
+    my_texture.h = cinfo.output_height;
+
     return my_texture;
 }
 

@@ -1,20 +1,15 @@
 /*===========================================
         GRRLIB (GX version) 3.0.5 alpha
         Code     : NoNameNo
+        Additional Code : Crayon
         GX hints : RedShade
 ===========================================*/
 
 #ifndef __GXHDR__
 #define __GXHDR__
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdarg.h>
-#include <string.h>
-#include <malloc.h>
-#include <math.h>
+
 #include <gccore.h>
 
-#include "../libpng/pngu/pngu.h"
 
 /**
  * @struct GRRLIB_texImg
@@ -53,8 +48,9 @@ void GRRLIB_NGone(Vector v[],u32 color,long n);
 void GRRLIB_NGoneFilled(Vector v[],u32 color,long n);
 
 
-GRRLIB_texImg GRRLIB_LoadTexture(const unsigned char my_png[]);
-GRRLIB_texImg GRRLIB_LoadTextureFromFile(const char *filename);
+GRRLIB_texImg GRRLIB_LoadTexturePNG(const unsigned char my_png[]);
+GRRLIB_texImg GRRLIB_LoadTextureJPG(const unsigned char my_jpg[]);
+
 
 void GRRLIB_InitTileSet(struct GRRLIB_texImg *tex, unsigned int tilew, unsigned int tileh, unsigned int tilestart);
 
