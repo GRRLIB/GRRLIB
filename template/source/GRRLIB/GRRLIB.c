@@ -13,6 +13,7 @@
 #include "../libpng/pngu/pngu.h"
 #include "../libjpeg/jpeglib.h"
 #include "GRRLIB.h"
+
 #define DEFAULT_FIFO_SIZE (256 * 1024)
 
 u32 fb = 0;
@@ -35,7 +36,7 @@ inline void GRRLIB_FillScreen(u32 color){
  * @param color
  */
 inline void GRRLIB_Plot(f32 x, f32 y, u32 color){
-    Vector  v[]={{x,y,0.0f}};
+    Vector  v[] = {{x,y,0.0f}};
 
     GRRLIB_NPlot(v, color, 1);
 }
@@ -59,7 +60,7 @@ void GRRLIB_NPlot(Vector v[], u32 color, long n){
  * @param color line color.
  */
 inline void GRRLIB_Line(f32 x1, f32 y1, f32 x2, f32 y2, u32 color){
-    Vector  v[]={{x1,y1,0.0f},{x2,y2,0.0f}};
+    Vector  v[] = {{x1,y1,0.0f}, {x2,y2,0.0f}};
 
     GRRLIB_NGone(v, color, 2);
 }
@@ -74,7 +75,7 @@ inline void GRRLIB_Line(f32 x1, f32 y1, f32 x2, f32 y2, u32 color){
  * @param filled
  */
 inline void GRRLIB_Rectangle(f32 x, f32 y, f32 width, f32 height, u32 color, u8 filled){
-    Vector  v[] = {{x,y,0.0f},{x+width,y,0.0f},{x+width,y+height,0.0f},{x,y+height,0.0f},{x,y,0.0f}};
+    Vector  v[] = {{x,y,0.0f}, {x+width,y,0.0f}, {x+width,y+height,0.0f}, {x,y+height,0.0f}, {x,y,0.0f}};
 
     if(!filled){
         GRRLIB_NGone(v, color, 5);
@@ -149,11 +150,11 @@ GRRLIB_texImg GRRLIB_LoadTexturePNG(const unsigned char my_png[]) {
  * @param height
 */
 static void RawTo4x4RGBA(const unsigned char *src, void *dst, const unsigned int width, const unsigned int height) {
-    unsigned int block = 0;
-    unsigned int i = 0;
-    unsigned int c = 0;
-    unsigned int ar = 0;
-    unsigned int gb = 0;
+    unsigned int block;
+    unsigned int i;
+    unsigned int c;
+    unsigned int ar;
+    unsigned int gb;
     unsigned char *p = (unsigned char*)dst;
 
     for (block = 0; block < height; block += 4) {
@@ -269,7 +270,7 @@ inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees,
     u16 width, height;
     Mtx m, m1, m2, mv;
 
-    GX_InitTexObj(&texObj, tex.data, tex.w,tex.h, GX_TF_RGBA8,GX_CLAMP, GX_CLAMP,GX_FALSE);
+    GX_InitTexObj(&texObj, tex.data, tex.w, tex.h, GX_TF_RGBA8,GX_CLAMP, GX_CLAMP,GX_FALSE);
     GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR, 0.0f, 0.0f, 0.0f, 0, 0, GX_ANISO_1);
     GX_LoadTexObj(&texObj, GX_TEXMAP0);
 
@@ -383,7 +384,7 @@ inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees
  * @param zoom
  * @param ... Optional arguments.
  */
-void GRRLIB_Printf(f32 xpos, f32 ypos, GRRLIB_texImg tex, u32 color, f32 zoom, char *text, ...){
+void GRRLIB_Printf(f32 xpos, f32 ypos, GRRLIB_texImg tex, u32 color, f32 zoom, const char *text, ...){
     int i, size;
     char tmp[1024];
 
@@ -407,7 +408,7 @@ void GRRLIB_Printf(f32 xpos, f32 ypos, GRRLIB_texImg tex, u32 color, f32 zoom, c
 void GRRLIB_GXEngine(Vector v[], u32 color, long n, u8 fmt){
     int i;
 
-    GX_Begin(fmt, GX_VTXFMT0,n);
+    GX_Begin(fmt, GX_VTXFMT0, n);
     for(i=0; i<n; i++){
         GX_Position3f32(v[i].x, v[i].y,  v[i].z);
         GX_Color1u32(color);
@@ -449,7 +450,7 @@ void GRRLIB_Start(){
     GX_SetCopyClear (background, GX_MAX_Z24);
 
     // other gx setup
-    yscale = GX_GetYScaleFactor(rmode->efbHeight,rmode->xfbHeight);
+    yscale = GX_GetYScaleFactor(rmode->efbHeight, rmode->xfbHeight);
     xfbHeight = GX_SetDispCopyYScale(yscale);
     GX_SetScissor(0, 0, rmode->fbWidth, rmode->efbHeight);
     GX_SetDispCopySrc(0, 0, rmode->fbWidth, rmode->efbHeight);
@@ -510,7 +511,7 @@ void GRRLIB_Render () {
     fb ^= 1;        // flip framebuffer
     GX_SetZMode(GX_TRUE, GX_LEQUAL, GX_TRUE);
     GX_SetColorUpdate(GX_TRUE);
-    GX_CopyDisp(xfb[fb],GX_TRUE);
+    GX_CopyDisp(xfb[fb], GX_TRUE);
     VIDEO_SetNextFramebuffer(xfb[fb]);
     VIDEO_Flush();
     VIDEO_WaitVSync();

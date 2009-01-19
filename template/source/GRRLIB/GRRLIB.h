@@ -10,6 +10,9 @@
 
 #include <gccore.h>
 
+#ifdef __cplusplus
+   extern "C" {
+#endif /* __cplusplus */
 
 /**
  * @struct GRRLIB_texImg
@@ -57,7 +60,7 @@ void GRRLIB_InitTileSet(struct GRRLIB_texImg *tex, unsigned int tilew, unsigned 
 inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees, float scaleX, f32 scaleY, u32 color );
 inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees, float scaleX, f32 scaleY, u32 color, int frame);
 
-void GRRLIB_Printf(f32 xpos, f32 ypos, GRRLIB_texImg tex, u32 color, f32 zoom, char *text,...);
+void GRRLIB_Printf(f32 xpos, f32 ypos, GRRLIB_texImg tex, u32 color, f32 zoom, const char *text, ...);
 
 
 void GRRLIB_GXEngine(Vector v[], u32 color, long count, u8 fmt);
@@ -67,5 +70,8 @@ void GRRLIB_InitVideo ();
 void GRRLIB_Start();
 void GRRLIB_Render ();
 
+#ifdef __cplusplus
+   }
+#endif /* __cplusplus */
 
 #endif
