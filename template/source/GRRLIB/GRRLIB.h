@@ -66,8 +66,8 @@ void GRRLIB_Printf(f32 xpos, f32 ypos, GRRLIB_texImg tex, u32 color, f32 zoom, c
 void GRRLIB_GXEngine(Vector v[], u32 color, long count, u8 fmt);
 
 
-void GRRLIB_InitVideo ();
-void GRRLIB_Start();
+void GRRLIB_Init ();
+
 void GRRLIB_Render ();
 
 #ifdef __cplusplus

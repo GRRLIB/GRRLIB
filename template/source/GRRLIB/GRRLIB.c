@@ -25,7 +25,7 @@ void *gp_fifo = NULL;
  * Clear screen with a specific color.
  * @param color the color to use to fill the screen.
  */
-inline void GRRLIB_FillScreen(u32 color){
+inline void GRRLIB_FillScreen(u32 color) {
     GRRLIB_Rectangle(-40, -40, 680, 520, color, 1);
 }
 
@@ -35,7 +35,7 @@ inline void GRRLIB_FillScreen(u32 color){
  * @param y
  * @param color
  */
-inline void GRRLIB_Plot(f32 x, f32 y, u32 color){
+inline void GRRLIB_Plot(f32 x, f32 y, u32 color) {
     Vector  v[] = {{x,y,0.0f}};
 
     GRRLIB_NPlot(v, color, 1);
@@ -47,7 +47,7 @@ inline void GRRLIB_Plot(f32 x, f32 y, u32 color){
  * @param color
  * @param n
  */
-void GRRLIB_NPlot(Vector v[], u32 color, long n){
+void GRRLIB_NPlot(Vector v[], u32 color, long n) {
     GRRLIB_GXEngine(v, color, n, GX_POINTS);
 }
 
@@ -59,7 +59,7 @@ void GRRLIB_NPlot(Vector v[], u32 color, long n){
  * @param y2 end point for line for the x coordinate.
  * @param color line color.
  */
-inline void GRRLIB_Line(f32 x1, f32 y1, f32 x2, f32 y2, u32 color){
+inline void GRRLIB_Line(f32 x1, f32 y1, f32 x2, f32 y2, u32 color) {
     Vector  v[] = {{x1,y1,0.0f}, {x2,y2,0.0f}};
 
     GRRLIB_NGone(v, color, 2);
@@ -74,10 +74,12 @@ inline void GRRLIB_Line(f32 x1, f32 y1, f32 x2, f32 y2, u32 color){
  * @param color
  * @param filled
  */
-inline void GRRLIB_Rectangle(f32 x, f32 y, f32 width, f32 height, u32 color, u8 filled){
-    Vector  v[] = {{x,y,0.0f}, {x+width,y,0.0f}, {x+width,y+height,0.0f}, {x,y+height,0.0f}, {x,y,0.0f}};
+inline void GRRLIB_Rectangle(f32 x, f32 y, f32 width, f32 height, u32 color, u8 filled) {
+    f32 x2 = x+width;
+    f32 y2 = y+height;
+    Vector  v[] = {{x,y,0.0f}, {x2,y,0.0f}, {x2,y2,0.0f}, {x,y2,0.0f}, {x,y,0.0f}};
 
-    if(!filled){
+    if(!filled) {
         GRRLIB_NGone(v, color, 5);
     }
     else{
@@ -91,7 +93,7 @@ inline void GRRLIB_Rectangle(f32 x, f32 y, f32 width, f32 height, u32 color, u8 
  * @param color
  * @param n
  */
-void GRRLIB_NGone(Vector v[], u32 color, long n){
+void GRRLIB_NGone(Vector v[], u32 color, long n) {
     GRRLIB_GXEngine(v, color, n, GX_LINESTRIP);
 }
 
@@ -101,7 +103,7 @@ void GRRLIB_NGone(Vector v[], u32 color, long n){
  * @param color
  * @param n
  */
-void GRRLIB_NGoneFilled(Vector v[], u32 color, long n){
+void GRRLIB_NGoneFilled(Vector v[], u32 color, long n) {
     GRRLIB_GXEngine(v, color, n, GX_TRIANGLEFAN);
 }
 
@@ -112,7 +114,7 @@ void GRRLIB_NGoneFilled(Vector v[], u32 color, long n){
  * @param tileh
  * @param tilestart
  */
-void GRRLIB_InitTileSet(struct GRRLIB_texImg *tex, unsigned int tilew, unsigned int tileh, unsigned int tilestart){
+void GRRLIB_InitTileSet(struct GRRLIB_texImg *tex, unsigned int tilew, unsigned int tileh, unsigned int tilestart) {
     tex->tilew = tilew;
     tex->tileh = tileh;
     tex->nbtilew = tex->w/tilew;
@@ -184,7 +186,7 @@ static void RawTo4x4RGBA(const unsigned char *src, void *dst, const unsigned int
 
 /**
  * Load a texture from a buffer.
- * Take Care to have a JPG Finnishing by 0xFF 0xD9 !!!!
+ * Take Care to have a JPG finnishing by 0xFF 0xD9 !!!!
  * @author DrTwox
  * @param my_jpg the JPEG buffer to load.
  * @return A GRRLIB_texImg structure filled with PNG informations.
@@ -196,8 +198,8 @@ GRRLIB_texImg GRRLIB_LoadTextureJPG(const unsigned char my_jpg[]) {
     int n = 0;
     unsigned int i;
 
-    if((my_jpg[0]==0xff) && (my_jpg[1]==0xd8) && (my_jpg[2]==0xff)){
-        while(1){
+    if((my_jpg[0]==0xff) && (my_jpg[1]==0xd8) && (my_jpg[2]==0xff)) {
+        while(1) {
             if((my_jpg[n]==0xff) && (my_jpg[n+1]==0xd9))
                 break;
             n++;
@@ -265,7 +267,7 @@ GRRLIB_texImg GRRLIB_LoadTextureJPG(const unsigned char my_jpg[]) {
  * @param scaleY
  * @param color
  */
-inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees, float scaleX, f32 scaleY, u32 color ){
+inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees, float scaleX, f32 scaleY, u32 color ) {
     GXTexObj texObj;
     u16 width, height;
     Mtx m, m1, m2, mv;
@@ -313,7 +315,7 @@ inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees,
 }
 
 /**
- *
+ * Draw a tile on the screen.
  * @param xpos
  * @param ypos
  * @param tex
@@ -323,7 +325,7 @@ inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees,
  * @param color
  * @param frame
  */
-inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees, float scaleX, f32 scaleY, u32 color, int frame){
+inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees, float scaleX, f32 scaleY, u32 color, int frame) {
     GXTexObj texObj;
     f32 width, height;
     Mtx m, m1, m2, mv;
@@ -376,7 +378,7 @@ inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees
 }
 
 /**
- *
+ * Print formatted output to the screen.
  * @param xpos
  * @param ypos
  * @param tex
@@ -384,7 +386,7 @@ inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees
  * @param zoom
  * @param ... Optional arguments.
  */
-void GRRLIB_Printf(f32 xpos, f32 ypos, GRRLIB_texImg tex, u32 color, f32 zoom, const char *text, ...){
+void GRRLIB_Printf(f32 xpos, f32 ypos, GRRLIB_texImg tex, u32 color, f32 zoom, const char *text, ...) {
     int i, size;
     char tmp[1024];
 
@@ -393,7 +395,7 @@ void GRRLIB_Printf(f32 xpos, f32 ypos, GRRLIB_texImg tex, u32 color, f32 zoom, c
     size = vsprintf(tmp, text, argp);
     va_end(argp);
 
-    for(i=0; i<size; i++){
+    for(i=0; i<size; i++) {
         u8 c = tmp[i]-tex.tilestart;
         GRRLIB_DrawTile(xpos+i*tex.tilew*zoom, ypos, tex, 0, zoom, zoom, color, c);
     }
@@ -405,11 +407,11 @@ void GRRLIB_Printf(f32 xpos, f32 ypos, GRRLIB_texImg tex, u32 color, f32 zoom, c
  * @param color
  * @param fmt
  */
-void GRRLIB_GXEngine(Vector v[], u32 color, long n, u8 fmt){
+void GRRLIB_GXEngine(Vector v[], u32 color, long n, u8 fmt) {
     int i;
 
     GX_Begin(fmt, GX_VTXFMT0, n);
-    for(i=0; i<n; i++){
+    for(i=0; i<n; i++) {
         GX_Position3f32(v[i].x, v[i].y,  v[i].z);
         GX_Color1u32(color);
     }
@@ -417,32 +419,33 @@ void GRRLIB_GXEngine(Vector v[], u32 color, long n, u8 fmt){
 }
 
 /**
- *
+ * Initialize GRRLIB.
  */
-void GRRLIB_InitVideo () {
+void GRRLIB_Init () {
+    f32 yscale;
+    u32 xfbHeight;
+    Mtx perspective;
+
     VIDEO_Init();
     rmode = VIDEO_GetPreferredMode(NULL);
+    if(rmode == NULL)
+        return;
     VIDEO_Configure (rmode);
     xfb[0] = (u32 *)MEM_K0_TO_K1(SYS_AllocateFramebuffer(rmode));
     xfb[1] = (u32 *)MEM_K0_TO_K1(SYS_AllocateFramebuffer(rmode));
+    if(xfb[0] == NULL || xfb[1] == NULL)
+        return;
 
     VIDEO_SetNextFramebuffer(xfb[fb]);
     VIDEO_SetBlack(FALSE);
     VIDEO_Flush();
     VIDEO_WaitVSync();
-    if(rmode->viTVMode&VI_NON_INTERLACE) VIDEO_WaitVSync();
+    if(rmode->viTVMode&VI_NON_INTERLACE)
+        VIDEO_WaitVSync();
 
     gp_fifo = (u8 *) memalign(32, DEFAULT_FIFO_SIZE);
-}
-
-/**
- *
- */
-void GRRLIB_Start(){
-    f32 yscale;
-    u32 xfbHeight;
-    Mtx perspective;
-
+    if(gp_fifo == NULL)
+        return;
     GX_Init (gp_fifo, DEFAULT_FIFO_SIZE);
 
     // clears the bg to color and clears the z buffer
@@ -503,7 +506,7 @@ void GRRLIB_Start(){
 }
 
 /**
- *
+ * Call this function after drawing.
  */
 void GRRLIB_Render () {
     GX_DrawDone ();

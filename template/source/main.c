@@ -23,9 +23,9 @@ Mtx GXmodelView2D;
 
 int main(){
     int rot = 0;
+    ir_t ir1;
 
-    GRRLIB_InitVideo();
-    GRRLIB_Start();
+    GRRLIB_Init();
 
     fatInitDefault();
     WPAD_Init();
@@ -52,7 +52,6 @@ int main(){
         u32 wpaddown = WPAD_ButtonsDown(0);
         u32 wpadheld = WPAD_ButtonsHeld(0);
 
-        ir_t ir1;
         WPAD_IR(WPAD_CHAN_0, &ir1);
 
         GRRLIB_FillScreen(0x000000FF);
