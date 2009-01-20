@@ -8,6 +8,11 @@
 #ifndef __GXHDR__
 #define __GXHDR__
 
+/** 
+ * @file GRRLIB.h
+ * GRRLIB library.
+ */
+
 #include <gccore.h>
 
 #ifdef __cplusplus
@@ -15,26 +20,17 @@
 #endif /* __cplusplus */
 
 /**
- * @struct GRRLIB_texImg
- * @brief Structure to hold the texture informations.
- * @param w width of the texture.
- * @param h height of the texture.
- * @param tilew widht of a tile.
- * @param tileh height of a tile.
- * @param nbtilew number of tiles for the x axis.
- * @param nbtileh number of tiles for the y axis.
- * @param tilestart
- * @param data pointer to the texture data.
+ * Structure to hold the texture informations.
  */
 typedef struct GRRLIB_texImg{
-    unsigned int w;
-    unsigned int h;
-    unsigned int tilew;
-    unsigned int tileh;
-    unsigned int nbtilew;
-    unsigned int nbtileh;
-    unsigned int tilestart;
-    void *data;
+    unsigned int w;         /**< width of the texture. */
+    unsigned int h;         /**< height of the texture. */
+    unsigned int tilew;     /**< tilew widht of a tile. */
+    unsigned int tileh;     /**< tileh height of a tile. */
+    unsigned int nbtilew;   /**< nbtilew number of tiles for the x axis. */
+    unsigned int nbtileh;   /**< nbtileh number of tiles for the y axis. */
+    unsigned int tilestart; /**<  */
+    void *data;             /**< pointer to the texture data. */
 } GRRLIB_texImg;
 
 extern Mtx GXmodelView2D;
