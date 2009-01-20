@@ -48,6 +48,7 @@ ChangeLog :
 
 * added GRRLIB_LoadTextureJPG (thx crayon for the file end detection idea)
 
+* InitVideo() and GRRLIB_Start() merge into GRRLIB_Init().
 
 have a look at the sample code to see how all this work ;)
 

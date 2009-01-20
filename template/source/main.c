@@ -21,9 +21,10 @@
 
 Mtx GXmodelView2D;
 
-int main(){
+int main() {
     int left = 0;
     ir_t ir1;
+    u32 wpaddown, wpadheld;
 
     GRRLIB_Init();
 
@@ -49,8 +50,8 @@ int main(){
     while(1){
         WPAD_SetVRes(0, 640, 480);
         WPAD_ScanPads();
-        u32 wpaddown = WPAD_ButtonsDown(0);
-        u32 wpadheld = WPAD_ButtonsHeld(0);
+        wpaddown = WPAD_ButtonsDown(0);
+        wpadheld = WPAD_ButtonsHeld(0);
 
         WPAD_IR(WPAD_CHAN_0, &ir1);
 
