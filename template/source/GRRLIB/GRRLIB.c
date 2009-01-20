@@ -424,7 +424,7 @@ void GRRLIB_GXEngine(Vector v[], u32 color, long n, u8 fmt) {
 void GRRLIB_Init () {
     f32 yscale;
     u32 xfbHeight;
-    Mtx perspective;
+    Mtx44 perspective;
 
     VIDEO_Init();
     rmode = VIDEO_GetPreferredMode(NULL);
@@ -446,7 +446,8 @@ void GRRLIB_Init () {
     gp_fifo = (u8 *) memalign(32, DEFAULT_FIFO_SIZE);
     if(gp_fifo == NULL)
         return;
-    GX_Init (gp_fifo, DEFAULT_FIFO_SIZE);
+    memset(gp_fifo, 0, DEFAULT_FIFO_SIZE);
+    GX_Init(gp_fifo, DEFAULT_FIFO_SIZE);
 
     // clears the bg to color and clears the z buffer
     GXColor background = { 0, 0, 0, 0xff };
@@ -477,7 +478,7 @@ void GRRLIB_Init () {
 
     GX_SetVtxDesc(GX_VA_TEX0, GX_NONE);
     GX_SetVtxDesc(GX_VA_POS, GX_DIRECT);
-    GX_SetVtxDesc (GX_VA_CLR0, GX_DIRECT);
+    GX_SetVtxDesc(GX_VA_CLR0, GX_DIRECT);
 
 
     GX_SetVtxAttrFmt (GX_VTXFMT0, GX_VA_POS, GX_POS_XYZ, GX_F32, 0);
@@ -493,9 +494,9 @@ void GRRLIB_Init () {
 
     guMtxIdentity(GXmodelView2D);
     guMtxTransApply (GXmodelView2D, GXmodelView2D, 0.0F, 0.0F, -50.0F);
-    GX_LoadPosMtxImm(GXmodelView2D,GX_PNMTX0);
+    GX_LoadPosMtxImm(GXmodelView2D, GX_PNMTX0);
 
-    guOrtho(perspective,0, 479, 0, 639, 0, 300);
+    guOrtho(perspective,0, 479, 0, 639, 0, 300.0F);
     GX_LoadProjectionMtx(perspective, GX_ORTHOGRAPHIC);
 
     GX_SetViewport(0, 0, rmode->fbWidth, rmode->efbHeight, 0, 1);

@@ -22,7 +22,7 @@
 Mtx GXmodelView2D;
 
 int main(){
-    int rot = 0;
+    int left = 0;
     ir_t ir1;
 
     GRRLIB_Init();
@@ -58,15 +58,16 @@ int main(){
 
         GRRLIB_DrawImg(10, 10, tex_test_jpg, 0, 1, 1, 0xFFFFFFFF);
 
-        GRRLIB_Printf(rot, 200, tex_BMfont1, 0xFFFFFFFF, 1, "X VALUE:%d", (int)ir1.sx);
-        GRRLIB_Printf(rot, 250, tex_BMfont4, 0xFFFFFFFF, 1, "X VALUE:%d", (int)ir1.sx);
-        GRRLIB_Printf(rot, 300, tex_BMfont3, 0xFFFFFFFF, 1, "X VALUE  : %d", tex_test_jpg.w);
-        GRRLIB_Printf(rot, 350, tex_BMfont2, 0xFFFFFFFF, 1, "X VALUE  : 1");
+        GRRLIB_Printf(left, 200, tex_BMfont1, 0xFFFFFFFF, 1, "X VALUE:%d", (int)ir1.sx);
+        GRRLIB_Printf(left, 250, tex_BMfont4, 0xFFFFFFFF, 1, "X VALUE:%d", (int)ir1.sx);
+        GRRLIB_Printf(left, 300, tex_BMfont3, 0xFFFFFFFF, 1, "X VALUE  : %d", tex_test_jpg.w);
+        GRRLIB_Printf(left, 350, tex_BMfont2, 0xFFFFFFFF, 1, "X VALUE  : 1");
 
         GRRLIB_Render();
 
         if (wpaddown & WPAD_BUTTON_A) exit(0);
-        if (wpadheld & WPAD_BUTTON_B) rot++;
+        if (wpadheld & WPAD_BUTTON_LEFT) left--;
+        if (wpadheld & WPAD_BUTTON_RIGHT) left++;
     }
     return 0;
 }
