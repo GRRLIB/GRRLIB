@@ -50,6 +50,8 @@ ChangeLog :
 
 * InitVideo() and GRRLIB_Start() merge into GRRLIB_Init().
 
+* add GRRLIB_HotZone that return True/False if the wpad is in a specific zone
+
 have a look at the sample code to see how all this work ;)
 
 Remember that 3.0.5 is a WIP preview for the soon coming GRRLIB 4.0 and it's not intend to be publicly released...

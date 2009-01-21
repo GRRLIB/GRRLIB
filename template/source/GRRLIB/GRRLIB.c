@@ -401,6 +401,26 @@ void GRRLIB_Printf(f32 xpos, f32 ypos, GRRLIB_texImg tex, u32 color, f32 zoom, c
 }
 
 /**
+ * Detect if the wiimote is in a zone
+ * @param hotx
+ * @param hoty
+ * @param hotw
+ * @param hoth
+ * @param padx
+ * @param pady
+ * @return true/false if you are in or out
+ */
+bool GRRLIB_HotZone(int hotx, int hoty, int hotw, int hoth, int wpadx, int wpady) {
+    bool test=false;
+
+    if(((wpadx>hotx) & (wpadx<(hotx+hotw))) & ((wpady>hoty) & (wpady<(hoty+hoth)))){
+        test=true;
+    }
+
+    return(test);
+}
+
+/**
  *
  * @param v
  * @param color
