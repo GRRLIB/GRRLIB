@@ -58,14 +58,16 @@ inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees
 
 void GRRLIB_Printf(f32 xpos, f32 ypos, GRRLIB_texImg tex, u32 color, f32 zoom, const char *text, ...);
 
-bool GRRLIB_HotZone(int hotx, int hoty, int hotw, int hoth, int wpadx, int wpady);
+bool GRRLIB_PtInRect(int hotx, int hoty, int hotw, int hoth, int wpadx, int wpady);
 
 void GRRLIB_GXEngine(Vector v[], u32 color, long count, u8 fmt);
 
 
-void GRRLIB_Init ();
+void GRRLIB_Init();
 
-void GRRLIB_Render ();
+void GRRLIB_Render();
+
+void GRRLIB_Exit();
 
 #ifdef __cplusplus
    }

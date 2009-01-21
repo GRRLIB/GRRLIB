@@ -29,10 +29,10 @@ inline void GRRLIB_FillScreen(u32 color) {
 }
 
 /**
- *
- * @param x
- * @param y
- * @param color
+ * Draw a dot.
+ * @param x specifies the x-coordinate of the dot. 
+ * @param y specifies the y-coordinate of the dot. 
+ * @param color the color of the dot.
  */
 inline void GRRLIB_Plot(f32 x, f32 y, u32 color) {
     Vector  v[] = {{x,y,0.0f}};
@@ -66,12 +66,12 @@ inline void GRRLIB_Line(f32 x1, f32 y1, f32 x2, f32 y2, u32 color) {
 
 /**
  * Draw a rectangle.
- * @param x
- * @param y
- * @param width
- * @param height
- * @param color
- * @param filled
+ * @param x specifies the x-coordinate of the upper-left corner of the rectangle.
+ * @param y specifies the y-coordinate of the upper-left corner of the rectangle.
+ * @param width the width of the rectangle.
+ * @param height the height of the rectangle.
+ * @param color the color of the rectangle.
+ * @param filled true to fill the rectangle with a color.
  */
 inline void GRRLIB_Rectangle(f32 x, f32 y, f32 width, f32 height, u32 color, u8 filled) {
     f32 x2 = x+width;
@@ -257,7 +257,7 @@ GRRLIB_texImg GRRLIB_LoadTextureJPG(const unsigned char my_jpg[]) {
 }
 
 /**
- *
+ * Draw a texture.
  * @param xpos
  * @param ypos
  * @param tex
@@ -314,7 +314,7 @@ inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees,
 }
 
 /**
- * Draw a tile on the screen.
+ * Draw a tile.
  * @param xpos
  * @param ypos
  * @param tex
@@ -377,7 +377,7 @@ inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees
 }
 
 /**
- * Print formatted output to the screen.
+ * Print formatted output.
  * @param xpos
  * @param ypos
  * @param tex
@@ -401,23 +401,21 @@ void GRRLIB_Printf(f32 xpos, f32 ypos, GRRLIB_texImg tex, u32 color, f32 zoom, c
 }
 
 /**
- * Detect if the wiimote is in a zone
- * @param hotx
- * @param hoty
- * @param hotw
- * @param hoth
- * @param padx
- * @param pady
- * @return true/false if you are in or out
+ * Determines whether the specified point lies within the specified rectangle.
+ * @param hotx specifies the x-coordinate of the upper-left corner of the rectangle.
+ * @param hoty specifies the y-coordinate of the upper-left corner of the rectangle.
+ * @param hotw the width of the rectangle.
+ * @param hoth the height of the rectangle.
+ * @param wpadx specifies the x-coordinate of the point.
+ * @param wpady specifies the y-coordinate of the point.
+ * @return If the specified point lies within the rectangle, the return value is true otherwise it's false.
  */
-bool GRRLIB_HotZone(int hotx, int hoty, int hotw, int hoth, int wpadx, int wpady) {
-    bool test=false;
-
-    if(((wpadx>hotx) & (wpadx<(hotx+hotw))) & ((wpady>hoty) & (wpady<(hoty+hoth)))){
-        test=true;
+bool GRRLIB_PtInRect(int hotx, int hoty, int hotw, int hoth, int wpadx, int wpady) {
+    if(((wpadx>hotx) & (wpadx<(hotx+hotw))) & ((wpady>hoty) & (wpady<(hoty+hoth)))) {
+        return true;
     }
 
-    return(test);
+    return false;
 }
 
 /**
@@ -440,7 +438,7 @@ void GRRLIB_GXEngine(Vector v[], u32 color, long n, u8 fmt) {
 /**
  * Initialize GRRLIB.
  */
-void GRRLIB_Init () {
+void GRRLIB_Init() {
     f32 yscale;
     u32 xfbHeight;
     Mtx44 perspective;
@@ -528,7 +526,7 @@ void GRRLIB_Init () {
 /**
  * Call this function after drawing.
  */
-void GRRLIB_Render () {
+void GRRLIB_Render() {
     GX_DrawDone ();
 
     fb ^= 1;        // flip framebuffer
@@ -538,4 +536,25 @@ void GRRLIB_Render () {
     VIDEO_SetNextFramebuffer(xfb[fb]);
     VIDEO_Flush();
     VIDEO_WaitVSync();
+}
+
+/**
+ * Call this before exiting your application.
+ */
+void GRRLIB_Exit() {
+    GX_Flush();
+    GX_AbortFrame();
+
+    if(xfb[0] != NULL) {
+        free(MEM_K1_TO_K0(xfb[0]));
+        xfb[0] = NULL;
+    }
+    if(xfb[1] != NULL) {
+        free(MEM_K1_TO_K0(xfb[1]));
+        xfb[1] = NULL;
+    }
+    if(gp_fifo != NULL) {
+        free(gp_fifo);
+        gp_fifo = NULL;
+    }
 }

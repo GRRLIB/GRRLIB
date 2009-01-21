@@ -70,5 +70,6 @@ int main() {
         if (wpadheld & WPAD_BUTTON_LEFT) left--;
         if (wpadheld & WPAD_BUTTON_RIGHT) left++;
     }
+    GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
     return 0;
 }

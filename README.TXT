@@ -50,7 +50,9 @@ ChangeLog :
 
 * InitVideo() and GRRLIB_Start() merge into GRRLIB_Init().
 
-* add GRRLIB_HotZone that return True/False if the wpad is in a specific zone
+* add GRRLIB_PtInRect that return True/False if a point is in a specific zone
+
+* add GRRLIB_Exit to free the memory allocated by GRRLIB
 
 have a look at the sample code to see how all this work ;)
 
