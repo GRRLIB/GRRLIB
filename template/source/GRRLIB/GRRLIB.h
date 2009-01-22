@@ -74,3 +74,9 @@ void GRRLIB_Exit();
 #endif /* __cplusplus */
 
 #endif
+
+/**
+ * @mainpage GRRLIB Documentation
+ * @image html grrlib_logo.png
+ * Welcome to the GRRLIB documentation.
+ */

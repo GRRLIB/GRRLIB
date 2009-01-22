@@ -19,6 +19,16 @@
 #include "gfx/BMfont4.h"
 #include "gfx/test_jpg.h"
 
+// RGBA Colors
+#define GRRLIB_BLACK  0x000000FF
+#define GRRLIB_WHITE  0xFFFFFFFF
+#define GRRLIB_RED    0xFF0000FF
+#define GRRLIB_BLUE   0x0000FFFF
+#define GRRLIB_GREEN  0x008000FF
+#define GRRLIB_GRAY   0x808080FF
+#define GRRLIB_YELLOW 0xFFFF00FF
+#define GRRLIB_SILVER 0xC0C0C0FF
+
 Mtx GXmodelView2D;
 
 int main() {
@@ -55,14 +65,14 @@ int main() {
 
         WPAD_IR(WPAD_CHAN_0, &ir1);
 
-        GRRLIB_FillScreen(0x000000FF);
+        GRRLIB_FillScreen(GRRLIB_BLACK);
 
-        GRRLIB_DrawImg(10, 10, tex_test_jpg, 0, 1, 1, 0xFFFFFFFF);
+        GRRLIB_DrawImg(10, 10, tex_test_jpg, 0, 1, 1, GRRLIB_WHITE);
 
-        GRRLIB_Printf(left, 200, tex_BMfont1, 0xFFFFFFFF, 1, "X VALUE:%d", (int)ir1.sx);
-        GRRLIB_Printf(left, 250, tex_BMfont4, 0xFFFFFFFF, 1, "X VALUE:%d", (int)ir1.sx);
-        GRRLIB_Printf(left, 300, tex_BMfont3, 0xFFFFFFFF, 1, "X VALUE  : %d", tex_test_jpg.w);
-        GRRLIB_Printf(left, 350, tex_BMfont2, 0xFFFFFFFF, 1, "X VALUE  : 1");
+        GRRLIB_Printf(left, 200, tex_BMfont1, GRRLIB_WHITE, 1, "X VALUE:%d", (int)ir1.sx);
+        GRRLIB_Printf(left, 250, tex_BMfont4, GRRLIB_WHITE, 1, "X VALUE:%d", (int)ir1.sx);
+        GRRLIB_Printf(left, 300, tex_BMfont3, GRRLIB_WHITE, 1, "X VALUE  : %d", tex_test_jpg.w);
+        GRRLIB_Printf(left, 350, tex_BMfont2, GRRLIB_WHITE, 1, "X VALUE  : 1");
 
         GRRLIB_Render();
 

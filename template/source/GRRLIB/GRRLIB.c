@@ -258,10 +258,10 @@ GRRLIB_texImg GRRLIB_LoadTextureJPG(const unsigned char my_jpg[]) {
 
 /**
  * Draw a texture.
- * @param xpos
- * @param ypos
- * @param tex
- * @param degrees
+ * @param xpos specifies the x-coordinate of the upper-left corner.
+ * @param ypos specifies the y-coordinate of the upper-left corner.
+ * @param tex texture to draw.
+ * @param degrees angle of rotation.
  * @param scaleX
  * @param scaleY
  * @param color
@@ -315,10 +315,10 @@ inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees,
 
 /**
  * Draw a tile.
- * @param xpos
- * @param ypos
- * @param tex
- * @param degrees
+ * @param xpos specifies the x-coordinate of the upper-left corner.
+ * @param ypos specifies the y-coordinate of the upper-left corner.
+ * @param tex texture to draw.
+ * @param degrees angle of rotation.
  * @param scaleX
  * @param scaleY
  * @param color
@@ -436,7 +436,8 @@ void GRRLIB_GXEngine(Vector v[], u32 color, long n, u8 fmt) {
 }
 
 /**
- * Initialize GRRLIB.
+ * Initialize GRRLIB. Call this at the beginning your code.
+ * @see GRRLIB_Exit
  */
 void GRRLIB_Init() {
     f32 yscale;
