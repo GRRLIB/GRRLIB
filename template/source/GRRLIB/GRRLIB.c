@@ -116,8 +116,8 @@ void GRRLIB_NGoneFilled(Vector v[], u32 color, long n) {
 void GRRLIB_InitTileSet(struct GRRLIB_texImg *tex, unsigned int tilew, unsigned int tileh, unsigned int tilestart) {
     tex->tilew = tilew;
     tex->tileh = tileh;
-    tex->nbtilew = tex->w/tilew;
-    tex->nbtileh = tex->h/tileh;
+    tex->nbtilew = tex->w / tilew;
+    tex->nbtileh = tex->h / tileh;
     tex->tilestart = tilestart;
 }
 
