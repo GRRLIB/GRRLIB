@@ -271,7 +271,7 @@ inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees,
     u16 width, height;
     Mtx m, m1, m2, mv;
 
-    GX_InitTexObj(&texObj, tex.data, tex.w, tex.h, GX_TF_RGBA8,GX_CLAMP, GX_CLAMP,GX_FALSE);
+    GX_InitTexObj(&texObj, tex.data, tex.w, tex.h, GX_TF_RGBA8, GX_CLAMP, GX_CLAMP, GX_FALSE);
     GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR, 0.0f, 0.0f, 0.0f, 0, 0, GX_ANISO_1);
     GX_LoadTexObj(&texObj, GX_TEXMAP0);
 
@@ -282,7 +282,7 @@ inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees,
     height = tex.h * 0.5;
     guMtxIdentity (m1);
     guMtxScaleApply(m1, m1, scaleX, scaleY, 1.0);
-    Vector axis =(Vector) {0 , 0, 1 };
+    Vector axis = (Vector) {0, 0, 1 };
     guMtxRotAxisDeg (m2, &axis, degrees);
     guMtxConcat(m2, m1, m);
 
@@ -336,7 +336,7 @@ inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees
     f32 t1 = (((int)(frame/tex.nbtilew))/(f32)tex.nbtileh)+(FRAME_CORR/tex.h);
     f32 t2 = (((int)(frame/tex.nbtilew)+1)/(f32)tex.nbtileh)-(FRAME_CORR/tex.h);
 
-    GX_InitTexObj(&texObj, tex.data, tex.tilew*tex.nbtilew,tex.tileh*tex.nbtileh, GX_TF_RGBA8,GX_CLAMP, GX_CLAMP,GX_FALSE);
+    GX_InitTexObj(&texObj, tex.data, tex.tilew*tex.nbtilew, tex.tileh*tex.nbtileh, GX_TF_RGBA8, GX_CLAMP, GX_CLAMP, GX_FALSE);
     GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR, 0.0f, 0.0f, 0.0f, 0, 0, GX_ANISO_1);
     GX_LoadTexObj(&texObj, GX_TEXMAP0);
 
@@ -347,7 +347,7 @@ inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees
     height = tex.tileh * 0.5f;
     guMtxIdentity (m1);
     guMtxScaleApply(m1, m1, scaleX, scaleY, 1.0f);
-    Vector axis = (Vector) {0 , 0, 1 };
+    Vector axis = (Vector) {0, 0, 1 };
     guMtxRotAxisDeg (m2, &axis, degrees);
     guMtxConcat(m2, m1, m);
     guMtxTransApply(m, m, xpos+width, ypos+height, 0);
@@ -411,11 +411,25 @@ void GRRLIB_Printf(f32 xpos, f32 ypos, GRRLIB_texImg tex, u32 color, f32 zoom, c
  * @return If the specified point lies within the rectangle, the return value is true otherwise it's false.
  */
 bool GRRLIB_PtInRect(int hotx, int hoty, int hotw, int hoth, int wpadx, int wpady) {
-    if(((wpadx>hotx) & (wpadx<(hotx+hotw))) & ((wpady>hoty) & (wpady<(hoty+hoth)))) {
-        return true;
-    }
+    return(((wpadx>=hotx) & (wpadx<=(hotx+hotw))) & ((wpady>=hoty) & (wpady<=(hoty+hoth))));
+}
 
-    return false;
+/**
+ * Determines whether a specified rectangle lies within another rectangle.
+ */
+bool GRRLIB_RectInRect(int rect1x, int rect1y, int rect1w, int rect1h, int rect2x, int rect2y, int rect2w, int rect2h) {
+    return ((rect1x >= rect2x) && (rect1y >= rect2y) &&
+        (rect1x+rect1w <= rect2x+rect2w) && (rect1y+rect1h <= rect2y+rect2h));
+}
+
+/**
+ * Determines whether a part of a specified rectangle lies on another rectangle.
+ */
+bool GRRLIB_RectOnRect(int rect1x, int rect1y, int rect1w, int rect1h, int rect2x, int rect2y, int rect2w, int rect2h) {
+    return (GRRLIB_PtInRect(rect1x, rect1y, rect1w, rect1h, rect2x, rect2y) ||
+        GRRLIB_PtInRect(rect1x, rect1y, rect1w, rect1h, rect2x+rect2w, rect2y) ||
+        GRRLIB_PtInRect(rect1x, rect1y, rect1w, rect1h, rect2x+rect2w, rect2y+rect2h) ||
+        GRRLIB_PtInRect(rect1x, rect1y, rect1w, rect1h, rect2x, rect2y+rect2h));
 }
 
 /**

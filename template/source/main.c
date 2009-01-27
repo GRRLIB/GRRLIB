@@ -82,6 +82,7 @@ int main() {
         WPAD_IR(WPAD_CHAN_0, &ir1);
 
         GRRLIB_FillScreen(GRRLIB_BLACK);    // Clear the screen
+        WPAD_Rumble(WPAD_CHAN_0, 0);
         switch(page)
         {
             case 1:   // Draw images
@@ -91,6 +92,8 @@ int main() {
                 // Draw a sprite
                 GRRLIB_DrawTile(600, 400, tex_link_png, 0, 2, 2, GRRLIB_WHITE, 12*4); // Rupy
                 GRRLIB_DrawTile(320+left, 240+top, tex_link_png, 0, 2, 2, GRRLIB_WHITE, frame);
+                if(GRRLIB_RectOnRect(320+left, 240+top, 48, 64, 618, 434, 12, 30))
+                    WPAD_Rumble(WPAD_CHAN_0, 1);
                 if(direction_new != direction) {
                     // Direction has changed, modify frame immidiately
                     direction = direction_new;
