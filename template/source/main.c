@@ -40,6 +40,8 @@
 #define GRRLIB_GRAY   0x808080FF
 #define GRRLIB_YELLOW 0xFFFF00FF
 #define GRRLIB_SILVER 0xC0C0C0FF
+#define GRRLIB_AQUA   0x00FFFFFF
+#define GRRLIB_LIME   0x00FF00FF
 
 Mtx GXmodelView2D;
 
@@ -48,6 +50,7 @@ int main() {
     unsigned int wait = TILE_DELAY, direction = TILE_DOWN, direction_new = TILE_DOWN;
     ir_t ir1;
     u32 wpaddown, wpadheld;
+    Vector triangle[] = {{400,200,0.0f}, {500,400,0.0f}, {300,400,0.0f}};
 
     GRRLIB_Init();
 
@@ -90,7 +93,7 @@ int main() {
 
                 GRRLIB_DrawImg(10, 50, tex_test_jpg, 0, 1, 1, GRRLIB_WHITE);
                 // Draw a sprite
-                GRRLIB_DrawTile(600, 400, tex_link_png, 0, 2, 2, GRRLIB_WHITE, 12*4); // Rupy
+                GRRLIB_DrawTile(600, 400, tex_link_png, 0, 2, 2, GRRLIB_WHITE, 12*4); // Rupee
                 GRRLIB_DrawTile(320+left, 240+top, tex_link_png, 0, 2, 2, GRRLIB_WHITE, frame);
                 if(GRRLIB_RectOnRect(320+left, 240+top, 48, 64, 618, 434, 12, 30))
                     WPAD_Rumble(WPAD_CHAN_0, 1);
@@ -119,8 +122,9 @@ int main() {
                 GRRLIB_Printf(5, 25, tex_BMfont2, GRRLIB_WHITE, 1, "SHAPES DEMO");
 
                 GRRLIB_Rectangle(100, 100, 200, 100, GRRLIB_RED, 1);
-                GRRLIB_Rectangle(left + 150, top + 150, 200, 200, 0x0000FFC8, 1); // Blue with alpha
                 GRRLIB_Line(100, 100, 350, 200, GRRLIB_SILVER);
+                GRRLIB_NGoneFilled(triangle, GRRLIB_GRAY, 3);
+                GRRLIB_Rectangle(left + 150, top + 150, 200, 200, 0x0000FFC8, 1); // Blue with alpha
 
                 // Draw a yellow four pixel dot where the wiimote is pointing
                 GRRLIB_Plot(ir1.sx, ir1.sy, GRRLIB_YELLOW);
@@ -134,8 +138,9 @@ int main() {
                 GRRLIB_Printf(5, 100, tex_BMfont4, GRRLIB_WHITE, 1, "TO QUIT PRESS THE HOME BUTTON.");
                 GRRLIB_Printf(5, 140, tex_BMfont4, GRRLIB_YELLOW, 1, "USE + AND - TO MOVE ACROSS PAGES.");
                 GRRLIB_Printf(5, 180, tex_BMfont4, GRRLIB_GREEN, 1, "USE THE D-PAD TO MOVE STUFF.");
-                GRRLIB_Printf(left, top+250, tex_BMfont1, GRRLIB_WHITE, 1, "X VALUE: %d", (int)ir1.sx);
-                GRRLIB_Printf(left, top+300, tex_BMfont3, GRRLIB_WHITE, 1, "Y VALUE: %d", (int)ir1.sy);
+                GRRLIB_Printf(left, top+250, tex_BMfont1, GRRLIB_WHITE, 1, "IR X VALUE: %d", (int)ir1.x);
+                GRRLIB_Printf(left, top+300, tex_BMfont3, GRRLIB_WHITE, 1, "IR Y VALUE: %d", (int)ir1.y);
+                GRRLIB_Printf(left, top+350, tex_BMfont3, 0XFFFFFF50, 1, "TEXT WITH ALPHA");
         }
         GRRLIB_Render();
 

@@ -35,7 +35,7 @@ inline void GRRLIB_FillScreen(u32 color) {
  * @param color the color of the dot.
  */
 inline void GRRLIB_Plot(f32 x, f32 y, u32 color) {
-    Vector  v[] = {{x,y,0.0f}};
+    Vector v[] = {{x,y,0.0f}};
 
     GRRLIB_NPlot(v, color, 1);
 }
@@ -59,7 +59,7 @@ void GRRLIB_NPlot(Vector v[], u32 color, long n) {
  * @param color line color.
  */
 inline void GRRLIB_Line(f32 x1, f32 y1, f32 x2, f32 y2, u32 color) {
-    Vector  v[] = {{x1,y1,0.0f}, {x2,y2,0.0f}};
+    Vector v[] = {{x1,y1,0.0f}, {x2,y2,0.0f}};
 
     GRRLIB_NGone(v, color, 2);
 }
@@ -76,7 +76,7 @@ inline void GRRLIB_Line(f32 x1, f32 y1, f32 x2, f32 y2, u32 color) {
 inline void GRRLIB_Rectangle(f32 x, f32 y, f32 width, f32 height, u32 color, u8 filled) {
     f32 x2 = x+width;
     f32 y2 = y+height;
-    Vector  v[] = {{x,y,0.0f}, {x2,y,0.0f}, {x2,y2,0.0f}, {x,y2,0.0f}, {x,y,0.0f}};
+    Vector v[] = {{x,y,0.0f}, {x2,y,0.0f}, {x2,y2,0.0f}, {x,y2,0.0f}, {x,y,0.0f}};
 
     if(!filled) {
         GRRLIB_NGone(v, color, 5);
