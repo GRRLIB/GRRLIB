@@ -17,8 +17,9 @@
 #include "gfx/BMfont2.h"
 #include "gfx/BMfont3.h"
 #include "gfx/BMfont4.h"
+#include "gfx/BMfont5.h"
 #include "gfx/test_jpg.h"
-#include "gfx/link.h"
+#include "gfx/sprite.h"
 
 // Tile stuff
 #define TILE_DELAY  10
@@ -32,16 +33,22 @@
 #define TILE_LEFT2  12*7+9
 
 // RGBA Colors
-#define GRRLIB_BLACK  0x000000FF
-#define GRRLIB_WHITE  0xFFFFFFFF
-#define GRRLIB_RED    0xFF0000FF
-#define GRRLIB_BLUE   0x0000FFFF
-#define GRRLIB_GREEN  0x008000FF
-#define GRRLIB_GRAY   0x808080FF
-#define GRRLIB_YELLOW 0xFFFF00FF
-#define GRRLIB_SILVER 0xC0C0C0FF
-#define GRRLIB_AQUA   0x00FFFFFF
-#define GRRLIB_LIME   0x00FF00FF
+#define GRRLIB_BLACK   0x000000FF
+#define GRRLIB_MAROON  0x800000FF
+#define GRRLIB_GREEN   0x008000FF
+#define GRRLIB_OLIVE   0x808000FF
+#define GRRLIB_NAVY    0x000080FF
+#define GRRLIB_PURPLE  0x800080FF
+#define GRRLIB_TEAL    0x008080FF
+#define GRRLIB_GRAY    0x808080FF
+#define GRRLIB_SILVER  0xC0C0C0FF
+#define GRRLIB_RED     0xFF0000FF
+#define GRRLIB_LIME    0x00FF00FF
+#define GRRLIB_YELLOW  0xFFFF00FF
+#define GRRLIB_BLUE    0x0000FFFF
+#define GRRLIB_FUCHSIA 0xFF00FFFF
+#define GRRLIB_AQUA    0x00FFFFFF
+#define GRRLIB_WHITE   0xFFFFFFFF
 
 Mtx GXmodelView2D;
 
@@ -60,8 +67,8 @@ int main() {
 
     GRRLIB_texImg tex_test_jpg = GRRLIB_LoadTextureJPG(test_jpg);
 
-    GRRLIB_texImg tex_link_png = GRRLIB_LoadTexturePNG(link);
-    GRRLIB_InitTileSet(&tex_link_png, 24, 32, 0);
+    GRRLIB_texImg tex_sprite_png = GRRLIB_LoadTexturePNG(sprite);
+    GRRLIB_InitTileSet(&tex_sprite_png, 24, 32, 0);
 
     GRRLIB_texImg tex_BMfont1 = GRRLIB_LoadTexturePNG(BMfont1);
     GRRLIB_InitTileSet(&tex_BMfont1, 32, 32, 32);
@@ -75,6 +82,8 @@ int main() {
     GRRLIB_texImg tex_BMfont4 = GRRLIB_LoadTexturePNG(BMfont4);
     GRRLIB_InitTileSet(&tex_BMfont4, 16, 16, 32);
 
+    GRRLIB_texImg tex_BMfont5 = GRRLIB_LoadTexturePNG(BMfont5);
+    GRRLIB_InitTileSet(&tex_BMfont5, 8, 16, 0);
 
     while(1) {
         WPAD_SetVRes(0, 640, 480);
@@ -93,8 +102,8 @@ int main() {
 
                 GRRLIB_DrawImg(10, 50, tex_test_jpg, 0, 1, 1, GRRLIB_WHITE);
                 // Draw a sprite
-                GRRLIB_DrawTile(600, 400, tex_link_png, 0, 2, 2, GRRLIB_WHITE, 12*4); // Rupee
-                GRRLIB_DrawTile(320+left, 240+top, tex_link_png, 0, 2, 2, GRRLIB_WHITE, frame);
+                GRRLIB_DrawTile(600, 400, tex_sprite_png, 0, 2, 2, GRRLIB_WHITE, 12*4); // Rupee
+                GRRLIB_DrawTile(320+left, 240+top, tex_sprite_png, 0, 2, 2, GRRLIB_WHITE, frame);
                 if(GRRLIB_RectOnRect(320+left, 240+top, 48, 64, 618, 434, 12, 30))
                     WPAD_Rumble(WPAD_CHAN_0, 1);
                 if(direction_new != direction) {
@@ -141,6 +150,7 @@ int main() {
                 GRRLIB_Printf(left, top+250, tex_BMfont1, GRRLIB_WHITE, 1, "IR X VALUE: %d", (int)ir1.x);
                 GRRLIB_Printf(left, top+300, tex_BMfont3, GRRLIB_WHITE, 1, "IR Y VALUE: %d", (int)ir1.y);
                 GRRLIB_Printf(left, top+350, tex_BMfont3, 0XFFFFFF50, 1, "TEXT WITH ALPHA");
+                GRRLIB_Printf(left, top+400, tex_BMfont5, GRRLIB_LIME, 1, "This font has the 128 ASCII characters");
         }
         GRRLIB_Render();
 
@@ -191,10 +201,11 @@ int main() {
     GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
     // Free some textures
     free(tex_test_jpg.data);
-    free(tex_link_png.data);
+    free(tex_sprite_png.data);
     free(tex_BMfont1.data);
     free(tex_BMfont2.data);
     free(tex_BMfont3.data);
     free(tex_BMfont4.data);
+    free(tex_BMfont5.data);
     return 0;
 }
