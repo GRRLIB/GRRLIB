@@ -52,6 +52,8 @@ ChangeLog :
 
 * add GRRLIB_PtInRect, GRRLIB_RectInRect and GRRLIB_RectOnRect.
 
+* GRRLIB_GetPixelFromtexImg and GRRLIB_SetPixelTotexImg ////////////////////////// BUGGED DO NOT USE !!!
+
 * add GRRLIB_Exit to free the memory allocated by GRRLIB
 
 have a look at the sample code to see how all this work ;)

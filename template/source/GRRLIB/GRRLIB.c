@@ -433,6 +433,58 @@ bool GRRLIB_RectOnRect(int rect1x, int rect1y, int rect1w, int rect1h, int rect2
 }
 
 /**
+ * Return the color value of a pixel from a GRRLIB_texImg   !!!!!!!!!!!!!!!! NOT WORKING NEED HELP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ */
+u32 GRRLIB_GetPixelFromtexImg(int x, int y, GRRLIB_texImg tex){
+   u8 *truc = (u8*)tex.data;
+    u32 x1,y1;
+    u8 r,g,b,a;
+    u32 value=0;
+    u32 offset;
+
+    x1 = x >> 2; // div by 4
+    y1 = y >> 2; // div by 4 
+    offset = (x1*64) + (x-(x1*4))*2+y*8;
+
+    a=*(truc+offset);
+    r=*(truc+offset+1);
+    g=*(truc+offset+32);
+    b=*(truc+offset+33);
+
+    value = (r<<24) | (g<<16) | (b<<8) | a;
+
+   
+    return(value);
+}
+
+/**
+ * Set the color value of a pixel to a GRRLIB_texImg  !!!!!!!!!!!!!!!! NOT WORKING NEED HELP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ */
+void GRRLIB_SetPixelTotexImg(int x, int y, GRRLIB_texImg tex, u32 color){
+   u8 *truc = (u8*)tex.data;
+    u32 x1,y1;
+    u8 r,g,b,a;
+    u32 offset;
+
+    x1 = x >> 2; // div by 4
+    y1 = y >> 2; // div by 4 
+    offset = (x1*64) + (x-(x1*4))*2+y*8;
+
+    a=color & 0xFF;
+    r=(color>>8) & 0xFF;
+    g=(color>>16) & 0xFF;
+    b=(color>>24) & 0xFF;
+
+
+    *(truc+offset)=a;
+    *(truc+offset+1)=r;
+    *(truc+offset+32)=g;
+    *(truc+offset+33)=b;
+
+
+}
+
+/**
  *
  * @param v
  * @param color

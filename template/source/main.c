@@ -20,6 +20,8 @@
 #include "gfx/BMfont5.h"
 #include "gfx/test_jpg.h"
 #include "gfx/sprite.h"
+#include "gfx/pixeltest.h"
+
 
 // Tile stuff
 #define TILE_DELAY  10
@@ -55,6 +57,7 @@ Mtx GXmodelView2D;
 int main() {
     int left = 0, top = 0, page = 0, frame = TILE_DOWN + 1;
     unsigned int wait = TILE_DELAY, direction = TILE_DOWN, direction_new = TILE_DOWN;
+    int x=0,y=0,val=0;
     ir_t ir1;
     u32 wpaddown, wpadheld;
     Vector triangle[] = {{400,200,0.0f}, {500,400,0.0f}, {300,400,0.0f}};
@@ -66,6 +69,8 @@ int main() {
     WPAD_SetDataFormat(WPAD_CHAN_0, WPAD_FMT_BTNS_ACC_IR);
 
     GRRLIB_texImg tex_test_jpg = GRRLIB_LoadTextureJPG(test_jpg);
+
+    GRRLIB_texImg tex_pixeltest = GRRLIB_LoadTexturePNG(pixeltest);
 
     GRRLIB_texImg tex_sprite_png = GRRLIB_LoadTexturePNG(sprite);
     GRRLIB_InitTileSet(&tex_sprite_png, 24, 32, 0);
@@ -85,6 +90,8 @@ int main() {
     GRRLIB_texImg tex_BMfont5 = GRRLIB_LoadTexturePNG(BMfont5);
     GRRLIB_InitTileSet(&tex_BMfont5, 8, 16, 0);
 
+    
+
     while(1) {
         WPAD_SetVRes(0, 640, 480);
         WPAD_ScanPads();
@@ -101,6 +108,16 @@ int main() {
                 GRRLIB_Printf(5, 25, tex_BMfont2, GRRLIB_WHITE, 1, "IMAGES DEMO");
 
                 GRRLIB_DrawImg(10, 50, tex_test_jpg, 0, 1, 1, GRRLIB_WHITE);
+                GRRLIB_DrawImg(400, 150, tex_pixeltest, 0, 1, 1, GRRLIB_WHITE);
+
+                for(y=0;y<tex_pixeltest.h;y++){                                 //------------ <just a test>
+                    for(x=0;x<(tex_pixeltest.w*20);x++){
+                        val = 1 + (int) (16777215.0 * (rand() / (RAND_MAX + 1.0)));
+                        GRRLIB_SetPixelTotexImg(x,y,tex_pixeltest,(val<<8)|0xFF);
+                    }
+                }                                                               //------------ </just a test>
+
+
                 // Draw a sprite
                 GRRLIB_DrawTile(600, 400, tex_sprite_png, 0, 2, 2, GRRLIB_WHITE, 12*4); // Rupee
                 GRRLIB_DrawTile(320+left, 240+top, tex_sprite_png, 0, 2, 2, GRRLIB_WHITE, frame);
