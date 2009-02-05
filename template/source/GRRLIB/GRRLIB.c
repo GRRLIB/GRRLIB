@@ -434,7 +434,6 @@ bool GRRLIB_RectOnRect(int rect1x, int rect1y, int rect1w, int rect1h, int rect2
 
 /**
  * Return the color value of a pixel from a GRRLIB_texImg
- * @bug !!!!!!!!!!!!!!!! NOT WORKING NEED HELP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  * @param x specifies the x-coordinate of the pixel in the texture.
  * @param y specifies the y-coordinate of the pixel in the texture.
  * @param tex texture to get the color from.
@@ -447,9 +446,9 @@ u32 GRRLIB_GetPixelFromtexImg(int x, int y, GRRLIB_texImg tex){
     u32 value;
     u32 offset;
 
-    x1 = x >> 2; // div by 4
-    y1 = y >> 2; // div by 4 
-    offset = (x1*64) + (x-(x1*4))*2+y*8;
+    x1 = x >> 2;
+    y1 = y >> 2; 
+    offset = (y1*16*tex.w) + (x1*64) + ((y%4 * 4 + x%4 ) * 2); // Fuckin equation found by NoNameNo ;)
 
     a=*(truc+offset);
     r=*(truc+offset+1);
@@ -463,7 +462,6 @@ u32 GRRLIB_GetPixelFromtexImg(int x, int y, GRRLIB_texImg tex){
 
 /**
  * Set the color value of a pixel to a GRRLIB_texImg
- * @bug !!!!!!!!!!!!!!!! NOT WORKING NEED HELP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  * @param x specifies the x-coordinate of the pixel in the texture.
  * @param y specifies the y-coordinate of the pixel in the texture.
  * @param tex texture to set the color to.
@@ -475,19 +473,22 @@ void GRRLIB_SetPixelTotexImg(int x, int y, GRRLIB_texImg tex, u32 color){
     u8 r, g, b, a;
     u32 offset;
 
-    x1 = x >> 2; // div by 4
-    y1 = y >> 2; // div by 4 
-    offset = (x1*64) + (x-(x1*4))*2+y*8;
+    x1 = x >> 2;
+    y1 = y >> 2;
+    offset = (y1*16*tex.w) + (x1*64) + ((y%4 * 4 + x%4 ) * 2); // Fuckin equation found by NoNameNo ;)
 
     a=color & 0xFF;
-    r=(color>>8) & 0xFF;
+    b=(color>>8) & 0xFF;
     g=(color>>16) & 0xFF;
-    b=(color>>24) & 0xFF;
+    r=(color>>24) & 0xFF;
 
     *(truc+offset)=a;
     *(truc+offset+1)=r;
     *(truc+offset+32)=g;
     *(truc+offset+33)=b;
+
+    DCFlushRange(tex.data, tex.w * tex.h * 4);
+
 }
 
 /**
