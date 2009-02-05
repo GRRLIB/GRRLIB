@@ -441,23 +441,17 @@ bool GRRLIB_RectOnRect(int rect1x, int rect1y, int rect1w, int rect1h, int rect2
  */
 u32 GRRLIB_GetPixelFromtexImg(int x, int y, GRRLIB_texImg tex){
     u8 *truc = (u8*)tex.data;
-    u32 x1, y1;
     u8 r, g, b, a;
-    u32 value;
     u32 offset;
 
-    x1 = x >> 2;
-    y1 = y >> 2; 
-    offset = (y1*16*tex.w) + (x1*64) + ((y%4 * 4 + x%4 ) * 2); // Fuckin equation found by NoNameNo ;)
+    offset = (((y >> 2)<<4)*tex.w) + ((x >> 2)<<6) + (((y%4 << 2) + x%4 ) << 1); // Fuckin equation found by NoNameNo ;)
 
     a=*(truc+offset);
     r=*(truc+offset+1);
     g=*(truc+offset+32);
     b=*(truc+offset+33);
 
-    value = (r<<24) | (g<<16) | (b<<8) | a;
-
-    return(value);
+    return((r<<24) | (g<<16) | (b<<8) | a);
 }
 
 /**
@@ -469,26 +463,16 @@ u32 GRRLIB_GetPixelFromtexImg(int x, int y, GRRLIB_texImg tex){
  */
 void GRRLIB_SetPixelTotexImg(int x, int y, GRRLIB_texImg tex, u32 color){
     u8 *truc = (u8*)tex.data;
-    u32 x1, y1;
-    u8 r, g, b, a;
     u32 offset;
 
-    x1 = x >> 2;
-    y1 = y >> 2;
-    offset = (y1*16*tex.w) + (x1*64) + ((y%4 * 4 + x%4 ) * 2); // Fuckin equation found by NoNameNo ;)
+    offset = (((y >> 2)<<4)*tex.w) + ((x >> 2)<<6) + (((y%4 << 2) + x%4 ) <<1); // Fuckin equation found by NoNameNo ;)
 
-    a=color & 0xFF;
-    b=(color>>8) & 0xFF;
-    g=(color>>16) & 0xFF;
-    r=(color>>24) & 0xFF;
-
-    *(truc+offset)=a;
-    *(truc+offset+1)=r;
-    *(truc+offset+32)=g;
-    *(truc+offset+33)=b;
+    *(truc+offset)=color & 0xFF;
+    *(truc+offset+1)=(color>>24) & 0xFF;
+    *(truc+offset+32)=(color>>16) & 0xFF;
+    *(truc+offset+33)=(color>>8) & 0xFF;
 
     DCFlushRange(tex.data, tex.w * tex.h * 4);
-
 }
 
 /**
