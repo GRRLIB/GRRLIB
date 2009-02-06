@@ -257,6 +257,28 @@ GRRLIB_texImg GRRLIB_LoadTextureJPG(const unsigned char my_jpg[]) {
 }
 
 /**
+ * Create an empty texture.
+ * @param w width of the new texture to create.
+ * @param h height of the new texture to create.
+ * @return A GRRLIB_texImg structure newly created.
+ */
+GRRLIB_texImg GRRLIB_CreateEmptyTexture(unsigned int w, unsigned int h) {
+    unsigned int x, y;
+    GRRLIB_texImg my_texture;
+
+    my_texture.data = memalign (32, h * w * 4);
+    my_texture.w = w;
+    my_texture.h = h;
+    // Initialize the texture
+    for(y=0; y<h; y++) {
+        for(x=0; x<w; x++) {
+            GRRLIB_SetPixelTotexImg(x, y, my_texture, 0x00000000);
+        }
+    }
+    return my_texture;
+}
+
+/**
  * Draw a texture.
  * @param xpos specifies the x-coordinate of the upper-left corner.
  * @param ypos specifies the y-coordinate of the upper-left corner.
@@ -433,13 +455,13 @@ bool GRRLIB_RectOnRect(int rect1x, int rect1y, int rect1w, int rect1h, int rect2
 }
 
 /**
- * Return the color value of a pixel from a GRRLIB_texImg
+ * Return the color value of a pixel from a GRRLIB_texImg.
  * @param x specifies the x-coordinate of the pixel in the texture.
  * @param y specifies the y-coordinate of the pixel in the texture.
  * @param tex texture to get the color from.
  * @return The color of a pixel.
  */
-u32 GRRLIB_GetPixelFromtexImg(int x, int y, GRRLIB_texImg tex){
+u32 GRRLIB_GetPixelFromtexImg(int x, int y, GRRLIB_texImg tex) {
     u8 *truc = (u8*)tex.data;
     u8 r, g, b, a;
     u32 offset;
@@ -455,13 +477,13 @@ u32 GRRLIB_GetPixelFromtexImg(int x, int y, GRRLIB_texImg tex){
 }
 
 /**
- * Set the color value of a pixel to a GRRLIB_texImg
+ * Set the color value of a pixel to a GRRLIB_texImg.
  * @param x specifies the x-coordinate of the pixel in the texture.
  * @param y specifies the y-coordinate of the pixel in the texture.
  * @param tex texture to set the color to.
  * @param color the color of the pixel.
  */
-void GRRLIB_SetPixelTotexImg(int x, int y, GRRLIB_texImg tex, u32 color){
+void GRRLIB_SetPixelTotexImg(int x, int y, GRRLIB_texImg tex, u32 color) {
     u8 *truc = (u8*)tex.data;
     u32 offset;
 
@@ -473,6 +495,30 @@ void GRRLIB_SetPixelTotexImg(int x, int y, GRRLIB_texImg tex, u32 color){
     *(truc+offset+33)=(color>>8) & 0xFF;
 
     DCFlushRange(tex.data, tex.w * tex.h * 4);
+}
+
+/**
+ * Change a texture to gray scale.
+ * @param tex the texture to change.
+ */
+void GRRLIB_GrayScale(GRRLIB_texImg tex) {
+    unsigned int x, y;
+    u8 r, g, b, gray;
+    u32 color;
+
+    for(y=0; y<tex.h; y++) {
+        for(x=0; x<tex.w; x++) {
+            color = GRRLIB_GetPixelFromtexImg(x, y, tex);
+
+            b = (color>>24) & 0xFF;
+            g = (color>>16) & 0xFF;
+            r = (color>>8) & 0xFF;
+            gray = ((r*77 + g*150 + b*28) / (255));
+
+            GRRLIB_SetPixelTotexImg(x, y, tex,
+                ((gray << 24) | (gray << 16) | (gray << 8) | (color & 0xFF)));
+        }
+    }
 }
 
 /**

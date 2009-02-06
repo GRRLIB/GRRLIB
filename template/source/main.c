@@ -20,7 +20,6 @@
 #include "gfx/BMfont5.h"
 #include "gfx/test_jpg.h"
 #include "gfx/sprite.h"
-#include "gfx/pixeltest.h"
 
 // Tile stuff
 #define TILE_DELAY  10
@@ -56,7 +55,7 @@ Mtx GXmodelView2D;
 int main() {
     int left = 0, top = 0, page = 0, frame = TILE_DOWN + 1;
     unsigned int wait = TILE_DELAY, direction = TILE_DOWN, direction_new = TILE_DOWN;
-    int x, y, val1,val2,val3,val4;
+    int x, y, val1, val2, val3, val4;
     u32 val, valtmp;
     ir_t ir1;
     u32 wpaddown, wpadheld;
@@ -70,7 +69,7 @@ int main() {
 
     GRRLIB_texImg tex_test_jpg = GRRLIB_LoadTextureJPG(test_jpg);
 
-    GRRLIB_texImg tex_pixeltest = GRRLIB_LoadTexturePNG(pixeltest); // a 8x8 only white test png
+    GRRLIB_texImg tex_pixeltest = GRRLIB_CreateEmptyTexture(40, 40);
 
     GRRLIB_texImg tex_sprite_png = GRRLIB_LoadTexturePNG(sprite);
     GRRLIB_InitTileSet(&tex_sprite_png, 24, 32, 0);
@@ -108,30 +107,30 @@ int main() {
                 GRRLIB_DrawImg(10, 50, tex_test_jpg, 0, 1, 1, GRRLIB_WHITE);
                 GRRLIB_DrawImg(400, 150, tex_pixeltest, 0, 2, 2, GRRLIB_WHITE);
 
-                for(x=0;x<40;x++){
+                for(x=0; x<40; x++) {
                         valtmp = 1 + (int) (180 * (rand() / (RAND_MAX + 1.0)));
-                        val=(valtmp<<24) | (valtmp<<16) | (valtmp<<8) | 0xFF;
-                        GRRLIB_SetPixelTotexImg(x,39,tex_pixeltest,val);
+                        val = (valtmp<<24) | (valtmp<<16) | (valtmp<<8) | 0xFF;
+                        GRRLIB_SetPixelTotexImg(x, 39, tex_pixeltest, val);
                 }
-
-               for(y=38;y>0;y--){
-                    for(x=1;x<39;x++){
-                        val1 = (GRRLIB_GetPixelFromtexImg(x-1,y+1,tex_pixeltest)>>8)& 0xFF;
-                        val2 = (GRRLIB_GetPixelFromtexImg(x,y+1,tex_pixeltest)>>8)& 0xFF;
-                        val3 = (GRRLIB_GetPixelFromtexImg(x+1,y+1,tex_pixeltest)>>8)& 0xFF;
-                        val4 = (GRRLIB_GetPixelFromtexImg(x,y-1,tex_pixeltest)>>8)& 0XFF;
+                for(y=38; y>0; y--) {
+                    for(x=1; x<39; x++) {
+                        val1 = (GRRLIB_GetPixelFromtexImg(x-1, y+1, tex_pixeltest)>>8) & 0xFF;
+                        val2 = (GRRLIB_GetPixelFromtexImg(x, y+1, tex_pixeltest)>>8) & 0xFF;
+                        val3 = (GRRLIB_GetPixelFromtexImg(x+1, y+1, tex_pixeltest)>>8) & 0xFF;
+                        val4 = (GRRLIB_GetPixelFromtexImg(x, y-1, tex_pixeltest)>>8) & 0XFF;
                         valtmp = (val1+val2+val3+val4)/4;
-                        val=(valtmp<<24) | (valtmp<<16) | (valtmp<<8) | 0xFF;
+                        val = (valtmp<<24) | (valtmp<<16) | (valtmp<<8) | 0xFF;
                         GRRLIB_SetPixelTotexImg(x, y, tex_pixeltest, val);
                     }
                }
-
 
                 // Draw a sprite
                 GRRLIB_DrawTile(600, 400, tex_sprite_png, 0, 2, 2, GRRLIB_WHITE, 12*4); // Rupee
                 GRRLIB_DrawTile(320+left, 240+top, tex_sprite_png, 0, 2, 2, GRRLIB_WHITE, frame);
                 if(GRRLIB_RectOnRect(320+left, 240+top, 48, 64, 618, 434, 12, 30))
+                {
                     WPAD_Rumble(WPAD_CHAN_0, 1);
+                }
                 if(direction_new != direction) {
                     // Direction has changed, modify frame immidiately
                     direction = direction_new;
@@ -226,6 +225,7 @@ int main() {
     }
     GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
     // Free some textures
+    free(tex_pixeltest.data);
     free(tex_test_jpg.data);
     free(tex_sprite_png.data);
     free(tex_BMfont1.data);

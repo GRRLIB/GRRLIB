@@ -54,6 +54,8 @@ ChangeLog :
 
 * GRRLIB_GetPixelFromtexImg and GRRLIB_SetPixelTotexImg
 
+* GRRLIB_GrayScale and GRRLIB_CreateEmptyTexture
+
 * add GRRLIB_Exit to free the memory allocated by GRRLIB
 
 have a look at the sample code to see how all this work ;)

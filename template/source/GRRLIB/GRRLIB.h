@@ -46,7 +46,7 @@ inline void GRRLIB_Rectangle(f32 x, f32 y, f32 width, f32 height, u32 color, u8 
 void GRRLIB_NGone(Vector v[], u32 color, long n);
 void GRRLIB_NGoneFilled(Vector v[], u32 color, long n);
 
-
+GRRLIB_texImg GRRLIB_CreateEmptyTexture(unsigned int, unsigned int);
 GRRLIB_texImg GRRLIB_LoadTexturePNG(const unsigned char my_png[]);
 GRRLIB_texImg GRRLIB_LoadTextureJPG(const unsigned char my_jpg[]);
 
@@ -64,6 +64,8 @@ bool GRRLIB_RectOnRect(int rect1x, int rect1y, int rect1w, int rect1h, int rect2
 
 u32 GRRLIB_GetPixelFromtexImg(int x, int y, GRRLIB_texImg tex);
 void GRRLIB_SetPixelTotexImg(int x, int y, GRRLIB_texImg tex, u32 color);
+
+void GRRLIB_GrayScale(GRRLIB_texImg tex);
 
 void GRRLIB_GXEngine(Vector v[], u32 color, long count, u8 fmt);
 
