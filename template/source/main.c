@@ -122,7 +122,8 @@ int main() {
                         val = (valtmp<<24) | (valtmp<<16) | (valtmp<<8) | 0xFF;
                         GRRLIB_SetPixelTotexImg(x, y, tex_pixeltest, val);
                     }
-               }
+                }
+                GRRLIB_FlushTex(tex_pixeltest);
 
                 // Draw a sprite
                 GRRLIB_DrawTile(600, 400, tex_sprite_png, 0, 2, 2, GRRLIB_WHITE, 12*4); // Rupee

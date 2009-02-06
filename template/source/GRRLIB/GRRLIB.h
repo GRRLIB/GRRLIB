@@ -65,7 +65,9 @@ bool GRRLIB_RectOnRect(int rect1x, int rect1y, int rect1w, int rect1h, int rect2
 u32 GRRLIB_GetPixelFromtexImg(int x, int y, GRRLIB_texImg tex);
 void GRRLIB_SetPixelTotexImg(int x, int y, GRRLIB_texImg tex, u32 color);
 
-void GRRLIB_GrayScale(GRRLIB_texImg tex);
+void GRRLIB_FlushTex(GRRLIB_texImg tex);
+
+void GRRLIB_BMFX_GrayScale(GRRLIB_texImg tex);
 
 void GRRLIB_GXEngine(Vector v[], u32 color, long count, u8 fmt);
 

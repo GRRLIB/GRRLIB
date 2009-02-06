@@ -136,9 +136,9 @@ GRRLIB_texImg GRRLIB_LoadTexturePNG(const unsigned char my_png[]) {
     my_texture.data = memalign (32, imgProp.imgWidth * imgProp.imgHeight * 4);
     PNGU_DecodeTo4x4RGBA8 (ctx, imgProp.imgWidth, imgProp.imgHeight, my_texture.data, 255);
     PNGU_ReleaseImageContext (ctx);
-    DCFlushRange (my_texture.data, imgProp.imgWidth * imgProp.imgHeight * 4);
     my_texture.w = imgProp.imgWidth;
     my_texture.h = imgProp.imgHeight;
+    GRRLIB_FlushTex(my_texture);
     return my_texture;
 }
 
@@ -242,7 +242,6 @@ GRRLIB_texImg GRRLIB_LoadTextureJPG(const unsigned char my_jpg[]) {
     /* Create a buffer to hold the final texture */
     my_texture.data = memalign(32, cinfo.output_width * cinfo.output_height * 4);
     RawTo4x4RGBA(tempBuffer, my_texture.data, cinfo.output_width, cinfo.output_height);
-    DCFlushRange(my_texture.data, cinfo.output_width * cinfo.output_height * 4);
 
     /* Done - do cleanup and release memory */
     jpeg_finish_decompress(&cinfo);
@@ -252,6 +251,7 @@ GRRLIB_texImg GRRLIB_LoadTextureJPG(const unsigned char my_jpg[]) {
 
     my_texture.w = cinfo.output_width;
     my_texture.h = cinfo.output_height;
+    GRRLIB_FlushTex(my_texture);
 
     return my_texture;
 }
@@ -275,6 +275,7 @@ GRRLIB_texImg GRRLIB_CreateEmptyTexture(unsigned int w, unsigned int h) {
             GRRLIB_SetPixelTotexImg(x, y, my_texture, 0x00000000);
         }
     }
+    GRRLIB_FlushTex(my_texture);
     return my_texture;
 }
 
@@ -478,6 +479,7 @@ u32 GRRLIB_GetPixelFromtexImg(int x, int y, GRRLIB_texImg tex) {
 
 /**
  * Set the color value of a pixel to a GRRLIB_texImg.
+ * @see GRRLIB_FlushTex
  * @param x specifies the x-coordinate of the pixel in the texture.
  * @param y specifies the y-coordinate of the pixel in the texture.
  * @param tex texture to set the color to.
@@ -493,15 +495,24 @@ void GRRLIB_SetPixelTotexImg(int x, int y, GRRLIB_texImg tex, u32 color) {
     *(truc+offset+1)=(color>>24) & 0xFF;
     *(truc+offset+32)=(color>>16) & 0xFF;
     *(truc+offset+33)=(color>>8) & 0xFF;
+}
 
+/**
+ * Writes the contents of a texture in the data cache down to main memory.
+ * For performance the CPU holds a data cache where modifications are stored before they get written down to mainmemory.
+ * @param tex the texture to flush.
+ */
+void GRRLIB_FlushTex(GRRLIB_texImg tex)
+{
     DCFlushRange(tex.data, tex.w * tex.h * 4);
 }
 
 /**
  * Change a texture to gray scale.
+ * @see GRRLIB_FlushTex
  * @param tex the texture to change.
  */
-void GRRLIB_GrayScale(GRRLIB_texImg tex) {
+void GRRLIB_BMFX_GrayScale(GRRLIB_texImg tex) {
     unsigned int x, y;
     u8 r, g, b, gray;
     u32 color;

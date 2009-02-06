@@ -54,7 +54,9 @@ ChangeLog :
 
 * GRRLIB_GetPixelFromtexImg and GRRLIB_SetPixelTotexImg
 
-* GRRLIB_GrayScale and GRRLIB_CreateEmptyTexture
+* GRRLIB_CreateEmptyTexture and GRRLIB_FlushTex
+
+* New Bitmap FX: GRRLIB_BMFX_GrayScale
 
 * add GRRLIB_Exit to free the memory allocated by GRRLIB
 
