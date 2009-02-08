@@ -510,24 +510,53 @@ void GRRLIB_FlushTex(GRRLIB_texImg tex)
 /**
  * Change a texture to gray scale.
  * @see GRRLIB_FlushTex
- * @param tex the texture to change.
+ * @param texsrc the texture source.
+ * @param texdst the texture grayscaled destination.
  */
-void GRRLIB_BMFX_GrayScale(GRRLIB_texImg tex) {
+void GRRLIB_BMFX_GrayScale(GRRLIB_texImg texsrc, GRRLIB_texImg texdest) {
     unsigned int x, y;
     u8 r, g, b, gray;
     u32 color;
 
-    for(y=0; y<tex.h; y++) {
-        for(x=0; x<tex.w; x++) {
-            color = GRRLIB_GetPixelFromtexImg(x, y, tex);
+    for(y=0; y<texsrc.h; y++) {
+        for(x=0; x<texsrc.w; x++) {
+            color = GRRLIB_GetPixelFromtexImg(x, y, texsrc);
 
             b = (color>>24) & 0xFF;
             g = (color>>16) & 0xFF;
             r = (color>>8) & 0xFF;
             gray = ((r*77 + g*150 + b*28) / (255));
 
-            GRRLIB_SetPixelTotexImg(x, y, tex,
+            GRRLIB_SetPixelTotexImg(x, y, texdest,
                 ((gray << 24) | (gray << 16) | (gray << 8) | (color & 0xFF)));
+        }
+    }
+}
+
+/**
+ * A texture effect.
+ * @see GRRLIB_FlushTex
+ * @param texsrc the texture source.
+ * @param texdst the texture grayscaled destination.
+ * @param factor The factor level of the effect. 
+ */
+void GRRLIB_BMFX_Scatter(GRRLIB_texImg texsrc, GRRLIB_texImg texdest, int factor) {
+    unsigned int x, y;
+    int val1,val2,val3,val4;
+
+    for(y=0;y<texsrc.h;y++){
+        for(x=1;x<texsrc.w;x++){
+            val1= 0 + (int) (factor*2 * (rand() / (RAND_MAX + 1.0))) - factor ;
+            val2= 0 + (int) (factor*2 * (rand() / (RAND_MAX + 1.0))) - factor ;
+
+            if((x + val1 >= texsrc.w) && (x + val1 <0) && (y + val2 >= texsrc.h) && (y + val2 <0)){
+            }
+            else{
+                val3=GRRLIB_GetPixelFromtexImg(x,y,texsrc);
+                val4=GRRLIB_GetPixelFromtexImg(x+val1,y+val2,texsrc);
+                GRRLIB_SetPixelTotexImg(x, y, texdest, val4);
+                GRRLIB_SetPixelTotexImg(x+val1, y+val2, texdest, val3);
+            }
         }
     }
 }

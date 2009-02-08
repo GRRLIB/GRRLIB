@@ -67,7 +67,8 @@ void GRRLIB_SetPixelTotexImg(int x, int y, GRRLIB_texImg tex, u32 color);
 
 void GRRLIB_FlushTex(GRRLIB_texImg tex);
 
-void GRRLIB_BMFX_GrayScale(GRRLIB_texImg tex);
+void GRRLIB_BMFX_GrayScale(GRRLIB_texImg texsrc, GRRLIB_texImg texdest);
+void GRRLIB_BMFX_Scatter(GRRLIB_texImg texsrc, GRRLIB_texImg texdest, int factor);
 
 void GRRLIB_GXEngine(Vector v[], u32 color, long count, u8 fmt);
 
