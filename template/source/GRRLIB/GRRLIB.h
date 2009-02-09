@@ -25,11 +25,11 @@
 typedef struct GRRLIB_texImg{
     unsigned int w;         /**< width of the texture. */
     unsigned int h;         /**< height of the texture. */
-    unsigned int tilew;     /**< tilew widht of a tile. */
-    unsigned int tileh;     /**< tileh height of a tile. */
-    unsigned int nbtilew;   /**< nbtilew number of tiles for the x axis. */
-    unsigned int nbtileh;   /**< nbtileh number of tiles for the y axis. */
-    unsigned int tilestart; /**<  */
+    unsigned int tilew;     /**< widht of a tile. */
+    unsigned int tileh;     /**< height of a tile. */
+    unsigned int nbtilew;   /**< number of tiles for the x axis. */
+    unsigned int nbtileh;   /**< number of tiles for the y axis. */
+    unsigned int tilestart; /**< offset for starting position. */
     void *data;             /**< pointer to the texture data. */
 } GRRLIB_texImg;
 

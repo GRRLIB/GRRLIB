@@ -406,6 +406,7 @@ inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees
  * @param tex
  * @param color
  * @param zoom
+ * @param text
  * @param ... Optional arguments.
  */
 void GRRLIB_Printf(f32 xpos, f32 ypos, GRRLIB_texImg tex, u32 color, f32 zoom, const char *text, ...) {
@@ -511,7 +512,7 @@ void GRRLIB_FlushTex(GRRLIB_texImg tex)
  * Change a texture to gray scale.
  * @see GRRLIB_FlushTex
  * @param texsrc the texture source.
- * @param texdst the texture grayscaled destination.
+ * @param texdest the texture grayscaled destination.
  */
 void GRRLIB_BMFX_GrayScale(GRRLIB_texImg texsrc, GRRLIB_texImg texdest) {
     unsigned int x, y;
@@ -534,7 +535,7 @@ void GRRLIB_BMFX_GrayScale(GRRLIB_texImg texsrc, GRRLIB_texImg texdest) {
  * A texture effect.
  * @see GRRLIB_FlushTex
  * @param texsrc the texture source.
- * @param texdst the texture grayscaled destination.
+ * @param texdest the texture grayscaled destination.
  * @param factor The factor level of the effect. 
  */
 void GRRLIB_BMFX_Scatter(GRRLIB_texImg texsrc, GRRLIB_texImg texdest, int factor) {
@@ -563,6 +564,7 @@ void GRRLIB_BMFX_Scatter(GRRLIB_texImg texsrc, GRRLIB_texImg texdest, int factor
  *
  * @param v
  * @param color
+ * @param n
  * @param fmt
  */
 void GRRLIB_GXEngine(Vector v[], u32 color, long n, u8 fmt) {

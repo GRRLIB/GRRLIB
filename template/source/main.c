@@ -226,6 +226,7 @@ int main() {
 
 /**
  * This function calculates the number of frames we render each second.
+ * It must be called right after GRRLIB_Render.
  * @return The number of frames per second.
  */
 static u8 CalculateFrameRate() {
