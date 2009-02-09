@@ -56,7 +56,7 @@ ChangeLog :
 
 * GRRLIB_CreateEmptyTexture and GRRLIB_FlushTex
 
-* New Bitmap FX: GRRLIB_BMFX_GrayScale
+* New Bitmap FX: GRRLIB_BMFX_GrayScale and GRRLIB_BMFX_Scatter
 
 * add GRRLIB_Exit to free the memory allocated by GRRLIB
 

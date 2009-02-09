@@ -515,17 +515,14 @@ void GRRLIB_FlushTex(GRRLIB_texImg tex)
  */
 void GRRLIB_BMFX_GrayScale(GRRLIB_texImg texsrc, GRRLIB_texImg texdest) {
     unsigned int x, y;
-    u8 r, g, b, gray;
+    u8 gray;
     u32 color;
 
     for(y=0; y<texsrc.h; y++) {
         for(x=0; x<texsrc.w; x++) {
             color = GRRLIB_GetPixelFromtexImg(x, y, texsrc);
 
-            b = (color>>24) & 0xFF;
-            g = (color>>16) & 0xFF;
-            r = (color>>8) & 0xFF;
-            gray = ((r*77 + g*150 + b*28) / (255));
+            gray = ((((color>>8) & 0xFF)*77 + ((color>>16) & 0xFF)*150 + ((color>>24) & 0xFF)*28) / (255));
 
             GRRLIB_SetPixelTotexImg(x, y, texdest,
                 ((gray << 24) | (gray << 16) | (gray << 8) | (color & 0xFF)));
@@ -542,20 +539,21 @@ void GRRLIB_BMFX_GrayScale(GRRLIB_texImg texsrc, GRRLIB_texImg texdest) {
  */
 void GRRLIB_BMFX_Scatter(GRRLIB_texImg texsrc, GRRLIB_texImg texdest, int factor) {
     unsigned int x, y;
-    int val1,val2,val3,val4;
+    int val1, val2, val3, val4;
+    int factorx2 = factor*2;
 
-    for(y=0;y<texsrc.h;y++){
-        for(x=1;x<texsrc.w;x++){
-            val1= 0 + (int) (factor*2 * (rand() / (RAND_MAX + 1.0))) - factor ;
-            val2= 0 + (int) (factor*2 * (rand() / (RAND_MAX + 1.0))) - factor ;
+    for(y=0; y<texsrc.h; y++) {
+        for(x=1; x<texsrc.w; x++) {
+            val1 = x + (int) (factorx2 * (rand() / (RAND_MAX + 1.0))) - factor;
+            val2 = y + (int) (factorx2 * (rand() / (RAND_MAX + 1.0))) - factor;
 
-            if((x + val1 >= texsrc.w) && (x + val1 <0) && (y + val2 >= texsrc.h) && (y + val2 <0)){
+            if((val1 >= texsrc.w) && (val1 <0) && (val2 >= texsrc.h) && (val2 <0)) {
             }
-            else{
-                val3=GRRLIB_GetPixelFromtexImg(x,y,texsrc);
-                val4=GRRLIB_GetPixelFromtexImg(x+val1,y+val2,texsrc);
+            else {
+                val3 = GRRLIB_GetPixelFromtexImg(x, y, texsrc);
+                val4 = GRRLIB_GetPixelFromtexImg(val1, val2, texsrc);
                 GRRLIB_SetPixelTotexImg(x, y, texdest, val4);
-                GRRLIB_SetPixelTotexImg(x+val1, y+val2, texdest, val3);
+                GRRLIB_SetPixelTotexImg(val1, val2, texdest, val3);
             }
         }
     }

@@ -8,8 +8,8 @@
 ============================================*/
 #include "GRRLIB/GRRLIB.h"
 
+#include <ogc/lwp_watchdog.h>	// needed for gettime and ticks_to_millisecs
 #include <stdlib.h>
-
 #include <wiiuse/wpad.h>
 #include <fat.h>
 
@@ -51,10 +51,12 @@
 #define GRRLIB_WHITE   0xFFFFFFFF
 
 Mtx GXmodelView2D;
+static u8 CalculateFrameRate();
 
 int main() {
     int left = 0, top = 0, page = 0, frame = TILE_DOWN + 1;
     unsigned int wait = TILE_DELAY, direction = TILE_DOWN, direction_new = TILE_DOWN;
+    u8 FPS = 0;
 
     ir_t ir1;
     u32 wpaddown, wpadheld;
@@ -86,8 +88,6 @@ int main() {
 
     GRRLIB_texImg tex_BMfont5 = GRRLIB_LoadTexturePNG(BMfont5);
     GRRLIB_InitTileSet(&tex_BMfont5, 8, 16, 0);
-
-    
 
     while(1) {
         WPAD_SetVRes(0, 640, 480);
@@ -163,7 +163,9 @@ int main() {
                 GRRLIB_Printf(left, top+350, tex_BMfont3, 0XFFFFFF50, 1, "TEXT WITH ALPHA");
                 GRRLIB_Printf(left, top+400, tex_BMfont5, GRRLIB_LIME, 1, "This font has the 128 ASCII characters");
         }
+        GRRLIB_Printf(500, 27, tex_BMfont5, GRRLIB_WHITE, 1, "Current FPS: %d", FPS);
         GRRLIB_Render();
+        FPS = CalculateFrameRate();
 
         if(wpaddown & WPAD_BUTTON_HOME) {
             exit(0);
@@ -220,4 +222,23 @@ int main() {
     free(tex_BMfont4.data);
     free(tex_BMfont5.data);
     return 0;
+}
+
+/**
+ * This function calculates the number of frames we render each second.
+ * @return The number of frames per second.
+ */
+static u8 CalculateFrameRate() {
+    static u8 frameCount = 0;
+    static u32 lastTime;
+    static u8 FPS = 0;
+    u32 currentTime = ticks_to_millisecs(gettime());
+
+    frameCount++;
+    if(currentTime - lastTime > 1000) {
+        lastTime = currentTime;
+        FPS = frameCount;
+        frameCount = 0;
+    }
+    return FPS;
 }
