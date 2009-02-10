@@ -64,6 +64,8 @@ int main() {
 
     GRRLIB_Init();
 
+    GRRLIB_Credit();
+
     fatInitDefault();
     WPAD_Init();
     WPAD_SetDataFormat(WPAD_CHAN_0, WPAD_FMT_BTNS_ACC_IR);

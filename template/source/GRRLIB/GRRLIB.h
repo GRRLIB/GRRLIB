@@ -74,6 +74,7 @@ void GRRLIB_GXEngine(Vector v[], u32 color, long count, u8 fmt);
 
 
 void GRRLIB_Init();
+void GRRLIB_Credit();
 
 void GRRLIB_Render();
 

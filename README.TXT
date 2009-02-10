@@ -60,6 +60,8 @@ ChangeLog :
 
 * add GRRLIB_Exit to free the memory allocated by GRRLIB
 
+* add GRRLIB_Credit that you HAVE to call at least ONCE in your code to respect author desire !! ( thanks to respect our work following this rule !!)
+
 have a look at the sample code to see how all this work ;)
 
 Remember that 3.0.5 is a WIP preview for the soon coming GRRLIB 4.0 and it's not intend to be publicly released...
