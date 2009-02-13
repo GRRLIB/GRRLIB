@@ -105,13 +105,13 @@ int main() {
         {
             case 1:   // Draw images
                 GRRLIB_Printf(5, 25, tex_BMfont2, GRRLIB_WHITE, 1, "IMAGES DEMO");
-         
+
                 GRRLIB_BMFX_Scatter(tex_test_jpg, tex_new, 8);
                 GRRLIB_FlushTex(tex_new);
 
                 GRRLIB_DrawImg(10, 50, tex_test_jpg, 0, 1, 1, GRRLIB_WHITE);
                 GRRLIB_DrawImg(310, 50, tex_new, 0, 1, 1, GRRLIB_WHITE);
-                
+
                 // Draw a sprite
                 GRRLIB_DrawTile(600, 400, tex_sprite_png, 0, 2, 2, GRRLIB_WHITE, 12*4); // Rupee
                 GRRLIB_DrawTile(320+left, 240+top, tex_sprite_png, 0, 2, 2, GRRLIB_WHITE, frame);

@@ -30,8 +30,8 @@ inline void GRRLIB_FillScreen(u32 color) {
 
 /**
  * Draw a dot.
- * @param x specifies the x-coordinate of the dot. 
- * @param y specifies the y-coordinate of the dot. 
+ * @param x specifies the x-coordinate of the dot.
+ * @param y specifies the y-coordinate of the dot.
  * @param color the color of the dot.
  */
 inline void GRRLIB_Plot(f32 x, f32 y, u32 color) {
@@ -536,7 +536,7 @@ void GRRLIB_BMFX_GrayScale(GRRLIB_texImg texsrc, GRRLIB_texImg texdest) {
  * @see GRRLIB_FlushTex
  * @param texsrc the texture source.
  * @param texdest the texture grayscaled destination.
- * @param factor The factor level of the effect. 
+ * @param factor The factor level of the effect.
  */
 void GRRLIB_BMFX_Scatter(GRRLIB_texImg texsrc, GRRLIB_texImg texdest, int factor) {
     unsigned int x, y;
