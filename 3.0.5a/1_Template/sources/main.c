@@ -4,7 +4,7 @@
         Additional Code : Crayon
         GX hints : RedShade
 
-        Template Code (Minimum Requirement)
+        Template Code 1
 ============================================*/
 #include "../../GRRLIB/GRRLIB/GRRLIB.h"
 
