@@ -6,7 +6,7 @@
 
         Template Code 1
 ============================================*/
-#include "../../GRRLIB/GRRLIB/GRRLIB.h"
+#include "../../../GRRLIB/GRRLIB/GRRLIB.h"
 
 #include <ogc/lwp_watchdog.h>	// needed for gettime and ticks_to_millisecs
 #include <stdlib.h>

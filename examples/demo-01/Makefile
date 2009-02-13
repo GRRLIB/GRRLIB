@@ -17,7 +17,7 @@ include $(DEVKITPPC)/wii_rules
 #---------------------------------------------------------------------------------
 TARGET		:=	$(notdir $(CURDIR))
 BUILD		:=	build
-SOURCES		:=	source source/gfx ../GRRLIB/GRRLIB ../GRRLIB/lib/libpng ../GRRLIB/lib/libpng/pngu
+SOURCES		:=	source source/gfx ../../GRRLIB/GRRLIB ../../GRRLIB/lib/libpng ../../GRRLIB/lib/libpng/pngu
 DATA		:=	data  
 INCLUDES	:=
 
@@ -39,7 +39,7 @@ LIBS	:=	-lpng -ljpeg -lz -lfat -lwiiuse -lbte -logc -lm
 # list of directories containing libraries, this must be the top level containing
 # include and lib
 #---------------------------------------------------------------------------------
-LIBDIRS	:= $(CURDIR)/../GRRLIB
+LIBDIRS	:= $(CURDIR)/../../GRRLIB
 
 #---------------------------------------------------------------------------------
 # no real need to edit anything past this point unless you need to add additional
