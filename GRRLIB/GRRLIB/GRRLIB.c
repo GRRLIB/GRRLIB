@@ -552,6 +552,61 @@ void GRRLIB_BMFX_Invert(GRRLIB_texImg texsrc, GRRLIB_texImg texdest) {
 }
 
 /**
+ * Blur a texture.
+ * @see GRRLIB_FlushTex
+ * @param texsrc the texture source.
+ * @param texdest the texture destination.
+ */
+void GRRLIB_BMFX_Blur(GRRLIB_texImg texsrc, GRRLIB_texImg texdest, int factor) {
+    int numba = (1+(factor<<1))*(1+(factor<<1));
+
+    int x, y;
+    int k, l;
+    int tmp=0;
+    int newr, newg, newb, newa;
+    u32 colours[numba];
+    u32 thiscol;
+
+    for (x = 0; x < texsrc.w; x++) {
+        for (y = 0; y < texsrc.h; y++) {
+            newr = 0;
+            newg = 0;
+            newb = 0;
+            newa = 0;
+
+            tmp=0;
+            thiscol = GRRLIB_GetPixelFromtexImg(x, y, texsrc);
+
+            for (k = x - factor; k <= x + factor; k++) {
+                for (l = y - factor; l <= y + factor; l++) {
+                    if (k < 0) { colours[tmp] = thiscol; }
+                    else if (k >= texsrc.w) { colours[tmp] = thiscol; }
+                    else if (l < 0) { colours[tmp] = thiscol; }
+                    else if (l >= texsrc.h) { colours[tmp] = thiscol; }
+                    else{ colours[tmp] = GRRLIB_GetPixelFromtexImg(k, l, texsrc); }
+                    tmp++;
+                }
+            }
+
+            for (tmp = 0; tmp < numba; tmp++) {
+                newr += (colours[tmp] >> 24) & 0xFF;
+                newg += (colours[tmp] >> 16) & 0xFF;
+                newb += (colours[tmp] >> 8) & 0xFF;
+                newa += colours[tmp] & 0xFF;
+            }
+
+            newr /= numba;
+            newg /= numba;
+            newb /= numba;
+            newa /= numba;
+
+            GRRLIB_SetPixelTotexImg(x, y, texdest, (newr<<24) | (newg<<16) | (newb<<8) | newa);
+        }
+    }
+
+}
+
+/**
  * A texture effect.
  * @see GRRLIB_FlushTex
  * @param texsrc the texture source.
