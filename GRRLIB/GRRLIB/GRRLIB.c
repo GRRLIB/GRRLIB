@@ -548,7 +548,7 @@ void GRRLIB_BMFX_Scatter(GRRLIB_texImg texsrc, GRRLIB_texImg texdest, int factor
             val1 = x + (int) (factorx2 * (rand() / (RAND_MAX + 1.0))) - factor;
             val2 = y + (int) (factorx2 * (rand() / (RAND_MAX + 1.0))) - factor;
 
-            if((val1 >= texsrc.w) && (val1 <0) && (val2 >= texsrc.h) && (val2 <0)) {
+            if((val1 >= texsrc.w) || (val1 <0) || (val2 >= texsrc.h) || (val2 <0)) {
             }
             else {
                 val3 = GRRLIB_GetPixelFromtexImg(x, y, texsrc);
