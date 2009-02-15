@@ -556,6 +556,7 @@ void GRRLIB_BMFX_Invert(GRRLIB_texImg texsrc, GRRLIB_texImg texdest) {
  * @see GRRLIB_FlushTex
  * @param texsrc the texture source.
  * @param texdest the texture destination.
+ * @param factor the blur factor.
  */
 void GRRLIB_BMFX_Blur(GRRLIB_texImg texsrc, GRRLIB_texImg texdest, int factor) {
     int numba = (1+(factor<<1))*(1+(factor<<1));
@@ -610,16 +611,41 @@ void GRRLIB_BMFX_Blur(GRRLIB_texImg texsrc, GRRLIB_texImg texdest, int factor) {
  * A texture effect.
  * @see GRRLIB_FlushTex
  * @param texsrc the texture source.
- * @param texdest the texture grayscaled destination.
+ * @param texdest the texture destination.
+ * @param factor The factor level of the effect.
+ */
+void GRRLIB_BMFX_Pixelate(GRRLIB_texImg texsrc, GRRLIB_texImg texdest, int factor) {
+    unsigned int x, y;
+    unsigned int xx, yy;
+    u32 rgb;
+
+    for(x=0; x<texsrc.w-1-factor; x+= factor) {
+        for(y=0; y<texsrc.h-1-factor; y+=factor) {
+            rgb=GRRLIB_GetPixelFromtexImg(x, y, texsrc);
+                for(xx=x; xx<x+factor; xx++) {
+                    for(yy=y; yy<y+factor; yy++) {
+                        GRRLIB_SetPixelTotexImg(xx, yy, texdest, rgb);
+                    }
+                }
+        }
+    }
+}
+
+/**
+ * A texture effect.
+ * @see GRRLIB_FlushTex
+ * @param texsrc the texture source.
+ * @param texdest the texture destination.
  * @param factor The factor level of the effect.
  */
 void GRRLIB_BMFX_Scatter(GRRLIB_texImg texsrc, GRRLIB_texImg texdest, int factor) {
     unsigned int x, y;
-    int val1, val2, val3, val4;
+    int val1, val2;
+    u32 val3, val4;
     int factorx2 = factor*2;
 
     for(y=0; y<texsrc.h; y++) {
-        for(x=1; x<texsrc.w; x++) {
+        for(x=0; x<texsrc.w; x++) {
             val1 = x + (int) (factorx2 * (rand() / (RAND_MAX + 1.0))) - factor;
             val2 = y + (int) (factorx2 * (rand() / (RAND_MAX + 1.0))) - factor;
 
