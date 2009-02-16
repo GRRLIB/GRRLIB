@@ -56,7 +56,14 @@ ChangeLog :
 
 * GRRLIB_CreateEmptyTexture and GRRLIB_FlushTex
 
-* New Bitmap FX: GRRLIB_BMFX_Grayscale, GRRLIB_BMFX_Invert,  GRRLIB_BMFX_Scatter, GRRLIB_BMFX_Blur, GRRLIB_BMFX_Pixelate
+* New Bitmap FX:
+    - GRRLIB_BMFX_Grayscale
+    - GRRLIB_BMFX_Invert
+    - GRRLIB_BMFX_FlipH
+    - GRRLIB_BMFX_FlipV
+    - GRRLIB_BMFX_Scatter
+    - GRRLIB_BMFX_Blur
+    - GRRLIB_BMFX_Pixelate
 
 * add GRRLIB_Exit to free the memory allocated by GRRLIB
 
@@ -68,5 +75,4 @@ Remember that 3.0.5 is a WIP preview for the soon coming GRRLIB 4.0 and it's not
 Contact me to provide me all your patch/addon/new functions...
 
 NoNameNo.
-
 

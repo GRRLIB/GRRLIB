@@ -48,6 +48,9 @@ int main() {
     GRRLIB_texImg tex_scatter4 = GRRLIB_CreateEmptyTexture(tex_pirate.w, tex_pirate.h);
     GRRLIB_texImg tex_scatter5 = GRRLIB_CreateEmptyTexture(tex_pirate.w, tex_pirate.h);
     GRRLIB_texImg tex_scatter6 = GRRLIB_CreateEmptyTexture(tex_pirate.w, tex_pirate.h);
+    GRRLIB_texImg tex_fliph = GRRLIB_CreateEmptyTexture(tex_pirate.w, tex_pirate.h);
+    GRRLIB_texImg tex_flipv = GRRLIB_CreateEmptyTexture(tex_pirate.w, tex_pirate.h);
+    GRRLIB_texImg tex_fliphv = GRRLIB_CreateEmptyTexture(tex_pirate.w, tex_pirate.h);
 
     // Let's precalculte the grayscale texture
     GRRLIB_BMFX_Grayscale(tex_pirate, tex_gray);
@@ -99,6 +102,14 @@ int main() {
     GRRLIB_BMFX_Scatter(tex_pirate, tex_scatter6, 12);
     GRRLIB_FlushTex(tex_pixel6);
 
+    // Let's precalculte for flipping the texture
+    GRRLIB_BMFX_FlipH(tex_pirate, tex_fliph);
+    GRRLIB_FlushTex(tex_fliph);
+    GRRLIB_BMFX_FlipV(tex_pirate, tex_flipv);
+    GRRLIB_FlushTex(tex_flipv);
+    GRRLIB_BMFX_FlipV(tex_fliph, tex_fliphv);
+    GRRLIB_FlushTex(tex_fliphv);
+
     GRRLIB_Init();
     WPAD_Init();
 
@@ -123,6 +134,14 @@ int main() {
                 GRRLIB_DrawImg(10+tex_pirate.w*1, 60, tex_invert, 0, 1, 1, 0xFFFFFFFF);
                 break;
             case 3:
+                GRRLIB_Printf(10, 10, text_font1, 0X000000FF, 1, "FLIPH AND FLIPV FX");
+
+                GRRLIB_DrawImg(10, 60, tex_pirate, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate.w*1, 60, tex_fliph, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate.w*2, 60, tex_flipv, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate.w*3, 60, tex_fliphv, 0, 1, 1, 0xFFFFFFFF);
+                break;
+            case 4:
                 GRRLIB_Printf(10, 10, text_font1, 0X000000FF, 1, "BLUR FX");
 
                 GRRLIB_DrawImg(10, 60, tex_pirate, 0, 1, 1, 0xFFFFFFFF);
@@ -133,7 +152,7 @@ int main() {
                 GRRLIB_DrawImg(10+tex_pirate.w*1, 60+tex_pirate.h*1, tex_blur5, 0, 1, 1, 0xFFFFFFFF);
                 GRRLIB_DrawImg(10+tex_pirate.w*2, 60+tex_pirate.h*1, tex_blur6, 0, 1, 1, 0xFFFFFFFF);
                 break;
-            case 4:
+            case 5:
                 GRRLIB_Printf(10, 10, text_font1, 0X000000FF, 1, "PIXELATE FX");
 
                 GRRLIB_DrawImg(10, 60, tex_pirate, 0, 1, 1, 0xFFFFFFFF);
@@ -144,7 +163,7 @@ int main() {
                 GRRLIB_DrawImg(10+tex_pirate.w*1, 60+tex_pirate.h*1, tex_pixel5, 0, 1, 1, 0xFFFFFFFF);
                 GRRLIB_DrawImg(10+tex_pirate.w*2, 60+tex_pirate.h*1, tex_pixel6, 0, 1, 1, 0xFFFFFFFF);
                 break;
-            case 5:
+            case 6:
                 GRRLIB_Printf(10, 10, text_font1, 0X000000FF, 1, "SCATTER FX");
 
                 GRRLIB_DrawImg(10, 60, tex_pirate, 0, 1, 1, 0xFFFFFFFF);
@@ -170,17 +189,20 @@ int main() {
         }
         if(wpaddown & WPAD_BUTTON_MINUS) {
             page--;
-            if(page < 0) page = 5;
+            if(page < 0) page = 6;
         }
         if(wpaddown & WPAD_BUTTON_PLUS) {
             page++;
-            if(page > 5) page = 0;
+            if(page > 6) page = 0;
         }
     }
     GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
     free(tex_pirate.data);
     free(tex_gray.data);
     free(tex_invert.data);
+    free(tex_fliph.data);
+    free(tex_flipv.data);
+    free(tex_fliphv.data);
     free(tex_blur1.data);
     free(tex_blur2.data);
     free(tex_blur3.data);

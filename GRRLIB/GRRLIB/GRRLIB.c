@@ -552,6 +552,40 @@ void GRRLIB_BMFX_Invert(GRRLIB_texImg texsrc, GRRLIB_texImg texdest) {
 }
 
 /**
+ * Flip texture horizontal.
+ * @see GRRLIB_FlushTex
+ * @param texsrc the texture source.
+ * @param texdest the texture destination.
+ */
+void GRRLIB_BMFX_FlipH(GRRLIB_texImg texsrc, GRRLIB_texImg texdest) {
+    unsigned int x, y, txtWidth = texsrc.w - 1;
+
+    for(y=0; y<texsrc.h; y++) {
+        for(x=0; x<texsrc.w; x++) {
+            GRRLIB_SetPixelTotexImg(txtWidth - x, y, texdest,
+                GRRLIB_GetPixelFromtexImg(x, y, texsrc));
+        }
+    }
+}
+
+/**
+ * Flip texture vertical.
+ * @see GRRLIB_FlushTex
+ * @param texsrc the texture source.
+ * @param texdest the texture destination.
+ */
+void GRRLIB_BMFX_FlipV(GRRLIB_texImg texsrc, GRRLIB_texImg texdest) {
+    unsigned int x, y, texHeight = texsrc.h - 1;
+
+    for(y=0; y<texsrc.h; y++) {
+        for(x=0; x<texsrc.w; x++) {
+            GRRLIB_SetPixelTotexImg(x, texHeight - y, texdest,
+                GRRLIB_GetPixelFromtexImg(x, y, texsrc));
+        }
+    }
+}
+
+/**
  * Blur a texture.
  * @see GRRLIB_FlushTex
  * @param texsrc the texture source.
