@@ -243,9 +243,8 @@ GRRLIB_texImg GRRLIB_LoadTextureJPG(const unsigned char my_jpg[]) {
 
 /**
  * Load a texture from a buffer.
- * Take Care to have a JPG finnishing by 0xFF 0xD9 !!!!
  * @param my_img the JPEG or PNG buffer to load.
- * @return A GRRLIB_texImg structure filled with PNG informations.
+ * @return A GRRLIB_texImg structure filled with imgage informations.
  */
 GRRLIB_texImg GRRLIB_LoadTexture(const unsigned char my_img[]) {
 
