@@ -46,8 +46,6 @@ ChangeLog :
 
 * GRRLIB_DrawTile recoded for simpler use + // --->Frame Correction by spiffen
 
-* added GRRLIB_LoadTextureJPG (thx crayon for the file end detection idea)
-
 * InitVideo() and GRRLIB_Start() merge into GRRLIB_Init().
 
 * add GRRLIB_PtInRect, GRRLIB_RectInRect and GRRLIB_RectOnRect.
@@ -64,10 +62,13 @@ ChangeLog :
     - GRRLIB_BMFX_Scatter
     - GRRLIB_BMFX_Blur
     - GRRLIB_BMFX_Pixelate
+(keep in mind that most BMFX are not provided to be used in real time ;) ;) )
+
+* GRRLIB_LoadTexture now detect automaticaly the image format JPG or PNG
+(keep in mind that image still have to be RGBA and have Width and height multiple of 4)
 
 * add GRRLIB_Exit to free the memory allocated by GRRLIB
 
-* add GRRLIB_Credit that you HAVE to call at least ONCE in your code to respect author desire !! ( thanks to respect our work following this rule !!)
 
 have a look at the sample code to see how all this work ;)
 

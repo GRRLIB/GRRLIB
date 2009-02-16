@@ -23,11 +23,11 @@ int main() {
     int page = 0;
 
     // Font texture
-    GRRLIB_texImg text_font1 = GRRLIB_LoadTexturePNG(font1);
+    GRRLIB_texImg text_font1 = GRRLIB_LoadTexture(font1);
     GRRLIB_InitTileSet(&text_font1, 32, 36, 32);
 
     // Load the original texture and create empty texture of the same size as the original one
-    GRRLIB_texImg tex_pirate = GRRLIB_LoadTexturePNG(pirate);
+    GRRLIB_texImg tex_pirate = GRRLIB_LoadTexture(pirate);
     GRRLIB_texImg tex_gray = GRRLIB_CreateEmptyTexture(tex_pirate.w, tex_pirate.h);
     GRRLIB_texImg tex_invert = GRRLIB_CreateEmptyTexture(tex_pirate.w, tex_pirate.h);
     GRRLIB_texImg tex_blur1 = GRRLIB_CreateEmptyTexture(tex_pirate.w, tex_pirate.h);

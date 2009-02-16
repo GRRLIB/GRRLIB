@@ -64,31 +64,30 @@ int main() {
 
     GRRLIB_Init();
 
-    GRRLIB_Credit();
 
     fatInitDefault();
     WPAD_Init();
     WPAD_SetDataFormat(WPAD_CHAN_0, WPAD_FMT_BTNS_ACC_IR);
 
-    GRRLIB_texImg tex_test_jpg = GRRLIB_LoadTextureJPG(test_jpg);
-    GRRLIB_texImg tex_new = GRRLIB_CreateEmptyTexture(tex_test_jpg.w, tex_test_jpg.h);
+    GRRLIB_texImg tex_test_jpg = GRRLIB_LoadTexture(test_jpg);
 
-    GRRLIB_texImg tex_sprite_png = GRRLIB_LoadTexturePNG(sprite);
+
+    GRRLIB_texImg tex_sprite_png = GRRLIB_LoadTexture(sprite);
     GRRLIB_InitTileSet(&tex_sprite_png, 24, 32, 0);
 
-    GRRLIB_texImg tex_BMfont1 = GRRLIB_LoadTexturePNG(BMfont1);
+    GRRLIB_texImg tex_BMfont1 = GRRLIB_LoadTexture(BMfont1);
     GRRLIB_InitTileSet(&tex_BMfont1, 32, 32, 32);
 
-    GRRLIB_texImg tex_BMfont2 = GRRLIB_LoadTexturePNG(BMfont2);
+    GRRLIB_texImg tex_BMfont2 = GRRLIB_LoadTexture(BMfont2);
     GRRLIB_InitTileSet(&tex_BMfont2, 16, 16, 32);
 
-    GRRLIB_texImg tex_BMfont3 = GRRLIB_LoadTexturePNG(BMfont3);
+    GRRLIB_texImg tex_BMfont3 = GRRLIB_LoadTexture(BMfont3);
     GRRLIB_InitTileSet(&tex_BMfont3, 32, 32, 32);
 
-    GRRLIB_texImg tex_BMfont4 = GRRLIB_LoadTexturePNG(BMfont4);
+    GRRLIB_texImg tex_BMfont4 = GRRLIB_LoadTexture(BMfont4);
     GRRLIB_InitTileSet(&tex_BMfont4, 16, 16, 32);
 
-    GRRLIB_texImg tex_BMfont5 = GRRLIB_LoadTexturePNG(BMfont5);
+    GRRLIB_texImg tex_BMfont5 = GRRLIB_LoadTexture(BMfont5);
     GRRLIB_InitTileSet(&tex_BMfont5, 8, 16, 0);
 
     while(1) {
@@ -106,11 +105,8 @@ int main() {
             case 1:   // Draw images
                 GRRLIB_Printf(5, 25, tex_BMfont2, GRRLIB_WHITE, 1, "IMAGES DEMO");
 
-                GRRLIB_BMFX_Scatter(tex_test_jpg, tex_new, 8);
-                GRRLIB_FlushTex(tex_new);
 
                 GRRLIB_DrawImg(10, 50, tex_test_jpg, 0, 1, 1, GRRLIB_WHITE);
-                GRRLIB_DrawImg(310, 50, tex_new, 0, 1, 1, GRRLIB_WHITE);
 
                 // Draw a sprite
                 GRRLIB_DrawTile(600, 400, tex_sprite_png, 0, 2, 2, GRRLIB_WHITE, 12*4); // Rupee
@@ -215,7 +211,6 @@ int main() {
     }
     GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
     // Free some textures
-    free(tex_new.data);
     free(tex_test_jpg.data);
     free(tex_sprite_png.data);
     free(tex_BMfont1.data);

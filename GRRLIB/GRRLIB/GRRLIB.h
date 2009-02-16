@@ -47,8 +47,8 @@ void GRRLIB_NGone(Vector v[], u32 color, long n);
 void GRRLIB_NGoneFilled(Vector v[], u32 color, long n);
 
 GRRLIB_texImg GRRLIB_CreateEmptyTexture(unsigned int, unsigned int);
-GRRLIB_texImg GRRLIB_LoadTexturePNG(const unsigned char my_png[]);
-GRRLIB_texImg GRRLIB_LoadTextureJPG(const unsigned char my_jpg[]);
+GRRLIB_texImg GRRLIB_LoadTexture(const unsigned char my_img[]);
+
 
 
 void GRRLIB_InitTileSet(struct GRRLIB_texImg *tex, unsigned int tilew, unsigned int tileh, unsigned int tilestart);
@@ -79,7 +79,6 @@ void GRRLIB_GXEngine(Vector v[], u32 color, long count, u8 fmt);
 
 
 void GRRLIB_Init();
-void GRRLIB_Credit();
 
 void GRRLIB_Render();
 
