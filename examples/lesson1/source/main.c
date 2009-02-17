@@ -19,6 +19,7 @@
 #include "gfx/BMfont4.h"
 #include "gfx/BMfont5.h"
 #include "gfx/test_jpg.h"
+#include "gfx/ocean.h"
 #include "gfx/sprite.h"
 
 // Tile stuff
@@ -71,6 +72,7 @@ int main() {
 
     GRRLIB_texImg tex_test_jpg = GRRLIB_LoadTexture(test_jpg);
 
+    GRRLIB_texImg tex_test_bmf = GRRLIB_LoadTexture(ocean);
 
     GRRLIB_texImg tex_sprite_png = GRRLIB_LoadTexture(sprite);
     GRRLIB_InitTileSet(&tex_sprite_png, 24, 32, 0);
@@ -212,6 +214,7 @@ int main() {
     GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
     // Free some textures
     free(tex_test_jpg.data);
+    free(tex_test_bmf.data);
     free(tex_sprite_png.data);
     free(tex_BMfont1.data);
     free(tex_BMfont2.data);

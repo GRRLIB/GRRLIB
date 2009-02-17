@@ -243,19 +243,96 @@ GRRLIB_texImg GRRLIB_LoadTextureJPG(const unsigned char my_jpg[]) {
 
 /**
  * Load a texture from a buffer.
+ * @param my_bmf the ByteMap font buffer to load.
+ * @return A GRRLIB_texImg structure filled with BMF informations.
+ */
+GRRLIB_texImg GRRLIB_LoadTextureBMF(const unsigned char my_bmf[]) {
+/*
+  if s=BMFHEADER then begin
+    blockread(f,i,1);
+    blockread(f,lineheight,1);
+    blockread(f,sizeover,1);
+    blockread(f,sizeunder,1);
+    blockread(f,addspace,1);
+    blockread(f,sizeinner,1);
+    blockread(f,usedcolors,1);
+    blockread(f,highestcolor,1);
+    blockread(f,s[1],5);
+    for i:=1 to ord(s[5]) do begin
+      blockread(f,rgb[i],3);
+      rgb[i].r:=rgb[i].r shl 2+3;
+      rgb[i].g:=rgb[i].g shl 2+3;
+      rgb[i].b:=rgb[i].b shl 2+3;
+    end;
+    blockread(f,i,1); i:=byte(i); s:='';
+    while i>0 do begin
+      blockread(f,c,1);
+      s:=s+c;
+      dec(i);
+    end;
+    blockread(f,i,2);
+    for i:=pred(i) downto 0 do begin
+      blockread(f,c,1);
+      blockread(f,tablo[c],5);
+      with tablo[c] do
+        if w or h<>0 then begin
+          getmem(d,w*h);
+          blockread(f,d^,w*h);
+        end;
+    end;
+  end;
+*/
+GRRLIB_texImg my_texture;
+
+    int i, j = 0;
+    u8 lineheight;
+    u8 usedcolors, highestcolor;
+    short int sizeover, sizeunder, addspace, sizeinner, numcolpal, numchars;
+    u32 palette[64];
+    
+    lineheight = my_bmf[5];
+    sizeover = my_bmf[6];
+    sizeunder = my_bmf[7];
+    addspace = my_bmf[8];
+    sizeinner = my_bmf[9];
+    usedcolors = my_bmf[10];
+    highestcolor = my_bmf[11];
+    numcolpal = 3 * my_bmf[16];
+    for(i=0; i < numcolpal; i+=3)
+    {   // Font palette
+        palette[j++] = ((my_bmf[i+17]<<24) | (my_bmf[i+18]<<16) | (my_bmf[i+19]<<8) | 0xFF);
+    }
+    numchars = my_bmf[18 + numcolpal + my_bmf[17 + numcolpal]];
+
+    for(i=0; i < numchars; i++)
+    {   // Bitmap character definitions
+
+    }
+
+    return my_texture; // Need another kind of struct
+}
+
+/**
+ * Load a texture from a buffer.
  * @param my_img the JPEG or PNG buffer to load.
  * @return A GRRLIB_texImg structure filled with imgage informations.
  */
 GRRLIB_texImg GRRLIB_LoadTexture(const unsigned char my_img[]) {
 
-    if((my_img[0]==0xff) && (my_img[1]==0xd8) && (my_img[2]==0xff)) {
+    if(my_img[0]==0xFF && my_img[1]==0xD8 && my_img[2]==0xFF) {
         return(GRRLIB_LoadTextureJPG(my_img));
     }
-    else{
+    else if(my_img[0]==0xE1 && my_img[1]==0xE6 && my_img[2]==0xD5 && my_img[3]==0x1A) {
+        return GRRLIB_LoadTextureBMF(my_img);
+    }
+/*
+    else if(my_img[0]==0x42 && my_img[1]==0x4D) {
+        // Bitmap not supported
+    }
+*/
+    else {
         return(GRRLIB_LoadTexturePNG(my_img));
     }
-
-
 }
 
 /**
@@ -640,7 +717,6 @@ void GRRLIB_BMFX_Blur(GRRLIB_texImg texsrc, GRRLIB_texImg texdest, int factor) {
             GRRLIB_SetPixelTotexImg(x, y, texdest, (newr<<24) | (newg<<16) | (newb<<8) | newa);
         }
     }
-
 }
 
 /**
