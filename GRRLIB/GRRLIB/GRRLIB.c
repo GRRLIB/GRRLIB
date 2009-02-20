@@ -242,74 +242,117 @@ GRRLIB_texImg GRRLIB_LoadTextureJPG(const unsigned char my_jpg[]) {
 }
 
 /**
+ * Print formatted output.
+ * @param xpos
+ * @param ypos
+ * @param tex
+ * @param color
+ * @param zoom
+ * @param text
+ * @param ... Optional arguments.
+ */
+void GRRLIB_PrintBMF(f32 xpos, f32 ypos, GRRLIB_bytemapFont bmf, f32 zoom, const char *text, ...) {
+    unsigned int i, j, x, y, n, size;
+    char tmp[1024];
+
+    va_list argp;
+    va_start(argp, text);
+    size = vsprintf(tmp, text, argp);
+    va_end(argp);
+
+    GRRLIB_texImg tex_BMfont = GRRLIB_CreateEmptyTexture(800, 600);
+
+
+    for(i=0; i<size; i++) {
+        for(j=0; j<bmf.nbChar; j++) {
+            if(tmp[i] == bmf.charDef[j].character) {
+
+                n=0;
+                for(y=0; y<bmf.charDef[j].height; y++) {
+                    for(x=0; x<bmf.charDef[j].width; x++) {
+                        if(bmf.charDef[j].data[n]) {
+                            GRRLIB_SetPixelTotexImg(xpos + x, ypos + y, tex_BMfont,
+                                bmf.palette[bmf.charDef[j].data[n]]);
+                        }
+                        n++;
+                    }
+                }
+                xpos += bmf.charDef[j].width + 1;
+
+                break;
+            }
+        }
+    }
+    GRRLIB_FlushTex(tex_BMfont);
+
+    GRRLIB_DrawImg(0, 0, tex_BMfont, 0, 1, 1, 0xFFFFFFFF);
+
+
+    free(tex_BMfont.data);
+}
+
+/**
  * Load a texture from a buffer.
  * @param my_bmf the ByteMap font buffer to load.
- * @return A GRRLIB_texImg structure filled with BMF informations.
+ * @return A GRRLIB_bytemapFont structure filled with BMF informations.
  */
-GRRLIB_texImg GRRLIB_LoadTextureBMF(const unsigned char my_bmf[]) {
-/*
-  if s=BMFHEADER then begin
-    blockread(f,i,1);
-    blockread(f,lineheight,1);
-    blockread(f,sizeover,1);
-    blockread(f,sizeunder,1);
-    blockread(f,addspace,1);
-    blockread(f,sizeinner,1);
-    blockread(f,usedcolors,1);
-    blockread(f,highestcolor,1);
-    blockread(f,s[1],5);
-    for i:=1 to ord(s[5]) do begin
-      blockread(f,rgb[i],3);
-      rgb[i].r:=rgb[i].r shl 2+3;
-      rgb[i].g:=rgb[i].g shl 2+3;
-      rgb[i].b:=rgb[i].b shl 2+3;
-    end;
-    blockread(f,i,1); i:=byte(i); s:='';
-    while i>0 do begin
-      blockread(f,c,1);
-      s:=s+c;
-      dec(i);
-    end;
-    blockread(f,i,2);
-    for i:=pred(i) downto 0 do begin
-      blockread(f,c,1);
-      blockread(f,tablo[c],5);
-      with tablo[c] do
-        if w or h<>0 then begin
-          getmem(d,w*h);
-          blockread(f,d^,w*h);
-        end;
-    end;
-  end;
-*/
-GRRLIB_texImg my_texture;
+GRRLIB_bytemapFont GRRLIB_LoadTextureBMF(const unsigned char my_bmf[]) {
+    GRRLIB_bytemapFont fontArray;
+    fontArray.nbChar = 0;
+    fontArray.charDef = NULL;
 
-    int i, j = 0;
+    int i, j = 1;
     u8 lineheight;
     u8 usedcolors, highestcolor;
-    short int sizeover, sizeunder, addspace, sizeinner, numcolpal, numchars;
-    u32 palette[64];
-    
-    lineheight = my_bmf[5];
-    sizeover = my_bmf[6];
-    sizeunder = my_bmf[7];
-    addspace = my_bmf[8];
-    sizeinner = my_bmf[9];
-    usedcolors = my_bmf[10];
-    highestcolor = my_bmf[11];
-    numcolpal = 3 * my_bmf[16];
-    for(i=0; i < numcolpal; i+=3)
-    {   // Font palette
-        palette[j++] = ((my_bmf[i+17]<<24) | (my_bmf[i+18]<<16) | (my_bmf[i+19]<<8) | 0xFF);
+    short int sizeover, sizeunder, addspace, sizeinner, numcolpal;
+    u16 nbPixels;
+
+    if(my_bmf[0]==0xE1 && my_bmf[1]==0xE6 && my_bmf[2]==0xD5 && my_bmf[3]==0x1A) {
+        lineheight = my_bmf[5];
+        sizeover = my_bmf[6];
+        sizeunder = my_bmf[7];
+        addspace = my_bmf[8];
+        sizeinner = my_bmf[9];
+        usedcolors = my_bmf[10];
+        highestcolor = my_bmf[11];
+        numcolpal = 3 * my_bmf[16];
+        memset(fontArray.palette, 0, sizeof(*fontArray.palette));
+        for(i=0; i < numcolpal; i+=3)
+        {   // Font palette
+            fontArray.palette[j++] = ((my_bmf[i+17]<<24) | (my_bmf[i+18]<<16) | (my_bmf[i+19]<<8) | 0xFF);
+        }
+        j = 18 + numcolpal + my_bmf[17 + numcolpal];
+        fontArray.nbChar = (my_bmf[j] | my_bmf[j+1]<<8);
+        fontArray.charDef = (GRRLIB_bytemapChar *)calloc(fontArray.nbChar, sizeof(GRRLIB_bytemapChar));
+
+        j++;
+        for(i=0; i < fontArray.nbChar; i++) //fontArray.nbChar
+        {   // Bitmap character definitions
+            fontArray.charDef[i].character = my_bmf[++j];
+            fontArray.charDef[i].width = my_bmf[++j];
+            fontArray.charDef[i].height = my_bmf[++j];
+            fontArray.charDef[i].relx = my_bmf[++j];
+            fontArray.charDef[i].rely = my_bmf[++j];
+            fontArray.charDef[i].shift = my_bmf[++j];
+            nbPixels = fontArray.charDef[i].width * fontArray.charDef[i].height;
+            //fontArray.charDef[i].data = malloc(nbPixels);
+            fontArray.charDef[i].data = (u8 *)calloc(nbPixels, 8);
+            if(nbPixels && fontArray.charDef[i].data) {
+                memcpy(fontArray.charDef[i].data, &my_bmf[++j], nbPixels);
+                j += (nbPixels - 1);
+            }
+        }
     }
-    numchars = my_bmf[18 + numcolpal + my_bmf[17 + numcolpal]];
+    return fontArray;
+}
 
-    for(i=0; i < numchars; i++)
-    {   // Bitmap character definitions
+/**
+ * Free memory.
+ * @param bmf a GRRLIB_bytemapFont structure.
+ */
+void GRRLIB_FreeBMF(GRRLIB_bytemapFont bmf)
+{
 
-    }
-
-    return my_texture; // Need another kind of struct
 }
 
 /**
@@ -321,9 +364,6 @@ GRRLIB_texImg GRRLIB_LoadTexture(const unsigned char my_img[]) {
 
     if(my_img[0]==0xFF && my_img[1]==0xD8 && my_img[2]==0xFF) {
         return(GRRLIB_LoadTextureJPG(my_img));
-    }
-    else if(my_img[0]==0xE1 && my_img[1]==0xE6 && my_img[2]==0xD5 && my_img[3]==0x1A) {
-        return GRRLIB_LoadTextureBMF(my_img);
     }
 /*
     else if(my_img[0]==0x42 && my_img[1]==0x4D) {

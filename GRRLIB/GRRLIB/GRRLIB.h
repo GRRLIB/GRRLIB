@@ -33,6 +33,29 @@ typedef struct GRRLIB_texImg{
     void *data;             /**< pointer to the texture data. */
 } GRRLIB_texImg;
 
+/**
+ * Structure to hold the bytemap character informations.
+ */
+typedef struct GRRLIB_bytemapChar{
+    u8 character;    /**< Which character. */
+    u8 width;        /**< Character width. */
+    u8 height;       /**< Character height. */
+    u8 relx;         /**< Horizontal offset according to cursor (-128..127). */
+    u8 rely;         /**< Vertical offset according to cursor (-128..127). */
+    u8 shift;        /**< Horizontal cursor shift after drawing the character. */
+    u8 *data;        /**< Character data itself (uncompressed, 8 bits per pixel). */
+} GRRLIB_bytemapChar;
+
+/**
+ * Structure to hold the bytemap font informations.
+ */
+typedef struct GRRLIB_bytemapFont{
+    u32 palette[64];
+    u16 nbChar;
+    GRRLIB_bytemapChar *charDef;
+} GRRLIB_bytemapFont;
+
+
 extern Mtx GXmodelView2D;
 
 inline void GRRLIB_FillScreen(u32 color);
@@ -49,7 +72,8 @@ void GRRLIB_NGoneFilled(Vector v[], u32 color, long n);
 GRRLIB_texImg GRRLIB_CreateEmptyTexture(unsigned int, unsigned int);
 GRRLIB_texImg GRRLIB_LoadTexture(const unsigned char my_img[]);
 
-
+GRRLIB_bytemapFont GRRLIB_LoadTextureBMF(const unsigned char my_bmf[]);
+void GRRLIB_FreeBMF(GRRLIB_bytemapFont bmf);
 
 void GRRLIB_InitTileSet(struct GRRLIB_texImg *tex, unsigned int tilew, unsigned int tileh, unsigned int tilestart);
 
@@ -57,6 +81,7 @@ inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees,
 inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees, float scaleX, f32 scaleY, u32 color, int frame);
 
 void GRRLIB_Printf(f32 xpos, f32 ypos, GRRLIB_texImg tex, u32 color, f32 zoom, const char *text, ...);
+void GRRLIB_PrintBMF(f32 xpos, f32 ypos, GRRLIB_bytemapFont bmf, f32 zoom, const char *text, ...);
 
 bool GRRLIB_PtInRect(int hotx, int hoty, int hotw, int hoth, int wpadx, int wpady);
 bool GRRLIB_RectInRect(int rect1x, int rect1y, int rect1w, int rect1h, int rect2x, int rect2y, int rect2w, int rect2h);

@@ -72,7 +72,7 @@ int main() {
 
     GRRLIB_texImg tex_test_jpg = GRRLIB_LoadTexture(test_jpg);
 
-    GRRLIB_texImg tex_test_bmf = GRRLIB_LoadTexture(ocean);
+    GRRLIB_bytemapFont bmf_Font = GRRLIB_LoadTextureBMF(ocean);
 
     GRRLIB_texImg tex_sprite_png = GRRLIB_LoadTexture(sprite);
     GRRLIB_InitTileSet(&tex_sprite_png, 24, 32, 0);
@@ -162,6 +162,7 @@ int main() {
                 GRRLIB_Printf(left, top+300, tex_BMfont3, GRRLIB_WHITE, 1, "IR Y VALUE: %d", (int)ir1.y);
                 GRRLIB_Printf(left, top+350, tex_BMfont3, 0XFFFFFF50, 1, "TEXT WITH ALPHA");
                 GRRLIB_Printf(left, top+400, tex_BMfont5, GRRLIB_LIME, 1, "This font has the 128 ASCII characters");
+                GRRLIB_PrintBMF(left, top+420, bmf_Font, 1, "OCEAN");
         }
         GRRLIB_Printf(500, 27, tex_BMfont5, GRRLIB_WHITE, 1, "Current FPS: %d", FPS);
         GRRLIB_Render();
@@ -214,13 +215,13 @@ int main() {
     GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
     // Free some textures
     free(tex_test_jpg.data);
-    free(tex_test_bmf.data);
     free(tex_sprite_png.data);
     free(tex_BMfont1.data);
     free(tex_BMfont2.data);
     free(tex_BMfont3.data);
     free(tex_BMfont4.data);
     free(tex_BMfont5.data);
+    GRRLIB_FreeBMF(bmf_Font);
     return 0;
 }
 
