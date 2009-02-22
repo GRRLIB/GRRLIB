@@ -40,8 +40,8 @@ typedef struct GRRLIB_bytemapChar{
     u8 character;    /**< Which character. */
     u8 width;        /**< Character width. */
     u8 height;       /**< Character height. */
-    u8 relx;         /**< Horizontal offset according to cursor (-128..127). */
-    u8 rely;         /**< Vertical offset according to cursor (-128..127). */
+    s8 relx;         /**< Horizontal offset according to cursor (-128..127). */
+    s8 rely;         /**< Vertical offset according to cursor (-128..127). */
     u8 shift;        /**< Horizontal cursor shift after drawing the character. */
     u8 *data;        /**< Character data itself (uncompressed, 8 bits per pixel). */
 } GRRLIB_bytemapChar;
@@ -50,9 +50,12 @@ typedef struct GRRLIB_bytemapChar{
  * Structure to hold the bytemap font informations.
  */
 typedef struct GRRLIB_bytemapFont{
-    u32 palette[64];
-    u16 nbChar;
-    GRRLIB_bytemapChar *charDef;
+    u8 version;                     /**< Version . */
+    s8 addSpace;                    /**< Add-space after each char (-128..127). */
+    u32 *palette;                   /**< Font palette. */
+    char *name;                     /**< Font name. */
+    u16 nbChar;                     /**< Number of characters in font. */
+    GRRLIB_bytemapChar *charDef;    /**< List of bitmap character definitions. */
 } GRRLIB_bytemapFont;
 
 
@@ -72,7 +75,7 @@ void GRRLIB_NGoneFilled(Vector v[], u32 color, long n);
 GRRLIB_texImg GRRLIB_CreateEmptyTexture(unsigned int, unsigned int);
 GRRLIB_texImg GRRLIB_LoadTexture(const unsigned char my_img[]);
 
-GRRLIB_bytemapFont GRRLIB_LoadTextureBMF(const unsigned char my_bmf[]);
+GRRLIB_bytemapFont GRRLIB_LoadBMF(const unsigned char my_bmf[]);
 void GRRLIB_FreeBMF(GRRLIB_bytemapFont bmf);
 
 void GRRLIB_InitTileSet(struct GRRLIB_texImg *tex, unsigned int tilew, unsigned int tileh, unsigned int tilestart);
