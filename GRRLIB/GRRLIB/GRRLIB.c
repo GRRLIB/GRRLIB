@@ -260,8 +260,7 @@ void GRRLIB_PrintBMF(f32 xpos, f32 ypos, GRRLIB_bytemapFont bmf, f32 zoom, const
     size = vsprintf(tmp, text, argp);
     va_end(argp);
 
-    GRRLIB_texImg tex_BMfont = GRRLIB_CreateEmptyTexture(800, 600);
-
+    GRRLIB_texImg tex_BMfont = GRRLIB_CreateEmptyTexture(640, 480);
 
     for(i=0; i<size; i++) {
         for(j=0; j<bmf.nbChar; j++) {
@@ -409,7 +408,7 @@ GRRLIB_texImg GRRLIB_CreateEmptyTexture(unsigned int w, unsigned int h) {
  * @param scaleY
  * @param color
  */
-inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees, float scaleX, f32 scaleY, u32 color ) {
+inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees, float scaleX, f32 scaleY, u32 color) {
     GXTexObj texObj;
     u16 width, height;
     Mtx m, m1, m2, mv;
@@ -426,7 +425,7 @@ inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees,
     guMtxIdentity (m1);
     guMtxScaleApply(m1, m1, scaleX, scaleY, 1.0);
     Vector axis = (Vector) {0, 0, 1 };
-    guMtxRotAxisDeg (m2, &axis, degrees);
+    guMtxRotAxisDeg(m2, &axis, degrees);
     guMtxConcat(m2, m1, m);
 
     guMtxTransApply(m, m, xpos+width, ypos+height, 0);
@@ -491,7 +490,7 @@ inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees
     guMtxIdentity (m1);
     guMtxScaleApply(m1, m1, scaleX, scaleY, 1.0f);
     Vector axis = (Vector) {0, 0, 1 };
-    guMtxRotAxisDeg (m2, &axis, degrees);
+    guMtxRotAxisDeg(m2, &axis, degrees);
     guMtxConcat(m2, m1, m);
     guMtxTransApply(m, m, xpos+width, ypos+height, 0);
     guMtxConcat (GXmodelView2D, m, mv);
@@ -865,8 +864,7 @@ void GRRLIB_Init() {
     GX_Init(gp_fifo, DEFAULT_FIFO_SIZE);
 
     // clears the bg to color and clears the z buffer
-    GXColor background = { 0, 0, 0, 0xff };
-    GX_SetCopyClear (background, GX_MAX_Z24);
+    GX_SetCopyClear((GXColor){ 0, 0, 0, 0xff }, GX_MAX_Z24);
 
     // other gx setup
     yscale = GX_GetYScaleFactor(rmode->efbHeight, rmode->xfbHeight);
@@ -925,7 +923,7 @@ void GRRLIB_Init() {
  * Call this function after drawing.
  */
 void GRRLIB_Render() {
-    GX_DrawDone ();
+    GX_DrawDone();
 
     fb ^= 1;        // flip framebuffer
     GX_SetZMode(GX_TRUE, GX_LEQUAL, GX_TRUE);

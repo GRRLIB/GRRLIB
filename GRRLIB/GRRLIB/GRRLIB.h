@@ -50,7 +50,7 @@ typedef struct GRRLIB_bytemapChar{
  * Structure to hold the bytemap font informations.
  */
 typedef struct GRRLIB_bytemapFont{
-    u8 version;                     /**< Version . */
+    u8 version;                     /**< Version. */
     s8 addSpace;                    /**< Add-space after each char (-128..127). */
     u32 *palette;                   /**< Font palette. */
     char *name;                     /**< Font name. */
