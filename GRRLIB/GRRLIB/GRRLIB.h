@@ -40,8 +40,8 @@ typedef struct GRRLIB_bytemapChar{
     u8 character;    /**< Which character. */
     u8 width;        /**< Character width. */
     u8 height;       /**< Character height. */
-    s8 relx;         /**< Horizontal offset according to cursor (-128..127). */
-    s8 rely;         /**< Vertical offset according to cursor (-128..127). */
+    s8 relx;         /**< Horizontal offset according to cursor (-128 to 127). */
+    s8 rely;         /**< Vertical offset according to cursor (-128 to 127). */
     u8 shift;        /**< Horizontal cursor shift after drawing the character. */
     u8 *data;        /**< Character data itself (uncompressed, 8 bits per pixel). */
 } GRRLIB_bytemapChar;
@@ -51,7 +51,7 @@ typedef struct GRRLIB_bytemapChar{
  */
 typedef struct GRRLIB_bytemapFont{
     u8 version;                     /**< Version. */
-    s8 addSpace;                    /**< Add-space after each char (-128..127). */
+    s8 addSpace;                    /**< Add-space after each char (-128 to 127). */
     u32 *palette;                   /**< Font palette. */
     char *name;                     /**< Font name. */
     u16 nbChar;                     /**< Number of characters in font. */

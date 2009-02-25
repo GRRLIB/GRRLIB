@@ -87,7 +87,7 @@ inline void GRRLIB_Rectangle(f32 x, f32 y, f32 width, f32 height, u32 color, u8 
 }
 
 /**
- *
+ * Draw a polygon.
  * @param v
  * @param color
  * @param n
@@ -97,7 +97,7 @@ void GRRLIB_NGone(Vector v[], u32 color, long n) {
 }
 
 /**
- *
+ * Draw a filled polygon.
  * @param v
  * @param color
  * @param n
@@ -107,7 +107,7 @@ void GRRLIB_NGoneFilled(Vector v[], u32 color, long n) {
 }
 
 /**
- *
+ * Initialize a tile set.
  * @param tex
  * @param tilew
  * @param tileh
@@ -245,8 +245,7 @@ GRRLIB_texImg GRRLIB_LoadTextureJPG(const unsigned char my_jpg[]) {
  * Print formatted output.
  * @param xpos
  * @param ypos
- * @param tex
- * @param color
+ * @param bmf
  * @param zoom
  * @param text
  * @param ... Optional arguments.
@@ -520,12 +519,12 @@ inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees
 
 /**
  * Print formatted output.
- * @param xpos
- * @param ypos
- * @param tex
- * @param color
- * @param zoom
- * @param text
+ * @param xpos specifies the x-coordinate of the upper-left corner of the text.
+ * @param ypos specifies the y-coordinate of the upper-left corner of the text.
+ * @param tex texture containing the character set.
+ * @param color text color in RGBA format. The alpha channel is used to change the opacity of the text.
+ * @param zoom this is a factor by which the text size will be increase or decrease.
+ * @param text text to draw.
  * @param ... Optional arguments.
  */
 void GRRLIB_Printf(f32 xpos, f32 ypos, GRRLIB_texImg tex, u32 color, f32 zoom, const char *text, ...) {
@@ -559,14 +558,14 @@ bool GRRLIB_PtInRect(int hotx, int hoty, int hotw, int hoth, int wpadx, int wpad
 
 /**
  * Determines whether a specified rectangle lies within another rectangle.
- * @param rect1x
- * @param rect1y
- * @param rect1w
- * @param rect1h
- * @param rect2x
- * @param rect2y
- * @param rect2w
- * @param rect2h
+ * @param rect1x specifies the x-coordinate of the upper-left corner of the rectangle.
+ * @param rect1y specifies the y-coordinate of the upper-left corner of the rectangle.
+ * @param rect1w specifies the width of the rectangle.
+ * @param rect1h specifies the height of the rectangle.
+ * @param rect2x specifies the x-coordinate of the upper-left corner of the rectangle.
+ * @param rect2y specifies the y-coordinate of the upper-left corner of the rectangle.
+ * @param rect2w specifies the width of the rectangle.
+ * @param rect2h specifies the height of the rectangle.
  * @return If the specified rectangle lies within the other rectangle, the return value is true otherwise it's false.
  */
 bool GRRLIB_RectInRect(int rect1x, int rect1y, int rect1w, int rect1h, int rect2x, int rect2y, int rect2w, int rect2h) {
@@ -576,14 +575,14 @@ bool GRRLIB_RectInRect(int rect1x, int rect1y, int rect1w, int rect1h, int rect2
 
 /**
  * Determines whether a part of a specified rectangle lies on another rectangle.
- * @param rect1x
- * @param rect1y
- * @param rect1w
- * @param rect1h
- * @param rect2x
- * @param rect2y
- * @param rect2w
- * @param rect2h
+ * @param rect1x specifies the x-coordinate of the upper-left corner of the first rectangle.
+ * @param rect1y specifies the y-coordinate of the upper-left corner of the first rectangle.
+ * @param rect1w specifies the width of the first rectangle.
+ * @param rect1h specifies the height of the first rectangle.
+ * @param rect2x specifies the x-coordinate of the upper-left corner of the second rectangle.
+ * @param rect2y specifies the y-coordinate of the upper-left corner of the second rectangle.
+ * @param rect2w specifies the width of the second rectangle.
+ * @param rect2h specifies the height of the second rectangle.
  * @return If the specified rectangle lies on the other rectangle, the return value is true otherwise it's false.
  */
 bool GRRLIB_RectOnRect(int rect1x, int rect1y, int rect1w, int rect1h, int rect2x, int rect2y, int rect2w, int rect2h) {
