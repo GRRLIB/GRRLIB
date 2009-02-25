@@ -404,8 +404,8 @@ GRRLIB_texImg GRRLIB_CreateEmptyTexture(unsigned int w, unsigned int h) {
  * @param ypos specifies the y-coordinate of the upper-left corner.
  * @param tex texture to draw.
  * @param degrees angle of rotation.
- * @param scaleX
- * @param scaleY
+ * @param scaleX specifies the x-coordinate scale. -1 could be used for flipping the texture horizontally.
+ * @param scaleY specifies the y-coordinate scale. -1 could be used for flipping the texture vertically.
  * @param color
  */
 inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees, float scaleX, f32 scaleY, u32 color) {
@@ -459,12 +459,12 @@ inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees,
  * Draw a tile.
  * @param xpos specifies the x-coordinate of the upper-left corner.
  * @param ypos specifies the y-coordinate of the upper-left corner.
- * @param tex texture to draw.
+ * @param tex texture containing the tile to draw.
  * @param degrees angle of rotation.
- * @param scaleX
- * @param scaleY
+ * @param scaleX specifies the x-coordinate scale. -1 could be used for flipping the texture horizontally.
+ * @param scaleY specifies the y-coordinate scale. -1 could be used for flipping the texture vertically.
  * @param color
- * @param frame
+ * @param frame specifies the frame to draw.
  */
 inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees, float scaleX, f32 scaleY, u32 color, int frame) {
     GXTexObj texObj;
@@ -559,6 +559,15 @@ bool GRRLIB_PtInRect(int hotx, int hoty, int hotw, int hoth, int wpadx, int wpad
 
 /**
  * Determines whether a specified rectangle lies within another rectangle.
+ * @param rect1x
+ * @param rect1y
+ * @param rect1w
+ * @param rect1h
+ * @param rect2x
+ * @param rect2y
+ * @param rect2w
+ * @param rect2h
+ * @return If the specified rectangle lies within the other rectangle, the return value is true otherwise it's false.
  */
 bool GRRLIB_RectInRect(int rect1x, int rect1y, int rect1w, int rect1h, int rect2x, int rect2y, int rect2w, int rect2h) {
     return ((rect1x >= rect2x) && (rect1y >= rect2y) &&
@@ -567,6 +576,15 @@ bool GRRLIB_RectInRect(int rect1x, int rect1y, int rect1w, int rect1h, int rect2
 
 /**
  * Determines whether a part of a specified rectangle lies on another rectangle.
+ * @param rect1x
+ * @param rect1y
+ * @param rect1w
+ * @param rect1h
+ * @param rect2x
+ * @param rect2y
+ * @param rect2w
+ * @param rect2h
+ * @return If the specified rectangle lies on the other rectangle, the return value is true otherwise it's false.
  */
 bool GRRLIB_RectOnRect(int rect1x, int rect1y, int rect1w, int rect1h, int rect2x, int rect2y, int rect2w, int rect2h) {
     return (GRRLIB_PtInRect(rect1x, rect1y, rect1w, rect1h, rect2x, rect2y) ||
