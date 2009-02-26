@@ -23,14 +23,14 @@
  * Structure to hold the texture informations.
  */
 typedef struct GRRLIB_texImg{
-    unsigned int w;         /**< width of the texture. */
-    unsigned int h;         /**< height of the texture. */
-    unsigned int tilew;     /**< widht of a tile. */
-    unsigned int tileh;     /**< height of a tile. */
-    unsigned int nbtilew;   /**< number of tiles for the x axis. */
-    unsigned int nbtileh;   /**< number of tiles for the y axis. */
-    unsigned int tilestart; /**< offset for starting position. */
-    void *data;             /**< pointer to the texture data. */
+    unsigned int w;         /**< Width of the texture. */
+    unsigned int h;         /**< Height of the texture. */
+    unsigned int tilew;     /**< Widht of a tile. */
+    unsigned int tileh;     /**< Height of a tile. */
+    unsigned int nbtilew;   /**< Number of tiles for the x axis. */
+    unsigned int nbtileh;   /**< Number of tiles for the y axis. */
+    unsigned int tilestart; /**< Offset for starting position. */
+    void *data;             /**< Pointer to the texture data. */
 } GRRLIB_texImg;
 
 /**

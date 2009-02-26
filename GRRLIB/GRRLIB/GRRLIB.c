@@ -13,7 +13,7 @@
 #include "../lib/libjpeg/jpeglib.h"
 #include "GRRLIB.h"
 
-#define DEFAULT_FIFO_SIZE (256 * 1024)
+#define DEFAULT_FIFO_SIZE (256 * 1024) /**< GX fifo buffer size. */
 
 u32 fb = 0;
 static void *xfb[2] = {NULL, NULL};
@@ -36,7 +36,7 @@ inline void GRRLIB_FillScreen(u32 color) {
  * Draw a dot.
  * @param x specifies the x-coordinate of the dot.
  * @param y specifies the y-coordinate of the dot.
- * @param color the color of the dot.
+ * @param color the color of the dot in RGBA format.
  */
 inline void GRRLIB_Plot(f32 x, f32 y, u32 color) {
     Vector v[] = {{x,y,0.0f}};
@@ -60,7 +60,7 @@ void GRRLIB_NPlot(Vector v[], u32 color, long n) {
  * @param y1 start point for line for the y coordinate.
  * @param x2 end point for line for the x coordinate.
  * @param y2 end point for line for the x coordinate.
- * @param color line color.
+ * @param color line color in RGBA format.
  */
 inline void GRRLIB_Line(f32 x1, f32 y1, f32 x2, f32 y2, u32 color) {
     Vector v[] = {{x1,y1,0.0f}, {x2,y2,0.0f}};
@@ -74,7 +74,7 @@ inline void GRRLIB_Line(f32 x1, f32 y1, f32 x2, f32 y2, u32 color) {
  * @param y specifies the y-coordinate of the upper-left corner of the rectangle.
  * @param width the width of the rectangle.
  * @param height the height of the rectangle.
- * @param color the color of the rectangle.
+ * @param color the color of the rectangle in RGBA format.
  * @param filled true to fill the rectangle with a color.
  */
 inline void GRRLIB_Rectangle(f32 x, f32 y, f32 width, f32 height, u32 color, u8 filled) {
@@ -93,7 +93,7 @@ inline void GRRLIB_Rectangle(f32 x, f32 y, f32 width, f32 height, u32 color, u8 
 /**
  * Draw a polygon.
  * @param v
- * @param color
+ * @param color the color of the polygon in RGBA format.
  * @param n
  */
 void GRRLIB_NGone(Vector v[], u32 color, long n) {
@@ -103,7 +103,7 @@ void GRRLIB_NGone(Vector v[], u32 color, long n) {
 /**
  * Draw a filled polygon.
  * @param v
- * @param color
+ * @param color the color of the filled polygon in RGBA format.
  * @param n
  */
 void GRRLIB_NGoneFilled(Vector v[], u32 color, long n) {
@@ -112,16 +112,18 @@ void GRRLIB_NGoneFilled(Vector v[], u32 color, long n) {
 
 /**
  * Initialize a tile set.
- * @param tex
- * @param tilew
- * @param tileh
- * @param tilestart
+ * @param tex texture to initialize.
+ * @param tilew widht of the tile.
+ * @param tileh height of the tile.
+ * @param tilestart offset for starting position.
  */
 void GRRLIB_InitTileSet(struct GRRLIB_texImg *tex, unsigned int tilew, unsigned int tileh, unsigned int tilestart) {
     tex->tilew = tilew;
     tex->tileh = tileh;
-    tex->nbtilew = tex->w / tilew;
-    tex->nbtileh = tex->h / tileh;
+    if(tilew) // Avoid division by zero
+        tex->nbtilew = tex->w / tilew;
+    if(tileh) // Avoid division by zero
+        tex->nbtileh = tex->h / tileh;
     tex->tilestart = tilestart;
 }
 
@@ -369,7 +371,6 @@ void GRRLIB_FreeBMF(GRRLIB_bytemapFont bmf)
  * @return A GRRLIB_texImg structure filled with imgage informations.
  */
 GRRLIB_texImg GRRLIB_LoadTexture(const unsigned char my_img[]) {
-
     if(my_img[0]==0xFF && my_img[1]==0xD8 && my_img[2]==0xFF) {
         return(GRRLIB_LoadTextureJPG(my_img));
     }
@@ -601,7 +602,7 @@ bool GRRLIB_RectOnRect(int rect1x, int rect1y, int rect1w, int rect1h, int rect2
  * @param x specifies the x-coordinate of the pixel in the texture.
  * @param y specifies the y-coordinate of the pixel in the texture.
  * @param tex texture to get the color from.
- * @return The color of a pixel.
+ * @return The color of a pixel in RGBA format.
  */
 u32 GRRLIB_GetPixelFromtexImg(int x, int y, GRRLIB_texImg tex) {
     u8 *truc = (u8*)tex.data;
@@ -624,7 +625,7 @@ u32 GRRLIB_GetPixelFromtexImg(int x, int y, GRRLIB_texImg tex) {
  * @param x specifies the x-coordinate of the pixel in the texture.
  * @param y specifies the y-coordinate of the pixel in the texture.
  * @param tex texture to set the color to.
- * @param color the color of the pixel.
+ * @param color the color of the pixel in RGBA format.
  */
 void GRRLIB_SetPixelTotexImg(int x, int y, GRRLIB_texImg tex, u32 color) {
     u8 *truc = (u8*)tex.data;
