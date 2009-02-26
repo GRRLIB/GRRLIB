@@ -16,9 +16,13 @@
 #define DEFAULT_FIFO_SIZE (256 * 1024)
 
 u32 fb = 0;
-static void *xfb[2] = { NULL, NULL};
+static void *xfb[2] = {NULL, NULL};
 GXRModeObj *rmode;
 void *gp_fifo = NULL;
+
+static GRRLIB_texImg GRRLIB_LoadTextureJPG(const unsigned char my_jpg[]);
+static GRRLIB_texImg GRRLIB_LoadTexturePNG(const unsigned char my_png[]);
+static void RawTo4x4RGBA(const unsigned char *src, void *dst, const unsigned int width, const unsigned int height);
 
 /**
  * Clear screen with a specific color.
@@ -126,16 +130,16 @@ void GRRLIB_InitTileSet(struct GRRLIB_texImg *tex, unsigned int tilew, unsigned 
  * @param my_png the PNG buffer to load.
  * @return A GRRLIB_texImg structure filled with PNG informations.
  */
-GRRLIB_texImg GRRLIB_LoadTexturePNG(const unsigned char my_png[]) {
+static GRRLIB_texImg GRRLIB_LoadTexturePNG(const unsigned char my_png[]) {
     PNGUPROP imgProp;
     IMGCTX ctx;
     GRRLIB_texImg my_texture;
 
     ctx = PNGU_SelectImageFromBuffer(my_png);
-    PNGU_GetImageProperties (ctx, &imgProp);
-    my_texture.data = memalign (32, imgProp.imgWidth * imgProp.imgHeight * 4);
-    PNGU_DecodeTo4x4RGBA8 (ctx, imgProp.imgWidth, imgProp.imgHeight, my_texture.data, 255);
-    PNGU_ReleaseImageContext (ctx);
+    PNGU_GetImageProperties(ctx, &imgProp);
+    my_texture.data = memalign(32, imgProp.imgWidth * imgProp.imgHeight * 4);
+    PNGU_DecodeTo4x4RGBA8(ctx, imgProp.imgWidth, imgProp.imgHeight, my_texture.data, 255);
+    PNGU_ReleaseImageContext(ctx);
     my_texture.w = imgProp.imgWidth;
     my_texture.h = imgProp.imgHeight;
     GRRLIB_FlushTex(my_texture);
@@ -158,11 +162,11 @@ static void RawTo4x4RGBA(const unsigned char *src, void *dst, const unsigned int
     unsigned int gb;
     unsigned char *p = (unsigned char*)dst;
 
-    for (block = 0; block < height; block += 4) {
-        for (i = 0; i < width; i += 4) {
+    for(block = 0; block < height; block += 4) {
+        for(i = 0; i < width; i += 4) {
             /* Alpha and Red */
-            for (c = 0; c < 4; ++c) {
-                for (ar = 0; ar < 4; ++ar) {
+            for(c = 0; c < 4; ++c) {
+                for(ar = 0; ar < 4; ++ar) {
                     /* Alpha pixels */
                     *p++ = 255;
                     /* Red pixels */
@@ -171,8 +175,8 @@ static void RawTo4x4RGBA(const unsigned char *src, void *dst, const unsigned int
             }
 
             /* Green and Blue */
-            for (c = 0; c < 4; ++c) {
-                for (gb = 0; gb < 4; ++gb) {
+            for(c = 0; c < 4; ++c) {
+                for(gb = 0; gb < 4; ++gb) {
                     /* Green pixels */
                     *p++ = src[(((i + gb) + ((block + c) * width)) * 3) + 1];
                     /* Blue pixels */
@@ -190,7 +194,7 @@ static void RawTo4x4RGBA(const unsigned char *src, void *dst, const unsigned int
  * @param my_jpg the JPEG buffer to load.
  * @return A GRRLIB_texImg structure filled with PNG informations.
  */
-GRRLIB_texImg GRRLIB_LoadTextureJPG(const unsigned char my_jpg[]) {
+static GRRLIB_texImg GRRLIB_LoadTextureJPG(const unsigned char my_jpg[]) {
     struct jpeg_decompress_struct cinfo;
     struct jpeg_error_mgr jerr;
     GRRLIB_texImg my_texture;
@@ -216,9 +220,9 @@ GRRLIB_texImg GRRLIB_LoadTextureJPG(const unsigned char my_jpg[]) {
     JSAMPROW row_pointer[1];
     row_pointer[0] = (unsigned char*) malloc(cinfo.output_width * cinfo.num_components);
     size_t location = 0;
-    while (cinfo.output_scanline < cinfo.output_height) {
+    while(cinfo.output_scanline < cinfo.output_height) {
         jpeg_read_scanlines(&cinfo, row_pointer, 1);
-        for (i = 0; i < cinfo.image_width * cinfo.num_components; i++) {
+        for(i = 0; i < cinfo.image_width * cinfo.num_components; i++) {
             /* Put the decoded scanline into the tempBuffer */
             tempBuffer[ location++ ] = row_pointer[0][i];
         }
@@ -384,7 +388,7 @@ GRRLIB_texImg GRRLIB_CreateEmptyTexture(unsigned int w, unsigned int h) {
     unsigned int x, y;
     GRRLIB_texImg my_texture;
 
-    my_texture.data = memalign (32, h * w * 4);
+    my_texture.data = memalign(32, h * w * 4);
     my_texture.w = w;
     my_texture.h = h;
     // Initialize the texture
@@ -416,20 +420,20 @@ inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees,
     GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR, 0.0f, 0.0f, 0.0f, 0, 0, GX_ANISO_1);
     GX_LoadTexObj(&texObj, GX_TEXMAP0);
 
-    GX_SetTevOp (GX_TEVSTAGE0, GX_MODULATE);
-    GX_SetVtxDesc (GX_VA_TEX0, GX_DIRECT);
+    GX_SetTevOp(GX_TEVSTAGE0, GX_MODULATE);
+    GX_SetVtxDesc(GX_VA_TEX0, GX_DIRECT);
 
     width = tex.w * 0.5;
     height = tex.h * 0.5;
-    guMtxIdentity (m1);
+    guMtxIdentity(m1);
     guMtxScaleApply(m1, m1, scaleX, scaleY, 1.0);
     Vector axis = (Vector) {0, 0, 1 };
     guMtxRotAxisDeg(m2, &axis, degrees);
     guMtxConcat(m2, m1, m);
 
     guMtxTransApply(m, m, xpos+width, ypos+height, 0);
-    guMtxConcat (GXmodelView2D, m, mv);
-    GX_LoadPosMtxImm (mv, GX_PNMTX0);
+    guMtxConcat(GXmodelView2D, m, mv);
+    GX_LoadPosMtxImm(mv, GX_PNMTX0);
 
     GX_Begin(GX_QUADS, GX_VTXFMT0, 4);
     GX_Position3f32(-width, -height, 0);
@@ -448,10 +452,10 @@ inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees,
     GX_Color1u32(color);
     GX_TexCoord2f32(0, 1);
     GX_End();
-    GX_LoadPosMtxImm (GXmodelView2D, GX_PNMTX0);
+    GX_LoadPosMtxImm(GXmodelView2D, GX_PNMTX0);
 
-    GX_SetTevOp (GX_TEVSTAGE0, GX_PASSCLR);
-    GX_SetVtxDesc (GX_VA_TEX0, GX_NONE);
+    GX_SetTevOp(GX_TEVSTAGE0, GX_PASSCLR);
+    GX_SetVtxDesc(GX_VA_TEX0, GX_NONE);
 }
 
 /**
@@ -481,19 +485,19 @@ inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees
     GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR, 0.0f, 0.0f, 0.0f, 0, 0, GX_ANISO_1);
     GX_LoadTexObj(&texObj, GX_TEXMAP0);
 
-    GX_SetTevOp (GX_TEVSTAGE0, GX_MODULATE);
-    GX_SetVtxDesc (GX_VA_TEX0, GX_DIRECT);
+    GX_SetTevOp(GX_TEVSTAGE0, GX_MODULATE);
+    GX_SetVtxDesc(GX_VA_TEX0, GX_DIRECT);
 
     width = tex.tilew * 0.5f;
     height = tex.tileh * 0.5f;
-    guMtxIdentity (m1);
+    guMtxIdentity(m1);
     guMtxScaleApply(m1, m1, scaleX, scaleY, 1.0f);
     Vector axis = (Vector) {0, 0, 1 };
     guMtxRotAxisDeg(m2, &axis, degrees);
     guMtxConcat(m2, m1, m);
     guMtxTransApply(m, m, xpos+width, ypos+height, 0);
-    guMtxConcat (GXmodelView2D, m, mv);
-    GX_LoadPosMtxImm (mv, GX_PNMTX0);
+    guMtxConcat(GXmodelView2D, m, mv);
+    GX_LoadPosMtxImm(mv, GX_PNMTX0);
     GX_Begin(GX_QUADS, GX_VTXFMT0, 4);
     GX_Position3f32(-width, -height, 0);
     GX_Color1u32(color);
@@ -511,10 +515,10 @@ inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees
     GX_Color1u32(color);
     GX_TexCoord2f32(s1, t2);
     GX_End();
-    GX_LoadPosMtxImm (GXmodelView2D, GX_PNMTX0);
+    GX_LoadPosMtxImm(GXmodelView2D, GX_PNMTX0);
 
-    GX_SetTevOp (GX_TEVSTAGE0, GX_PASSCLR);
-    GX_SetVtxDesc (GX_VA_TEX0, GX_NONE);
+    GX_SetTevOp(GX_TEVSTAGE0, GX_PASSCLR);
+    GX_SetVtxDesc(GX_VA_TEX0, GX_NONE);
 }
 
 /**
@@ -738,8 +742,8 @@ void GRRLIB_BMFX_Blur(GRRLIB_texImg texsrc, GRRLIB_texImg texdest, int factor) {
     u32 colours[numba];
     u32 thiscol;
 
-    for (x = 0; x < texsrc.w; x++) {
-        for (y = 0; y < texsrc.h; y++) {
+    for(x = 0; x < texsrc.w; x++) {
+        for(y = 0; y < texsrc.h; y++) {
             newr = 0;
             newg = 0;
             newb = 0;
@@ -748,18 +752,18 @@ void GRRLIB_BMFX_Blur(GRRLIB_texImg texsrc, GRRLIB_texImg texdest, int factor) {
             tmp=0;
             thiscol = GRRLIB_GetPixelFromtexImg(x, y, texsrc);
 
-            for (k = x - factor; k <= x + factor; k++) {
-                for (l = y - factor; l <= y + factor; l++) {
-                    if (k < 0) { colours[tmp] = thiscol; }
-                    else if (k >= texsrc.w) { colours[tmp] = thiscol; }
-                    else if (l < 0) { colours[tmp] = thiscol; }
-                    else if (l >= texsrc.h) { colours[tmp] = thiscol; }
-                    else{ colours[tmp] = GRRLIB_GetPixelFromtexImg(k, l, texsrc); }
+            for(k = x - factor; k <= x + factor; k++) {
+                for(l = y - factor; l <= y + factor; l++) {
+                    if(k < 0) { colours[tmp] = thiscol; }
+                    else if(k >= texsrc.w) { colours[tmp] = thiscol; }
+                    else if(l < 0) { colours[tmp] = thiscol; }
+                    else if(l >= texsrc.h) { colours[tmp] = thiscol; }
+                    else { colours[tmp] = GRRLIB_GetPixelFromtexImg(k, l, texsrc); }
                     tmp++;
                 }
             }
 
-            for (tmp = 0; tmp < numba; tmp++) {
+            for(tmp = 0; tmp < numba; tmp++) {
                 newr += (colours[tmp] >> 24) & 0xFF;
                 newg += (colours[tmp] >> 16) & 0xFF;
                 newb += (colours[tmp] >> 8) & 0xFF;
@@ -861,7 +865,7 @@ void GRRLIB_Init() {
     rmode = VIDEO_GetPreferredMode(NULL);
     if(rmode == NULL)
         return;
-    VIDEO_Configure (rmode);
+    VIDEO_Configure(rmode);
     xfb[0] = (u32 *)MEM_K0_TO_K1(SYS_AllocateFramebuffer(rmode));
     xfb[1] = (u32 *)MEM_K0_TO_K1(SYS_AllocateFramebuffer(rmode));
     if(xfb[0] == NULL || xfb[1] == NULL)
@@ -892,7 +896,7 @@ void GRRLIB_Init() {
     GX_SetCopyFilter(rmode->aa, rmode->sample_pattern, GX_TRUE, rmode->vfilter);
     GX_SetFieldMode(rmode->field_rendering, ((rmode->viHeight==2*rmode->xfbHeight)?GX_ENABLE:GX_DISABLE));
 
-    if (rmode->aa)
+    if(rmode->aa)
         GX_SetPixelFmt(GX_PF_RGB565_Z16, GX_ZC_LINEAR);
     else
         GX_SetPixelFmt(GX_PF_RGB8_Z24, GX_ZC_LINEAR);
@@ -903,7 +907,7 @@ void GRRLIB_Init() {
     // setup the vertex descriptor
     // tells the flipper to expect direct data
     GX_ClearVtxDesc();
-    GX_InvVtxCache ();
+    GX_InvVtxCache();
     GX_InvalidateTexAll();
 
     GX_SetVtxDesc(GX_VA_TEX0, GX_NONE);
@@ -911,19 +915,19 @@ void GRRLIB_Init() {
     GX_SetVtxDesc(GX_VA_CLR0, GX_DIRECT);
 
 
-    GX_SetVtxAttrFmt (GX_VTXFMT0, GX_VA_POS, GX_POS_XYZ, GX_F32, 0);
-    GX_SetVtxAttrFmt (GX_VTXFMT0, GX_VA_CLR0, GX_CLR_RGBA, GX_RGBA8, 0);
+    GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_POS_XYZ, GX_F32, 0);
+    GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_CLR0, GX_CLR_RGBA, GX_RGBA8, 0);
     GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_TEX0, GX_TEX_ST, GX_F32, 0);
-    GX_SetZMode (GX_FALSE, GX_LEQUAL, GX_TRUE);
+    GX_SetZMode(GX_FALSE, GX_LEQUAL, GX_TRUE);
 
     GX_SetNumChans(1);
     GX_SetNumTexGens(1);
-    GX_SetTevOp (GX_TEVSTAGE0, GX_PASSCLR);
+    GX_SetTevOp(GX_TEVSTAGE0, GX_PASSCLR);
     GX_SetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, GX_TEXMAP0, GX_COLOR0A0);
     GX_SetTexCoordGen(GX_TEXCOORD0, GX_TG_MTX2x4, GX_TG_TEX0, GX_IDENTITY);
 
     guMtxIdentity(GXmodelView2D);
-    guMtxTransApply (GXmodelView2D, GXmodelView2D, 0.0F, 0.0F, -50.0F);
+    guMtxTransApply(GXmodelView2D, GXmodelView2D, 0.0F, 0.0F, -50.0F);
     GX_LoadPosMtxImm(GXmodelView2D, GX_PNMTX0);
 
     guOrtho(perspective,0, 479, 0, 639, 0, 300.0F);
