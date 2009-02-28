@@ -24,8 +24,6 @@ ChangeLog :
 
 * Color format change for ALL GRRLib function (now its RGBA) to fit to GX_Color format and use GX_Color1u32
 
-* Name Change GRRLIB_LoadTexture to GRRLIB_LoadTexturePNG
-
 * GRRLib introduce a new texture structure (easier to handle texture width, height, etc ...):
 	typedef struct GRRLIB_texImg{
 		unsigned int w;

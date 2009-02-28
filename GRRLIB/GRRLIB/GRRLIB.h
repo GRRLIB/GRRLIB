@@ -69,6 +69,7 @@ void GRRLIB_NPlot(Vector v[], u32 color, long n);
 inline void GRRLIB_Line(f32 x1, f32 y1, f32 x2, f32 y2, u32 color);
 
 inline void GRRLIB_Rectangle(f32 x, f32 y, f32 width, f32 height, u32 color, u8 filled);
+inline void GRRLIB_Circle(f32 x, f32 y, f32 radius, u32 color, u8 filled);
 void GRRLIB_NGone(Vector v[], u32 color, long n);
 void GRRLIB_NGoneFilled(Vector v[], u32 color, long n);
 

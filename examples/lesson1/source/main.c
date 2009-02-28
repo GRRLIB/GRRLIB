@@ -147,6 +147,7 @@ int main() {
                 GRRLIB_Line(100, 100, 350, 200, GRRLIB_SILVER);
                 GRRLIB_NGoneFilled(triangle, GRRLIB_GRAY, 3);
                 GRRLIB_Rectangle(left + 150, top + 150, 200, 200, 0x0000FFC8, 1); // Blue with alpha
+                GRRLIB_Circle(left + 300, top + 300, 50, GRRLIB_OLIVE, 1);
 
                 // Draw a yellow four pixel dot where the wiimote is pointing
                 GRRLIB_Plot(ir1.sx, ir1.sy, GRRLIB_YELLOW);

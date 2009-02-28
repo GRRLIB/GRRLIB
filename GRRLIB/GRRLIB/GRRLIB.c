@@ -9,6 +9,7 @@
 #include <malloc.h>
 #include <stdarg.h>
 #include <string.h>
+#include <math.h>
 #include "../lib/libpng/pngu/pngu.h"
 #include "../lib/libjpeg/jpeglib.h"
 #include "GRRLIB.h"
@@ -87,6 +88,37 @@ inline void GRRLIB_Rectangle(f32 x, f32 y, f32 width, f32 height, u32 color, u8 
     }
     else{
         GRRLIB_NGoneFilled(v, color, 4);
+    }
+}
+
+/**
+ * Draw a circle.
+ * @author Dark-Link
+ * @param x.
+ * @param y.
+ * @param radius the radius of the circle.
+ * @param color the color of the circle in RGBA format.
+ * @param filled true to fill the circle with a color.
+ */
+inline void GRRLIB_Circle(f32 x, f32 y, f32 radius, u32 color, u8 filled) {
+    Vector v[36];
+    u32 a;
+    f32 ra;
+    f32 G_DTOR = M_DTOR * 10;
+    
+    for (a = 0; a < 36; a++) {
+        ra = a * G_DTOR;
+
+        v[a].x = cos(ra) * radius + x;
+        v[a].y = sin(ra) * radius + y;
+        v[a].z = 0.0f;
+    }
+
+    if (!filled) {
+        GRRLIB_GXEngine(v, color, 36, GX_LINESTRIP);
+    }
+    else {
+        GRRLIB_GXEngine(v, color, 36, GX_TRIANGLEFAN);
     }
 }
 
