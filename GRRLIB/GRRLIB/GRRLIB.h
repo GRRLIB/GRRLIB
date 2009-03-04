@@ -1,5 +1,5 @@
 /*===========================================
-        GRRLIB (GX version) 3.0.5 alpha
+        GRRLIB (GX version) 4.0.0
         Code     : NoNameNo
         Additional Code : Crayon
         GX hints : RedShade

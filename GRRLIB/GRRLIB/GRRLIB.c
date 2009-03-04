@@ -1,5 +1,5 @@
 /*===========================================
-        GRRLIB (GX version) 3.0.5 alpha
+        GRRLIB (GX version) 4.0.0
         Code     : NoNameNo
         Additional Code : Crayon
         GX hints : RedShade
@@ -182,7 +182,7 @@ static GRRLIB_texImg GRRLIB_LoadTexturePNG(const unsigned char my_png[]) {
 
 /**
  * Convert a raw bmp (RGB, no alpha) to 4x4RGBA.
- * @author DrTwox
+ * @author DragonMinded
  * @param src
  * @param dst
  * @param width
