@@ -46,10 +46,10 @@ inline void GRRLIB_Plot(f32 x, f32 y, u32 color) {
 }
 
 /**
- *
- * @param v
- * @param color
- * @param n
+ * Draw an array of points.
+ * @param v array containing the points.
+ * @param color the color of the points in RGBA format.
+ * @param n number of points in the vector array.
  */
 void GRRLIB_NPlot(Vector v[], u32 color, long n) {
     GRRLIB_GXEngine(v, color, n, GX_POINTS);
@@ -93,9 +93,9 @@ inline void GRRLIB_Rectangle(f32 x, f32 y, f32 width, f32 height, u32 color, u8 
 
 /**
  * Draw a circle.
- * @author Dark-Link
- * @param x.
- * @param y.
+ * @author Dark_Link
+ * @param x
+ * @param y
  * @param radius the radius of the circle.
  * @param color the color of the circle in RGBA format.
  * @param filled true to fill the circle with a color.
@@ -285,7 +285,7 @@ static GRRLIB_texImg GRRLIB_LoadTextureJPG(const unsigned char my_jpg[]) {
  * @param ypos
  * @param bmf
  * @param zoom
- * @param text
+ * @param text text to draw.
  * @param ... Optional arguments.
  */
 void GRRLIB_PrintBMF(f32 xpos, f32 ypos, GRRLIB_bytemapFont bmf, f32 zoom, const char *text, ...) {
