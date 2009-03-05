@@ -14,6 +14,7 @@
  */
 
 #include <gccore.h>
+#include <ogc/conf.h>
 
 #ifdef __cplusplus
    extern "C" {
@@ -112,6 +113,8 @@ void GRRLIB_Init();
 void GRRLIB_Render();
 
 void GRRLIB_Exit();
+
+bool GRRLIB_ScrShot(const char*);
 
 #ifdef __cplusplus
    }

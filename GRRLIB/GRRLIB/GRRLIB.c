@@ -13,6 +13,7 @@
 #include "../lib/libpng/pngu/pngu.h"
 #include "../lib/libjpeg/jpeglib.h"
 #include "GRRLIB.h"
+#include <fat.h> 
 
 #define DEFAULT_FIFO_SIZE (256 * 1024) /**< GX fifo buffer size. */
 
@@ -898,6 +899,14 @@ void GRRLIB_Init() {
     rmode = VIDEO_GetPreferredMode(NULL);
     if(rmode == NULL)
         return;
+
+    /* Widescreen patch by CashMan's Productions (http://www.CashMan-Productions.fr.nf) */
+    if (CONF_GetAspectRatio() == CONF_ASPECT_16_9) 
+    {
+        rmode->viWidth = 678; 
+        rmode->viXOrigin = (VI_MAX_WIDTH_NTSC - 678)/2;
+    }
+
     VIDEO_Configure(rmode);
     xfb[0] = (u32 *)MEM_K0_TO_K1(SYS_AllocateFramebuffer(rmode));
     xfb[1] = (u32 *)MEM_K0_TO_K1(SYS_AllocateFramebuffer(rmode));
@@ -1007,4 +1016,22 @@ void GRRLIB_Exit() {
         free(gp_fifo);
         gp_fifo = NULL;
     }
+}
+
+/**
+ * Make a PNG screenshot on the SD card.
+ * @param File Name of the file to write.
+ * @return True if every thing worked, false otherwise.
+ */
+bool GRRLIB_ScrShot(const char* File)
+{
+    IMGCTX pngContext;
+    int ErrorCode = -1;
+
+    if(fatInitDefault() && (pngContext = PNGU_SelectImageFromDevice(File)))
+    {
+        ErrorCode = PNGU_EncodeFromYCbYCr(pngContext, 640, 480, xfb[fb], 0);
+        PNGU_ReleaseImageContext(pngContext);
+    }
+    return !ErrorCode;
 }
