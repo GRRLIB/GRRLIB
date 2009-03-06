@@ -14,7 +14,6 @@
  */
 
 #include <gccore.h>
-#include <ogc/conf.h>
 
 #ifdef __cplusplus
    extern "C" {
