@@ -952,7 +952,7 @@ void GRRLIB_Init() {
         return;
 
     VIDEO_SetNextFramebuffer(xfb[fb]);
-    VIDEO_SetBlack(FALSE);
+    VIDEO_SetBlack(true);
     VIDEO_Flush();
     VIDEO_WaitVSync();
     if (rmode->viTVMode&VI_NON_INTERLACE)
@@ -1018,6 +1018,7 @@ void GRRLIB_Init() {
     GX_SetAlphaUpdate(GX_TRUE);
 
     GX_SetCullMode(GX_CULL_NONE);
+    VIDEO_SetBlack(false);
 }
 
 /**
