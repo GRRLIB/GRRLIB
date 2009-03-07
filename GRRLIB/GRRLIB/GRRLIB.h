@@ -24,7 +24,7 @@
  * Structure to hold the current drawing settings.
  */
 typedef struct GRRLIB_drawSettings {
-    bool antialias;         /**< Flag for AntiAlias On/Off */
+    bool antialias;         /**< Flag for AntiAlias On/Off. */
 } GRRLIB_drawSettings;
 
 /**
@@ -33,10 +33,10 @@ typedef struct GRRLIB_drawSettings {
 typedef struct GRRLIB_texImg {
     unsigned int w;         /**< Width of the texture. */
     unsigned int h;         /**< Height of the texture. */
-    int handlex;            /**< handle x of the texture */
-    int handley;            /**< handle y of the texture */
-    int offsetx;            /**< offset x of the texture */
-    int offsety;            /**< offset y of the texture */
+    int handlex;            /**< handle x of the texture. */
+    int handley;            /**< handle y of the texture. */
+    int offsetx;            /**< offset x of the texture. */
+    int offsety;            /**< offset y of the texture. */
     unsigned int tilew;     /**< Widht of a tile. */
     unsigned int tileh;     /**< Height of a tile. */
     unsigned int nbtilew;   /**< Number of tiles for the x axis. */

@@ -14,7 +14,7 @@
 #include "../lib/libjpeg/jpeglib.h"
 #include "GRRLIB.h"
 #include <ogc/conf.h>
-#include <fat.h> 
+#include <fat.h>
 
 #define DEFAULT_FIFO_SIZE (256 * 1024) /**< GX fifo buffer size. */
 
@@ -32,7 +32,7 @@ static GRRLIB_drawSettings GRRLIB_Settings;
  * @param aa Set to true to enable AntiAliasing. (Default: Enabled)
  */
 void GRRLIB_SetAntiAliasing( bool aa ) {
-	GRRLIB_Settings.antialias = aa;
+    GRRLIB_Settings.antialias = aa;
 }
 
 /**
@@ -115,7 +115,7 @@ inline void GRRLIB_Circle(f32 x, f32 y, f32 radius, u32 color, u8 filled) {
     u32 a;
     f32 ra;
     f32 G_DTOR = M_DTOR * 10;
-    
+
     for (a = 0; a < 36; a++) {
         ra = a * G_DTOR;
 
@@ -333,7 +333,7 @@ void GRRLIB_PrintBMF(f32 xpos, f32 ypos, GRRLIB_bytemapFont bmf, f32 zoom, const
             }
         }
     }
-    
+
     GRRLIB_FlushTex(tex_BMfont);
     GRRLIB_DrawImg(0, 0, tex_BMfont, 0, 1, 1, 0xFFFFFFFF);
     free(tex_BMfont.data);
@@ -643,9 +643,8 @@ bool GRRLIB_RectOnRect(int rect1x, int rect1y, int rect1w, int rect1h, int rect2
         GRRLIB_PtInRect(rect1x, rect1y, rect1w, rect1h, rect2x, rect2y+rect2h));
 }
 
-
 /**
- * Clip the drawing area to an rectangle
+ * Clip the drawing area to an rectangle.
  * @param x The x-coordinate of the rectangle.
  * @param y The y-coordinate of the rectangle.
  * @param width The width of the rectangle.
@@ -657,7 +656,7 @@ void GRRLIB_ClipDrawing( int x, int y, int width, int height ) {
 }
 
 /**
- * Reset the clipping to normal
+ * Reset the clipping to normal.
  */
 void GRRLIB_ClipReset() {
     GX_SetClipMode( GX_CLIP_DISABLE );
@@ -667,8 +666,8 @@ void GRRLIB_ClipReset() {
 /**
  * Set a texture's X and Y handles. (e.g. for rotation)
  * @param tex The texture to set the handle on.
- * @param x The handle's x-coordinate
- * @param y The handle's y-coordinate
+ * @param x The handle's x-coordinate.
+ * @param y The handle's y-coordinate.
  */
 void GRRLIB_SetHandle( GRRLIB_texImg * tex, int x, int y ) {
     if (tex->tilew) {
@@ -692,7 +691,6 @@ void GRRLIB_SetMidHandle( GRRLIB_texImg * tex ) {
     tex->offsetx = 0;
     tex->offsety = 0;
 }
-
 
 /**
  * Return the color value of a pixel from a GRRLIB_texImg.
@@ -1095,7 +1093,7 @@ bool GRRLIB_ScrShot(const char* File)
     IMGCTX pngContext;
 
     if(fatInitDefault() && (pngContext = PNGU_SelectImageFromDevice(File))) {
-        ErrorCode = PNGU_EncodeFromYCbYCr(pngContext, 640, 480, xfb[fb], 0);
+        ErrorCode = PNGU_EncodeFromYCbYCr(pngContext, rmode->fbWidth, rmode->efbHeight, xfb[fb], 0);
         PNGU_ReleaseImageContext(pngContext);
     }
     return !ErrorCode;
