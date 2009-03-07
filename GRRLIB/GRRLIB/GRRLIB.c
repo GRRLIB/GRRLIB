@@ -23,8 +23,6 @@ static void *xfb[2] = {NULL, NULL};
 GXRModeObj *rmode;
 void *gp_fifo = NULL;
 
-static GRRLIB_texImg GRRLIB_LoadTextureJPG(const unsigned char my_jpg[]);
-static GRRLIB_texImg GRRLIB_LoadTexturePNG(const unsigned char my_png[]);
 static void RawTo4x4RGBA(const unsigned char *src, void *dst, const unsigned int width, const unsigned int height);
 
 /**
@@ -166,7 +164,7 @@ void GRRLIB_InitTileSet(struct GRRLIB_texImg *tex, unsigned int tilew, unsigned 
  * @param my_png the PNG buffer to load.
  * @return A GRRLIB_texImg structure filled with PNG informations.
  */
-static GRRLIB_texImg GRRLIB_LoadTexturePNG(const unsigned char my_png[]) {
+GRRLIB_texImg GRRLIB_LoadTexturePNG(const unsigned char my_png[]) {
     PNGUPROP imgProp;
     IMGCTX ctx;
     GRRLIB_texImg my_texture;
@@ -178,6 +176,7 @@ static GRRLIB_texImg GRRLIB_LoadTexturePNG(const unsigned char my_png[]) {
     PNGU_ReleaseImageContext(ctx);
     my_texture.w = imgProp.imgWidth;
     my_texture.h = imgProp.imgHeight;
+    GRRLIB_SetHandle( &my_texture, 0, 0 );
     GRRLIB_FlushTex(my_texture);
     return my_texture;
 }
@@ -230,7 +229,7 @@ static void RawTo4x4RGBA(const unsigned char *src, void *dst, const unsigned int
  * @param my_jpg the JPEG buffer to load.
  * @return A GRRLIB_texImg structure filled with PNG informations.
  */
-static GRRLIB_texImg GRRLIB_LoadTextureJPG(const unsigned char my_jpg[]) {
+GRRLIB_texImg GRRLIB_LoadTextureJPG(const unsigned char my_jpg[]) {
     struct jpeg_decompress_struct cinfo;
     struct jpeg_error_mgr jerr;
     GRRLIB_texImg my_texture;
@@ -276,6 +275,7 @@ static GRRLIB_texImg GRRLIB_LoadTextureJPG(const unsigned char my_jpg[]) {
 
     my_texture.w = cinfo.output_width;
     my_texture.h = cinfo.output_height;
+    GRRLIB_SetHandle( &my_texture, 0, 0 );
     GRRLIB_FlushTex(my_texture);
 
     return my_texture;
@@ -463,7 +463,7 @@ inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees,
     guMtxIdentity(m1);
     guMtxScaleApply(m1, m1, scaleX, scaleY, 1.0);
     Vector axis = (Vector) {0, 0, 1 };
-    guMtxRotAxisDeg(m2, &axis, degrees);
+    guMtxTransApply(m, m, xpos+width+tex.handlex-tex.offsetx+(scaleX*( -tex.handley*sin(-DegToRad(degrees)) - tex.handlex*cos(-DegToRad(degrees)) )), ypos+height+tex.handley-tex.offsety+(scaleX*( -tex.handley*cos(-DegToRad(degrees)) + tex.handlex*sin(-DegToRad(degrees)) )), 0);
     guMtxConcat(m2, m1, m);
 
     guMtxTransApply(m, m, xpos+width, ypos+height, 0);
@@ -630,6 +630,53 @@ bool GRRLIB_RectOnRect(int rect1x, int rect1y, int rect1w, int rect1h, int rect2
         GRRLIB_PtInRect(rect1x, rect1y, rect1w, rect1h, rect2x+rect2w, rect2y+rect2h) ||
         GRRLIB_PtInRect(rect1x, rect1y, rect1w, rect1h, rect2x, rect2y+rect2h));
 }
+
+
+/**
+ * Clips the drawing area to an rectangle
+ * @param x The x-coordinate of the rectangle.
+ * @param y The y-coordinate of the rectangle.
+ * @param width The width of the rectangle.
+ * @param height The height of the rectangle.
+ */
+void GRRLIB_ClipDrawing( int x, int y, int width, int height ) {
+    GX_SetClipMode( GX_CLIP_ENABLE );
+    GX_SetScissor( x, y, width, height );
+}
+
+/**
+ * Resets the clipping to normal
+ */
+void GRRLIB_ClipReset() {
+    GX_SetClipMode( GX_CLIP_DISABLE );
+    GX_SetScissor( 0, 0, rmode->fbWidth, rmode->efbHeight );
+}
+
+
+/**
+ * Sets a texture's X and Y handles. (e.g. for rotation)
+ * @param tex GRRLIB Texture
+ * @param x The handle's x-coordinate
+ * @param y The handle's y-coordinate
+ */
+void GRRLIB_SetHandle( GRRLIB_texImg * tex, int x, int y ) {
+    tex->handlex = -(tex->w/2) + x;
+    tex->handley = -(tex->h/2) + y;
+    tex->offsetx = x;
+    tex->offsety = y;
+}
+
+/**
+ * Centers a texture's handles. (e.g. for rotation)
+ * @param tex GRRLIB Texture
+ */
+void GRRLIB_SetMidHandle( GRRLIB_texImg * tex ) {
+	tex->handlex = 0;
+    tex->handley = 0;
+    tex->offsetx = 0;
+    tex->offsety = 0;
+}
+
 
 /**
  * Return the color value of a pixel from a GRRLIB_texImg.

@@ -25,6 +25,10 @@
 typedef struct GRRLIB_texImg{
     unsigned int w;         /**< Width of the texture. */
     unsigned int h;         /**< Height of the texture. */
+    int handlex;            /**< handle x of the texture */
+    int handley;            /**< handle y of the texture */
+    int offsetx;			/**< offset x of the texture */
+    int offsety;			/**< offset y of the texture */
     unsigned int tilew;     /**< Widht of a tile. */
     unsigned int tileh;     /**< Height of a tile. */
     unsigned int nbtilew;   /**< Number of tiles for the x axis. */
@@ -75,6 +79,8 @@ void GRRLIB_NGoneFilled(Vector v[], u32 color, long n);
 
 GRRLIB_texImg GRRLIB_CreateEmptyTexture(unsigned int, unsigned int);
 GRRLIB_texImg GRRLIB_LoadTexture(const unsigned char my_img[]);
+GRRLIB_texImg GRRLIB_LoadTextureJPG(const unsigned char my_jpg[]);
+GRRLIB_texImg GRRLIB_LoadTexturePNG(const unsigned char my_png[]);
 
 GRRLIB_bytemapFont GRRLIB_LoadBMF(const unsigned char my_bmf[]);
 void GRRLIB_FreeBMF(GRRLIB_bytemapFont bmf);
@@ -90,6 +96,12 @@ void GRRLIB_PrintBMF(f32 xpos, f32 ypos, GRRLIB_bytemapFont bmf, f32 zoom, const
 bool GRRLIB_PtInRect(int hotx, int hoty, int hotw, int hoth, int wpadx, int wpady);
 bool GRRLIB_RectInRect(int rect1x, int rect1y, int rect1w, int rect1h, int rect2x, int rect2y, int rect2w, int rect2h);
 bool GRRLIB_RectOnRect(int rect1x, int rect1y, int rect1w, int rect1h, int rect2x, int rect2y, int rect2w, int rect2h);
+
+void GRRLIB_ClipDrawing( int x, int y, int width, int height );
+void GRRLIB_ClipReset();
+
+void GRRLIB_SetHandle( GRRLIB_texImg * tex, int x, int y );
+void GRRLIB_SetMidHandle( GRRLIB_texImg * tex );
 
 u32 GRRLIB_GetPixelFromtexImg(int x, int y, GRRLIB_texImg tex);
 void GRRLIB_SetPixelTotexImg(int x, int y, GRRLIB_texImg tex, u32 color);
