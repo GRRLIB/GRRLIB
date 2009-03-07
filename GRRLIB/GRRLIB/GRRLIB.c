@@ -24,6 +24,16 @@ GXRModeObj *rmode;
 void *gp_fifo = NULL;
 
 static void RawTo4x4RGBA(const unsigned char *src, void *dst, const unsigned int width, const unsigned int height);
+static GRRLIB_drawSettings GRRLIB_Settings;
+
+
+/**
+ * Turn AntiAliasing on/off
+ * @param aa Set to true to enable AntiAliasing. (Default: Enabled)
+ */
+void GRRLIB_SetAntiAliasing( bool aa ) {
+	GRRLIB_Settings.antialias = aa;
+}
 
 /**
  * Clear screen with a specific color.
@@ -142,44 +152,6 @@ void GRRLIB_NGoneFilled(Vector v[], u32 color, long n) {
     GRRLIB_GXEngine(v, color, n, GX_TRIANGLEFAN);
 }
 
-/**
- * Initialize a tile set.
- * @param tex The texture to initialize.
- * @param tilew Width of the tile.
- * @param tileh Height of the tile.
- * @param tilestart Offset for starting position. (Used in fonts)
- */
-void GRRLIB_InitTileSet(struct GRRLIB_texImg *tex, unsigned int tilew, unsigned int tileh, unsigned int tilestart) {
-    tex->tilew = tilew;
-    tex->tileh = tileh;
-    if (tilew) // Avoid division by zero
-        tex->nbtilew = tex->w / tilew;
-    if (tileh) // Avoid division by zero
-        tex->nbtileh = tex->h / tileh;
-    tex->tilestart = tilestart;
-}
-
-/**
- * Load a texture from a buffer.
- * @param my_png the PNG buffer to load.
- * @return A GRRLIB_texImg structure filled with image informations.
- */
-GRRLIB_texImg GRRLIB_LoadTexturePNG(const unsigned char my_png[]) {
-    PNGUPROP imgProp;
-    IMGCTX ctx;
-    GRRLIB_texImg my_texture;
-
-    ctx = PNGU_SelectImageFromBuffer(my_png);
-    PNGU_GetImageProperties(ctx, &imgProp);
-    my_texture.data = memalign(32, imgProp.imgWidth * imgProp.imgHeight * 4);
-    PNGU_DecodeTo4x4RGBA8(ctx, imgProp.imgWidth, imgProp.imgHeight, my_texture.data, 255);
-    PNGU_ReleaseImageContext(ctx);
-    my_texture.w = imgProp.imgWidth;
-    my_texture.h = imgProp.imgHeight;
-    GRRLIB_SetHandle( &my_texture, 0, 0 );
-    GRRLIB_FlushTex(my_texture);
-    return my_texture;
-}
 
 /**
  * Convert a raw BMP (RGB, no alpha) to 4x4RGBA.
@@ -220,6 +192,46 @@ static void RawTo4x4RGBA(const unsigned char *src, void *dst, const unsigned int
             }
         } /* i */
     } /* block */
+}
+
+
+/**
+ * Initialize a tile set.
+ * @param tex The texture to initialize.
+ * @param tilew Width of the tile.
+ * @param tileh Height of the tile.
+ * @param tilestart Offset for starting position. (Used in fonts)
+ */
+void GRRLIB_InitTileSet(struct GRRLIB_texImg *tex, unsigned int tilew, unsigned int tileh, unsigned int tilestart) {
+    tex->tilew = tilew;
+    tex->tileh = tileh;
+    if (tilew) // Avoid division by zero
+        tex->nbtilew = tex->w / tilew;
+    if (tileh) // Avoid division by zero
+        tex->nbtileh = tex->h / tileh;
+    tex->tilestart = tilestart;
+}
+
+/**
+ * Load a texture from a buffer.
+ * @param my_png the PNG buffer to load.
+ * @return A GRRLIB_texImg structure filled with image informations.
+ */
+GRRLIB_texImg GRRLIB_LoadTexturePNG(const unsigned char my_png[]) {
+    PNGUPROP imgProp;
+    IMGCTX ctx;
+    GRRLIB_texImg my_texture;
+
+    ctx = PNGU_SelectImageFromBuffer(my_png);
+    PNGU_GetImageProperties(ctx, &imgProp);
+    my_texture.data = memalign(32, imgProp.imgWidth * imgProp.imgHeight * 4);
+    PNGU_DecodeTo4x4RGBA8(ctx, imgProp.imgWidth, imgProp.imgHeight, my_texture.data, 255);
+    PNGU_ReleaseImageContext(ctx);
+    my_texture.w = imgProp.imgWidth;
+    my_texture.h = imgProp.imgHeight;
+    GRRLIB_SetHandle( &my_texture, 0, 0 );
+    GRRLIB_FlushTex(my_texture);
+    return my_texture;
 }
 
 /**
@@ -450,7 +462,7 @@ inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees,
     Mtx m, m1, m2, mv;
 
     GX_InitTexObj(&texObj, tex.data, tex.w, tex.h, GX_TF_RGBA8, GX_CLAMP, GX_CLAMP, GX_FALSE);
-    GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR, 0.0f, 0.0f, 0.0f, 0, 0, GX_ANISO_1);
+    if (GRRLIB_Settings.antialias == false) { GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR, 0.0f, 0.0f, 0.0f, 0, 0, GX_ANISO_1); }
     GX_LoadTexObj(&texObj, GX_TEXMAP0);
 
     GX_SetTevOp(GX_TEVSTAGE0, GX_MODULATE);
@@ -466,24 +478,24 @@ inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees,
 
     guMtxTransApply(m, m, xpos+width+tex.handlex-tex.offsetx+(scaleX*( -tex.handley*sin(-DegToRad(degrees)) - tex.handlex*cos(-DegToRad(degrees)) )), ypos+height+tex.handley-tex.offsety+(scaleX*( -tex.handley*cos(-DegToRad(degrees)) + tex.handlex*sin(-DegToRad(degrees)) )), 0);
     guMtxConcat(GXmodelView2D, m, mv);
+
     GX_LoadPosMtxImm(mv, GX_PNMTX0);
-
     GX_Begin(GX_QUADS, GX_VTXFMT0, 4);
-    GX_Position3f32(-width, -height, 0);
-    GX_Color1u32(color);
-    GX_TexCoord2f32(0, 0);
-
-    GX_Position3f32(width, -height, 0);
-    GX_Color1u32(color);
-    GX_TexCoord2f32(1, 0);
-
-    GX_Position3f32(width, height, 0);
-    GX_Color1u32(color);
-    GX_TexCoord2f32(1, 1);
-
-    GX_Position3f32(-width, height, 0);
-    GX_Color1u32(color);
-    GX_TexCoord2f32(0, 1);
+        GX_Position3f32(-width, -height, 0);
+        GX_Color1u32(color);
+        GX_TexCoord2f32(0, 0);
+    
+        GX_Position3f32(width, -height, 0);
+        GX_Color1u32(color);
+        GX_TexCoord2f32(1, 0);
+    
+        GX_Position3f32(width, height, 0);
+        GX_Color1u32(color);
+        GX_TexCoord2f32(1, 1);
+    
+        GX_Position3f32(-width, height, 0);
+        GX_Color1u32(color);
+        GX_TexCoord2f32(0, 1);
     GX_End();
     GX_LoadPosMtxImm(GXmodelView2D, GX_PNMTX0);
 
@@ -515,7 +527,7 @@ inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees
     f32 t2 = (((int)(frame/tex.nbtilew)+1)/(f32)tex.nbtileh)-(FRAME_CORR/tex.h);
 
     GX_InitTexObj(&texObj, tex.data, tex.tilew*tex.nbtilew, tex.tileh*tex.nbtileh, GX_TF_RGBA8, GX_CLAMP, GX_CLAMP, GX_FALSE);
-    GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR, 0.0f, 0.0f, 0.0f, 0, 0, GX_ANISO_1);
+    if (GRRLIB_Settings.antialias == false) { GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR, 0.0f, 0.0f, 0.0f, 0, 0, GX_ANISO_1); }
     GX_LoadTexObj(&texObj, GX_TEXMAP0);
 
     GX_SetTevOp(GX_TEVSTAGE0, GX_MODULATE);
@@ -525,28 +537,30 @@ inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees
     height = tex.tileh * 0.5f;
     guMtxIdentity(m1);
     guMtxScaleApply(m1, m1, scaleX, scaleY, 1.0f);
+    
     Vector axis = (Vector) {0, 0, 1 };
     guMtxRotAxisDeg(m2, &axis, degrees);
     guMtxConcat(m2, m1, m);
-    guMtxTransApply(m, m, xpos+width, ypos+height, 0);
+    guMtxTransApply(m, m, xpos+width+tex.handlex-tex.offsetx+(scaleX*( -tex.handley*sin(-DegToRad(degrees)) - tex.handlex*cos(-DegToRad(degrees)) )), ypos+height+tex.handley-tex.offsety+(scaleX*( -tex.handley*cos(-DegToRad(degrees)) + tex.handlex*sin(-DegToRad(degrees)) )), 0);
     guMtxConcat(GXmodelView2D, m, mv);
+    
     GX_LoadPosMtxImm(mv, GX_PNMTX0);
     GX_Begin(GX_QUADS, GX_VTXFMT0, 4);
-    GX_Position3f32(-width, -height, 0);
-    GX_Color1u32(color);
-    GX_TexCoord2f32(s1, t1);
-
-    GX_Position3f32(width, -height,  0);
-    GX_Color1u32(color);
-    GX_TexCoord2f32(s2, t1);
-
-    GX_Position3f32(width, height,  0);
-    GX_Color1u32(color);
-    GX_TexCoord2f32(s2, t2);
-
-    GX_Position3f32(-width, height,  0);
-    GX_Color1u32(color);
-    GX_TexCoord2f32(s1, t2);
+        GX_Position3f32(-width, -height, 0);
+        GX_Color1u32(color);
+        GX_TexCoord2f32(s1, t1);
+    
+        GX_Position3f32(width, -height,  0);
+        GX_Color1u32(color);
+        GX_TexCoord2f32(s2, t1);
+    
+        GX_Position3f32(width, height,  0);
+        GX_Color1u32(color);
+        GX_TexCoord2f32(s2, t2);
+    
+        GX_Position3f32(-width, height,  0);
+        GX_Color1u32(color);
+        GX_TexCoord2f32(s1, t2);
     GX_End();
     GX_LoadPosMtxImm(GXmodelView2D, GX_PNMTX0);
 
@@ -657,8 +671,13 @@ void GRRLIB_ClipReset() {
  * @param y The handle's y-coordinate
  */
 void GRRLIB_SetHandle( GRRLIB_texImg * tex, int x, int y ) {
-    tex->handlex = -(tex->w/2) + x;
-    tex->handley = -(tex->h/2) + y;
+    if (tex->tilew) {
+        tex->handlex = -(tex->tilew/2) + x;
+        tex->handley = -(tex->tileh/2) + y;
+    } else {
+        tex->handlex = -(tex->w/2) + x;
+        tex->handley = -(tex->h/2) + y;
+    }
     tex->offsetx = x;
     tex->offsety = y;
 }
@@ -1019,6 +1038,9 @@ void GRRLIB_Init() {
 
     GX_SetCullMode(GX_CULL_NONE);
     VIDEO_SetBlack(false);
+    
+     // Default settings
+    GRRLIB_Settings.antialias = true;
 }
 
 /**

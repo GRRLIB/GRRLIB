@@ -19,10 +19,18 @@
    extern "C" {
 #endif /* __cplusplus */
 
+
+/**
+ * Structure to hold the current drawing settings.
+ */
+typedef struct GRRLIB_drawSettings {
+    bool antialias;         /**< Flag for AntiAlias On/Off */
+} GRRLIB_drawSettings;
+
 /**
  * Structure to hold the texture informations.
  */
-typedef struct GRRLIB_texImg{
+typedef struct GRRLIB_texImg {
     unsigned int w;         /**< Width of the texture. */
     unsigned int h;         /**< Height of the texture. */
     int handlex;            /**< handle x of the texture */
@@ -40,7 +48,7 @@ typedef struct GRRLIB_texImg{
 /**
  * Structure to hold the bytemap character informations.
  */
-typedef struct GRRLIB_bytemapChar{
+typedef struct GRRLIB_bytemapChar {
     u8 character;    /**< Which character. */
     u8 width;        /**< Character width. */
     u8 height;       /**< Character height. */
@@ -53,7 +61,7 @@ typedef struct GRRLIB_bytemapChar{
 /**
  * Structure to hold the bytemap font informations.
  */
-typedef struct GRRLIB_bytemapFont{
+typedef struct GRRLIB_bytemapFont {
     u8 version;                     /**< Version. */
     s8 addSpace;                    /**< Add-space after each char (-128 to 127). */
     u32 *palette;                   /**< Font palette. */
@@ -64,6 +72,8 @@ typedef struct GRRLIB_bytemapFont{
 
 
 extern Mtx GXmodelView2D;
+
+void GRRLIB_SetAntiAliasing( bool aa );
 
 inline void GRRLIB_FillScreen(u32 color);
 
