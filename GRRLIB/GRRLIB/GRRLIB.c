@@ -463,10 +463,10 @@ inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees,
     guMtxIdentity(m1);
     guMtxScaleApply(m1, m1, scaleX, scaleY, 1.0);
     Vector axis = (Vector) {0, 0, 1 };
-    guMtxTransApply(m, m, xpos+width+tex.handlex-tex.offsetx+(scaleX*( -tex.handley*sin(-DegToRad(degrees)) - tex.handlex*cos(-DegToRad(degrees)) )), ypos+height+tex.handley-tex.offsety+(scaleX*( -tex.handley*cos(-DegToRad(degrees)) + tex.handlex*sin(-DegToRad(degrees)) )), 0);
+    guMtxRotAxisDeg (m2, &axis, degrees);
     guMtxConcat(m2, m1, m);
 
-    guMtxTransApply(m, m, xpos+width, ypos+height, 0);
+    guMtxTransApply(m, m, xpos+width+tex.handlex-tex.offsetx+(scaleX*( -tex.handley*sin(-DegToRad(degrees)) - tex.handlex*cos(-DegToRad(degrees)) )), ypos+height+tex.handley-tex.offsety+(scaleX*( -tex.handley*cos(-DegToRad(degrees)) + tex.handlex*sin(-DegToRad(degrees)) )), 0);
     guMtxConcat(GXmodelView2D, m, mv);
     GX_LoadPosMtxImm(mv, GX_PNMTX0);
 
@@ -671,7 +671,7 @@ void GRRLIB_SetHandle( GRRLIB_texImg * tex, int x, int y ) {
  * @param tex GRRLIB Texture
  */
 void GRRLIB_SetMidHandle( GRRLIB_texImg * tex ) {
-	tex->handlex = 0;
+    tex->handlex = 0;
     tex->handley = 0;
     tex->offsetx = 0;
     tex->offsety = 0;
@@ -1019,7 +1019,7 @@ void GRRLIB_Init() {
     guMtxTransApply(GXmodelView2D, GXmodelView2D, 0.0F, 0.0F, -50.0F);
     GX_LoadPosMtxImm(GXmodelView2D, GX_PNMTX0);
 
-    guOrtho(perspective,0, 479, 0, 639, 0, 300.0F);
+    guOrtho(perspective, 0, rmode->efbHeight, 0, rmode->fbWidth, 0, 300.0f);
     GX_LoadProjectionMtx(perspective, GX_ORTHOGRAPHIC);
 
     GX_SetViewport(0, 0, rmode->fbWidth, rmode->efbHeight, 0, 1);
@@ -1048,6 +1048,10 @@ void GRRLIB_Render() {
  * Call this before exiting your application.
  */
 void GRRLIB_Exit() {
+    GX_SetClipMode( GX_CLIP_DISABLE );
+    GX_SetScissor( 0, 0, WinW, WinH );
+    GRRLIB_FillScreen( 0x000000FF );
+    GRRLIB_Render();
     GX_Flush();
     GX_AbortFrame();
 
