@@ -22,16 +22,16 @@ u32 fb = 0;
 static void *xfb[2] = {NULL, NULL};
 GXRModeObj *rmode;
 void *gp_fifo = NULL;
+static GRRLIB_drawSettings GRRLIB_Settings;
 
 static void RawTo4x4RGBA(const unsigned char *src, void *dst, const unsigned int width, const unsigned int height);
-static GRRLIB_drawSettings GRRLIB_Settings;
 
 
 /**
- * Turn AntiAliasing on/off
+ * Turn AntiAliasing on/off.
  * @param aa Set to true to enable AntiAliasing. (Default: Enabled)
  */
-void GRRLIB_SetAntiAliasing( bool aa ) {
+void GRRLIB_SetAntiAliasing(bool aa) {
     GRRLIB_Settings.antialias = aa;
 }
 
@@ -193,7 +193,6 @@ static void RawTo4x4RGBA(const unsigned char *src, void *dst, const unsigned int
         } /* i */
     } /* block */
 }
-
 
 /**
  * Initialize a tile set.
@@ -462,7 +461,9 @@ inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees,
     Mtx m, m1, m2, mv;
 
     GX_InitTexObj(&texObj, tex.data, tex.w, tex.h, GX_TF_RGBA8, GX_CLAMP, GX_CLAMP, GX_FALSE);
-    if (GRRLIB_Settings.antialias == false) { GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR, 0.0f, 0.0f, 0.0f, 0, 0, GX_ANISO_1); }
+    if (GRRLIB_Settings.antialias == false) {
+        GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR, 0.0f, 0.0f, 0.0f, 0, 0, GX_ANISO_1);
+    }
     GX_LoadTexObj(&texObj, GX_TEXMAP0);
 
     GX_SetTevOp(GX_TEVSTAGE0, GX_MODULATE);
@@ -484,15 +485,15 @@ inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees,
         GX_Position3f32(-width, -height, 0);
         GX_Color1u32(color);
         GX_TexCoord2f32(0, 0);
-    
+
         GX_Position3f32(width, -height, 0);
         GX_Color1u32(color);
         GX_TexCoord2f32(1, 0);
-    
+
         GX_Position3f32(width, height, 0);
         GX_Color1u32(color);
         GX_TexCoord2f32(1, 1);
-    
+
         GX_Position3f32(-width, height, 0);
         GX_Color1u32(color);
         GX_TexCoord2f32(0, 1);
@@ -527,7 +528,9 @@ inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees
     f32 t2 = (((int)(frame/tex.nbtilew)+1)/(f32)tex.nbtileh)-(FRAME_CORR/tex.h);
 
     GX_InitTexObj(&texObj, tex.data, tex.tilew*tex.nbtilew, tex.tileh*tex.nbtileh, GX_TF_RGBA8, GX_CLAMP, GX_CLAMP, GX_FALSE);
-    if (GRRLIB_Settings.antialias == false) { GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR, 0.0f, 0.0f, 0.0f, 0, 0, GX_ANISO_1); }
+    if (GRRLIB_Settings.antialias == false) {
+        GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR, 0.0f, 0.0f, 0.0f, 0, 0, GX_ANISO_1);
+    }
     GX_LoadTexObj(&texObj, GX_TEXMAP0);
 
     GX_SetTevOp(GX_TEVSTAGE0, GX_MODULATE);
@@ -537,27 +540,27 @@ inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees
     height = tex.tileh * 0.5f;
     guMtxIdentity(m1);
     guMtxScaleApply(m1, m1, scaleX, scaleY, 1.0f);
-    
+
     Vector axis = (Vector) {0, 0, 1 };
     guMtxRotAxisDeg(m2, &axis, degrees);
     guMtxConcat(m2, m1, m);
     guMtxTransApply(m, m, xpos+width+tex.handlex-tex.offsetx+(scaleX*( -tex.handley*sin(-DegToRad(degrees)) - tex.handlex*cos(-DegToRad(degrees)) )), ypos+height+tex.handley-tex.offsety+(scaleX*( -tex.handley*cos(-DegToRad(degrees)) + tex.handlex*sin(-DegToRad(degrees)) )), 0);
     guMtxConcat(GXmodelView2D, m, mv);
-    
+
     GX_LoadPosMtxImm(mv, GX_PNMTX0);
     GX_Begin(GX_QUADS, GX_VTXFMT0, 4);
         GX_Position3f32(-width, -height, 0);
         GX_Color1u32(color);
         GX_TexCoord2f32(s1, t1);
-    
+
         GX_Position3f32(width, -height,  0);
         GX_Color1u32(color);
         GX_TexCoord2f32(s2, t1);
-    
+
         GX_Position3f32(width, height,  0);
         GX_Color1u32(color);
         GX_TexCoord2f32(s2, t2);
-    
+
         GX_Position3f32(-width, height,  0);
         GX_Color1u32(color);
         GX_TexCoord2f32(s1, t2);
@@ -669,7 +672,7 @@ void GRRLIB_ClipReset() {
  * @param x The handle's x-coordinate.
  * @param y The handle's y-coordinate.
  */
-void GRRLIB_SetHandle( GRRLIB_texImg * tex, int x, int y ) {
+void GRRLIB_SetHandle(GRRLIB_texImg * tex, int x, int y) {
     if (tex->tilew) {
         tex->handlex = -(tex->tilew/2) + x;
         tex->handley = -(tex->tileh/2) + y;
@@ -685,7 +688,7 @@ void GRRLIB_SetHandle( GRRLIB_texImg * tex, int x, int y ) {
  * Center a texture's handles. (e.g. for rotation)
  * @param tex The texture to center.
  */
-void GRRLIB_SetMidHandle( GRRLIB_texImg * tex ) {
+void GRRLIB_SetMidHandle(GRRLIB_texImg * tex) {
     tex->handlex = 0;
     tex->handley = 0;
     tex->offsetx = 0;
@@ -820,7 +823,7 @@ void GRRLIB_BMFX_FlipV(GRRLIB_texImg texsrc, GRRLIB_texImg texdest) {
 }
 
 /**
- * A texture effect. (Blur)
+ * A texture effect (Blur).
  * @see GRRLIB_FlushTex
  * @param texsrc The texture source.
  * @param texdest The texture destination.
@@ -875,7 +878,7 @@ void GRRLIB_BMFX_Blur(GRRLIB_texImg texsrc, GRRLIB_texImg texdest, int factor) {
 }
 
 /**
- * A texture effect. (Pixelate)
+ * A texture effect (Pixelate).
  * @see GRRLIB_FlushTex
  * @param texsrc The texture source.
  * @param texdest The texture destination.
@@ -899,7 +902,7 @@ void GRRLIB_BMFX_Pixelate(GRRLIB_texImg texsrc, GRRLIB_texImg texdest, int facto
 }
 
 /**
- * A texture effect. (Scatter)
+ * A texture effect (Scatter).
  * @see GRRLIB_FlushTex
  * @param texsrc The texture source.
  * @param texdest The texture destination.
@@ -1036,7 +1039,7 @@ void GRRLIB_Init() {
 
     GX_SetCullMode(GX_CULL_NONE);
     VIDEO_SetBlack(false);
-    
+
      // Default settings
     GRRLIB_Settings.antialias = true;
 }

@@ -73,7 +73,7 @@ typedef struct GRRLIB_bytemapFont {
 
 extern Mtx GXmodelView2D;
 
-void GRRLIB_SetAntiAliasing( bool aa );
+void GRRLIB_SetAntiAliasing(bool aa);
 
 inline void GRRLIB_FillScreen(u32 color);
 
@@ -110,8 +110,8 @@ bool GRRLIB_RectOnRect(int rect1x, int rect1y, int rect1w, int rect1h, int rect2
 void GRRLIB_ClipDrawing( int x, int y, int width, int height );
 void GRRLIB_ClipReset();
 
-void GRRLIB_SetHandle( GRRLIB_texImg * tex, int x, int y );
-void GRRLIB_SetMidHandle( GRRLIB_texImg * tex );
+void GRRLIB_SetHandle(GRRLIB_texImg * tex, int x, int y);
+void GRRLIB_SetMidHandle(GRRLIB_texImg * tex);
 
 u32 GRRLIB_GetPixelFromtexImg(int x, int y, GRRLIB_texImg tex);
 void GRRLIB_SetPixelTotexImg(int x, int y, GRRLIB_texImg tex, u32 color);
