@@ -22,7 +22,9 @@ u32 fb = 0;
 static void *xfb[2] = {NULL, NULL};
 GXRModeObj *rmode;
 void *gp_fifo = NULL;
+
 static GRRLIB_drawSettings GRRLIB_Settings;
+static GRRLIB_linkedList *GRRLIB_ListImages;
 
 static void RawTo4x4RGBA(const unsigned char *src, void *dst, const unsigned int width, const unsigned int height);
 
@@ -40,7 +42,7 @@ void GRRLIB_SetAntiAliasing(bool aa) {
  * @return True if AntiAliasing is enabled.
  */
 bool GRRLIB_GetAntiAliasing() {
-	return GRRLIB_Settings.antialias;
+    return GRRLIB_Settings.antialias;
 }
 
 
@@ -49,40 +51,40 @@ bool GRRLIB_GetAntiAliasing() {
  * @param blendmode The blending mode to use (Default: GRRLIB_BLEND_ALPHA).
  */
 inline void GRRLIB_SetBlend( unsigned char blendmode ) {
-	GRRLIB_Settings.blend = blendmode;
-	switch (GRRLIB_Settings.blend) {
-    	case GRRLIB_BLEND_ALPHA:
-    		GX_SetBlendMode(GX_BM_BLEND, GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_CLEAR);
-    		break;
-    	case GRRLIB_BLEND_ADD:	// Some ugly lines around the drawn texture, needs to be fixed somehow.
-    		GX_SetBlendMode(GX_BM_BLEND, GX_BL_SRCALPHA, GX_BL_ONE, GX_LO_CLEAR);
-    		break;
-    	case GRRLIB_BLEND_SUB:	// Doesn't work really :/
-    		GX_SetBlendMode(GX_BM_SUBSTRACT, GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_CLEAR);
-    		break;
-    	case GRRLIB_BLEND_INV:	// Wrong alpha information.. need to be inverted.
-    		GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_EQUIV);
-    		break;
-    	
-    	/* Just for testing purpose, uncomment to use it.
-    	   Inverting seems to work with 13, it just uses the wrong alpha information. :/
-    	case 4: GX_SetBlendMode(GX_BM_BLEND, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_CLEAR); break;
-    	case 5: GX_SetBlendMode(GX_BM_SUBSTRACT, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_CLEAR); break;
-    	case 6: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_CLEAR); break;
-    	case 7: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_AND); break;
-    	case 8: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_REVAND); break;
-    	case 9: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_INVAND); break;
-    	case 10: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_XOR); break;
-    	case 11: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_OR); break;
-    	case 12: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_NOR); break;
-    	case 13: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_EQUIV); break;
-   		case 14: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_INV); break;
-   		case 15: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_REVOR); break;
-   		case 16: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_INVCOPY); break;
-  	 	case 17: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_INVOR); break;
-   		case 18: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_NAND); break;
-   		case 19: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_SET); break;
-   		*/
+    GRRLIB_Settings.blend = blendmode;
+    switch (GRRLIB_Settings.blend) {
+        case GRRLIB_BLEND_ALPHA:
+            GX_SetBlendMode(GX_BM_BLEND, GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_CLEAR);
+            break;
+        case GRRLIB_BLEND_ADD:    // Some ugly lines around the drawn texture, needs to be fixed somehow.
+            GX_SetBlendMode(GX_BM_BLEND, GX_BL_SRCALPHA, GX_BL_ONE, GX_LO_CLEAR);
+            break;
+        case GRRLIB_BLEND_SUB:    // Doesn't work really :/
+            GX_SetBlendMode(GX_BM_SUBSTRACT, GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_CLEAR);
+            break;
+        case GRRLIB_BLEND_INV:    // Wrong alpha information.. need to be inverted.
+            GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_EQUIV);
+            break;
+        
+        /* Just for testing purpose, uncomment to use it.
+           Inverting seems to work with 13, it just uses the wrong alpha information. :/
+        case 4: GX_SetBlendMode(GX_BM_BLEND, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_CLEAR); break;
+        case 5: GX_SetBlendMode(GX_BM_SUBSTRACT, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_CLEAR); break;
+        case 6: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_CLEAR); break;
+        case 7: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_AND); break;
+        case 8: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_REVAND); break;
+        case 9: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_INVAND); break;
+        case 10: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_XOR); break;
+        case 11: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_OR); break;
+        case 12: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_NOR); break;
+        case 13: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_EQUIV); break;
+           case 14: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_INV); break;
+           case 15: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_REVOR); break;
+           case 16: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_INVCOPY); break;
+           case 17: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_INVOR); break;
+           case 18: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_NAND); break;
+           case 19: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_SET); break;
+           */
     }
 }
 
@@ -91,7 +93,7 @@ inline void GRRLIB_SetBlend( unsigned char blendmode ) {
  * @return The current blending mode.
  */
 unsigned char GRRLIB_GetBlend() {
-	return GRRLIB_Settings.blend;
+    return GRRLIB_Settings.blend;
 }
 
 
@@ -288,8 +290,9 @@ GRRLIB_texImg GRRLIB_LoadTexturePNG(const unsigned char my_png[]) {
     PNGU_ReleaseImageContext(ctx);
     my_texture.w = imgProp.imgWidth;
     my_texture.h = imgProp.imgHeight;
+    GRRLIB_FlushTex( my_texture );
+    GRRLIB_ListAddTexture( &my_texture );
     GRRLIB_SetHandle( &my_texture, 0, 0 );
-    GRRLIB_FlushTex(my_texture);
     return my_texture;
 }
 
@@ -346,9 +349,9 @@ GRRLIB_texImg GRRLIB_LoadTextureJPG(const unsigned char my_jpg[]) {
 
     my_texture.w = cinfo.output_width;
     my_texture.h = cinfo.output_height;
-    GRRLIB_SetHandle( &my_texture, 0, 0 );
     GRRLIB_FlushTex(my_texture);
-
+    GRRLIB_ListAddTexture( &my_texture );
+    GRRLIB_SetHandle( &my_texture, 0, 0 );
     return my_texture;
 }
 
@@ -516,6 +519,7 @@ GRRLIB_texImg GRRLIB_CreateEmptyTexture(unsigned int w, unsigned int h) {
  * @param color Color in RGBA format.
  */
 inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees, float scaleX, f32 scaleY, u32 color) {
+    if (!tex.data) { return; }
     GXTexObj texObj;
     u16 width, height;
     Mtx m, m1, m2, mv;
@@ -525,8 +529,8 @@ inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees,
         GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR, 0.0f, 0.0f, 0.0f, 0, 0, GX_ANISO_1);
     }
     GX_LoadTexObj(&texObj, GX_TEXMAP0);
-	
-   	GX_SetTevOp(GX_TEVSTAGE0, GX_MODULATE);
+    
+       GX_SetTevOp(GX_TEVSTAGE0, GX_MODULATE);
     GX_SetVtxDesc(GX_VA_TEX0, GX_DIRECT);
 
     width = tex.w * 0.5;
@@ -566,9 +570,9 @@ inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees,
 
 /**
  * Draw a textured quad.
- * @param pos vector array of the 4 points
- * @param tex texture to draw.
- * @param color
+ * @param pos Vector array of the 4 points.
+ * @param tex The texture to draw.
+ * @param color Color in RGBA format.
  */
 inline void GRRLIB_DrawImgQuad(Vector pos[4], GRRLIB_texImg tex, u32 color) {
     GXTexObj texObj;
@@ -1151,8 +1155,9 @@ void GRRLIB_Init() {
     GX_SetCullMode(GX_CULL_NONE);
     VIDEO_SetBlack(false);
 
-     // Default settings
+    // Default settings
     GRRLIB_Settings.antialias = true;
+    GRRLIB_ListImages = NULL;
 }
 
 /**
@@ -1211,4 +1216,69 @@ bool GRRLIB_ScrShot(const char* File)
         PNGU_ReleaseImageContext(pngContext);
     }
     return !ErrorCode;
+}
+
+
+/**
+ * Add a GRRLIB texture into the list.
+ * @param img The texture to add.
+ */
+void GRRLIB_ListAddTexture( GRRLIB_texImg *img ) {
+    GRRLIB_linkedList *temp = malloc(sizeof(GRRLIB_linkedList));
+    if (newList == NULL) { return; }
+    
+    temp->next = *&GRRLIB_ListImages;
+    temp->texture = img;
+    *&GRRLIB_ListImages = temp;
+}
+
+/**
+ * Delete an list entry containing the pointer of a texture.
+ * @param img The texture to delete.
+ */
+bool GRRLIB_ListDelTexture( GRRLIB_texImg *img ) {
+    GRRLIB_linkedList *temp = GRRLIB_ListImages;
+    
+    if (!temp) { return false; } // List is empty.
+    while ( temp->next ) {
+        if (temp->texture == img) {      // <- Doesn't really work, need to find another way. :x
+            return true;
+            //free(img->data);
+            //free(img);
+            //GRRLIB_ListRemove( &temp );
+            //return true;
+        }
+        temp = temp->next;
+    }
+    
+    return false;
+}
+
+/**
+ * Removes an entry of an Array List.
+ * @param list The pointer to a list.
+ */
+void GRRLIB_ListRemove( GRRLIB_linkedList **list ) {
+    if (list) {
+        GRRLIB_linkedList *temp = *list;
+        *list = (*list)->next;
+        free(temp);
+    }
+}
+
+/**
+ * Just for testing purposes.
+ * Loops through all members of an Array List.
+ */
+unsigned int GRRLIB_ListGetTextureEntries() {
+    unsigned int cnt = 0;
+    GRRLIB_linkedList *temp = GRRLIB_ListImages;
+    
+    if (!temp) { return 0; } // List is empty.
+    while ( temp->next ) {
+        cnt = cnt + 1;
+        temp = temp->next;
+    }
+    
+    return cnt;
 }
