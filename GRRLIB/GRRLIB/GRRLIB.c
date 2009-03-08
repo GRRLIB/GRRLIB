@@ -565,6 +565,57 @@ inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees,
 }
 
 /**
+ * Draw a textured quad.
+ * @param pos vector array of the 4 points
+ * @param tex texture to draw.
+ * @param color
+ */
+inline void GRRLIB_DrawImgQuad(Vector pos[4], GRRLIB_texImg tex, u32 color) {
+    GXTexObj texObj;
+    Mtx m, m1, m2, mv;
+
+    GX_InitTexObj(&texObj, tex.data, tex.w, tex.h, GX_TF_RGBA8, GX_CLAMP, GX_CLAMP, GX_FALSE);
+    if (GRRLIB_Settings.antialias == false) {
+        GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR, 0.0f, 0.0f, 0.0f, 0, 0, GX_ANISO_1);
+    }
+    GX_LoadTexObj(&texObj, GX_TEXMAP0);
+    
+    GX_SetTevOp(GX_TEVSTAGE0, GX_MODULATE);
+    GX_SetVtxDesc(GX_VA_TEX0, GX_DIRECT);
+
+    guMtxIdentity(m1);
+    guMtxScaleApply(m1, m1, 1, 1, 1.0);
+    Vector axis = (Vector) {0, 0, 1 };
+    guMtxRotAxisDeg (m2, &axis, 0);
+    guMtxConcat(m2, m1, m);
+
+    guMtxConcat(GXmodelView2D, m, mv);
+
+    GX_LoadPosMtxImm(mv, GX_PNMTX0);
+    GX_Begin(GX_QUADS, GX_VTXFMT0, 4);
+        GX_Position3f32(pos[0].x, pos[0].y, 0);
+        GX_Color1u32(color);
+        GX_TexCoord2f32(0, 0);
+
+        GX_Position3f32(pos[1].x, pos[1].y, 0);
+        GX_Color1u32(color);
+        GX_TexCoord2f32(1, 0);
+
+        GX_Position3f32(pos[2].x, pos[2].y, 0);
+        GX_Color1u32(color);
+        GX_TexCoord2f32(1, 1);
+
+        GX_Position3f32(pos[3].x, pos[3].y, 0);
+        GX_Color1u32(color);
+        GX_TexCoord2f32(0, 1);
+    GX_End();
+    GX_LoadPosMtxImm(GXmodelView2D, GX_PNMTX0);
+
+    GX_SetTevOp(GX_TEVSTAGE0, GX_PASSCLR);
+    GX_SetVtxDesc(GX_VA_TEX0, GX_NONE);
+}
+
+/**
  * Draw a tile.
  * @param xpos Specifies the x-coordinate of the upper-left corner.
  * @param ypos Specifies the y-coordinate of the upper-left corner.
