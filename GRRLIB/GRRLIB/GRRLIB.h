@@ -21,10 +21,23 @@
 
 
 /**
+ * GRRLIB Blending Modes
+ */
+#define GRRLIB_BLEND_ALPHA	0		/**< Alpha Blending */
+#define GRRLIB_BLEND_ADD	1		/**< Additive Blending */
+#define GRRLIB_BLEND_SUB	2		/**< Subtractive Blending */
+#define GRRLIB_BLEND_INV	3		/**< Invertive Blending */
+#define GRRLIB_BLEND_NONE	GRRLIB_BLEND_ALPHA
+#define GRRLIB_BLEND_LIGHT	GRRLIB_BLEND_ADD
+#define GRRLIB_BLEND_SHADE	GRRLIB_BLEND_SUB
+
+
+/**
  * Structure to hold the current drawing settings.
  */
 typedef struct GRRLIB_drawSettings {
     bool antialias;         /**< Flag for AntiAlias On/Off. */
+    unsigned char blend;	/**< Blending Mode */
 } GRRLIB_drawSettings;
 
 /**
@@ -74,6 +87,11 @@ typedef struct GRRLIB_bytemapFont {
 extern Mtx GXmodelView2D;
 
 void GRRLIB_SetAntiAliasing(bool aa);
+bool GRRLIB_GetAntiAliasing();
+
+inline void GRRLIB_SetBlend( unsigned char blendmode );
+unsigned char GRRLIB_GetBlend();
+
 
 inline void GRRLIB_FillScreen(u32 color);
 

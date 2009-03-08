@@ -29,11 +29,71 @@ static void RawTo4x4RGBA(const unsigned char *src, void *dst, const unsigned int
 
 /**
  * Turn AntiAliasing on/off.
- * @param aa Set to true to enable AntiAliasing. (Default: Enabled)
+ * @param aa Set to true to enable AntiAliasing (Default: Enabled).
  */
 void GRRLIB_SetAntiAliasing(bool aa) {
     GRRLIB_Settings.antialias = aa;
 }
+
+/**
+ * Get current AntiAliasing setting.
+ * @return True if AntiAliasing is enabled.
+ */
+bool GRRLIB_GetAntiAliasing() {
+	return GRRLIB_Settings.antialias;
+}
+
+
+/**
+ * Set a blending mode.
+ * @param blendmode The blending mode to use (Default: GRRLIB_BLEND_ALPHA).
+ */
+inline void GRRLIB_SetBlend( unsigned char blendmode ) {
+	GRRLIB_Settings.blend = blendmode;
+	switch (GRRLIB_Settings.blend) {
+    	case GRRLIB_BLEND_ALPHA:
+    		GX_SetBlendMode(GX_BM_BLEND, GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_CLEAR);
+    		break;
+    	case GRRLIB_BLEND_ADD:	// Some ugly lines around the drawn texture, needs to be fixed somehow.
+    		GX_SetBlendMode(GX_BM_BLEND, GX_BL_SRCALPHA, GX_BL_ONE, GX_LO_CLEAR);
+    		break;
+    	case GRRLIB_BLEND_SUB:	// Doesn't work really :/
+    		GX_SetBlendMode(GX_BM_SUBSTRACT, GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_CLEAR);
+    		break;
+    	case GRRLIB_BLEND_INV:	// Wrong alpha information.. need to be inverted.
+    		GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_EQUIV);
+    		break;
+    	
+    	/* Just for testing purpose, uncomment to use it.
+    	   Inverting seems to work with 13, it just uses the wrong alpha information. :/
+    	case 4: GX_SetBlendMode(GX_BM_BLEND, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_CLEAR); break;
+    	case 5: GX_SetBlendMode(GX_BM_SUBSTRACT, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_CLEAR); break;
+    	case 6: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_CLEAR); break;
+    	case 7: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_AND); break;
+    	case 8: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_REVAND); break;
+    	case 9: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_INVAND); break;
+    	case 10: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_XOR); break;
+    	case 11: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_OR); break;
+    	case 12: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_NOR); break;
+    	case 13: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_EQUIV); break;
+   		case 14: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_INV); break;
+   		case 15: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_REVOR); break;
+   		case 16: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_INVCOPY); break;
+  	 	case 17: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_INVOR); break;
+   		case 18: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_NAND); break;
+   		case 19: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_SET); break;
+   		*/
+    }
+}
+
+/**
+ * Get the current blending mode.
+ * @return The current blending mode.
+ */
+unsigned char GRRLIB_GetBlend() {
+	return GRRLIB_Settings.blend;
+}
+
 
 /**
  * Clear screen with a specific color.
@@ -199,7 +259,7 @@ static void RawTo4x4RGBA(const unsigned char *src, void *dst, const unsigned int
  * @param tex The texture to initialize.
  * @param tilew Width of the tile.
  * @param tileh Height of the tile.
- * @param tilestart Offset for starting position. (Used in fonts)
+ * @param tilestart Offset for starting position (Used in fonts).
  */
 void GRRLIB_InitTileSet(struct GRRLIB_texImg *tex, unsigned int tilew, unsigned int tileh, unsigned int tilestart) {
     tex->tilew = tilew;
@@ -465,8 +525,8 @@ inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees,
         GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR, 0.0f, 0.0f, 0.0f, 0, 0, GX_ANISO_1);
     }
     GX_LoadTexObj(&texObj, GX_TEXMAP0);
-
-    GX_SetTevOp(GX_TEVSTAGE0, GX_MODULATE);
+	
+   	GX_SetTevOp(GX_TEVSTAGE0, GX_MODULATE);
     GX_SetVtxDesc(GX_VA_TEX0, GX_DIRECT);
 
     width = tex.w * 0.5;
@@ -667,7 +727,7 @@ void GRRLIB_ClipReset() {
 }
 
 /**
- * Set a texture's X and Y handles. (e.g. for rotation)
+ * Set a texture's X and Y handles (e.g. for rotation).
  * @param tex The texture to set the handle on.
  * @param x The handle's x-coordinate.
  * @param y The handle's y-coordinate.
@@ -685,7 +745,7 @@ void GRRLIB_SetHandle(GRRLIB_texImg * tex, int x, int y) {
 }
 
 /**
- * Center a texture's handles. (e.g. for rotation)
+ * Center a texture's handles (e.g. for rotation).
  * @param tex The texture to center.
  */
 void GRRLIB_SetMidHandle(GRRLIB_texImg * tex) {
