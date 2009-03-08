@@ -66,6 +66,23 @@ inline void GRRLIB_SetBlend( unsigned char blendmode ) {
             GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_EQUIV);
             break;
         
+        case 4:  GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_EQUIV); break;
+        case 5:  GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_BL_SRCALPHA, GX_LO_EQUIV); break;
+        case 6:  GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_EQUIV); break;
+        case 7:  GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_BL_DSTALPHA, GX_LO_EQUIV); break;
+        case 8:  GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_BL_INVDSTALPHA, GX_LO_EQUIV); break;
+        case 9:  GX_SetBlendMode(GX_BM_LOGIC, GX_BL_INVSRCALPHA, GX_LO_CLEAR, GX_LO_EQUIV); break;
+        case 10: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_INVSRCALPHA, GX_BL_SRCALPHA, GX_LO_EQUIV); break;
+        case 11: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_INVSRCALPHA, GX_BL_INVSRCALPHA, GX_LO_EQUIV); break;
+        case 12: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_INVSRCALPHA, GX_BL_DSTALPHA, GX_LO_EQUIV); break;
+        case 13: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_INVSRCALPHA, GX_BL_INVDSTALPHA, GX_LO_EQUIV); break;
+        case 14: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_DSTALPHA, GX_LO_CLEAR, GX_LO_EQUIV); break;
+        case 15: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_DSTALPHA, GX_BL_SRCALPHA, GX_LO_EQUIV); break;
+        case 16: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_DSTALPHA, GX_BL_INVSRCALPHA, GX_LO_EQUIV); break;
+        case 17: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_DSTALPHA, GX_BL_DSTALPHA, GX_LO_EQUIV); break;
+        case 18: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_DSTALPHA, GX_BL_INVDSTALPHA, GX_LO_EQUIV); break;
+        case 19: GX_SetBlendMode(GX_BM_NONE,  GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_COPY); break;
+        
         /* Just for testing purpose, uncomment to use it.
            Inverting seems to work with 13, it just uses the wrong alpha information. :/
         case 4: GX_SetBlendMode(GX_BM_BLEND, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_CLEAR); break;
@@ -78,13 +95,13 @@ inline void GRRLIB_SetBlend( unsigned char blendmode ) {
         case 11: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_OR); break;
         case 12: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_NOR); break;
         case 13: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_EQUIV); break;
-           case 14: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_INV); break;
-           case 15: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_REVOR); break;
-           case 16: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_INVCOPY); break;
-           case 17: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_INVOR); break;
-           case 18: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_NAND); break;
-           case 19: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_SET); break;
-           */
+        case 14: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_INV); break;
+        case 15: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_REVOR); break;
+        case 16: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_INVCOPY); break;
+        case 17: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_INVOR); break;
+        case 18: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_NAND); break;
+        case 19: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_SET); break;
+        */
     }
 }
 
@@ -529,8 +546,7 @@ inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees,
         GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR, 0.0f, 0.0f, 0.0f, 0, 0, GX_ANISO_1);
     }
     GX_LoadTexObj(&texObj, GX_TEXMAP0);
-    
-       GX_SetTevOp(GX_TEVSTAGE0, GX_MODULATE);
+    GX_SetTevOp(GX_TEVSTAGE0, GX_REPLACE);
     GX_SetVtxDesc(GX_VA_TEX0, GX_DIRECT);
 
     width = tex.w * 0.5;
@@ -1206,8 +1222,7 @@ void GRRLIB_Exit() {
  * @param File name of the file to write.
  * @return true if every thing worked, false otherwise.
  */
-bool GRRLIB_ScrShot(const char* File)
-{
+bool GRRLIB_ScrShot(const char* File) {
     int ErrorCode = -1;
     IMGCTX pngContext;
 
@@ -1225,7 +1240,7 @@ bool GRRLIB_ScrShot(const char* File)
  */
 void GRRLIB_ListAddTexture( GRRLIB_texImg *img ) {
     GRRLIB_linkedList *temp = malloc(sizeof(GRRLIB_linkedList));
-    if (newList == NULL) { return; }
+    if (temp == NULL) { return; }
     
     temp->next = *&GRRLIB_ListImages;
     temp->texture = img;
@@ -1268,7 +1283,7 @@ void GRRLIB_ListRemove( GRRLIB_linkedList **list ) {
 
 /**
  * Just for testing purposes.
- * Loops through all members of an Array List.
+ * Loops through all members of an Array List and returns the member count.
  */
 unsigned int GRRLIB_ListGetTextureEntries() {
     unsigned int cnt = 0;
