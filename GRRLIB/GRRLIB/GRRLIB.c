@@ -288,6 +288,7 @@ void GRRLIB_InitTileSet(struct GRRLIB_texImg *tex, unsigned int tilew, unsigned 
     if (tileh) // Avoid division by zero
         tex->nbtileh = tex->h / tileh;
     tex->tilestart = tilestart;
+    GRRLIB_SetHandle( tex, 0, 0 );
 }
 
 /**
@@ -307,9 +308,12 @@ GRRLIB_texImg GRRLIB_LoadTexturePNG(const unsigned char my_png[]) {
     PNGU_ReleaseImageContext(ctx);
     my_texture.w = imgProp.imgWidth;
     my_texture.h = imgProp.imgHeight;
-    GRRLIB_FlushTex( my_texture );
-    GRRLIB_ListAddTexture( &my_texture );
+    my_texture.handlex = 0; my_texture.handley = 0;
+    my_texture.offsetx = 0; my_texture.offsety = 0;
+    my_texture.tiledtex = false;
     GRRLIB_SetHandle( &my_texture, 0, 0 );
+    GRRLIB_ListAddTexture( &my_texture );
+    GRRLIB_FlushTex( my_texture );
     return my_texture;
 }
 
@@ -366,9 +370,12 @@ GRRLIB_texImg GRRLIB_LoadTextureJPG(const unsigned char my_jpg[]) {
 
     my_texture.w = cinfo.output_width;
     my_texture.h = cinfo.output_height;
-    GRRLIB_FlushTex(my_texture);
-    GRRLIB_ListAddTexture( &my_texture );
+    my_texture.handlex = 0; my_texture.handley = 0;
+    my_texture.offsetx = 0; my_texture.offsety = 0;
+    my_texture.tiledtex = false;
     GRRLIB_SetHandle( &my_texture, 0, 0 );
+    GRRLIB_ListAddTexture( &my_texture );
+    GRRLIB_FlushTex(my_texture);
     return my_texture;
 }
 
@@ -381,7 +388,7 @@ GRRLIB_texImg GRRLIB_LoadTextureJPG(const unsigned char my_jpg[]) {
  * @param text Text to draw.
  * @param ... Optional arguments.
  */
-void GRRLIB_PrintBMF(f32 xpos, f32 ypos, GRRLIB_bytemapFont bmf, f32 zoom, const char *text, ...) {
+void GRRLIB_PrintBMF(f32 xpos, f32 ypos, struct GRRLIB_bytemapFont bmf, f32 zoom, const char *text, ...) {
     unsigned int i, j, x, y, n, size;
     char tmp[1024];
 
@@ -535,7 +542,7 @@ GRRLIB_texImg GRRLIB_CreateEmptyTexture(unsigned int w, unsigned int h) {
  * @param scaleY Specifies the y-coordinate scale. -1 could be used for flipping the texture vertically.
  * @param color Color in RGBA format.
  */
-inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees, float scaleX, f32 scaleY, u32 color) {
+inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, struct GRRLIB_texImg tex, float degrees, float scaleX, f32 scaleY, u32 color) {
     if (!tex.data) { return; }
     GXTexObj texObj;
     u16 width, height;
@@ -546,7 +553,7 @@ inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees,
         GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR, 0.0f, 0.0f, 0.0f, 0, 0, GX_ANISO_1);
     }
     GX_LoadTexObj(&texObj, GX_TEXMAP0);
-    GX_SetTevOp(GX_TEVSTAGE0, GX_REPLACE);
+    GX_SetTevOp(GX_TEVSTAGE0, GX_MODULATE);
     GX_SetVtxDesc(GX_VA_TEX0, GX_DIRECT);
 
     width = tex.w * 0.5;
@@ -590,7 +597,7 @@ inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees,
  * @param tex The texture to draw.
  * @param color Color in RGBA format.
  */
-inline void GRRLIB_DrawImgQuad(Vector pos[4], GRRLIB_texImg tex, u32 color) {
+inline void GRRLIB_DrawImgQuad(Vector pos[4], struct GRRLIB_texImg tex, u32 color) {
     GXTexObj texObj;
     Mtx m, m1, m2, mv;
 
@@ -646,7 +653,7 @@ inline void GRRLIB_DrawImgQuad(Vector pos[4], GRRLIB_texImg tex, u32 color) {
  * @param color Color in RGBA format.
  * @param frame Specifies the frame to draw.
  */
-inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees, float scaleX, f32 scaleY, u32 color, int frame) {
+inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, struct GRRLIB_texImg tex, float degrees, float scaleX, f32 scaleY, u32 color, int frame) {
     GXTexObj texObj;
     f32 width, height;
     Mtx m, m1, m2, mv;
@@ -712,7 +719,7 @@ inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, GRRLIB_texImg tex, float degrees
  * @param text Text to draw.
  * @param ... Optional arguments.
  */
-void GRRLIB_Printf(f32 xpos, f32 ypos, GRRLIB_texImg tex, u32 color, f32 zoom, const char *text, ...) {
+void GRRLIB_Printf(f32 xpos, f32 ypos, struct GRRLIB_texImg tex, u32 color, f32 zoom, const char *text, ...) {
     int i, size;
     char tmp[1024];
 
@@ -803,13 +810,13 @@ void GRRLIB_ClipReset() {
  * @param x The handle's x-coordinate.
  * @param y The handle's y-coordinate.
  */
-void GRRLIB_SetHandle(GRRLIB_texImg * tex, int x, int y) {
-    if (tex->tilew) {
-        tex->handlex = -(tex->tilew/2) + x;
-        tex->handley = -(tex->tileh/2) + y;
+void GRRLIB_SetHandle( struct GRRLIB_texImg * tex, int x, int y ) {
+    if (tex->tiledtex) {
+        tex->handlex = -(((int)tex->tilew)/2) + x;
+        tex->handley = -(((int)tex->tileh)/2) + y;
     } else {
-        tex->handlex = -(tex->w/2) + x;
-        tex->handley = -(tex->h/2) + y;
+        tex->handlex = -(((int)tex->w)/2) + x;
+        tex->handley = -(((int)tex->h)/2) + y;
     }
     tex->offsetx = x;
     tex->offsety = y;
@@ -819,7 +826,7 @@ void GRRLIB_SetHandle(GRRLIB_texImg * tex, int x, int y) {
  * Center a texture's handles (e.g. for rotation).
  * @param tex The texture to center.
  */
-void GRRLIB_SetMidHandle(GRRLIB_texImg * tex) {
+void GRRLIB_SetMidHandle( struct GRRLIB_texImg * tex ) {
     tex->handlex = 0;
     tex->handley = 0;
     tex->offsetx = 0;
@@ -833,7 +840,7 @@ void GRRLIB_SetMidHandle(GRRLIB_texImg * tex) {
  * @param tex The texture to get the color from.
  * @return The color of a pixel in RGBA format.
  */
-u32 GRRLIB_GetPixelFromtexImg(int x, int y, GRRLIB_texImg tex) {
+u32 GRRLIB_GetPixelFromtexImg(int x, int y, struct GRRLIB_texImg tex) {
     u8 *truc = (u8*)tex.data;
     u8 r, g, b, a;
     u32 offset;
@@ -873,7 +880,7 @@ void GRRLIB_SetPixelTotexImg(int x, int y, GRRLIB_texImg tex, u32 color) {
  * For performance the CPU holds a data cache where modifications are stored before they get written down to mainmemory.
  * @param tex The texture to flush.
  */
-void GRRLIB_FlushTex(GRRLIB_texImg tex) {
+void GRRLIB_FlushTex(struct GRRLIB_texImg tex) {
     DCFlushRange(tex.data, tex.w * tex.h * 4);
 }
 
@@ -883,7 +890,7 @@ void GRRLIB_FlushTex(GRRLIB_texImg tex) {
  * @param texsrc The texture source.
  * @param texdest The texture grayscaled destination.
  */
-void GRRLIB_BMFX_Grayscale(GRRLIB_texImg texsrc, GRRLIB_texImg texdest) {
+void GRRLIB_BMFX_Grayscale(struct GRRLIB_texImg texsrc, GRRLIB_texImg texdest) {
     unsigned int x, y;
     u8 gray;
     u32 color;
@@ -906,7 +913,7 @@ void GRRLIB_BMFX_Grayscale(GRRLIB_texImg texsrc, GRRLIB_texImg texdest) {
  * @param texsrc The texture source.
  * @param texdest The texture destination.
  */
-void GRRLIB_BMFX_Invert(GRRLIB_texImg texsrc, GRRLIB_texImg texdest) {
+void GRRLIB_BMFX_Invert(struct GRRLIB_texImg texsrc, GRRLIB_texImg texdest) {
     unsigned int x, y;
     u32 color;
 
@@ -925,7 +932,7 @@ void GRRLIB_BMFX_Invert(GRRLIB_texImg texsrc, GRRLIB_texImg texdest) {
  * @param texsrc The texture source.
  * @param texdest The texture destination.
  */
-void GRRLIB_BMFX_FlipH(GRRLIB_texImg texsrc, GRRLIB_texImg texdest) {
+void GRRLIB_BMFX_FlipH(struct GRRLIB_texImg texsrc, GRRLIB_texImg texdest) {
     unsigned int x, y, txtWidth = texsrc.w - 1;
 
     for (y = 0; y < texsrc.h; y++) {
@@ -942,7 +949,7 @@ void GRRLIB_BMFX_FlipH(GRRLIB_texImg texsrc, GRRLIB_texImg texdest) {
  * @param texsrc The texture source.
  * @param texdest The texture destination.
  */
-void GRRLIB_BMFX_FlipV(GRRLIB_texImg texsrc, GRRLIB_texImg texdest) {
+void GRRLIB_BMFX_FlipV(struct GRRLIB_texImg texsrc, GRRLIB_texImg texdest) {
     unsigned int x, y, texHeight = texsrc.h - 1;
 
     for (y = 0; y < texsrc.h; y++) {
@@ -960,7 +967,7 @@ void GRRLIB_BMFX_FlipV(GRRLIB_texImg texsrc, GRRLIB_texImg texdest) {
  * @param texdest The texture destination.
  * @param factor The blur factor.
  */
-void GRRLIB_BMFX_Blur(GRRLIB_texImg texsrc, GRRLIB_texImg texdest, int factor) {
+void GRRLIB_BMFX_Blur(struct GRRLIB_texImg texsrc, GRRLIB_texImg texdest, int factor) {
     int numba = (1+(factor<<1))*(1+(factor<<1));
 
     int x, y;
@@ -1015,7 +1022,7 @@ void GRRLIB_BMFX_Blur(GRRLIB_texImg texsrc, GRRLIB_texImg texdest, int factor) {
  * @param texdest The texture destination.
  * @param factor The factor level of the effect.
  */
-void GRRLIB_BMFX_Pixelate(GRRLIB_texImg texsrc, GRRLIB_texImg texdest, int factor) {
+void GRRLIB_BMFX_Pixelate(struct GRRLIB_texImg texsrc, GRRLIB_texImg texdest, int factor) {
     unsigned int x, y;
     unsigned int xx, yy;
     u32 rgb;
@@ -1039,7 +1046,7 @@ void GRRLIB_BMFX_Pixelate(GRRLIB_texImg texsrc, GRRLIB_texImg texdest, int facto
  * @param texdest The texture destination.
  * @param factor The factor level of the effect.
  */
-void GRRLIB_BMFX_Scatter(GRRLIB_texImg texsrc, GRRLIB_texImg texdest, int factor) {
+void GRRLIB_BMFX_Scatter(struct GRRLIB_texImg texsrc, GRRLIB_texImg texdest, int factor) {
     unsigned int x, y;
     int val1, val2;
     u32 val3, val4;
@@ -1238,12 +1245,13 @@ bool GRRLIB_ScrShot(const char* File) {
  * Add a GRRLIB texture into the list.
  * @param img The texture to add.
  */
-void GRRLIB_ListAddTexture( GRRLIB_texImg *img ) {
+void GRRLIB_ListAddTexture( struct GRRLIB_texImg *img ) {
     GRRLIB_linkedList *temp = malloc(sizeof(GRRLIB_linkedList));
     if (temp == NULL) { return; }
     
     temp->next = *&GRRLIB_ListImages;
     temp->texture = img;
+    temp->Num = 1337;
     *&GRRLIB_ListImages = temp;
 }
 
@@ -1251,7 +1259,7 @@ void GRRLIB_ListAddTexture( GRRLIB_texImg *img ) {
  * Delete an list entry containing the pointer of a texture.
  * @param img The texture to delete.
  */
-bool GRRLIB_ListDelTexture( GRRLIB_texImg *img ) {
+int GRRLIB_ListDelTexture( struct GRRLIB_texImg *img ) {
     GRRLIB_linkedList *temp = GRRLIB_ListImages;
     
     if (!temp) { return false; } // List is empty.
@@ -1265,7 +1273,6 @@ bool GRRLIB_ListDelTexture( GRRLIB_texImg *img ) {
         }
         temp = temp->next;
     }
-    
     return false;
 }
 
@@ -1273,7 +1280,7 @@ bool GRRLIB_ListDelTexture( GRRLIB_texImg *img ) {
  * Removes an entry of an Array List.
  * @param list The pointer to a list.
  */
-void GRRLIB_ListRemove( GRRLIB_linkedList **list ) {
+void GRRLIB_ListRemove( struct GRRLIB_linkedList **list ) {
     if (list) {
         GRRLIB_linkedList *temp = *list;
         *list = (*list)->next;
