@@ -157,8 +157,11 @@ void GRRLIB_Exit();
 
 bool GRRLIB_ScrShot(const char*);
 
-void GRRLIB_FBReadPixel(int x, int y, u8 *R1, u8 *G1, u8 *B1, u8* R2, u8 *G2, u8 *B2 );
-u8 GRRLIB_FBClamp (float Value);
+void GRRLIB_GetPixelFromFB(int x, int y, u8 *R1, u8 *G1, u8 *B1, u8* R2, u8 *G2, u8 *B2 );
+u8 GRRLIB_ClampVar8 (float Value);
+
+u32 GRRLIB_GetColor( u8 r, u8 g, u8 b, u8 a );
+
 
 #ifdef __cplusplus
    }

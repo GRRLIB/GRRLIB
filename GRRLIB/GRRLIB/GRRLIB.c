@@ -1261,14 +1261,12 @@ bool GRRLIB_ScrShot(const char* File) {
  * @param G2 A pointer to a variable receiving the second Green value.
  * @param B2 A pointer to a variable receiving the second Blue value.
  */
-void GRRLIB_FBReadPixel(int x, int y, u8 *R1, u8 *G1, u8 *B1, u8* R2, u8 *G2, u8 *B2 ) {
+void GRRLIB_GetPixelFromFB(int x, int y, u8 *R1, u8 *G1, u8 *B1, u8* R2, u8 *G2, u8 *B2 ) {
     // Position Correction
-    if (x > rmode->fbWidth) { x = rmode->fbWidth; }
+    if (x > (rmode->fbWidth/2)) { x = (rmode->fbWidth/2); }
     if (x < 0) { x = 0; }
     if (y > rmode->efbHeight) { y = rmode->efbHeight; }
     if (y < 0) { y = 0; }
-    x = x / 2;   /* FB is storing 2 pixels at once (YCbCr),
-                    so we just need half of the width. */
     
     // Preparing FB for reading
     u32 Buffer = (((u32 *)xfb[fb])[y*(rmode->fbWidth/2)+x]);
@@ -1280,22 +1278,23 @@ void GRRLIB_FBReadPixel(int x, int y, u8 *R1, u8 *G1, u8 *B1, u8* R2, u8 *G2, u8
     Colors[2] = Y2
     Colors[3] = Cr */
     
-    *R1 = GRRLIB_FBClamp( 1.164 * (Colors[0] - 16) + 1.596 * (Colors[3] - 128) );
-    *G1 = GRRLIB_FBClamp( 1.164 * (Colors[0] - 16) - 0.813 * (Colors[3] - 128) - 0.392 * (Colors[1] - 128) );
-    *B1 = GRRLIB_FBClamp( 1.164 * (Colors[0] - 16) + 2.017 * (Colors[1] - 128) );
+    *R1 = GRRLIB_ClampVar8( 1.164 * (Colors[0] - 16) + 1.596 * (Colors[3] - 128) );
+    *G1 = GRRLIB_ClampVar8( 1.164 * (Colors[0] - 16) - 0.813 * (Colors[3] - 128) - 0.392 * (Colors[1] - 128) );
+    *B1 = GRRLIB_ClampVar8( 1.164 * (Colors[0] - 16) + 2.017 * (Colors[1] - 128) );
     
-    *R2 = GRRLIB_FBClamp( 1.164 * (Colors[2] - 16) + 1.596 * (Colors[3] - 128) );
-    *G2 = GRRLIB_FBClamp( 1.164 * (Colors[2] - 16) - 0.813 * (Colors[3] - 128) - 0.392 * (Colors[1] - 128) );
-    *B2 = GRRLIB_FBClamp( 1.164 * (Colors[2] - 16) + 2.017 * (Colors[1] - 128) );
+    *R2 = GRRLIB_ClampVar8( 1.164 * (Colors[2] - 16) + 1.596 * (Colors[3] - 128) );
+    *G2 = GRRLIB_ClampVar8( 1.164 * (Colors[2] - 16) - 0.813 * (Colors[3] - 128) - 0.392 * (Colors[1] - 128) );
+    *B2 = GRRLIB_ClampVar8( 1.164 * (Colors[2] - 16) + 2.017 * (Colors[1] - 128) );
 }
+
 
 /**
  * A helper function for the YCbCr -> RGB conversion.
  * Clamps the given value into a range of 0 - 255 and thus preventing an overflow.
- * @param The value to clamp.
+ * @param Value The value to clamp.
  * @return Returns a clean, clamped unsigned char.
  */
-u8 GRRLIB_FBClamp (float Value) {
+u8 GRRLIB_ClampVar8(float Value) {
 	/* Using float to increase the precision.
 	This makes a full spectrum (0 - 255) possible. */
     Value = roundf(Value);
@@ -1305,4 +1304,16 @@ u8 GRRLIB_FBClamp (float Value) {
         Value = 255;
     }
     return (u8)Value;
+}
+
+/**
+ * Converts RGBA values to u32 color.
+ * @param r Amount of Red (0 - 255);
+ * @param g Amount of Green (0 - 255);
+ * @param b Amount of Blue (0 - 255);
+ * @param a Amount of Alpha (0 - 255);
+ * @return Returns the color in u32 format.
+ */
+u32 GRRLIB_GetColor( u8 r, u8 g, u8 b, u8 a ) {
+	return (r * 0x1000000) + (g * 0x10000) + (b * 0x100) + a;
 }
