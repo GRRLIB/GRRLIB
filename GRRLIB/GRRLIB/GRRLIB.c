@@ -565,7 +565,7 @@ inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, struct GRRLIB_texImg tex, float d
     guMtxRotAxisDeg (m2, &axis, degrees);
     guMtxConcat(m2, m1, m);
 
-    guMtxTransApply(m, m, xpos+width+tex.handlex+tex.offsetx+(scaleX*( -tex.handley*sin(-DegToRad(degrees)) - tex.handlex*cos(-DegToRad(degrees)) )), ypos+height+tex.handley+tex.offsety+(scaleX*( -tex.handley*cos(-DegToRad(degrees)) + tex.handlex*sin(-DegToRad(degrees)) )), 0);
+    guMtxTransApply(m, m, xpos+width+tex.handlex-tex.offsetx+(scaleX*( -tex.handley*sin(-DegToRad(degrees)) - tex.handlex*cos(-DegToRad(degrees)) )), ypos+height+tex.handley-tex.offsety+(scaleX*( -tex.handley*cos(-DegToRad(degrees)) + tex.handlex*sin(-DegToRad(degrees)) )), 0);
     guMtxConcat(GXmodelView2D, m, mv);
 
     GX_LoadPosMtxImm(mv, GX_PNMTX0);
@@ -683,7 +683,7 @@ inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, struct GRRLIB_texImg tex, float 
     Vector axis = (Vector) {0, 0, 1 };
     guMtxRotAxisDeg(m2, &axis, degrees);
     guMtxConcat(m2, m1, m);
-    guMtxTransApply(m, m, xpos+width+tex.handlex+tex.offsetx+(scaleX*( -tex.handley*sin(-DegToRad(degrees)) - tex.handlex*cos(-DegToRad(degrees)) )), ypos+height+tex.handley+tex.offsety+(scaleX*( -tex.handley*cos(-DegToRad(degrees)) + tex.handlex*sin(-DegToRad(degrees)) )), 0);
+    guMtxTransApply(m, m, xpos+width+tex.handlex-tex.offsetx+(scaleX*( -tex.handley*sin(-DegToRad(degrees)) - tex.handlex*cos(-DegToRad(degrees)) )), ypos+height+tex.handley-tex.offsety+(scaleX*( -tex.handley*cos(-DegToRad(degrees)) + tex.handlex*sin(-DegToRad(degrees)) )), 0);
     guMtxConcat(GXmodelView2D, m, mv);
 
     GX_LoadPosMtxImm(mv, GX_PNMTX0);
@@ -822,25 +822,24 @@ void GRRLIB_SetHandle( struct GRRLIB_texImg * tex, int x, int y ) {
 }
 
 /**
- * Set a texture's X and Y offset (e.g. for rotation).
- * @param tex The texture to set the handle on.
- * @param x The x-coordinate of the offset.
- * @param y The y-coordinate of the offset.
- */
-void GRRLIB_SetOffset( struct GRRLIB_texImg * tex, int x, int y ) {
-    tex->offsetx = x;
-    tex->offsety = y;
-}
-
-/**
  * Center a texture's handles (e.g. for rotation).
  * @param tex The texture to center.
  */
-void GRRLIB_SetMidHandle( struct GRRLIB_texImg * tex ) {
-    tex->handlex = 0;
-    tex->handley = 0;
-    tex->offsetx = 0;
-    tex->offsety = 0;
+void GRRLIB_SetMidHandle( struct GRRLIB_texImg * tex, bool enabled ) {
+    if (enabled) {
+        if (tex->tiledtex) {
+            tex->offsetx = (((int)tex->tilew)/2);
+            tex->offsety = (((int)tex->tileh)/2);
+        } else {
+            tex->offsetx = (((int)tex->w)/2);
+            tex->offsety = (((int)tex->h)/2);
+        }
+        GRRLIB_SetHandle(tex, tex->offsetx, tex->offsety);
+    } else {
+        GRRLIB_SetHandle(tex, 0, 0);
+        tex->offsetx = 0;
+        tex->offsety = 0;
+    }
 }
 
 /**

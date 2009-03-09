@@ -140,8 +140,7 @@ void GRRLIB_ClipDrawing( int x, int y, int width, int height );
 void GRRLIB_ClipReset();
 
 void GRRLIB_SetHandle(struct GRRLIB_texImg * tex, int x, int y);
-void GRRLIB_SetOffset( struct GRRLIB_texImg * tex, int x, int y );
-void GRRLIB_SetMidHandle(struct GRRLIB_texImg * tex);
+void GRRLIB_SetMidHandle( struct GRRLIB_texImg * tex, bool enabled );
 
 u32 GRRLIB_GetPixelFromtexImg(int x, int y, struct GRRLIB_texImg tex);
 void GRRLIB_SetPixelTotexImg(int x, int y, struct GRRLIB_texImg tex, u32 color);
