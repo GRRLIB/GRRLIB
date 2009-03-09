@@ -1,14 +1,16 @@
 /********************************************************************************************
 
-PNGU Version : 0.2a
+PNGU Version : 0.2b
 
 Coder : frontier
+YCbCr fix by Xane
 
 More info : http://frontier-dev.net
 
 ********************************************************************************************/
 #include <stdio.h>
 #include <malloc.h>
+#include <math.h>
 #include "pngu.h"
 #include "../png.h"
 
@@ -25,7 +27,7 @@ void pngu_free_info (IMGCTX ctx);
 void pngu_read_data_from_buffer (png_structp png_ptr, png_bytep data, png_size_t length);
 void pngu_write_data_to_buffer (png_structp png_ptr, png_bytep data, png_size_t length);
 void pngu_flush_data_to_buffer (png_structp png_ptr);
-int pngu_clamp (int value, int min, int max);
+int pngu_clamp (float value);
 
 
 // PNGU Image context struct
@@ -818,20 +820,15 @@ PNGU_u32 PNGU_RGB8_TO_YCbYCr (PNGU_u8 r1, PNGU_u8 g1, PNGU_u8 b1, PNGU_u8 r2, PN
 
 void PNGU_YCbYCr_TO_RGB8 (PNGU_u32 ycbycr, PNGU_u8 *r1, PNGU_u8 *g1, PNGU_u8 *b1, PNGU_u8 *r2, PNGU_u8 *g2, PNGU_u8 *b2)
 {
-	PNGU_u8 *val = (PNGU_u8 *) &ycbycr;
-	int r, g, b;
-
-	r = 1.371f * (val[3] - 128);
-	g = - 0.698f * (val[3] - 128) - 0.336f * (val[1] - 128);
-	b = 1.732f * (val[1] - 128);
-
-	*r1 = pngu_clamp (val[0] + r, 0, 255);
-	*g1 = pngu_clamp (val[0] + g, 0, 255);
-	*b1 = pngu_clamp (val[0] + b, 0, 255);
-
-	*r2 = pngu_clamp (val[2] + r, 0, 255);
-	*g2 = pngu_clamp (val[2] + g, 0, 255);
-	*b2 = pngu_clamp (val[2] + b, 0, 255);
+	PNGU_u8 *Colors = (PNGU_u8 *) &ycbycr;
+	
+	*r1 = pngu_clamp( 1.164 * (Colors[0] - 16) + 1.596 * (Colors[3] - 128) );
+	*g1 = pngu_clamp( 1.164 * (Colors[0] - 16) - 0.813 * (Colors[3] - 128) - 0.392 * (Colors[1] - 128) );
+	*b1 = pngu_clamp( 1.164 * (Colors[0] - 16) + 2.017 * (Colors[1] - 128) );
+	
+	*r2 = pngu_clamp( 1.164 * (Colors[2] - 16) + 1.596 * (Colors[3] - 128) );
+	*g2 = pngu_clamp( 1.164 * (Colors[2] - 16) - 0.813 * (Colors[3] - 128) - 0.392 * (Colors[1] - 128) );
+	*b2 = pngu_clamp( 1.164 * (Colors[2] - 16) + 2.017 * (Colors[1] - 128) );
 }
 
 
@@ -1120,13 +1117,13 @@ void pngu_flush_data_to_buffer (png_structp png_ptr)
 
 
 // Function used in YCbYCr to RGB decoding
-int pngu_clamp (int value, int min, int max)
-{
-	if (value < min)
-		value = min;
-	else if (value > max)
-		value = max;
-
-	return value;
+int pngu_clamp(float Value) {
+	Value = roundf(Value);
+	if (Value < 0) {
+		Value = 0;
+	} else if (Value > 255) {
+		Value = 255;
+	}
+	return (int)Value;
 }
 

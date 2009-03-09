@@ -27,9 +27,9 @@
 #define GRRLIB_BLEND_ADD    1        /**< Additive Blending. */
 #define GRRLIB_BLEND_SUB    2        /**< Subtractive Blending. */
 #define GRRLIB_BLEND_INV    3        /**< Invertive Blending. */
-#define GRRLIB_BLEND_NONE    GRRLIB_BLEND_ALPHA
-#define GRRLIB_BLEND_LIGHT    GRRLIB_BLEND_ADD
-#define GRRLIB_BLEND_SHADE    GRRLIB_BLEND_SUB
+#define GRRLIB_BLEND_NONE   GRRLIB_BLEND_ALPHA
+#define GRRLIB_BLEND_LIGHT  GRRLIB_BLEND_ADD
+#define GRRLIB_BLEND_SHADE  GRRLIB_BLEND_SUB
 
 
 /**
@@ -83,15 +83,6 @@ typedef struct GRRLIB_bytemapFont {
     u16 nbChar;                     /**< Number of characters in font. */
     GRRLIB_bytemapChar *charDef;    /**< List of bitmap character definitions. */
 } GRRLIB_bytemapFont;
-
-/**
- * Linked List to inherit all members of an GRRLIB struct.
- */
-typedef struct GRRLIB_linkedList {
-    GRRLIB_texImg *texture;             /**< GRRLIB Texture. */
-    int Num;
-    struct GRRLIB_linkedList *next;     /**< Pointer to next LinkedList. */
-} GRRLIB_linkedList;
 
 
 extern Mtx GXmodelView2D;
@@ -166,11 +157,8 @@ void GRRLIB_Exit();
 
 bool GRRLIB_ScrShot(const char*);
 
-void GRRLIB_ListAddTexture( struct GRRLIB_texImg *img );
-int GRRLIB_ListDelTexture( struct GRRLIB_texImg *img );
-void GRRLIB_ListRemove( struct GRRLIB_linkedList **list );
-unsigned int GRRLIB_ListGetTextureEntries();
-
+void GRRLIB_FBReadPixel(int x, int y, u8 *R1, u8 *G1, u8 *B1, u8* R2, u8 *G2, u8 *B2 );
+u8 GRRLIB_FBClamp (float Value);
 
 #ifdef __cplusplus
    }

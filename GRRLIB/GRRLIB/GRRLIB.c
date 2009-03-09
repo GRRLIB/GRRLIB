@@ -24,7 +24,6 @@ GXRModeObj *rmode;
 void *gp_fifo = NULL;
 
 static GRRLIB_drawSettings GRRLIB_Settings;
-static GRRLIB_linkedList *GRRLIB_ListImages;
 
 static void RawTo4x4RGBA(const unsigned char *src, void *dst, const unsigned int width, const unsigned int height);
 
@@ -315,7 +314,6 @@ GRRLIB_texImg GRRLIB_LoadTexturePNG(const unsigned char my_png[]) {
     my_texture.offsetx = 0; my_texture.offsety = 0;
     my_texture.tiledtex = false;
     GRRLIB_SetHandle( &my_texture, 0, 0 );
-    GRRLIB_ListAddTexture( &my_texture );
     GRRLIB_FlushTex( my_texture );
     return my_texture;
 }
@@ -377,7 +375,6 @@ GRRLIB_texImg GRRLIB_LoadTextureJPG(const unsigned char my_jpg[]) {
     my_texture.offsetx = 0; my_texture.offsety = 0;
     my_texture.tiledtex = false;
     GRRLIB_SetHandle( &my_texture, 0, 0 );
-    GRRLIB_ListAddTexture( &my_texture );
     GRRLIB_FlushTex(my_texture);
     return my_texture;
 }
@@ -1192,7 +1189,6 @@ void GRRLIB_Init() {
 
     // Default settings
     GRRLIB_Settings.antialias = true;
-    GRRLIB_ListImages = NULL;
 }
 
 /**
@@ -1254,65 +1250,59 @@ bool GRRLIB_ScrShot(const char* File) {
 
 
 /**
- * Add a GRRLIB texture into the list.
- * @param img The texture to add.
+ * Reads a pixel directly from the FrontBuffer.
+ * Since the FB is stored in YCbCr, 
+ * @param x The x-coordinate within the FB.
+ * @param y The y-coordinate within the FB.
+ * @param R1 A pointer to a variable receiving the first Red value.
+ * @param G1 A pointer to a variable receiving the first Green value.
+ * @param B1 A pointer to a variable receiving the first Blue value.
+ * @param R2 A pointer to a variable receiving the second Red value.
+ * @param G2 A pointer to a variable receiving the second Green value.
+ * @param B2 A pointer to a variable receiving the second Blue value.
  */
-void GRRLIB_ListAddTexture( struct GRRLIB_texImg *img ) {
-    GRRLIB_linkedList *temp = malloc(sizeof(GRRLIB_linkedList));
-    if (temp == NULL) { return; }
-
-    temp->next = *&GRRLIB_ListImages;
-    temp->texture = img;
-    temp->Num = 1337;
-    *&GRRLIB_ListImages = temp;
+void GRRLIB_FBReadPixel(int x, int y, u8 *R1, u8 *G1, u8 *B1, u8* R2, u8 *G2, u8 *B2 ) {
+    // Position Correction
+    if (x > rmode->fbWidth) { x = rmode->fbWidth; }
+    if (x < 0) { x = 0; }
+    if (y > rmode->efbHeight) { y = rmode->efbHeight; }
+    if (y < 0) { y = 0; }
+    x = x / 2;   /* FB is storing 2 pixels at once (YCbCr),
+                    so we just need half of the width. */
+    
+    // Preparing FB for reading
+    u32 Buffer = (((u32 *)xfb[fb])[y*(rmode->fbWidth/2)+x]);
+    u8 *Colors = (u8 *) &Buffer;
+    
+    /** Color channel:
+    Colors[0] = Y1
+    Colors[1] = Cb
+    Colors[2] = Y2
+    Colors[3] = Cr */
+    
+    *R1 = GRRLIB_FBClamp( 1.164 * (Colors[0] - 16) + 1.596 * (Colors[3] - 128) );
+    *G1 = GRRLIB_FBClamp( 1.164 * (Colors[0] - 16) - 0.813 * (Colors[3] - 128) - 0.392 * (Colors[1] - 128) );
+    *B1 = GRRLIB_FBClamp( 1.164 * (Colors[0] - 16) + 2.017 * (Colors[1] - 128) );
+    
+    *R2 = GRRLIB_FBClamp( 1.164 * (Colors[2] - 16) + 1.596 * (Colors[3] - 128) );
+    *G2 = GRRLIB_FBClamp( 1.164 * (Colors[2] - 16) - 0.813 * (Colors[3] - 128) - 0.392 * (Colors[1] - 128) );
+    *B2 = GRRLIB_FBClamp( 1.164 * (Colors[2] - 16) + 2.017 * (Colors[1] - 128) );
 }
 
 /**
- * Delete an list entry containing the pointer of a texture.
- * @param img The texture to delete.
+ * A helper function for the YCbCr -> RGB conversion.
+ * Clamps the given value into a range of 0 - 255 and thus preventing an overflow.
+ * @param The value to clamp.
+ * @return Returns a clean, clamped unsigned char.
  */
-int GRRLIB_ListDelTexture( struct GRRLIB_texImg *img ) {
-    GRRLIB_linkedList *temp = GRRLIB_ListImages;
-
-    if (!temp) { return false; } // List is empty.
-    while ( temp->next ) {
-        if (temp->texture == img) {      // <- Doesn't really work, need to find another way. :x
-            return 1337;
-            //free(img->data);
-            //free(img);
-            //GRRLIB_ListRemove( &temp );
-            //return true;
-        }
-        temp = temp->next;
+u8 GRRLIB_FBClamp (float Value) {
+	/* Using float to increase the precision.
+	This makes a full spectrum (0 - 255) possible. */
+    Value = roundf(Value);
+    if (Value < 0) {
+        Value = 0;
+    } else if (Value > 255) {
+        Value = 255;
     }
-    return false;
-}
-
-/**
- * Removes an entry of an Array List.
- * @param list The pointer to a list.
- */
-void GRRLIB_ListRemove( struct GRRLIB_linkedList **list ) {
-    if (list) {
-        GRRLIB_linkedList *temp = *list;
-        *list = (*list)->next;
-        free(temp);
-    }
-}
-
-/**
- * Just for testing purposes.
- * Loops through all members of an Array List and returns the member count.
- */
-unsigned int GRRLIB_ListGetTextureEntries() {
-    unsigned int cnt = 0;
-    GRRLIB_linkedList *temp = GRRLIB_ListImages;
-
-    if (!temp) { return 0; } // List is empty.
-    while ( temp->next ) {
-        cnt = cnt + 1;
-        temp = temp->next;
-    }
-
-    return cnt;
+    return (u8)Value;
 }
