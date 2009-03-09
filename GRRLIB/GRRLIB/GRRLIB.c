@@ -1315,5 +1315,5 @@ u8 GRRLIB_ClampVar8(float Value) {
  * @return Returns the color in u32 format.
  */
 u32 GRRLIB_GetColor( u8 r, u8 g, u8 b, u8 a ) {
-	return (r * 0x1000000) + (g * 0x10000) + (b * 0x100) + a;
+	return (r << 24) | (g << 16) | (b << 8) | a;
 }
