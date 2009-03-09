@@ -63,6 +63,7 @@ int main() {
     ir_t ir1;
     u32 wpaddown, wpadheld;
     Vector triangle[] = {{400,200,0.0f}, {500,400,0.0f}, {300,400,0.0f}};
+    u32 trianglecolor[] = {GRRLIB_GREEN, GRRLIB_RED, GRRLIB_BLUE};
 
     GRRLIB_Init();
 
@@ -145,7 +146,7 @@ int main() {
 
                 GRRLIB_Rectangle(100, 100, 200, 100, GRRLIB_RED, 1);
                 GRRLIB_Line(100, 100, 350, 200, GRRLIB_SILVER);
-                GRRLIB_NGoneFilled(triangle, GRRLIB_GRAY, 3);
+                GRRLIB_NGoneFilled(triangle, trianglecolor, 3);
                 GRRLIB_Rectangle(left + 150, top + 150, 200, 200, 0x0000FFC8, 1); // Blue with alpha
                 GRRLIB_Circle(left + 300, top + 300, 50, GRRLIB_OLIVE, 1);
 

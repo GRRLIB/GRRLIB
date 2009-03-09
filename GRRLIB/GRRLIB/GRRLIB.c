@@ -130,8 +130,9 @@ inline void GRRLIB_FillScreen(u32 color) {
  */
 inline void GRRLIB_Plot(f32 x, f32 y, u32 color) {
     Vector v[] = {{x,y,0.0f}};
+    u32 ncolor[] = {color};
 
-    GRRLIB_NPlot(v, color, 1);
+    GRRLIB_NPlot(v, ncolor, 1);
 }
 
 /**
@@ -140,7 +141,7 @@ inline void GRRLIB_Plot(f32 x, f32 y, u32 color) {
  * @param color The color of the points in RGBA format.
  * @param n Number of points in the vector array.
  */
-void GRRLIB_NPlot(Vector v[], u32 color, long n) {
+void GRRLIB_NPlot(Vector v[], u32 color[], long n) {
     GRRLIB_GXEngine(v, color, n, GX_POINTS);
 }
 
@@ -154,8 +155,9 @@ void GRRLIB_NPlot(Vector v[], u32 color, long n) {
  */
 inline void GRRLIB_Line(f32 x1, f32 y1, f32 x2, f32 y2, u32 color) {
     Vector v[] = {{x1,y1,0.0f}, {x2,y2,0.0f}};
+    u32 ncolor[] = {color,color};
 
-    GRRLIB_NGone(v, color, 2);
+    GRRLIB_NGone(v, ncolor, 2);
 }
 
 /**
@@ -171,12 +173,13 @@ inline void GRRLIB_Rectangle(f32 x, f32 y, f32 width, f32 height, u32 color, u8 
     f32 x2 = x+width;
     f32 y2 = y+height;
     Vector v[] = {{x,y,0.0f}, {x2,y,0.0f}, {x2,y2,0.0f}, {x,y2,0.0f}, {x,y,0.0f}};
+    u32 ncolor[]= {color,color,color,color,color};
 
     if (!filled) {
-        GRRLIB_NGone(v, color, 5);
+        GRRLIB_NGone(v, ncolor, 5);
     }
     else {
-        GRRLIB_NGoneFilled(v, color, 4);
+        GRRLIB_NGoneFilled(v, ncolor, 4);
     }
 }
 
@@ -191,6 +194,7 @@ inline void GRRLIB_Rectangle(f32 x, f32 y, f32 width, f32 height, u32 color, u8 
  */
 inline void GRRLIB_Circle(f32 x, f32 y, f32 radius, u32 color, u8 filled) {
     Vector v[36];
+    u32 ncolor[36];
     u32 a;
     f32 ra;
     f32 G_DTOR = M_DTOR * 10;
@@ -201,13 +205,14 @@ inline void GRRLIB_Circle(f32 x, f32 y, f32 radius, u32 color, u8 filled) {
         v[a].x = cos(ra) * radius + x;
         v[a].y = sin(ra) * radius + y;
         v[a].z = 0.0f;
+        ncolor[a]  = color;
     }
 
     if (!filled) {
-        GRRLIB_GXEngine(v, color, 36, GX_LINESTRIP);
+        GRRLIB_GXEngine(v, ncolor, 36, GX_LINESTRIP);
     }
     else {
-        GRRLIB_GXEngine(v, color, 36, GX_TRIANGLEFAN);
+        GRRLIB_GXEngine(v, ncolor, 36, GX_TRIANGLEFAN);
     }
 }
 
@@ -217,7 +222,7 @@ inline void GRRLIB_Circle(f32 x, f32 y, f32 radius, u32 color, u8 filled) {
  * @param color The color of the filled polygon in RGBA format.
  * @param n Number of points in the vector.
  */
-void GRRLIB_NGone(Vector v[], u32 color, long n) {
+void GRRLIB_NGone(Vector v[], u32 color[], long n) {
     GRRLIB_GXEngine(v, color, n, GX_LINESTRIP);
 }
 
@@ -227,7 +232,7 @@ void GRRLIB_NGone(Vector v[], u32 color, long n) {
  * @param color The color of the filled polygon in RGBA format.
  * @param n Number of points in the vector.
  */
-void GRRLIB_NGoneFilled(Vector v[], u32 color, long n) {
+void GRRLIB_NGoneFilled(Vector v[], u32 color[], long n) {
     GRRLIB_GXEngine(v, color, n, GX_TRIANGLEFAN);
 }
 
@@ -1081,13 +1086,13 @@ void GRRLIB_BMFX_Scatter(struct GRRLIB_texImg texsrc, GRRLIB_texImg texdest, int
 /**
  * Draws a vector.
  */
-void GRRLIB_GXEngine(Vector v[], u32 color, long n, u8 fmt) {
+void GRRLIB_GXEngine(Vector v[], u32 color[], long n, u8 fmt) {
     int i;
 
     GX_Begin(fmt, GX_VTXFMT0, n);
     for (i = 0; i < n; i++) {
         GX_Position3f32(v[i].x, v[i].y,  v[i].z);
-        GX_Color1u32(color);
+        GX_Color1u32(color[i]);
     }
     GX_End();
 }
