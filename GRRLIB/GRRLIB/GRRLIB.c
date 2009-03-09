@@ -45,7 +45,6 @@ bool GRRLIB_GetAntiAliasing() {
     return GRRLIB_Settings.antialias;
 }
 
-
 /**
  * Set a blending mode.
  * @param blendmode The blending mode to use (Default: GRRLIB_BLEND_ALPHA).
@@ -65,7 +64,7 @@ inline void GRRLIB_SetBlend( unsigned char blendmode ) {
         case GRRLIB_BLEND_INV:    // Wrong alpha information.. need to be inverted.
             GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_EQUIV);
             break;
-        
+
         case 4:  GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_EQUIV); break;
         case 5:  GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_BL_SRCALPHA, GX_LO_EQUIV); break;
         case 6:  GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_EQUIV); break;
@@ -82,7 +81,7 @@ inline void GRRLIB_SetBlend( unsigned char blendmode ) {
         case 17: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_DSTALPHA, GX_BL_DSTALPHA, GX_LO_EQUIV); break;
         case 18: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_DSTALPHA, GX_BL_INVDSTALPHA, GX_LO_EQUIV); break;
         case 19: GX_SetBlendMode(GX_BM_NONE,  GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_COPY); break;
-        
+
         /* Just for testing purpose, uncomment to use it.
            Inverting seems to work with 13, it just uses the wrong alpha information. :/
         case 4: GX_SetBlendMode(GX_BM_BLEND, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_CLEAR); break;
@@ -112,7 +111,6 @@ inline void GRRLIB_SetBlend( unsigned char blendmode ) {
 unsigned char GRRLIB_GetBlend() {
     return GRRLIB_Settings.blend;
 }
-
 
 /**
  * Clear screen with a specific color.
@@ -235,7 +233,6 @@ void GRRLIB_NGone(Vector v[], u32 color[], long n) {
 void GRRLIB_NGoneFilled(Vector v[], u32 color[], long n) {
     GRRLIB_GXEngine(v, color, n, GX_TRIANGLEFAN);
 }
-
 
 /**
  * Convert a raw BMP (RGB, no alpha) to 4x4RGBA.
@@ -612,7 +609,7 @@ inline void GRRLIB_DrawImgQuad(Vector pos[4], struct GRRLIB_texImg tex, u32 colo
         GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR, 0.0f, 0.0f, 0.0f, 0, 0, GX_ANISO_1);
     }
     GX_LoadTexObj(&texObj, GX_TEXMAP0);
-    
+
     GX_SetTevOp(GX_TEVSTAGE0, GX_MODULATE);
     GX_SetVtxDesc(GX_VA_TEX0, GX_DIRECT);
 
@@ -811,7 +808,7 @@ void GRRLIB_ClipReset() {
 }
 
 /**
- * Set a texture's X and Y handles (e.g. for rotation).
+ * Set a texture's X and Y handles. e.g. for rotation.
  * @param tex The texture to set the handle on.
  * @param x The x-coordinate of the handle.
  * @param y The y-coordinate of the handle.
@@ -827,8 +824,9 @@ void GRRLIB_SetHandle( struct GRRLIB_texImg * tex, int x, int y ) {
 }
 
 /**
- * Center a texture's handles (e.g. for rotation).
+ * Center a texture's handles. e.g. for rotation.
  * @param tex The texture to center.
+ * @param enabled
  */
 void GRRLIB_SetMidHandle( struct GRRLIB_texImg * tex, bool enabled ) {
     if (enabled) {
@@ -1262,7 +1260,7 @@ bool GRRLIB_ScrShot(const char* File) {
 void GRRLIB_ListAddTexture( struct GRRLIB_texImg *img ) {
     GRRLIB_linkedList *temp = malloc(sizeof(GRRLIB_linkedList));
     if (temp == NULL) { return; }
-    
+
     temp->next = *&GRRLIB_ListImages;
     temp->texture = img;
     temp->Num = 1337;
@@ -1275,7 +1273,7 @@ void GRRLIB_ListAddTexture( struct GRRLIB_texImg *img ) {
  */
 int GRRLIB_ListDelTexture( struct GRRLIB_texImg *img ) {
     GRRLIB_linkedList *temp = GRRLIB_ListImages;
-    
+
     if (!temp) { return false; } // List is empty.
     while ( temp->next ) {
         if (temp->texture == img) {      // <- Doesn't really work, need to find another way. :x
@@ -1309,12 +1307,12 @@ void GRRLIB_ListRemove( struct GRRLIB_linkedList **list ) {
 unsigned int GRRLIB_ListGetTextureEntries() {
     unsigned int cnt = 0;
     GRRLIB_linkedList *temp = GRRLIB_ListImages;
-    
+
     if (!temp) { return 0; } // List is empty.
     while ( temp->next ) {
         cnt = cnt + 1;
         temp = temp->next;
     }
-    
+
     return cnt;
 }

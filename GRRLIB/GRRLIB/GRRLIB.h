@@ -23,10 +23,10 @@
 /**
  * GRRLIB Blending Modes
  */
-#define GRRLIB_BLEND_ALPHA    0        /**< Alpha Blending */
-#define GRRLIB_BLEND_ADD    1        /**< Additive Blending */
-#define GRRLIB_BLEND_SUB    2        /**< Subtractive Blending */
-#define GRRLIB_BLEND_INV    3        /**< Invertive Blending */
+#define GRRLIB_BLEND_ALPHA  0        /**< Alpha Blending. */
+#define GRRLIB_BLEND_ADD    1        /**< Additive Blending. */
+#define GRRLIB_BLEND_SUB    2        /**< Subtractive Blending. */
+#define GRRLIB_BLEND_INV    3        /**< Invertive Blending. */
 #define GRRLIB_BLEND_NONE    GRRLIB_BLEND_ALPHA
 #define GRRLIB_BLEND_LIGHT    GRRLIB_BLEND_ADD
 #define GRRLIB_BLEND_SHADE    GRRLIB_BLEND_SUB
@@ -37,7 +37,7 @@
  */
 typedef struct GRRLIB_drawSettings {
     bool antialias;         /**< Flag for AntiAlias On/Off. */
-    unsigned char blend;    /**< Blending Mode */
+    unsigned char blend;    /**< Blending Mode. */
 } GRRLIB_drawSettings;
 
 /**
@@ -88,9 +88,9 @@ typedef struct GRRLIB_bytemapFont {
  * Linked List to inherit all members of an GRRLIB struct.
  */
 typedef struct GRRLIB_linkedList {
-    GRRLIB_texImg *texture;             /**< GRRLIB Texture */
+    GRRLIB_texImg *texture;             /**< GRRLIB Texture. */
     int Num;
-    struct GRRLIB_linkedList *next;     /**< Pointer to next LinkedList */
+    struct GRRLIB_linkedList *next;     /**< Pointer to next LinkedList. */
 } GRRLIB_linkedList;
 
 
