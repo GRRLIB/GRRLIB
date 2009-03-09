@@ -288,6 +288,7 @@ void GRRLIB_InitTileSet(struct GRRLIB_texImg *tex, unsigned int tilew, unsigned 
     if (tileh) // Avoid division by zero
         tex->nbtileh = tex->h / tileh;
     tex->tilestart = tilestart;
+    tex->tiledtex = true;
     GRRLIB_SetHandle( tex, 0, 0 );
 }
 
