@@ -106,21 +106,21 @@ inline void GRRLIB_Circle(f32 x, f32 y, f32 radius, u32 color, u8 filled);
 void GRRLIB_NGone(Vector v[], u32 color[], long n);
 void GRRLIB_NGoneFilled(Vector v[], u32 color[], long n);
 
-GRRLIB_texImg GRRLIB_CreateEmptyTexture(unsigned int, unsigned int);
-GRRLIB_texImg GRRLIB_LoadTexture(const unsigned char my_img[]);
-GRRLIB_texImg GRRLIB_LoadTextureJPG(const unsigned char my_jpg[]);
-GRRLIB_texImg GRRLIB_LoadTexturePNG(const unsigned char my_png[]);
+GRRLIB_texImg *GRRLIB_CreateEmptyTexture(unsigned int, unsigned int);
+GRRLIB_texImg *GRRLIB_LoadTexture(const unsigned char my_img[]);
+GRRLIB_texImg *GRRLIB_LoadTextureJPG(const unsigned char my_jpg[]);
+GRRLIB_texImg *GRRLIB_LoadTexturePNG(const unsigned char my_png[]);
 
 GRRLIB_bytemapFont GRRLIB_LoadBMF(const unsigned char my_bmf[]);
 void GRRLIB_FreeBMF(GRRLIB_bytemapFont bmf);
 
 void GRRLIB_InitTileSet(struct GRRLIB_texImg *tex, unsigned int tilew, unsigned int tileh, unsigned int tilestart);
 
-inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, struct GRRLIB_texImg tex, float degrees, float scaleX, f32 scaleY, u32 color );
-inline void GRRLIB_DrawImgQuad(Vector pos[4], struct GRRLIB_texImg tex, u32 color);
-inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, struct GRRLIB_texImg tex, float degrees, float scaleX, f32 scaleY, u32 color, int frame);
+inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, float degrees, float scaleX, f32 scaleY, u32 color );
+inline void GRRLIB_DrawImgQuad(Vector pos[4], struct GRRLIB_texImg *tex, u32 color);
+inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, float degrees, float scaleX, f32 scaleY, u32 color, int frame);
 
-void GRRLIB_Printf(f32 xpos, f32 ypos, struct GRRLIB_texImg tex, u32 color, f32 zoom, const char *text, ...);
+void GRRLIB_Printf(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, u32 color, f32 zoom, const char *text, ...);
 void GRRLIB_PrintBMF(f32 xpos, f32 ypos, struct GRRLIB_bytemapFont bmf, f32 zoom, const char *text, ...);
 
 bool GRRLIB_PtInRect(int hotx, int hoty, int hotw, int hoth, int wpadx, int wpady);
@@ -130,21 +130,21 @@ bool GRRLIB_RectOnRect(int rect1x, int rect1y, int rect1w, int rect1h, int rect2
 void GRRLIB_ClipDrawing( int x, int y, int width, int height );
 void GRRLIB_ClipReset();
 
-void GRRLIB_SetHandle(struct GRRLIB_texImg * tex, int x, int y);
-void GRRLIB_SetMidHandle( struct GRRLIB_texImg * tex, bool enabled );
+void GRRLIB_SetHandle(struct GRRLIB_texImg *tex, int x, int y);
+void GRRLIB_SetMidHandle( struct GRRLIB_texImg *tex, bool enabled );
 
-u32 GRRLIB_GetPixelFromtexImg(int x, int y, struct GRRLIB_texImg tex);
-void GRRLIB_SetPixelTotexImg(int x, int y, struct GRRLIB_texImg tex, u32 color);
+u32 GRRLIB_GetPixelFromtexImg(int x, int y, struct GRRLIB_texImg *tex);
+void GRRLIB_SetPixelTotexImg(int x, int y, struct GRRLIB_texImg *tex, u32 color);
 
-void GRRLIB_FlushTex(struct GRRLIB_texImg tex);
+void GRRLIB_FlushTex(struct GRRLIB_texImg *tex);
 
-void GRRLIB_BMFX_Grayscale(struct GRRLIB_texImg texsrc, GRRLIB_texImg texdest);
-void GRRLIB_BMFX_Invert(struct GRRLIB_texImg texsrc, GRRLIB_texImg texdest);
-void GRRLIB_BMFX_FlipH(struct GRRLIB_texImg texsrc, GRRLIB_texImg texdest);
-void GRRLIB_BMFX_FlipV(struct GRRLIB_texImg texsrc, GRRLIB_texImg texdest);
-void GRRLIB_BMFX_Blur(struct GRRLIB_texImg texsrc, GRRLIB_texImg texdest, int factor);
-void GRRLIB_BMFX_Scatter(struct GRRLIB_texImg texsrc, GRRLIB_texImg texdest, int factor);
-void GRRLIB_BMFX_Pixelate(struct GRRLIB_texImg texsrc, GRRLIB_texImg texdest, int factor);
+void GRRLIB_BMFX_Grayscale(struct GRRLIB_texImg *texsrc, GRRLIB_texImg *texdest);
+void GRRLIB_BMFX_Invert(struct GRRLIB_texImg *texsrc, GRRLIB_texImg *texdest);
+void GRRLIB_BMFX_FlipH(struct GRRLIB_texImg *texsrc, GRRLIB_texImg *texdest);
+void GRRLIB_BMFX_FlipV(struct GRRLIB_texImg *texsrc, GRRLIB_texImg *texdest);
+void GRRLIB_BMFX_Blur(struct GRRLIB_texImg *texsrc, GRRLIB_texImg *texdest, int factor);
+void GRRLIB_BMFX_Scatter(struct GRRLIB_texImg *texsrc, GRRLIB_texImg *texdest, int factor);
+void GRRLIB_BMFX_Pixelate(struct GRRLIB_texImg *texsrc, GRRLIB_texImg *texdest, int factor);
 
 void GRRLIB_GXEngine(Vector v[], u32 color[], long count, u8 fmt);
 
