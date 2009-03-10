@@ -59,7 +59,7 @@ inline void GRRLIB_SetBlend( unsigned char blendmode ) {
         case GRRLIB_BLEND_ADD:
             GX_SetBlendMode(GX_BM_BLEND, GX_BL_SRCALPHA, GX_BL_DSTALPHA, GX_LO_CLEAR);
             break;
-        case GRRLIB_BLEND_LIGHT:
+        case GRRLIB_BLEND_SCREEN:
             GX_SetBlendMode(GX_BM_BLEND, GX_BL_SRCCLR, GX_BL_DSTALPHA, GX_LO_CLEAR);
             break;
         case GRRLIB_BLEND_MULTI:
@@ -512,8 +512,8 @@ GRRLIB_texImg *GRRLIB_CreateEmptyTexture(unsigned int w, unsigned int h) {
  * @param color Color in RGBA format.
  */
 inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, float degrees, float scaleX, f32 scaleY, u32 color) {
-    if (tex == NULL) { return; }
-    if (tex->data == NULL) { return; }
+    //if (tex == NULL) { return; }
+    //if (tex->data == NULL) { return; }
 
     GXTexObj texObj;
     u16 width, height;
