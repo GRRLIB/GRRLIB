@@ -56,52 +56,18 @@ inline void GRRLIB_SetBlend( unsigned char blendmode ) {
         case GRRLIB_BLEND_ALPHA:
             GX_SetBlendMode(GX_BM_BLEND, GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_CLEAR);
             break;
-        case GRRLIB_BLEND_ADD:    // Some ugly lines around the drawn texture, needs to be fixed somehow.
-            GX_SetBlendMode(GX_BM_BLEND, GX_BL_SRCALPHA, GX_BL_ONE, GX_LO_CLEAR);
+        case GRRLIB_BLEND_ADD:
+            GX_SetBlendMode(GX_BM_BLEND, GX_BL_SRCALPHA, GX_BL_DSTALPHA, GX_LO_CLEAR);
             break;
-        case GRRLIB_BLEND_SUB:    // Doesn't work really :/
+        case GRRLIB_BLEND_LIGHT:
+            GX_SetBlendMode(GX_BM_BLEND, GX_BL_SRCCLR, GX_BL_DSTALPHA, GX_LO_CLEAR);
+            break;
+        case GRRLIB_BLEND_MULTI:
             GX_SetBlendMode(GX_BM_SUBSTRACT, GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_CLEAR);
             break;
-        case GRRLIB_BLEND_INV:    // Wrong alpha information.. need to be inverted.
-            GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_EQUIV);
+        case GRRLIB_BLEND_INV:
+            case 8:  GX_SetBlendMode(GX_BM_BLEND, GX_BL_INVSRCCLR, GX_BL_INVSRCCLR, GX_LO_CLEAR); break;
             break;
-
-        case 4:  GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_EQUIV); break;
-        case 5:  GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_BL_SRCALPHA, GX_LO_EQUIV); break;
-        case 6:  GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_EQUIV); break;
-        case 7:  GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_BL_DSTALPHA, GX_LO_EQUIV); break;
-        case 8:  GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_BL_INVDSTALPHA, GX_LO_EQUIV); break;
-        case 9:  GX_SetBlendMode(GX_BM_LOGIC, GX_BL_INVSRCALPHA, GX_LO_CLEAR, GX_LO_EQUIV); break;
-        case 10: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_INVSRCALPHA, GX_BL_SRCALPHA, GX_LO_EQUIV); break;
-        case 11: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_INVSRCALPHA, GX_BL_INVSRCALPHA, GX_LO_EQUIV); break;
-        case 12: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_INVSRCALPHA, GX_BL_DSTALPHA, GX_LO_EQUIV); break;
-        case 13: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_INVSRCALPHA, GX_BL_INVDSTALPHA, GX_LO_EQUIV); break;
-        case 14: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_DSTALPHA, GX_LO_CLEAR, GX_LO_EQUIV); break;
-        case 15: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_DSTALPHA, GX_BL_SRCALPHA, GX_LO_EQUIV); break;
-        case 16: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_DSTALPHA, GX_BL_INVSRCALPHA, GX_LO_EQUIV); break;
-        case 17: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_DSTALPHA, GX_BL_DSTALPHA, GX_LO_EQUIV); break;
-        case 18: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_DSTALPHA, GX_BL_INVDSTALPHA, GX_LO_EQUIV); break;
-        case 19: GX_SetBlendMode(GX_BM_NONE,  GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_COPY); break;
-
-        /* Just for testing purpose, uncomment to use it.
-           Inverting seems to work with 13, it just uses the wrong alpha information. :/
-        case 4: GX_SetBlendMode(GX_BM_BLEND, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_CLEAR); break;
-        case 5: GX_SetBlendMode(GX_BM_SUBSTRACT, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_CLEAR); break;
-        case 6: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_CLEAR); break;
-        case 7: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_AND); break;
-        case 8: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_REVAND); break;
-        case 9: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_INVAND); break;
-        case 10: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_XOR); break;
-        case 11: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_OR); break;
-        case 12: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_NOR); break;
-        case 13: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_EQUIV); break;
-        case 14: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_INV); break;
-        case 15: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_REVOR); break;
-        case 16: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_INVCOPY); break;
-        case 17: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_INVOR); break;
-        case 18: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_NAND); break;
-        case 19: GX_SetBlendMode(GX_BM_LOGIC, GX_BL_SRCALPHA, GX_LO_CLEAR, GX_LO_SET); break;
-        */
     }
 }
 
@@ -557,6 +523,7 @@ inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, float 
     if (GRRLIB_Settings.antialias == false) {
         GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR, 0.0f, 0.0f, 0.0f, 0, 0, GX_ANISO_1);
     }
+
     GX_LoadTexObj(&texObj, GX_TEXMAP0);
     GX_SetTevOp(GX_TEVSTAGE0, GX_MODULATE);
     GX_SetVtxDesc(GX_VA_TEX0, GX_DIRECT);
@@ -613,8 +580,8 @@ inline void GRRLIB_DrawImgQuad(Vector pos[4], struct GRRLIB_texImg *tex, u32 col
     if (GRRLIB_Settings.antialias == false) {
         GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR, 0.0f, 0.0f, 0.0f, 0, 0, GX_ANISO_1);
     }
+    
     GX_LoadTexObj(&texObj, GX_TEXMAP0);
-
     GX_SetTevOp(GX_TEVSTAGE0, GX_MODULATE);
     GX_SetVtxDesc(GX_VA_TEX0, GX_DIRECT);
 
@@ -664,7 +631,7 @@ inline void GRRLIB_DrawImgQuad(Vector pos[4], struct GRRLIB_texImg *tex, u32 col
 inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, float degrees, float scaleX, f32 scaleY, u32 color, int frame) {
     if (tex == NULL) { return; }
     if (tex->data == NULL) { return; }
-    if (tex->frame > (tex->nbtilew+tex->nbtileh)) { return; }
+    if (frame > (tex->nbtilew+tex->nbtileh+tex->tilestart)) { return; }
 
     GXTexObj texObj;
     f32 width, height;
@@ -1155,15 +1122,17 @@ void GRRLIB_Init() {
     GX_SetDispCopySrc(0, 0, rmode->fbWidth, rmode->efbHeight);
     GX_SetDispCopyDst(rmode->fbWidth, xfbHeight);
     GX_SetCopyFilter(rmode->aa, rmode->sample_pattern, GX_TRUE, rmode->vfilter);
-    GX_SetFieldMode(rmode->field_rendering, ((rmode->viHeight==2*rmode->xfbHeight)?GX_ENABLE:GX_DISABLE));
+    GX_SetFieldMode(rmode->field_rendering, ((rmode->viHeight == 2 * rmode->xfbHeight) ? GX_ENABLE : GX_DISABLE));
 
-    if (rmode->aa)
+    if (rmode->aa) {
+        // Set 16 bit RGB565
         GX_SetPixelFmt(GX_PF_RGB565_Z16, GX_ZC_LINEAR);
-    else
+    } else {
+        // Set 24 bit Z24
         GX_SetPixelFmt(GX_PF_RGB8_Z24, GX_ZC_LINEAR);
+    }
 
     GX_SetDispCopyGamma(GX_GM_1_0);
-
 
     // Setup the vertex descriptor
     // Tells the flipper to expect direct data
@@ -1174,7 +1143,6 @@ void GRRLIB_Init() {
     GX_SetVtxDesc(GX_VA_TEX0, GX_NONE);
     GX_SetVtxDesc(GX_VA_POS, GX_DIRECT);
     GX_SetVtxDesc(GX_VA_CLR0, GX_DIRECT);
-
 
     GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_POS_XYZ, GX_F32, 0);
     GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_CLR0, GX_CLR_RGBA, GX_RGBA8, 0);
@@ -1197,18 +1165,22 @@ void GRRLIB_Init() {
     GX_SetViewport(0, 0, rmode->fbWidth, rmode->efbHeight, 0, 1);
     GX_SetBlendMode(GX_BM_BLEND, GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_CLEAR);
     GX_SetAlphaUpdate(GX_TRUE);
-
+    GX_SetAlphaCompare(GX_GREATER, 0, GX_AOP_AND, GX_ALWAYS, 0);
+    GX_SetColorUpdate(GX_ENABLE);
     GX_SetCullMode(GX_CULL_NONE);
+
     VIDEO_SetBlack(false);
 
     // Default settings
     GRRLIB_Settings.antialias = true;
+    GRRLIB_Settings.blend = GRRLIB_BLEND_ALPHA;
 }
 
 /**
  * Call this function after drawing.
  */
 void GRRLIB_Render() {
+    //GX_Flush();
     GX_DrawDone();
 
     fb ^= 1;        // Flip framebuffer
@@ -1229,8 +1201,9 @@ void GRRLIB_Exit() {
     GX_SetScissor( 0, 0, rmode->fbWidth, rmode->efbHeight );
     GRRLIB_FillScreen( 0x000000FF );
     GRRLIB_Render();
-    GX_Flush();
+    GX_DrawDone();
     GX_AbortFrame();
+    GX_Flush();
 
     if (xfb[0] != NULL) {
         free(MEM_K1_TO_K0(xfb[0]));

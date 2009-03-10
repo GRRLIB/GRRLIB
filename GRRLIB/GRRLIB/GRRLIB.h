@@ -25,11 +25,12 @@
  */
 #define GRRLIB_BLEND_ALPHA  0        /**< Alpha Blending. */
 #define GRRLIB_BLEND_ADD    1        /**< Additive Blending. */
-#define GRRLIB_BLEND_SUB    2        /**< Subtractive Blending. */
-#define GRRLIB_BLEND_INV    3        /**< Invertive Blending. */
+#define GRRLIB_BLEND_SCREEN 2        /**< Alpha Light Blending */
+#define GRRLIB_BLEND_MULTI  3        /**< Multiply Blending. */
+#define GRRLIB_BLEND_INV    4        /**< Invert Color Blending. */
 #define GRRLIB_BLEND_NONE   GRRLIB_BLEND_ALPHA
 #define GRRLIB_BLEND_LIGHT  GRRLIB_BLEND_ADD
-#define GRRLIB_BLEND_SHADE  GRRLIB_BLEND_SUB
+#define GRRLIB_BLEND_SHADE  GRRLIB_BLEND_MULTI
 
 
 /**
