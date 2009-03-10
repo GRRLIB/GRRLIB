@@ -1,7 +1,7 @@
 /*===========================================
         GRRLIB (GX version) 4.0.0
         Code     : NoNameNo
-        Additional Code : Crayon
+        Additional Code : Crayon & Xane
         GX hints : RedShade
 ===========================================*/
 

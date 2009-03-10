@@ -1,9 +1,10 @@
 /*===========================================
         GRRLIB (GX version) 4.0.0
         Code     : NoNameNo
-        Additional Code : Crayon
+        Additional Code : Crayon & Xane
         GX hints : RedShade
 ===========================================*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <malloc.h>
@@ -17,6 +18,7 @@
 #include <fat.h>
 
 #define DEFAULT_FIFO_SIZE (256 * 1024) /**< GX fifo buffer size. */
+
 
 u32 fb = 0;
 static void *xfb[2] = {NULL, NULL};
@@ -544,7 +546,9 @@ GRRLIB_texImg *GRRLIB_CreateEmptyTexture(unsigned int w, unsigned int h) {
  * @param color Color in RGBA format.
  */
 inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, float degrees, float scaleX, f32 scaleY, u32 color) {
-    if (!tex->data) { return; }
+    if (tex == NULL) { return; }
+    if (tex->data == NULL) { return; }
+
     GXTexObj texObj;
     u16 width, height;
     Mtx m, m1, m2, mv;
@@ -599,6 +603,9 @@ inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, float 
  * @param color Color in RGBA format.
  */
 inline void GRRLIB_DrawImgQuad(Vector pos[4], struct GRRLIB_texImg *tex, u32 color) {
+    if (tex == NULL) { return; }
+    if (tex->data == NULL) { return; }
+
     GXTexObj texObj;
     Mtx m, m1, m2, mv;
 
@@ -655,6 +662,10 @@ inline void GRRLIB_DrawImgQuad(Vector pos[4], struct GRRLIB_texImg *tex, u32 col
  * @param frame Specifies the frame to draw.
  */
 inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, float degrees, float scaleX, f32 scaleY, u32 color, int frame) {
+    if (tex == NULL) { return; }
+    if (tex->data == NULL) { return; }
+    if (tex->frame > (tex->nbtilew+tex->nbtileh)) { return; }
+
     GXTexObj texObj;
     f32 width, height;
     Mtx m, m1, m2, mv;
@@ -721,6 +732,9 @@ inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, float
  * @param ... Optional arguments.
  */
 void GRRLIB_Printf(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, u32 color, f32 zoom, const char *text, ...) {
+    if (tex == NULL) { return; }
+    if (tex->data == NULL) { return; }
+
     int i, size;
     char tmp[1024];
 
@@ -811,7 +825,7 @@ void GRRLIB_ClipReset() {
  * @param x The x-coordinate of the handle.
  * @param y The y-coordinate of the handle.
  */
-void GRRLIB_SetHandle( struct GRRLIB_texImg * tex, int x, int y ) {
+void GRRLIB_SetHandle( struct GRRLIB_texImg *tex, int x, int y ) {
     if (tex->tiledtex) {
         tex->handlex = -(((int)tex->tilew)/2) + x;
         tex->handley = -(((int)tex->tileh)/2) + y;
@@ -826,7 +840,7 @@ void GRRLIB_SetHandle( struct GRRLIB_texImg * tex, int x, int y ) {
  * @param tex The texture to center.
  * @param enabled
  */
-void GRRLIB_SetMidHandle( struct GRRLIB_texImg * tex, bool enabled ) {
+void GRRLIB_SetMidHandle( struct GRRLIB_texImg *tex, bool enabled ) {
     if (enabled) {
         if (tex->tiledtex) {
             tex->offsetx = (((int)tex->tilew)/2);
@@ -1201,6 +1215,7 @@ void GRRLIB_Render() {
     GX_SetZMode(GX_TRUE, GX_LEQUAL, GX_TRUE);
     GX_SetColorUpdate(GX_TRUE);
     GX_CopyDisp(xfb[fb], GX_TRUE);
+
     VIDEO_SetNextFramebuffer(xfb[fb]);
     VIDEO_Flush();
     VIDEO_WaitVSync();
@@ -1295,8 +1310,8 @@ void GRRLIB_GetPixelFromFB(int x, int y, u8 *R1, u8 *G1, u8 *B1, u8* R2, u8 *G2,
  * @return Returns a clean, clamped unsigned char.
  */
 u8 GRRLIB_ClampVar8(float Value) {
-	/* Using float to increase the precision.
-	This makes a full spectrum (0 - 255) possible. */
+    /* Using float to increase the precision.
+    This makes a full spectrum (0 - 255) possible. */
     Value = roundf(Value);
     if (Value < 0) {
         Value = 0;
@@ -1315,5 +1330,5 @@ u8 GRRLIB_ClampVar8(float Value) {
  * @return Returns the color in u32 format.
  */
 u32 GRRLIB_GetColor( u8 r, u8 g, u8 b, u8 a ) {
-	return (r << 24) | (g << 16) | (b << 8) | a;
+    return (r << 24) | (g << 16) | (b << 8) | a;
 }
