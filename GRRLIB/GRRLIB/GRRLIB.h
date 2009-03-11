@@ -25,7 +25,7 @@
  */
 #define GRRLIB_BLEND_ALPHA  0        /**< Alpha Blending. */
 #define GRRLIB_BLEND_ADD    1        /**< Additive Blending. */
-#define GRRLIB_BLEND_SCREEN 2        /**< Alpha Light Blending */
+#define GRRLIB_BLEND_SCREEN 2        /**< Alpha Light Blending. */
 #define GRRLIB_BLEND_MULTI  3        /**< Multiply Blending. */
 #define GRRLIB_BLEND_INV    4        /**< Invert Color Blending. */
 #define GRRLIB_BLEND_NONE   GRRLIB_BLEND_ALPHA
@@ -141,9 +141,9 @@ void GRRLIB_BMFX_Grayscale(struct GRRLIB_texImg *texsrc, GRRLIB_texImg *texdest)
 void GRRLIB_BMFX_Invert(struct GRRLIB_texImg *texsrc, GRRLIB_texImg *texdest);
 void GRRLIB_BMFX_FlipH(struct GRRLIB_texImg *texsrc, GRRLIB_texImg *texdest);
 void GRRLIB_BMFX_FlipV(struct GRRLIB_texImg *texsrc, GRRLIB_texImg *texdest);
-void GRRLIB_BMFX_Blur(struct GRRLIB_texImg *texsrc, GRRLIB_texImg *texdest, int factor);
-void GRRLIB_BMFX_Scatter(struct GRRLIB_texImg *texsrc, GRRLIB_texImg *texdest, int factor);
-void GRRLIB_BMFX_Pixelate(struct GRRLIB_texImg *texsrc, GRRLIB_texImg *texdest, int factor);
+void GRRLIB_BMFX_Blur(struct GRRLIB_texImg *texsrc, GRRLIB_texImg *texdest, u32 factor);
+void GRRLIB_BMFX_Scatter(struct GRRLIB_texImg *texsrc, GRRLIB_texImg *texdest, u32 factor);
+void GRRLIB_BMFX_Pixelate(struct GRRLIB_texImg *texsrc, GRRLIB_texImg *texdest, u32 factor);
 
 void GRRLIB_GXEngine(Vector v[], u32 color[], long count, u8 fmt);
 
