@@ -1,10 +1,8 @@
 /*===========================================
-        GRRLIB (GX version) 3.0.5 alpha
-        Code     : NoNameNo
-        Additional Code : Crayon
-        GX hints : RedShade
+        GRRLIB (GX Version)
+        - Example Code -
 
-        How To use Bitmap FX example code
+        How To use Bitmap FX
 ============================================*/
 #include "../../../GRRLIB/GRRLIB/GRRLIB.h"
 
@@ -15,42 +13,39 @@
 #include "gfx/font1.h"
 
 
-Mtx GXmodelView2D;
-
-
 int main() {
     u32 wpaddown;
     int page = 0;
 
     // Font texture
-    GRRLIB_texImg text_font1 = GRRLIB_LoadTexture(font1);
-    GRRLIB_InitTileSet(&text_font1, 32, 36, 32);
+    GRRLIB_texImg *text_font1 = GRRLIB_LoadTexture(font1);
+    GRRLIB_InitTileSet(text_font1, 32, 36, 32);
 
     // Load the original texture and create empty texture of the same size as the original one
-    GRRLIB_texImg tex_pirate = GRRLIB_LoadTexture(pirate);
-    GRRLIB_texImg tex_gray = GRRLIB_CreateEmptyTexture(tex_pirate.w, tex_pirate.h);
-    GRRLIB_texImg tex_invert = GRRLIB_CreateEmptyTexture(tex_pirate.w, tex_pirate.h);
-    GRRLIB_texImg tex_blur1 = GRRLIB_CreateEmptyTexture(tex_pirate.w, tex_pirate.h);
-    GRRLIB_texImg tex_blur2 = GRRLIB_CreateEmptyTexture(tex_pirate.w, tex_pirate.h);
-    GRRLIB_texImg tex_blur3 = GRRLIB_CreateEmptyTexture(tex_pirate.w, tex_pirate.h);
-    GRRLIB_texImg tex_blur4 = GRRLIB_CreateEmptyTexture(tex_pirate.w, tex_pirate.h);
-    GRRLIB_texImg tex_blur5 = GRRLIB_CreateEmptyTexture(tex_pirate.w, tex_pirate.h);
-    GRRLIB_texImg tex_blur6 = GRRLIB_CreateEmptyTexture(tex_pirate.w, tex_pirate.h);
-    GRRLIB_texImg tex_pixel1 = GRRLIB_CreateEmptyTexture(tex_pirate.w, tex_pirate.h);
-    GRRLIB_texImg tex_pixel2 = GRRLIB_CreateEmptyTexture(tex_pirate.w, tex_pirate.h);
-    GRRLIB_texImg tex_pixel3 = GRRLIB_CreateEmptyTexture(tex_pirate.w, tex_pirate.h);
-    GRRLIB_texImg tex_pixel4 = GRRLIB_CreateEmptyTexture(tex_pirate.w, tex_pirate.h);
-    GRRLIB_texImg tex_pixel5 = GRRLIB_CreateEmptyTexture(tex_pirate.w, tex_pirate.h);
-    GRRLIB_texImg tex_pixel6 = GRRLIB_CreateEmptyTexture(tex_pirate.w, tex_pirate.h);
-    GRRLIB_texImg tex_scatter1 = GRRLIB_CreateEmptyTexture(tex_pirate.w, tex_pirate.h);
-    GRRLIB_texImg tex_scatter2 = GRRLIB_CreateEmptyTexture(tex_pirate.w, tex_pirate.h);
-    GRRLIB_texImg tex_scatter3 = GRRLIB_CreateEmptyTexture(tex_pirate.w, tex_pirate.h);
-    GRRLIB_texImg tex_scatter4 = GRRLIB_CreateEmptyTexture(tex_pirate.w, tex_pirate.h);
-    GRRLIB_texImg tex_scatter5 = GRRLIB_CreateEmptyTexture(tex_pirate.w, tex_pirate.h);
-    GRRLIB_texImg tex_scatter6 = GRRLIB_CreateEmptyTexture(tex_pirate.w, tex_pirate.h);
-    GRRLIB_texImg tex_fliph = GRRLIB_CreateEmptyTexture(tex_pirate.w, tex_pirate.h);
-    GRRLIB_texImg tex_flipv = GRRLIB_CreateEmptyTexture(tex_pirate.w, tex_pirate.h);
-    GRRLIB_texImg tex_fliphv = GRRLIB_CreateEmptyTexture(tex_pirate.w, tex_pirate.h);
+    GRRLIB_texImg *tex_pirate   = GRRLIB_LoadTexture(pirate);
+    GRRLIB_texImg *tex_gray     = GRRLIB_CreateEmptyTexture(tex_pirate->w, tex_pirate->h);
+    GRRLIB_texImg *tex_invert   = GRRLIB_CreateEmptyTexture(tex_pirate->w, tex_pirate->h);
+    GRRLIB_texImg *tex_blur1    = GRRLIB_CreateEmptyTexture(tex_pirate->w, tex_pirate->h);
+    GRRLIB_texImg *tex_blur2    = GRRLIB_CreateEmptyTexture(tex_pirate->w, tex_pirate->h);
+    GRRLIB_texImg *tex_blur3    = GRRLIB_CreateEmptyTexture(tex_pirate->w, tex_pirate->h);
+    GRRLIB_texImg *tex_blur4    = GRRLIB_CreateEmptyTexture(tex_pirate->w, tex_pirate->h);
+    GRRLIB_texImg *tex_blur5    = GRRLIB_CreateEmptyTexture(tex_pirate->w, tex_pirate->h);
+    GRRLIB_texImg *tex_blur6    = GRRLIB_CreateEmptyTexture(tex_pirate->w, tex_pirate->h);
+    GRRLIB_texImg *tex_pixel1   = GRRLIB_CreateEmptyTexture(tex_pirate->w, tex_pirate->h);
+    GRRLIB_texImg *tex_pixel2   = GRRLIB_CreateEmptyTexture(tex_pirate->w, tex_pirate->h);
+    GRRLIB_texImg *tex_pixel3   = GRRLIB_CreateEmptyTexture(tex_pirate->w, tex_pirate->h);
+    GRRLIB_texImg *tex_pixel4   = GRRLIB_CreateEmptyTexture(tex_pirate->w, tex_pirate->h);
+    GRRLIB_texImg *tex_pixel5   = GRRLIB_CreateEmptyTexture(tex_pirate->w, tex_pirate->h);
+    GRRLIB_texImg *tex_pixel6   = GRRLIB_CreateEmptyTexture(tex_pirate->w, tex_pirate->h);
+    GRRLIB_texImg *tex_scatter1 = GRRLIB_CreateEmptyTexture(tex_pirate->w, tex_pirate->h);
+    GRRLIB_texImg *tex_scatter2 = GRRLIB_CreateEmptyTexture(tex_pirate->w, tex_pirate->h);
+    GRRLIB_texImg *tex_scatter3 = GRRLIB_CreateEmptyTexture(tex_pirate->w, tex_pirate->h);
+    GRRLIB_texImg *tex_scatter4 = GRRLIB_CreateEmptyTexture(tex_pirate->w, tex_pirate->h);
+    GRRLIB_texImg *tex_scatter5 = GRRLIB_CreateEmptyTexture(tex_pirate->w, tex_pirate->h);
+    GRRLIB_texImg *tex_scatter6 = GRRLIB_CreateEmptyTexture(tex_pirate->w, tex_pirate->h);
+    GRRLIB_texImg *tex_fliph    = GRRLIB_CreateEmptyTexture(tex_pirate->w, tex_pirate->h);
+    GRRLIB_texImg *tex_flipv    = GRRLIB_CreateEmptyTexture(tex_pirate->w, tex_pirate->h);
+    GRRLIB_texImg *tex_fliphv   = GRRLIB_CreateEmptyTexture(tex_pirate->w, tex_pirate->h);
 
     // Let's precalculte the grayscale texture
     GRRLIB_BMFX_Grayscale(tex_pirate, tex_gray);
@@ -125,54 +120,54 @@ int main() {
                 GRRLIB_Printf(10, 10, text_font1, 0X000000FF, 1, "GRAYSCALE FX");
 
                 GRRLIB_DrawImg(10, 60, tex_pirate, 0, 1, 1, 0xFFFFFFFF);
-                GRRLIB_DrawImg(10+tex_pirate.w*1, 60, tex_gray, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*1, 60, tex_gray, 0, 1, 1, 0xFFFFFFFF);
                 break;
             case 2:
                 GRRLIB_Printf(10, 10, text_font1, 0X000000FF, 1, "INVERT FX");
 
                 GRRLIB_DrawImg(10, 60, tex_pirate, 0, 1, 1, 0xFFFFFFFF);
-                GRRLIB_DrawImg(10+tex_pirate.w*1, 60, tex_invert, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*1, 60, tex_invert, 0, 1, 1, 0xFFFFFFFF);
                 break;
             case 3:
                 GRRLIB_Printf(10, 10, text_font1, 0X000000FF, 1, "FLIPH AND FLIPV FX");
 
                 GRRLIB_DrawImg(10, 60, tex_pirate, 0, 1, 1, 0xFFFFFFFF);
-                GRRLIB_DrawImg(10+tex_pirate.w*1, 60, tex_fliph, 0, 1, 1, 0xFFFFFFFF);
-                GRRLIB_DrawImg(10+tex_pirate.w*2, 60, tex_flipv, 0, 1, 1, 0xFFFFFFFF);
-                GRRLIB_DrawImg(10+tex_pirate.w*3, 60, tex_fliphv, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*1, 60, tex_fliph, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*2, 60, tex_flipv, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*3, 60, tex_fliphv, 0, 1, 1, 0xFFFFFFFF);
                 break;
             case 4:
                 GRRLIB_Printf(10, 10, text_font1, 0X000000FF, 1, "BLUR FX");
 
                 GRRLIB_DrawImg(10, 60, tex_pirate, 0, 1, 1, 0xFFFFFFFF);
-                GRRLIB_DrawImg(10+tex_pirate.w*1, 60, tex_blur1, 0, 1, 1, 0xFFFFFFFF);
-                GRRLIB_DrawImg(10+tex_pirate.w*2, 60, tex_blur2, 0, 1, 1, 0xFFFFFFFF);
-                GRRLIB_DrawImg(10+tex_pirate.w*3, 60, tex_blur3, 0, 1, 1, 0xFFFFFFFF);
-                GRRLIB_DrawImg(10, 60+tex_pirate.h*1, tex_blur4, 0, 1, 1, 0xFFFFFFFF);
-                GRRLIB_DrawImg(10+tex_pirate.w*1, 60+tex_pirate.h*1, tex_blur5, 0, 1, 1, 0xFFFFFFFF);
-                GRRLIB_DrawImg(10+tex_pirate.w*2, 60+tex_pirate.h*1, tex_blur6, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*1, 60, tex_blur1, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*2, 60, tex_blur2, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*3, 60, tex_blur3, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10, 60+tex_pirate->h*1, tex_blur4, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*1, 60+tex_pirate->h*1, tex_blur5, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*2, 60+tex_pirate->h*1, tex_blur6, 0, 1, 1, 0xFFFFFFFF);
                 break;
             case 5:
                 GRRLIB_Printf(10, 10, text_font1, 0X000000FF, 1, "PIXELATE FX");
 
                 GRRLIB_DrawImg(10, 60, tex_pirate, 0, 1, 1, 0xFFFFFFFF);
-                GRRLIB_DrawImg(10+tex_pirate.w*1, 60, tex_pixel1, 0, 1, 1, 0xFFFFFFFF);
-                GRRLIB_DrawImg(10+tex_pirate.w*2, 60, tex_pixel2, 0, 1, 1, 0xFFFFFFFF);
-                GRRLIB_DrawImg(10+tex_pirate.w*3, 60, tex_pixel3, 0, 1, 1, 0xFFFFFFFF);
-                GRRLIB_DrawImg(10, 60+tex_pirate.h*1, tex_pixel4, 0, 1, 1, 0xFFFFFFFF);
-                GRRLIB_DrawImg(10+tex_pirate.w*1, 60+tex_pirate.h*1, tex_pixel5, 0, 1, 1, 0xFFFFFFFF);
-                GRRLIB_DrawImg(10+tex_pirate.w*2, 60+tex_pirate.h*1, tex_pixel6, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*1, 60, tex_pixel1, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*2, 60, tex_pixel2, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*3, 60, tex_pixel3, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10, 60+tex_pirate->h*1, tex_pixel4, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*1, 60+tex_pirate->h*1, tex_pixel5, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*2, 60+tex_pirate->h*1, tex_pixel6, 0, 1, 1, 0xFFFFFFFF);
                 break;
             case 6:
                 GRRLIB_Printf(10, 10, text_font1, 0X000000FF, 1, "SCATTER FX");
 
                 GRRLIB_DrawImg(10, 60, tex_pirate, 0, 1, 1, 0xFFFFFFFF);
-                GRRLIB_DrawImg(10+tex_pirate.w*1, 60, tex_scatter1, 0, 1, 1, 0xFFFFFFFF);
-                GRRLIB_DrawImg(10+tex_pirate.w*2, 60, tex_scatter2, 0, 1, 1, 0xFFFFFFFF);
-                GRRLIB_DrawImg(10+tex_pirate.w*3, 60, tex_scatter3, 0, 1, 1, 0xFFFFFFFF);
-                GRRLIB_DrawImg(10, 60+tex_pirate.h*1, tex_scatter4, 0, 1, 1, 0xFFFFFFFF);
-                GRRLIB_DrawImg(10+tex_pirate.w*1, 60+tex_pirate.h*1, tex_scatter5, 0, 1, 1, 0xFFFFFFFF);
-                GRRLIB_DrawImg(10+tex_pirate.w*2, 60+tex_pirate.h*1, tex_scatter6, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*1, 60, tex_scatter1, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*2, 60, tex_scatter2, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*3, 60, tex_scatter3, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10, 60+tex_pirate->h*1, tex_scatter4, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*1, 60+tex_pirate->h*1, tex_scatter5, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*2, 60+tex_pirate->h*1, tex_scatter6, 0, 1, 1, 0xFFFFFFFF);
                 break;
             default:
                 GRRLIB_Printf(10, 10, text_font1, 0X000000FF, 1, "WELCOME TO THE");
@@ -197,29 +192,29 @@ int main() {
         }
     }
     GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
-    free(tex_pirate.data);
-    free(tex_gray.data);
-    free(tex_invert.data);
-    free(tex_fliph.data);
-    free(tex_flipv.data);
-    free(tex_fliphv.data);
-    free(tex_blur1.data);
-    free(tex_blur2.data);
-    free(tex_blur3.data);
-    free(tex_blur4.data);
-    free(tex_blur5.data);
-    free(tex_blur6.data);
-    free(tex_pixel1.data);
-    free(tex_pixel2.data);
-    free(tex_pixel3.data);
-    free(tex_pixel4.data);
-    free(tex_pixel5.data);
-    free(tex_pixel6.data);
-    free(tex_scatter1.data);
-    free(tex_scatter2.data);
-    free(tex_scatter3.data);
-    free(tex_scatter4.data);
-    free(tex_scatter5.data);
-    free(tex_scatter6.data);
+    free(tex_pirate);
+    free(tex_gray);
+    free(tex_invert);
+    free(tex_fliph);
+    free(tex_flipv);
+    free(tex_fliphv);
+    free(tex_blur1);
+    free(tex_blur2);
+    free(tex_blur3);
+    free(tex_blur4);
+    free(tex_blur5);
+    free(tex_blur6);
+    free(tex_pixel1);
+    free(tex_pixel2);
+    free(tex_pixel3);
+    free(tex_pixel4);
+    free(tex_pixel5);
+    free(tex_pixel6);
+    free(tex_scatter1);
+    free(tex_scatter2);
+    free(tex_scatter3);
+    free(tex_scatter4);
+    free(tex_scatter5);
+    free(tex_scatter6);
     return 0;
 }

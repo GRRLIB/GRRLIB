@@ -1,8 +1,6 @@
 /*===========================================
-        GRRLIB (GX version) 3.0.5 alpha
-        Code     : NoNameNo
-        Additional Code : Crayon
-        GX hints : RedShade
+        GRRLIB (GX Version)
+        - Template Code -
 
         Minimum Code To Use GRRLIB
 ============================================*/
@@ -13,21 +11,19 @@
 #include <wiiuse/wpad.h>
 
 
-Mtx GXmodelView2D;
-
 
 int main() {
-    u32 wpaddown;
+    u32 WPADDown;
 
     GRRLIB_Init();
     WPAD_Init();
 
     while(1) {
         WPAD_ScanPads();
-        wpaddown = WPAD_ButtonsDown(0);
+        WPADDown = WPAD_ButtonsDown(0);
 
         GRRLIB_Render();
-        if(wpaddown & WPAD_BUTTON_HOME) {
+        if(WPADDown & WPAD_BUTTON_HOME) {
             exit(0);
         }
     }

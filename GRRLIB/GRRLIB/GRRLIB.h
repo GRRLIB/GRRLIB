@@ -86,8 +86,6 @@ typedef struct GRRLIB_bytemapFont {
 } GRRLIB_bytemapFont;
 
 
-extern Mtx GXmodelView2D;
-
 void GRRLIB_SetAntiAliasing(bool aa);
 bool GRRLIB_GetAntiAliasing();
 
@@ -112,8 +110,8 @@ GRRLIB_texImg *GRRLIB_LoadTexture(const unsigned char my_img[]);
 GRRLIB_texImg *GRRLIB_LoadTextureJPG(const unsigned char my_jpg[]);
 GRRLIB_texImg *GRRLIB_LoadTexturePNG(const unsigned char my_png[]);
 
-GRRLIB_bytemapFont GRRLIB_LoadBMF(const unsigned char my_bmf[]);
-void GRRLIB_FreeBMF(GRRLIB_bytemapFont bmf);
+GRRLIB_bytemapFont *GRRLIB_LoadBMF(const unsigned char my_bmf[]);
+void GRRLIB_FreeBMF(GRRLIB_bytemapFont *bmf);
 
 void GRRLIB_InitTileSet(struct GRRLIB_texImg *tex, unsigned int tilew, unsigned int tileh, unsigned int tilestart);
 
@@ -122,7 +120,7 @@ inline void GRRLIB_DrawImgQuad(Vector pos[4], struct GRRLIB_texImg *tex, u32 col
 inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, float degrees, float scaleX, f32 scaleY, u32 color, int frame);
 
 void GRRLIB_Printf(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, u32 color, f32 zoom, const char *text, ...);
-void GRRLIB_PrintBMF(f32 xpos, f32 ypos, struct GRRLIB_bytemapFont bmf, f32 zoom, const char *text, ...);
+void GRRLIB_PrintBMF(f32 xpos, f32 ypos, struct GRRLIB_bytemapFont *bmf, f32 zoom, const char *text, ...);
 
 bool GRRLIB_PtInRect(int hotx, int hoty, int hotw, int hoth, int wpadx, int wpady);
 bool GRRLIB_RectInRect(int rect1x, int rect1y, int rect1w, int rect1h, int rect2x, int rect2y, int rect2w, int rect2h);

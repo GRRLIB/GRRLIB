@@ -22,6 +22,7 @@
 
 u32 fb = 0;
 static void *xfb[2] = {NULL, NULL};
+static Mtx GXmodelView2D;
 GXRModeObj *rmode;
 void *gp_fifo = NULL;
 
@@ -356,7 +357,7 @@ GRRLIB_texImg *GRRLIB_LoadTextureJPG(const unsigned char my_jpg[]) {
  * @param text Text to draw.
  * @param ... Optional arguments.
  */
-void GRRLIB_PrintBMF(f32 xpos, f32 ypos, struct GRRLIB_bytemapFont bmf, f32 zoom, const char *text, ...) {
+void GRRLIB_PrintBMF(f32 xpos, f32 ypos, struct GRRLIB_bytemapFont *bmf, f32 zoom, const char *text, ...) {
     unsigned int i, j, x, y, n, size;
     char tmp[1024];
 
@@ -368,21 +369,19 @@ void GRRLIB_PrintBMF(f32 xpos, f32 ypos, struct GRRLIB_bytemapFont bmf, f32 zoom
     GRRLIB_texImg *tex_BMfont = GRRLIB_CreateEmptyTexture(640, 480);
 
     for (i=0; i<size; i++) {
-        for (j=0; j<bmf.nbChar; j++) {
-            if (tmp[i] == bmf.charDef[j].character) {
+        for (j=0; j<bmf->nbChar; j++) {
+            if (tmp[i] == bmf->charDef[j].character) {
                 n=0;
-                for (y=0; y<bmf.charDef[j].height; y++) {
-                    for (x=0; x<bmf.charDef[j].width; x++) {
-                        if (bmf.charDef[j].data[n]) {
-                            GRRLIB_SetPixelTotexImg(xpos + x + bmf.charDef[j].relx, ypos + y + bmf.charDef[j].rely,
-                                tex_BMfont, bmf.palette[bmf.charDef[j].data[n]]);
-                            //GRRLIB_Plot(xpos + x + bmf.charDef[j].relx, ypos + y + bmf.charDef[j].rely,
-                            //    bmf.palette[bmf.charDef[j].data[n]]);
+                for (y=0; y<bmf->charDef[j].height; y++) {
+                    for (x=0; x<bmf->charDef[j].width; x++) {
+                        if (bmf->charDef[j].data[n]) {
+                            GRRLIB_SetPixelTotexImg(xpos + x + bmf->charDef[j].relx, ypos + y + bmf->charDef[j].rely,
+                                tex_BMfont, bmf->palette[bmf->charDef[j].data[n]]);
                         }
                         n++;
                     }
                 }
-                xpos += bmf.charDef[j].shift + bmf.addSpace;
+                xpos += bmf->charDef[j].shift + bmf->addSpace;
                 break;
             }
         }
@@ -399,49 +398,46 @@ void GRRLIB_PrintBMF(f32 xpos, f32 ypos, struct GRRLIB_bytemapFont bmf, f32 zoom
  * @param my_bmf The ByteMap font buffer to load.
  * @return A GRRLIB_bytemapFont structure filled with BMF informations.
  */
-GRRLIB_bytemapFont GRRLIB_LoadBMF(const unsigned char my_bmf[]) {
-    GRRLIB_bytemapFont fontArray;
+GRRLIB_bytemapFont *GRRLIB_LoadBMF(const unsigned char my_bmf[]) {
+    GRRLIB_bytemapFont *fontArray = (struct GRRLIB_bytemapFont *)malloc(sizeof(GRRLIB_bytemapFont));
     int i, j = 1;
     u8 lineheight, usedcolors, highestcolor, nbPalette;
     short int sizeover, sizeunder, sizeinner, numcolpal;
     u16 nbPixels;
 
-    // Initialize everything to zero
-    memset(&fontArray, 0, sizeof(fontArray));
-
     if (my_bmf[0]==0xE1 && my_bmf[1]==0xE6 && my_bmf[2]==0xD5 && my_bmf[3]==0x1A) {
-        fontArray.version = my_bmf[4];
+        fontArray->version = my_bmf[4];
         lineheight = my_bmf[5];
         sizeover = my_bmf[6];
         sizeunder = my_bmf[7];
-        fontArray.addSpace = my_bmf[8];
+        fontArray->addSpace = my_bmf[8];
         sizeinner = my_bmf[9];
         usedcolors = my_bmf[10];
         highestcolor = my_bmf[11];
         nbPalette = my_bmf[16];
         numcolpal = 3 * nbPalette;
-        fontArray.palette = (u32 *)calloc(nbPalette + 1, sizeof(u32));
+        fontArray->palette = (u32 *)calloc(nbPalette + 1, sizeof(u32));
         for (i=0; i < numcolpal; i+=3) {
-            fontArray.palette[j++] = ((((my_bmf[i+17]<<2)+3)<<24) | (((my_bmf[i+18]<<2)+3)<<16) | (((my_bmf[i+19]<<2)+3)<<8) | 0xFF);
+            fontArray->palette[j++] = ((((my_bmf[i+17]<<2)+3)<<24) | (((my_bmf[i+18]<<2)+3)<<16) | (((my_bmf[i+19]<<2)+3)<<8) | 0xFF);
         }
         j = my_bmf[17 + numcolpal];
-        fontArray.name = (char *)calloc(j + 1, sizeof(char));
-        memcpy(fontArray.name, &my_bmf[18 + numcolpal], j);
+        fontArray->name = (char *)calloc(j + 1, sizeof(char));
+        memcpy(fontArray->name, &my_bmf[18 + numcolpal], j);
         j = 18 + numcolpal + j;
-        fontArray.nbChar = (my_bmf[j] | my_bmf[j+1]<<8);
-        fontArray.charDef = (GRRLIB_bytemapChar *)calloc(fontArray.nbChar, sizeof(GRRLIB_bytemapChar));
+        fontArray->nbChar = (my_bmf[j] | my_bmf[j+1]<<8);
+        fontArray->charDef = (GRRLIB_bytemapChar *)calloc(fontArray->nbChar, sizeof(GRRLIB_bytemapChar));
         j++;
-        for (i=0; i < fontArray.nbChar; i++) {
-            fontArray.charDef[i].character = my_bmf[++j];
-            fontArray.charDef[i].width = my_bmf[++j];
-            fontArray.charDef[i].height = my_bmf[++j];
-            fontArray.charDef[i].relx = my_bmf[++j];
-            fontArray.charDef[i].rely = my_bmf[++j];
-            fontArray.charDef[i].shift = my_bmf[++j];
-            nbPixels = fontArray.charDef[i].width * fontArray.charDef[i].height;
-            fontArray.charDef[i].data = (u8 *)malloc(nbPixels);
-            if (nbPixels && fontArray.charDef[i].data) {
-                memcpy(fontArray.charDef[i].data, &my_bmf[++j], nbPixels);
+        for (i=0; i < fontArray->nbChar; i++) {
+            fontArray->charDef[i].character = my_bmf[++j];
+            fontArray->charDef[i].width = my_bmf[++j];
+            fontArray->charDef[i].height = my_bmf[++j];
+            fontArray->charDef[i].relx = my_bmf[++j];
+            fontArray->charDef[i].rely = my_bmf[++j];
+            fontArray->charDef[i].shift = my_bmf[++j];
+            nbPixels = fontArray->charDef[i].width * fontArray->charDef[i].height;
+            fontArray->charDef[i].data = (u8 *)malloc(nbPixels);
+            if (nbPixels && fontArray->charDef[i].data) {
+                memcpy(fontArray->charDef[i].data, &my_bmf[++j], nbPixels);
                 j += (nbPixels - 1);
             }
         }
@@ -453,15 +449,15 @@ GRRLIB_bytemapFont GRRLIB_LoadBMF(const unsigned char my_bmf[]) {
  * Free memory allocated by ByteMap fonts.
  * @param bmf a GRRLIB_bytemapFont structure.
  */
-void GRRLIB_FreeBMF(GRRLIB_bytemapFont bmf) {
+void GRRLIB_FreeBMF(GRRLIB_bytemapFont *bmf) {
     unsigned int i;
 
-    for (i=0; i<bmf.nbChar; i++) {
-        free(bmf.charDef[i].data);
+    for (i=0; i<bmf->nbChar; i++) {
+        free(bmf->charDef[i].data);
     }
-    free(bmf.charDef);
-    free(bmf.palette);
-    free(bmf.name);
+    free(bmf->charDef);
+    free(bmf->palette);
+    free(bmf->name);
 }
 
 /**
@@ -491,12 +487,17 @@ GRRLIB_texImg *GRRLIB_CreateEmptyTexture(unsigned int w, unsigned int h) {
     my_texture->data = memalign(32, h * w * 4);
     my_texture->w = w;
     my_texture->h = h;
+    my_texture->handlex = 0; my_texture->handley = 0;
+    my_texture->offsetx = 0; my_texture->offsety = 0;
+    my_texture->tiledtex = false;
+    
     // Initialize the texture
     for (y = 0; y < h; y++) {
         for (x = 0; x < w; x++) {
             GRRLIB_SetPixelTotexImg(x, y, my_texture, 0x00000000);
         }
     }
+    GRRLIB_SetHandle( my_texture, 0, 0 );
     GRRLIB_FlushTex( my_texture );
     return my_texture;
 }
@@ -512,8 +513,8 @@ GRRLIB_texImg *GRRLIB_CreateEmptyTexture(unsigned int w, unsigned int h) {
  * @param color Color in RGBA format.
  */
 inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, float degrees, float scaleX, f32 scaleY, u32 color) {
-    //if (tex == NULL) { return; }
-    //if (tex->data == NULL) { return; }
+	if (tex->data == NULL) { return; }
+    if (tex == NULL) { return; }
 
     GXTexObj texObj;
     u16 width, height;
@@ -570,8 +571,8 @@ inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, float 
  * @param color Color in RGBA format.
  */
 inline void GRRLIB_DrawImgQuad(Vector pos[4], struct GRRLIB_texImg *tex, u32 color) {
+	if (tex->data == NULL) { return; }
     if (tex == NULL) { return; }
-    if (tex->data == NULL) { return; }
 
     GXTexObj texObj;
     Mtx m, m1, m2, mv;
@@ -629,9 +630,8 @@ inline void GRRLIB_DrawImgQuad(Vector pos[4], struct GRRLIB_texImg *tex, u32 col
  * @param frame Specifies the frame to draw.
  */
 inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, float degrees, float scaleX, f32 scaleY, u32 color, int frame) {
+	if (tex->data == NULL) { return; }
     if (tex == NULL) { return; }
-    if (tex->data == NULL) { return; }
-    if (frame > (tex->nbtilew+tex->nbtileh+tex->tilestart)) { return; }
 
     GXTexObj texObj;
     f32 width, height;
@@ -699,8 +699,8 @@ inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, float
  * @param ... Optional arguments.
  */
 void GRRLIB_Printf(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, u32 color, f32 zoom, const char *text, ...) {
+	if (tex->data == NULL) { return; }
     if (tex == NULL) { return; }
-    if (tex->data == NULL) { return; }
 
     int i, size;
     char tmp[1024];
@@ -896,6 +896,7 @@ void GRRLIB_BMFX_Grayscale(struct GRRLIB_texImg *texsrc, GRRLIB_texImg *texdest)
                 ((gray << 24) | (gray << 16) | (gray << 8) | (color & 0xFF)));
         }
     }
+    GRRLIB_SetHandle( texdest, 0, 0 );
 }
 
 /**
@@ -962,7 +963,7 @@ void GRRLIB_BMFX_Blur(struct GRRLIB_texImg *texsrc, GRRLIB_texImg *texdest, int 
     int numba = (1+(factor<<1))*(1+(factor<<1));
     u32 x, y;
     u32 k, l;
-    int tmp=0;
+    int tmp = 0;
     int newr, newg, newb, newa;
     u32 colours[numba];
     u32 thiscol;
@@ -974,7 +975,7 @@ void GRRLIB_BMFX_Blur(struct GRRLIB_texImg *texsrc, GRRLIB_texImg *texdest, int 
             newb = 0;
             newa = 0;
 
-            tmp=0;
+            tmp = 0;
             thiscol = GRRLIB_GetPixelFromtexImg(x, y, texsrc);
 
             for (k = x - factor; k <= x + factor; k++) {

@@ -1,14 +1,12 @@
 /*===========================================
-        GRRLIB (GX version) 3.0.5 alpha
-        Code     : NoNameNo
-        Additional Code : Crayon
-        GX hints : RedShade
+        GRRLIB (GX Version)
+		- Example Code -
 
-        Template Code 1
+        How To use Bitmap Fonts
 ============================================*/
 #include "../../../GRRLIB/GRRLIB/GRRLIB.h"
 
-#include <ogc/lwp_watchdog.h>	// needed for gettime and ticks_to_millisecs
+#include <ogc/lwp_watchdog.h>	// Needed for gettime and ticks_to_millisecs
 #include <stdlib.h>
 #include <wiiuse/wpad.h>
 #include <fat.h>
@@ -52,7 +50,6 @@
 #define GRRLIB_AQUA    0x00FFFFFF
 #define GRRLIB_WHITE   0xFFFFFFFF
 
-Mtx GXmodelView2D;
 static u8 CalculateFrameRate();
 
 int main() {
@@ -72,28 +69,28 @@ int main() {
     WPAD_Init();
     WPAD_SetDataFormat(WPAD_CHAN_0, WPAD_FMT_BTNS_ACC_IR);
 
-    GRRLIB_texImg tex_test_jpg = GRRLIB_LoadTexture(test_jpg);
+    GRRLIB_texImg *tex_test_jpg = GRRLIB_LoadTexture(test_jpg);
 
-    GRRLIB_bytemapFont bmf_Font1 = GRRLIB_LoadBMF(ocean);
-    GRRLIB_bytemapFont bmf_Font2 = GRRLIB_LoadBMF(frontal);
+    GRRLIB_bytemapFont *bmf_Font1 = GRRLIB_LoadBMF(ocean);
+    GRRLIB_bytemapFont *bmf_Font2 = GRRLIB_LoadBMF(frontal);
 
-    GRRLIB_texImg tex_sprite_png = GRRLIB_LoadTexture(sprite);
-    GRRLIB_InitTileSet(&tex_sprite_png, 24, 32, 0);
+    GRRLIB_texImg *tex_sprite_png = GRRLIB_LoadTexture(sprite);
+    GRRLIB_InitTileSet(tex_sprite_png, 24, 32, 0);
 
-    GRRLIB_texImg tex_BMfont1 = GRRLIB_LoadTexture(BMfont1);
-    GRRLIB_InitTileSet(&tex_BMfont1, 32, 32, 32);
+    GRRLIB_texImg *tex_BMfont1 = GRRLIB_LoadTexture(BMfont1);
+    GRRLIB_InitTileSet(tex_BMfont1, 32, 32, 32);
 
-    GRRLIB_texImg tex_BMfont2 = GRRLIB_LoadTexture(BMfont2);
-    GRRLIB_InitTileSet(&tex_BMfont2, 16, 16, 32);
+    GRRLIB_texImg *tex_BMfont2 = GRRLIB_LoadTexture(BMfont2);
+    GRRLIB_InitTileSet(tex_BMfont2, 16, 16, 32);
 
-    GRRLIB_texImg tex_BMfont3 = GRRLIB_LoadTexture(BMfont3);
-    GRRLIB_InitTileSet(&tex_BMfont3, 32, 32, 32);
+    GRRLIB_texImg *tex_BMfont3 = GRRLIB_LoadTexture(BMfont3);
+    GRRLIB_InitTileSet(tex_BMfont3, 32, 32, 32);
 
-    GRRLIB_texImg tex_BMfont4 = GRRLIB_LoadTexture(BMfont4);
-    GRRLIB_InitTileSet(&tex_BMfont4, 16, 16, 32);
+    GRRLIB_texImg *tex_BMfont4 = GRRLIB_LoadTexture(BMfont4);
+    GRRLIB_InitTileSet(tex_BMfont4, 16, 16, 32);
 
-    GRRLIB_texImg tex_BMfont5 = GRRLIB_LoadTexture(BMfont5);
-    GRRLIB_InitTileSet(&tex_BMfont5, 8, 16, 0);
+    GRRLIB_texImg *tex_BMfont5 = GRRLIB_LoadTexture(BMfont5);
+    GRRLIB_InitTileSet(tex_BMfont5, 8, 16, 0);
 
     while(1) {
         WPAD_SetVRes(0, 640, 480);
@@ -166,7 +163,7 @@ int main() {
                 GRRLIB_Printf(left, top+300, tex_BMfont3, GRRLIB_WHITE, 1, "IR Y VALUE: %d", (int)ir1.y);
                 GRRLIB_Printf(left, top+350, tex_BMfont3, 0XFFFFFF50, 1, "TEXT WITH ALPHA");
                 GRRLIB_Printf(left, top+400, tex_BMfont5, GRRLIB_LIME, 1, "This font has the 128 ASCII characters");
-                GRRLIB_PrintBMF(left, top+420, bmf_Font2, 1, "%s", bmf_Font2.name);
+                GRRLIB_PrintBMF(left, top+420, bmf_Font2, 1, "%s", bmf_Font2->name);
         }
         GRRLIB_Printf(500, 27, tex_BMfont5, GRRLIB_WHITE, 1, "Current FPS: %d", FPS);
         GRRLIB_Render();
@@ -218,13 +215,13 @@ int main() {
     }
     GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
     // Free some textures
-    free(tex_test_jpg.data);
-    free(tex_sprite_png.data);
-    free(tex_BMfont1.data);
-    free(tex_BMfont2.data);
-    free(tex_BMfont3.data);
-    free(tex_BMfont4.data);
-    free(tex_BMfont5.data);
+    free(tex_test_jpg);
+    free(tex_sprite_png);
+    free(tex_BMfont1);
+    free(tex_BMfont2);
+    free(tex_BMfont3);
+    free(tex_BMfont4);
+    free(tex_BMfont5);
     GRRLIB_FreeBMF(bmf_Font1);
     GRRLIB_FreeBMF(bmf_Font2);
     return 0;

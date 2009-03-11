@@ -1,10 +1,9 @@
 /*===========================================
-        GRRLIB (GX version) 3.0.5 alpha
-        Code     : NoNameNo
-        Additional Code : Crayon
-        GX hints : RedShade
+        GRRLIB (GX Version)
+        Example code by NoNameNo
 
-        Minimum Code To Use GRRLIB
+        This code shows how to draw
+        vectors using GRRLIB_DrawImgQuad.
 ============================================*/
 #include "../../../GRRLIB/GRRLIB/GRRLIB.h"
 
@@ -15,8 +14,6 @@
 
 #include "gfx/pirate.h"
 
-
-Mtx GXmodelView2D;
 
 int main() {
     u32 wpaddown;
@@ -31,7 +28,7 @@ int main() {
 
     GRRLIB_Init();
     WPAD_Init();
-    GRRLIB_texImg tex_pirate = GRRLIB_LoadTexture(pirate);
+    GRRLIB_texImg *tex_pirate = GRRLIB_LoadTexture(pirate);
     
     while(1) {
         WPAD_ScanPads();
