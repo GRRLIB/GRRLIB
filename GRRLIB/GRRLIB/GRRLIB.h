@@ -89,7 +89,7 @@ typedef struct GRRLIB_bytemapFont {
 void GRRLIB_SetAntiAliasing(bool aa);
 bool GRRLIB_GetAntiAliasing();
 
-inline void GRRLIB_SetBlend( unsigned char blendmode );
+void GRRLIB_SetBlend( unsigned char blendmode );
 unsigned char GRRLIB_GetBlend();
 
 

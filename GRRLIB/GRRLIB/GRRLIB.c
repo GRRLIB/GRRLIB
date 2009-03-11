@@ -51,7 +51,7 @@ bool GRRLIB_GetAntiAliasing() {
  * Set a blending mode.
  * @param blendmode The blending mode to use (Default: GRRLIB_BLEND_ALPHA).
  */
-inline void GRRLIB_SetBlend( unsigned char blendmode ) {
+void GRRLIB_SetBlend( unsigned char blendmode ) {
     GRRLIB_Settings.blend = blendmode;
     switch (GRRLIB_Settings.blend) {
         case GRRLIB_BLEND_ALPHA:
