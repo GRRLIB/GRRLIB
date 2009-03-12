@@ -1146,7 +1146,7 @@ void GRRLIB_Init() {
     GX_InvVtxCache();
     GX_InvalidateTexAll();
 
-    GX_SetVtxDesc(GX_VA_TEX0, GX_DIRECT);
+    GX_SetVtxDesc(GX_VA_TEX0, GX_NONE);
     GX_SetVtxDesc(GX_VA_POS,  GX_DIRECT);
     GX_SetVtxDesc(GX_VA_CLR0, GX_DIRECT);
 
