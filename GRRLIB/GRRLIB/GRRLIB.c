@@ -26,9 +26,19 @@ static Mtx GXmodelView2D;
 GXRModeObj *rmode;
 void *gp_fifo = NULL;
 
+// Declare Static Functions
 static GRRLIB_drawSettings GRRLIB_Settings;
-
 static void RawTo4x4RGBA(const unsigned char *src, void *dst, const unsigned int width, const unsigned int height);
+
+// Declare Inline Functions
+inline void GRRLIB_FillScreen(u32 color);
+inline void GRRLIB_Plot(f32 x, f32 y, u32 color);
+inline void GRRLIB_Line(f32 x1, f32 y1, f32 x2, f32 y2, u32 color);
+inline void GRRLIB_Rectangle(f32 x, f32 y, f32 width, f32 height, u32 color, u8 filled);
+inline void GRRLIB_Circle(f32 x, f32 y, f32 radius, u32 color, u8 filled);
+inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, float degrees, float scaleX, f32 scaleY, u32 color );
+inline void GRRLIB_DrawImgQuad(Vector pos[4], struct GRRLIB_texImg *tex, u32 color);
+inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, float degrees, float scaleX, f32 scaleY, u32 color, int frame);
 
 
 /**
@@ -67,7 +77,6 @@ void GRRLIB_SetBlend( unsigned char blendmode ) {
             GX_SetBlendMode(GX_BM_SUBSTRACT, GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_CLEAR);
             break;
         case GRRLIB_BLEND_INV:
-        case 8:
             GX_SetBlendMode(GX_BM_BLEND, GX_BL_INVSRCCLR, GX_BL_INVSRCCLR, GX_LO_CLEAR);
             break;
     }
@@ -524,7 +533,7 @@ inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, float 
     if (GRRLIB_Settings.antialias == false) {
         GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR, 0.0f, 0.0f, 0.0f, 0, 0, GX_ANISO_1);
     }
-
+    
     GX_LoadTexObj(&texObj, GX_TEXMAP0);
     GX_SetTevOp(GX_TEVSTAGE0, GX_MODULATE);
     GX_SetVtxDesc(GX_VA_TEX0, GX_DIRECT);
@@ -1137,13 +1146,13 @@ void GRRLIB_Init() {
     GX_InvVtxCache();
     GX_InvalidateTexAll();
 
-    GX_SetVtxDesc(GX_VA_TEX0, GX_NONE);
-    GX_SetVtxDesc(GX_VA_POS, GX_DIRECT);
+    GX_SetVtxDesc(GX_VA_TEX0, GX_DIRECT);
+    GX_SetVtxDesc(GX_VA_POS,  GX_DIRECT);
     GX_SetVtxDesc(GX_VA_CLR0, GX_DIRECT);
 
-    GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_POS_XYZ, GX_F32, 0);
+    GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS,  GX_POS_XYZ,  GX_F32, 0);
+    GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_TEX0, GX_TEX_ST,   GX_F32, 0);
     GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_CLR0, GX_CLR_RGBA, GX_RGBA8, 0);
-    GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_TEX0, GX_TEX_ST, GX_F32, 0);
     GX_SetZMode(GX_FALSE, GX_LEQUAL, GX_TRUE);
 
     GX_SetNumChans(1);
@@ -1153,10 +1162,10 @@ void GRRLIB_Init() {
     GX_SetTexCoordGen(GX_TEXCOORD0, GX_TG_MTX2x4, GX_TG_TEX0, GX_IDENTITY);
 
     guMtxIdentity(GXmodelView2D);
-    guMtxTransApply(GXmodelView2D, GXmodelView2D, 0.0F, 0.0F, -50.0F);
+    guMtxTransApply(GXmodelView2D, GXmodelView2D, 0.0F, 0.0F, -100.0F);
     GX_LoadPosMtxImm(GXmodelView2D, GX_PNMTX0);
 
-    guOrtho(perspective, 0, rmode->efbHeight, 0, rmode->fbWidth, 0, 300.0f);
+    guOrtho(perspective, 0, rmode->efbHeight, 0, rmode->fbWidth, 0, 1000.0f);
     GX_LoadProjectionMtx(perspective, GX_ORTHOGRAPHIC);
 
     GX_SetViewport(0, 0, rmode->fbWidth, rmode->efbHeight, 0, 1);
@@ -1178,8 +1187,8 @@ void GRRLIB_Init() {
  * Call this function after drawing.
  */
 void GRRLIB_Render() {
-    //GX_Flush();
     GX_DrawDone();
+    GX_InvalidateTexAll();
 
     fb ^= 1;        // Flip framebuffer
     GX_SetZMode(GX_TRUE, GX_LEQUAL, GX_TRUE);
@@ -1201,7 +1210,6 @@ void GRRLIB_Exit() {
     GRRLIB_Render();
     GX_DrawDone();
     GX_AbortFrame();
-    GX_Flush();
 
     if (xfb[0] != NULL) {
         free(MEM_K1_TO_K0(xfb[0]));

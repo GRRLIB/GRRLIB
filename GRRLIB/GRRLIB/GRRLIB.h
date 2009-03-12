@@ -93,15 +93,15 @@ void GRRLIB_SetBlend( unsigned char blendmode );
 unsigned char GRRLIB_GetBlend();
 
 
-inline void GRRLIB_FillScreen(u32 color);
+extern void GRRLIB_FillScreen(u32 color);
 
-inline void GRRLIB_Plot(f32 x, f32 y, u32 color);
+extern void GRRLIB_Plot(f32 x, f32 y, u32 color);
 void GRRLIB_NPlot(Vector v[], u32 color[], long n);
 
-inline void GRRLIB_Line(f32 x1, f32 y1, f32 x2, f32 y2, u32 color);
+extern void GRRLIB_Line(f32 x1, f32 y1, f32 x2, f32 y2, u32 color);
 
-inline void GRRLIB_Rectangle(f32 x, f32 y, f32 width, f32 height, u32 color, u8 filled);
-inline void GRRLIB_Circle(f32 x, f32 y, f32 radius, u32 color, u8 filled);
+extern void GRRLIB_Rectangle(f32 x, f32 y, f32 width, f32 height, u32 color, u8 filled);
+extern void GRRLIB_Circle(f32 x, f32 y, f32 radius, u32 color, u8 filled);
 void GRRLIB_NGone(Vector v[], u32 color[], long n);
 void GRRLIB_NGoneFilled(Vector v[], u32 color[], long n);
 
@@ -115,9 +115,9 @@ void GRRLIB_FreeBMF(GRRLIB_bytemapFont *bmf);
 
 void GRRLIB_InitTileSet(struct GRRLIB_texImg *tex, unsigned int tilew, unsigned int tileh, unsigned int tilestart);
 
-inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, float degrees, float scaleX, f32 scaleY, u32 color );
-inline void GRRLIB_DrawImgQuad(Vector pos[4], struct GRRLIB_texImg *tex, u32 color);
-inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, float degrees, float scaleX, f32 scaleY, u32 color, int frame);
+extern void GRRLIB_DrawImg(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, float degrees, float scaleX, f32 scaleY, u32 color );
+extern void GRRLIB_DrawImgQuad(Vector pos[4], struct GRRLIB_texImg *tex, u32 color);
+extern void GRRLIB_DrawTile(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, float degrees, float scaleX, f32 scaleY, u32 color, int frame);
 
 void GRRLIB_Printf(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, u32 color, f32 zoom, const char *text, ...);
 void GRRLIB_PrintBMF(f32 xpos, f32 ypos, struct GRRLIB_bytemapFont *bmf, f32 zoom, const char *text, ...);
