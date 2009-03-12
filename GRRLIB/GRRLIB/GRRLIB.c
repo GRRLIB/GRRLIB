@@ -779,7 +779,7 @@ void GRRLIB_ClipDrawing( int x, int y, int width, int height ) {
  * Reset the clipping to normal.
  */
 void GRRLIB_ClipReset() {
-    GX_SetClipMode( GX_CLIP_DISABLE );
+    GX_SetClipMode( GX_CLIP_ENABLE );
     GX_SetScissor( 0, 0, rmode->fbWidth, rmode->efbHeight );
 }
 
@@ -1116,7 +1116,6 @@ void GRRLIB_Init() {
     // Other GX setup
     yscale = GX_GetYScaleFactor(rmode->efbHeight, rmode->xfbHeight);
     xfbHeight = GX_SetDispCopyYScale(yscale);
-    GX_SetScissor(0, 0, rmode->fbWidth, rmode->efbHeight);
     GX_SetDispCopySrc(0, 0, rmode->fbWidth, rmode->efbHeight);
     GX_SetDispCopyDst(rmode->fbWidth, xfbHeight);
     GX_SetCopyFilter(rmode->aa, rmode->sample_pattern, GX_TRUE, rmode->vfilter);
@@ -1166,6 +1165,7 @@ void GRRLIB_Init() {
     GX_SetAlphaCompare(GX_GREATER, 0, GX_AOP_AND, GX_ALWAYS, 0);
     GX_SetColorUpdate(GX_ENABLE);
     GX_SetCullMode(GX_CULL_NONE);
+    GRRLIB_ClipReset();
 
     VIDEO_SetBlack(false);
 
