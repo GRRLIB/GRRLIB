@@ -458,7 +458,7 @@ GRRLIB_bytemapFont *GRRLIB_LoadBMF(const unsigned char my_bmf[]) {
 
 /**
  * Free memory allocated by ByteMap fonts.
- * @param bmf a GRRLIB_bytemapFont structure.
+ * @param bmf A GRRLIB_bytemapFont structure.
  */
 void GRRLIB_FreeBMF(GRRLIB_bytemapFont *bmf) {
     unsigned int i;
@@ -483,6 +483,16 @@ GRRLIB_texImg *GRRLIB_LoadTexture(const unsigned char my_img[]) {
     else {
         return (GRRLIB_LoadTexturePNG(my_img));
     }
+}
+
+/**
+ * Free memory allocated for texture.
+ * @param tex A GRRLIB_texImg structure.
+ */
+void GRRLIB_FreeTexture(struct GRRLIB_texImg *tex) {
+    free(tex->data);
+    free(tex);
+    tex = NULL;
 }
 
 /**
@@ -533,7 +543,7 @@ inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, float 
     if (GRRLIB_Settings.antialias == false) {
         GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR, 0.0f, 0.0f, 0.0f, 0, 0, GX_ANISO_1);
     }
-    
+
     GX_LoadTexObj(&texObj, GX_TEXMAP0);
     GX_SetTevOp(GX_TEVSTAGE0, GX_MODULATE);
     GX_SetVtxDesc(GX_VA_TEX0, GX_DIRECT);
