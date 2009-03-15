@@ -486,6 +486,29 @@ GRRLIB_texImg *GRRLIB_LoadTexture(const unsigned char my_img[]) {
 }
 
 /**
+ * Load a texture from a file.
+ * @param filename The JPEG or PNG filename to load.
+ * @return A GRRLIB_texImg structure filled with image informations.
+ */
+GRRLIB_texImg *GRRLIB_LoadTextureFromFile(const char *filename) {
+    fatInitDefault();
+    FILE *fd = fopen(filename, "rb");
+
+    fseek(fd , 0 , SEEK_END);
+    long lsize = ftell(fd);
+    rewind(fd);
+
+    unsigned char *buffer = (unsigned char*) malloc (sizeof(unsigned char)*lsize);
+    fread (buffer, 1, lsize, fd);
+    fclose(fd);
+
+    GRRLIB_texImg *tex = GRRLIB_LoadTexture(buffer);
+
+    free(buffer);
+    return tex;
+}
+
+/**
  * Free memory allocated for texture.
  * @param tex A GRRLIB_texImg structure.
  */
