@@ -494,17 +494,16 @@ GRRLIB_texImg *GRRLIB_LoadTextureFromFile(const char *filename) {
     fatInitDefault();
     FILE *fd = fopen(filename, "rb");
 
-    fseek(fd , 0 , SEEK_END);
+    fseek(fd, 0, SEEK_END);
     long lsize = ftell(fd);
     rewind(fd);
 
     unsigned char *buffer = (unsigned char*) malloc (sizeof(unsigned char)*lsize);
     fread (buffer, 1, lsize, fd);
-    fclose(fd);
-
     GRRLIB_texImg *tex = GRRLIB_LoadTexture(buffer);
-
     free(buffer);
+
+    fclose(fd);
     return tex;
 }
 

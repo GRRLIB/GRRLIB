@@ -215,13 +215,13 @@ int main() {
     }
     GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
     // Free some textures
-    free(tex_test_jpg);
-    free(tex_sprite_png);
-    free(tex_BMfont1);
-    free(tex_BMfont2);
-    free(tex_BMfont3);
-    free(tex_BMfont4);
-    free(tex_BMfont5);
+    GRRLIB_FreeTexture(tex_test_jpg);
+    GRRLIB_FreeTexture(tex_sprite_png);
+    GRRLIB_FreeTexture(tex_BMfont1);
+    GRRLIB_FreeTexture(tex_BMfont2);
+    GRRLIB_FreeTexture(tex_BMfont3);
+    GRRLIB_FreeTexture(tex_BMfont4);
+    GRRLIB_FreeTexture(tex_BMfont5);
     GRRLIB_FreeBMF(bmf_Font1);
     GRRLIB_FreeBMF(bmf_Font2);
     return 0;

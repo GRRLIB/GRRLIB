@@ -29,13 +29,13 @@ int main() {
     GRRLIB_Init();
     WPAD_Init();
     GRRLIB_texImg *tex_pirate = GRRLIB_LoadTexture(pirate);
-    
+
     while(1) {
         WPAD_ScanPads();
         wpaddown = WPAD_ButtonsDown(0);
 
-        a=a+0.04;
-        b=b+0.02;
+        a+=0.04;
+        b+=0.02;
         for(i=0;i<4;i++){
             xt=l[i].x*cos(a)-l[i].z*sin(a);
             yt=l[i].y;
@@ -50,7 +50,6 @@ int main() {
         GRRLIB_FillScreen(0xFFFFFFFF);
         GRRLIB_DrawImgQuad(d, tex_pirate, 0xFFFFFFFF);
 
-        
 
         GRRLIB_Render();
         if(wpaddown & WPAD_BUTTON_HOME) {
@@ -58,5 +57,6 @@ int main() {
         }
     }
     GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
+    GRRLIB_FreeTexture(tex_pirate);
     return 0;
 }

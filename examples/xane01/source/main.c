@@ -37,13 +37,13 @@ int main() {
     u32 WPADKeyHeld;
     short WinW, WinH;
 	int P1MX, P1MY;
-	
+
 	u8 Stage = 0, Blending = 0;
 	u8 BlobType = 0;
 	u8 Color = 255;
 	u16 Step = 0;
 	float SX, SY;
-	
+
 
 	// Init GRRLIB & WiiUse
     GRRLIB_Init();
@@ -52,7 +52,7 @@ int main() {
     WPAD_Init();
     WPAD_SetIdleTimeout( 60*10 );
 	WPAD_SetDataFormat( WPAD_CHAN_0, WPAD_FMT_BTNS_ACC_IR );
-	
+
 	// Load Textures
 	GFX_Background = GRRLIB_LoadTextureJPG(RGFX_Background);
 	GFX_Blob[0]    = GRRLIB_LoadTexturePNG(RGFX_Blob01);
@@ -60,12 +60,12 @@ int main() {
 	GFX_Blob[2]    = GRRLIB_LoadTexturePNG(RGFX_Blob03);
 	GFX_Font       = GRRLIB_LoadTexturePNG(RGFX_Font);
 	GRRLIB_InitTileSet(GFX_Font, 8, 16, 32);
-	
+
 	// Set Handles
 	GRRLIB_SetMidHandle( GFX_Blob[0], true );
 	GRRLIB_SetMidHandle( GFX_Blob[1], true );
 	GRRLIB_SetMidHandle( GFX_Blob[2], true );
-	
+
 
     while (true) {
         WPAD_ScanPads();
@@ -73,17 +73,17 @@ int main() {
         WPADKeyHeld = WPAD_ButtonsHeld(WPAD_CHAN_0);
         WPAD_SetVRes(WPAD_CHAN_0, WinW, WinH);
 		WPAD_IR(WPAD_CHAN_0, &P1Mote);
-		
+
 		// WiiMote IR Viewport Correction
 		P1MX = P1Mote.sx - 150;
 		P1MY = P1Mote.sy - 150;
-		
+
 		// Update Stage
 		Step = Step + 1;
 		if (Step == 720) { Step = 0; }
 		SX = 320 + (sin(DegToRad(Step  )) * 250);
 		SY = 240 + (cos(DegToRad(Step*3)) * 100);
-		
+
 		// Draw Stage
 		GRRLIB_DrawImg( 0, 0, GFX_Background, 0, 1, 1, GRRLIB_GetColor(255, 255, 255, 255) );
 		GRRLIB_SetBlend( (Blending+1) ); Color = 255;
@@ -93,12 +93,12 @@ int main() {
 			case 4: Color = 64;  break;
 		}
 		GRRLIB_DrawImg( SX, SY, GFX_Blob[BlobType], 0, 1, 1, GRRLIB_GetColor(Color, Color, Color, 255) );
-		
+
 		// IR Pointer
 		if (P1Mote.state == 1) {
 			GRRLIB_DrawImg( P1MX, P1MY, GFX_Blob[BlobType], 0, 1, 1, GRRLIB_GetColor(Color, Color, Color, 255) );
 		}
-		
+
 		// Draw Text
 		GRRLIB_SetBlend ( GRRLIB_BLEND_ALPHA );
 		GRRLIB_Rectangle( 28, 28, 480 + 16, 76, GRRLIB_GetColor(0, 0, 0, 160), 1 );
@@ -127,14 +127,14 @@ int main() {
 static void ExitGame() {
 	// Deinitialize GRRLIB & Video
 	GRRLIB_Exit();
-	
+
 	// Free all memory used by textures.
-	free(GFX_Background);
-	free(GFX_Blob[0]);
-	free(GFX_Blob[1]);
-	free(GFX_Blob[2]);
-	free(GFX_Font);
-	
+	GRRLIB_FreeTexture(GFX_Background);
+	GRRLIB_FreeTexture(GFX_Blob[0]);
+	GRRLIB_FreeTexture(GFX_Blob[1]);
+	GRRLIB_FreeTexture(GFX_Blob[2]);
+	GRRLIB_FreeTexture(GFX_Font);
+
 	// Exit application
 	exit(0);
 }

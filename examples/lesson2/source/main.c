@@ -192,29 +192,29 @@ int main() {
         }
     }
     GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
-    free(tex_pirate);
-    free(tex_gray);
-    free(tex_invert);
-    free(tex_fliph);
-    free(tex_flipv);
-    free(tex_fliphv);
-    free(tex_blur1);
-    free(tex_blur2);
-    free(tex_blur3);
-    free(tex_blur4);
-    free(tex_blur5);
-    free(tex_blur6);
-    free(tex_pixel1);
-    free(tex_pixel2);
-    free(tex_pixel3);
-    free(tex_pixel4);
-    free(tex_pixel5);
-    free(tex_pixel6);
-    free(tex_scatter1);
-    free(tex_scatter2);
-    free(tex_scatter3);
-    free(tex_scatter4);
-    free(tex_scatter5);
-    free(tex_scatter6);
+    GRRLIB_FreeTexture(tex_pirate);
+    GRRLIB_FreeTexture(tex_gray);
+    GRRLIB_FreeTexture(tex_invert);
+    GRRLIB_FreeTexture(tex_fliph);
+    GRRLIB_FreeTexture(tex_flipv);
+    GRRLIB_FreeTexture(tex_fliphv);
+    GRRLIB_FreeTexture(tex_blur1);
+    GRRLIB_FreeTexture(tex_blur2);
+    GRRLIB_FreeTexture(tex_blur3);
+    GRRLIB_FreeTexture(tex_blur4);
+    GRRLIB_FreeTexture(tex_blur5);
+    GRRLIB_FreeTexture(tex_blur6);
+    GRRLIB_FreeTexture(tex_pixel1);
+    GRRLIB_FreeTexture(tex_pixel2);
+    GRRLIB_FreeTexture(tex_pixel3);
+    GRRLIB_FreeTexture(tex_pixel4);
+    GRRLIB_FreeTexture(tex_pixel5);
+    GRRLIB_FreeTexture(tex_pixel6);
+    GRRLIB_FreeTexture(tex_scatter1);
+    GRRLIB_FreeTexture(tex_scatter2);
+    GRRLIB_FreeTexture(tex_scatter3);
+    GRRLIB_FreeTexture(tex_scatter4);
+    GRRLIB_FreeTexture(tex_scatter5);
+    GRRLIB_FreeTexture(tex_scatter6);
     return 0;
 }

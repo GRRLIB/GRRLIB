@@ -1,7 +1,7 @@
 /*===========================================
         GRRLIB (GX Version)
         Example code by Xane
-        
+
         This example shows a basic particle
         engine creating a Smokebomb.
 ============================================*/
@@ -73,7 +73,7 @@ GRRLIB_texImg *GFX_Font;
 int main() {
     u32 WPADKeyDown;
     u32 WPADKeyHeld;
-    
+
     u8 FPS = 0;
     u32 ParticleCnt = 0;
 
@@ -84,18 +84,18 @@ int main() {
     WPAD_Init();
     WPAD_SetIdleTimeout( 60*10 );
 	WPAD_SetDataFormat( WPAD_CHAN_0, WPAD_FMT_BTNS_ACC_IR );
-	
+
 	// Load textures
 	GFX_Background = GRRLIB_LoadTextureJPG(RGFX_Background);
 	GFX_Crosshair  = GRRLIB_LoadTexturePNG(RGFX_Crosshair);
 	GFX_Smoke      = GRRLIB_LoadTexturePNG(RGFX_Smoke);
-	GFX_Font       = GRRLIB_LoadTexturePNG(RGFX_Font);	
+	GFX_Font       = GRRLIB_LoadTexturePNG(RGFX_Font);
 	GRRLIB_InitTileSet( GFX_Font, 8, 16, 32 );
-	
+
 	// Set handles
 	GRRLIB_SetMidHandle( GFX_Crosshair, true );
 	GRRLIB_SetMidHandle( GFX_Smoke, true );
-	
+
 	// Feed the vector with the textures
 	TextureList.push_back( GFX_Background );
 	TextureList.push_back( GFX_Crosshair );
@@ -108,15 +108,15 @@ int main() {
         WPADKeyHeld = WPAD_ButtonsHeld(WPAD_CHAN_0);
         WPAD_SetVRes(WPAD_CHAN_0, WinW, WinH);
 		WPAD_IR(WPAD_CHAN_0, &P1Mote);
-		
+
 		// Resetting Vars
 		GRRLIB_SetBlend( GRRLIB_BLEND_ALPHA );
 		ParticleCnt = 0;
-		
+
 		// WiiMote IR Viewport correction
 		P1MX = P1Mote.sx - 150;
 		P1MY = P1Mote.sy - 150;
-		
+
 		// Drawing Background
 		GRRLIB_DrawImg( 0, 0, GFX_Background, 0, 1, 1, GRRLIB_GetColor(255, 255, 255, 255) );
 
@@ -140,7 +140,7 @@ int main() {
 			ParticleCnt += 1;
 			PartIter++;
 		}
-		
+
 		// Draw Crosshair
 		GRRLIB_DrawImg( P1MX, P1MY, GFX_Crosshair, 0, 1, 1, GRRLIB_GetColor(255, 255, 255, 255) );
 
@@ -155,7 +155,7 @@ int main() {
 		// Renders the Scene
         GRRLIB_Render();
         FPS = CalculateFrameRate();
-        
+
         if (WPADKeyDown & WPAD_BUTTON_B) {
 			createEffect( EFFECT_SMOKEBOMB, P1MX, P1MY );
 		}
@@ -196,7 +196,7 @@ static void createParticle( u8 _id, int _x, int _y, float _scale, float _alpha, 
 	part->blue  = _blue;
 	part->scale = _scale;
 	part->alpha = _alpha;
-	
+
 	part->tex = GFX_Smoke;
 	part->sy = RANDOM;
 	part->sx = RANDOM;
@@ -259,14 +259,14 @@ static bool updateParticle( Particle *part ) {
 static void ExitGame() {
 	// Deinitialize GRRLIB & Video
 	GRRLIB_Exit();
-	
+
 	// Free all memory used by textures.
 	for (vector<GRRLIB_texImg *>::iterator TexIter = TextureList.begin(); TexIter != TextureList.end(); TexIter++) {
 		free((*TexIter)->data);
 		free((*TexIter));
 	}
 	TextureList.clear();
-	
+
 	// Exit application
 	exit(0);
 }
