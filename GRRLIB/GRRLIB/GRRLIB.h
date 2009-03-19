@@ -109,7 +109,7 @@ GRRLIB_texImg *GRRLIB_CreateEmptyTexture(unsigned int, unsigned int);
 GRRLIB_texImg *GRRLIB_LoadTexture(const unsigned char my_img[]);
 GRRLIB_texImg *GRRLIB_LoadTextureJPG(const unsigned char my_jpg[]);
 GRRLIB_texImg *GRRLIB_LoadTexturePNG(const unsigned char my_png[]);
-GRRLIB_texImg *GRRLIB_LoadTextureFromFile(const char *filename);
+
 void GRRLIB_FreeTexture(struct GRRLIB_texImg *tex);
 
 GRRLIB_bytemapFont *GRRLIB_LoadBMF(const unsigned char my_bmf[]);
@@ -155,8 +155,6 @@ void GRRLIB_Init();
 void GRRLIB_Render();
 
 void GRRLIB_Exit();
-
-bool GRRLIB_ScrShot(const char*);
 
 void GRRLIB_GetPixelFromFB(int x, int y, u8 *R1, u8 *G1, u8 *B1, u8* R2, u8 *G2, u8 *B2 );
 u8 GRRLIB_ClampVar8 (float Value);

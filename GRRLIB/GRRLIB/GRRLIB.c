@@ -15,14 +15,14 @@
 #include "../lib/libjpeg/jpeglib.h"
 #include "GRRLIB.h"
 #include <ogc/conf.h>
-#include <fat.h>
+
 
 #define DEFAULT_FIFO_SIZE (256 * 1024) /**< GX fifo buffer size. */
 
 
 u32 fb = 0;
-static void *xfb[2] = {NULL, NULL};
-static Mtx GXmodelView2D;
+void *xfb[2] = {NULL, NULL};
+Mtx GXmodelView2D;
 GXRModeObj *rmode;
 void *gp_fifo = NULL;
 
@@ -483,28 +483,6 @@ GRRLIB_texImg *GRRLIB_LoadTexture(const unsigned char my_img[]) {
     else {
         return (GRRLIB_LoadTexturePNG(my_img));
     }
-}
-
-/**
- * Load a texture from a file.
- * @param filename The JPEG or PNG filename to load.
- * @return A GRRLIB_texImg structure filled with image informations.
- */
-GRRLIB_texImg *GRRLIB_LoadTextureFromFile(const char *filename) {
-    fatInitDefault();
-    FILE *fd = fopen(filename, "rb");
-
-    fseek(fd, 0, SEEK_END);
-    long lsize = ftell(fd);
-    rewind(fd);
-
-    unsigned char *buffer = (unsigned char*) malloc (sizeof(unsigned char)*lsize);
-    fread (buffer, 1, lsize, fd);
-    GRRLIB_texImg *tex = GRRLIB_LoadTexture(buffer);
-    free(buffer);
-
-    fclose(fd);
-    return tex;
 }
 
 /**
@@ -1256,24 +1234,6 @@ void GRRLIB_Exit() {
         gp_fifo = NULL;
     }
 }
-
-/**
- * Make a PNG screenshot on the SD card.
- * libfat is required to use the function.
- * @param File name of the file to write.
- * @return true if every thing worked, false otherwise.
- */
-bool GRRLIB_ScrShot(const char* File) {
-    int ErrorCode = -1;
-    IMGCTX pngContext;
-
-    if(fatInitDefault() && (pngContext = PNGU_SelectImageFromDevice(File))) {
-        ErrorCode = PNGU_EncodeFromYCbYCr(pngContext, rmode->fbWidth, rmode->efbHeight, xfb[fb], 0);
-        PNGU_ReleaseImageContext(pngContext);
-    }
-    return !ErrorCode;
-}
-
 
 /**
  * Reads a pixel directly from the FrontBuffer.
