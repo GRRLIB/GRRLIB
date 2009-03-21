@@ -1104,6 +1104,13 @@ void GRRLIB_Init() {
     if (rmode == NULL)
         return;
 
+	// Video Mode Correction
+    switch (rmode->viTVMode) {
+    	case VI_DEBUG_PAL:	// PAL 50hz 576i
+    		rmode = &TVPal574IntDfScale;
+    		break;
+    }
+
     // Widescreen patch by CashMan's Productions (http://www.CashMan-Productions.fr.nf)
     if (CONF_GetAspectRatio() == CONF_ASPECT_16_9) {
         rmode->viWidth = 678;
