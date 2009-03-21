@@ -5,8 +5,8 @@
         GX hints : RedShade
 ===========================================*/
 
-#ifndef __GXHDR__
-#define __GXHDR__
+#ifndef __GRRLIB_ADDON__
+#define __GRRLIB_ADDON__
 
 /**
  * @file GRRLIBaddon.h
@@ -21,7 +21,7 @@
 
 GRRLIB_texImg *GRRLIB_LoadTextureFromFile(const char *filename);
 bool GRRLIB_ScrShot(const char*);
-
+GRRLIB_texImg *GRRLIB_Screen2Texture();
 
 #ifdef __cplusplus
    }

@@ -5,11 +5,11 @@
         How To use Bitmap Fonts
 ============================================*/
 #include "../../../GRRLIB/GRRLIB/GRRLIB.h"
+#include "../../../GRRLIB/GRRLIB/GRRLIB_addon.h"
 
 #include <ogc/lwp_watchdog.h>	// Needed for gettime and ticks_to_millisecs
 #include <stdlib.h>
 #include <wiiuse/wpad.h>
-#include <fat.h>
 
 #include "gfx/BMfont1.h"
 #include "gfx/BMfont2.h"
@@ -64,8 +64,6 @@ int main() {
 
     GRRLIB_Init();
 
-
-    fatInitDefault();
     WPAD_Init();
     WPAD_SetDataFormat(WPAD_CHAN_0, WPAD_FMT_BTNS_ACC_IR);
 
@@ -211,6 +209,11 @@ int main() {
             left = 0;
             top = 0;
             if(page > 2) page = 0;
+        }
+        if(wpadheld & WPAD_BUTTON_1 && wpadheld & WPAD_BUTTON_2) {
+            WPAD_Rumble(WPAD_CHAN_0, 1); // Rumble on
+            GRRLIB_ScrShot("sd:/grrlib.png");
+            WPAD_Rumble(WPAD_CHAN_0, 0); // Rumble off
         }
     }
     GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB

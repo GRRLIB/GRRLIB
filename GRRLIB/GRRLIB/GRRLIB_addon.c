@@ -10,11 +10,8 @@
 #include <malloc.h>
 #include <stdarg.h>
 #include <string.h>
-#include <math.h>
 #include "../lib/libpng/pngu/pngu.h"
 #include "GRRLIB.h"
-#include "GRRLIBaddon.h"
-#include <ogc/conf.h>
 #include <fat.h>
 
 extern u32 fb;
@@ -59,4 +56,27 @@ bool GRRLIB_ScrShot(const char* File) {
         PNGU_ReleaseImageContext(pngContext);
     }
     return !ErrorCode;
+}
+
+/**
+ * Make a snapshot of the screen in a texture.
+ * @return A pointer to a texture representing the screen or NULL if an error occurs.
+ */
+GRRLIB_texImg *GRRLIB_Screen2Texture() {
+    GRRLIB_texImg *tex = (struct GRRLIB_texImg *)calloc(1, sizeof(GRRLIB_texImg));
+
+    if(tex != NULL) {
+        tex->w = rmode->fbWidth;
+        tex->h = rmode->efbHeight;
+        GRRLIB_SetHandle( tex, 0, 0 );
+        tex->data = memalign(32, tex->w * tex->h * 4);
+        if(tex->data != NULL) {
+            GX_SetTexCopySrc(0, 0, rmode->fbWidth, rmode->efbHeight);
+            GX_SetTexCopyDst(rmode->fbWidth, rmode->efbHeight, GX_TF_RGBA8, GX_FALSE);
+            GX_CopyTex(tex->data, GX_FALSE);
+            GX_PixModeSync();
+            GRRLIB_FlushTex(tex);
+        }
+    }
+	return tex;
 }
