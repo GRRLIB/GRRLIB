@@ -522,6 +522,23 @@ GRRLIB_texImg *GRRLIB_CreateEmptyTexture(unsigned int w, unsigned int h) {
     return my_texture;
 }
 
+
+/**
+ * Make a snapshot of the screen in a texture.
+ * @return A pointer to a texture representing the screen or NULL if an error occurs.
+ */
+void GRRLIB_Screen2Texture(GRRLIB_texImg *tex) {
+    if(tex->data != NULL) {
+        GX_SetTexCopySrc(0, 0, rmode->fbWidth, rmode->efbHeight);
+        GX_SetTexCopyDst(rmode->fbWidth, rmode->efbHeight, GX_TF_RGBA8, GX_FALSE);
+        GX_CopyTex(tex->data, GX_FALSE);
+        GX_PixModeSync();
+        GRRLIB_FlushTex(tex);
+    }
+}
+
+
+
 /**
  * Draw a texture.
  * @param xpos Specifies the x-coordinate of the upper-left corner.

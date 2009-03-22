@@ -21,7 +21,7 @@
 
 GRRLIB_texImg *GRRLIB_LoadTextureFromFile(const char *filename);
 bool GRRLIB_ScrShot(const char*);
-GRRLIB_texImg *GRRLIB_Screen2Texture();
+
 
 #ifdef __cplusplus
    }
