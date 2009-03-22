@@ -39,6 +39,7 @@ inline void GRRLIB_Circle(f32 x, f32 y, f32 radius, u32 color, u8 filled);
 inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, float degrees, float scaleX, f32 scaleY, u32 color );
 inline void GRRLIB_DrawImgQuad(Vector pos[4], struct GRRLIB_texImg *tex, u32 color);
 inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, float degrees, float scaleX, f32 scaleY, u32 color, int frame);
+inline void GRRLIB_DrawTileQuad(Vector pos[4], struct GRRLIB_texImg *tex, u32 color,int frame);
 
 
 /**
@@ -713,6 +714,69 @@ inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, float
         GX_TexCoord2f32(s2, t2);
 
         GX_Position3f32(-width, height,  0);
+        GX_Color1u32(color);
+        GX_TexCoord2f32(s1, t2);
+    GX_End();
+    GX_LoadPosMtxImm(GXmodelView2D, GX_PNMTX0);
+
+    GX_SetTevOp(GX_TEVSTAGE0, GX_PASSCLR);
+    GX_SetVtxDesc(GX_VA_TEX0, GX_NONE);
+}
+
+/**
+ * Draw a tile in a quad.
+ * @param pos Vector array of the 4 points.
+ * @param tex The texture to draw.
+ * @param color Color in RGBA format.
+ * @param frame Specifies the frame to draw.
+ */
+
+inline void GRRLIB_DrawTileQuad(Vector pos[4], struct GRRLIB_texImg *tex, u32 color, int frame) {
+    if (tex == NULL || tex->data == NULL) { return; }
+
+    GXTexObj texObj;
+    Mtx m, m1, m2, mv;
+
+    // Frame Correction by spiffen
+    f32 FRAME_CORR = 0.001f;
+    f32 s1 = (((frame%tex->nbtilew))/(f32)tex->nbtilew)+(FRAME_CORR/tex->w);
+    f32 s2 = (((frame%tex->nbtilew)+1)/(f32)tex->nbtilew)-(FRAME_CORR/tex->w);
+    f32 t1 = (((int)(frame/tex->nbtilew))/(f32)tex->nbtileh)+(FRAME_CORR/tex->h);
+    f32 t2 = (((int)(frame/tex->nbtilew)+1)/(f32)tex->nbtileh)-(FRAME_CORR/tex->h);
+
+    GX_InitTexObj(&texObj, tex->data, tex->tilew*tex->nbtilew, tex->tileh*tex->nbtileh, GX_TF_RGBA8, GX_CLAMP, GX_CLAMP, GX_FALSE);
+    if (GRRLIB_Settings.antialias == false) {
+        GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR, 0.0f, 0.0f, 0.0f, 0, 0, GX_ANISO_1);
+    }
+    GX_LoadTexObj(&texObj, GX_TEXMAP0);
+
+    GX_SetTevOp(GX_TEVSTAGE0, GX_MODULATE);
+    GX_SetVtxDesc(GX_VA_TEX0, GX_DIRECT);
+
+    guMtxIdentity(m1);
+    guMtxScaleApply(m1, m1, 1, 1, 1.0f);
+
+    Vector axis = (Vector) {0, 0, 1 };
+    guMtxRotAxisDeg(m2, &axis, 0);
+    guMtxConcat(m2, m1, m);
+
+    guMtxConcat(GXmodelView2D, m, mv);
+
+    GX_LoadPosMtxImm(mv, GX_PNMTX0);
+    GX_Begin(GX_QUADS, GX_VTXFMT0, 4);
+        GX_Position3f32(pos[0].x, pos[0].y, 0);
+        GX_Color1u32(color);
+        GX_TexCoord2f32(s1, t1);
+
+        GX_Position3f32(pos[1].x, pos[1].y, 0);
+        GX_Color1u32(color);
+        GX_TexCoord2f32(s2, t1);
+
+        GX_Position3f32(pos[2].x, pos[2].y, 0);
+        GX_Color1u32(color);
+        GX_TexCoord2f32(s2, t2);
+
+        GX_Position3f32(pos[3].x, pos[3].y, 0);
         GX_Color1u32(color);
         GX_TexCoord2f32(s1, t2);
     GX_End();

@@ -121,6 +121,7 @@ void GRRLIB_InitTileSet(struct GRRLIB_texImg *tex, unsigned int tilew, unsigned 
 extern void GRRLIB_DrawImg(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, float degrees, float scaleX, f32 scaleY, u32 color );
 extern void GRRLIB_DrawImgQuad(Vector pos[4], struct GRRLIB_texImg *tex, u32 color);
 extern void GRRLIB_DrawTile(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, float degrees, float scaleX, f32 scaleY, u32 color, int frame);
+extern void GRRLIB_DrawTileQuad(Vector pos[4], struct GRRLIB_texImg *tex, u32 color,int frame);
 
 void GRRLIB_Printf(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, u32 color, f32 zoom, const char *text, ...);
 void GRRLIB_PrintBMF(f32 xpos, f32 ypos, struct GRRLIB_bytemapFont *bmf, f32 zoom, const char *text, ...);

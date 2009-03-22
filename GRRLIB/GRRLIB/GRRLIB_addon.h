@@ -18,9 +18,11 @@
    extern "C" {
 #endif /* __cplusplus */
 
-
+void GRRLIB_addon_Init();
+void GRRLIB_addon_Exit();
 GRRLIB_texImg *GRRLIB_LoadTextureFromFile(const char *filename);
 bool GRRLIB_ScrShot(const char*);
+void GRRLIB_addon_Button(int indice, int x,int y,u32 col, int wpadx, int wpady, u32 WPADDown, u32 WPADHeld, int but, int *resdown, int *resheld, char toto[]);
 
 
 #ifdef __cplusplus
