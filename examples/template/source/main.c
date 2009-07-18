@@ -24,7 +24,7 @@ int main() {
 
         GRRLIB_Render();
         if(WPADDown & WPAD_BUTTON_HOME) {
-            exit(0);
+            break;
         }
     }
     GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB

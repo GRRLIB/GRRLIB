@@ -180,7 +180,7 @@ int main() {
 
         GRRLIB_Render();
         if(wpaddown & WPAD_BUTTON_HOME) {
-            exit(0);
+            break;
         }
         if(wpaddown & WPAD_BUTTON_MINUS) {
             page--;

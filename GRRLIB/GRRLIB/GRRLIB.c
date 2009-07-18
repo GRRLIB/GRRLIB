@@ -62,7 +62,7 @@ bool GRRLIB_GetAntiAliasing() {
  * Set a blending mode.
  * @param blendmode The blending mode to use (Default: GRRLIB_BLEND_ALPHA).
  */
-void GRRLIB_SetBlend( unsigned char blendmode ) {
+void GRRLIB_SetBlend(unsigned char blendmode) {
     GRRLIB_Settings.blend = blendmode;
     switch (GRRLIB_Settings.blend) {
         case GRRLIB_BLEND_ALPHA:
@@ -150,7 +150,7 @@ inline void GRRLIB_Rectangle(f32 x, f32 y, f32 width, f32 height, u32 color, u8 
     f32 x2 = x+width;
     f32 y2 = y+height;
     Vector v[] = {{x,y,0.0f}, {x2,y,0.0f}, {x2,y2,0.0f}, {x,y2,0.0f}, {x,y,0.0f}};
-    u32 ncolor[]= {color,color,color,color,color};
+    u32 ncolor[] = {color,color,color,color,color};
 
     if (!filled) {
         GRRLIB_NGone(v, ncolor, 5);
@@ -182,7 +182,7 @@ inline void GRRLIB_Circle(f32 x, f32 y, f32 radius, u32 color, u8 filled) {
         v[a].x = cos(ra) * radius + x;
         v[a].y = sin(ra) * radius + y;
         v[a].z = 0.0f;
-        ncolor[a]  = color;
+        ncolor[a] = color;
     }
 
     if (!filled) {
@@ -523,10 +523,9 @@ GRRLIB_texImg *GRRLIB_CreateEmptyTexture(unsigned int w, unsigned int h) {
     return my_texture;
 }
 
-
 /**
  * Make a snapshot of the screen in a texture.
- * @return A pointer to a texture representing the screen or NULL if an error occurs.
+ * @param tex A pointer to a texture representing the screen or NULL if an error occurs.
  */
 void GRRLIB_Screen2Texture(GRRLIB_texImg *tex) {
     if(tex->data != NULL) {
@@ -537,8 +536,6 @@ void GRRLIB_Screen2Texture(GRRLIB_texImg *tex) {
         GRRLIB_FlushTex(tex);
     }
 }
-
-
 
 /**
  * Draw a texture.
@@ -551,7 +548,9 @@ void GRRLIB_Screen2Texture(GRRLIB_texImg *tex) {
  * @param color Color in RGBA format.
  */
 inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, float degrees, float scaleX, f32 scaleY, u32 color) {
-    if (tex == NULL || tex->data == NULL) { return; }
+    if (tex == NULL || tex->data == NULL) {
+        return;
+    }
 
     GXTexObj texObj;
     u16 width, height;
@@ -570,7 +569,7 @@ inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, float 
     height = tex->h * 0.5;
     guMtxIdentity(m1);
     guMtxScaleApply(m1, m1, scaleX, scaleY, 1.0);
-    Vector axis = (Vector) {0, 0, 1 };
+    Vector axis = (Vector) {0, 0, 1};
     guMtxRotAxisDeg (m2, &axis, degrees);
     guMtxConcat(m2, m1, m);
 
@@ -608,7 +607,9 @@ inline void GRRLIB_DrawImg(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, float 
  * @param color Color in RGBA format.
  */
 inline void GRRLIB_DrawImgQuad(Vector pos[4], struct GRRLIB_texImg *tex, u32 color) {
-    if (tex == NULL || tex->data == NULL) { return; }
+    if (tex == NULL || tex->data == NULL) {
+        return;
+    }
 
     GXTexObj texObj;
     Mtx m, m1, m2, mv;
@@ -624,7 +625,7 @@ inline void GRRLIB_DrawImgQuad(Vector pos[4], struct GRRLIB_texImg *tex, u32 col
 
     guMtxIdentity(m1);
     guMtxScaleApply(m1, m1, 1, 1, 1.0);
-    Vector axis = (Vector) {0, 0, 1 };
+    Vector axis = (Vector) {0, 0, 1};
     guMtxRotAxisDeg (m2, &axis, 0);
     guMtxConcat(m2, m1, m);
 
@@ -666,7 +667,9 @@ inline void GRRLIB_DrawImgQuad(Vector pos[4], struct GRRLIB_texImg *tex, u32 col
  * @param frame Specifies the frame to draw.
  */
 inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, float degrees, float scaleX, f32 scaleY, u32 color, int frame) {
-    if (tex == NULL || tex->data == NULL) { return; }
+    if (tex == NULL || tex->data == NULL) {
+        return;
+    }
 
     GXTexObj texObj;
     f32 width, height;
@@ -693,7 +696,7 @@ inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, float
     guMtxIdentity(m1);
     guMtxScaleApply(m1, m1, scaleX, scaleY, 1.0f);
 
-    Vector axis = (Vector) {0, 0, 1 };
+    Vector axis = (Vector) {0, 0, 1};
     guMtxRotAxisDeg(m2, &axis, degrees);
     guMtxConcat(m2, m1, m);
     guMtxTransApply(m, m, xpos+width+tex->handlex-tex->offsetx+(scaleX*( -tex->handley*sin(-DegToRad(degrees)) - tex->handlex*cos(-DegToRad(degrees)) )), ypos+height+tex->handley-tex->offsety+(scaleX*( -tex->handley*cos(-DegToRad(degrees)) + tex->handlex*sin(-DegToRad(degrees)) )), 0);
@@ -730,9 +733,10 @@ inline void GRRLIB_DrawTile(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, float
  * @param color Color in RGBA format.
  * @param frame Specifies the frame to draw.
  */
-
 inline void GRRLIB_DrawTileQuad(Vector pos[4], struct GRRLIB_texImg *tex, u32 color, int frame) {
-    if (tex == NULL || tex->data == NULL) { return; }
+    if (tex == NULL || tex->data == NULL) {
+        return;
+    }
 
     GXTexObj texObj;
     Mtx m, m1, m2, mv;
@@ -756,7 +760,7 @@ inline void GRRLIB_DrawTileQuad(Vector pos[4], struct GRRLIB_texImg *tex, u32 co
     guMtxIdentity(m1);
     guMtxScaleApply(m1, m1, 1, 1, 1.0f);
 
-    Vector axis = (Vector) {0, 0, 1 };
+    Vector axis = (Vector) {0, 0, 1};
     guMtxRotAxisDeg(m2, &axis, 0);
     guMtxConcat(m2, m1, m);
 
@@ -797,7 +801,9 @@ inline void GRRLIB_DrawTileQuad(Vector pos[4], struct GRRLIB_texImg *tex, u32 co
  * @param ... Optional arguments.
  */
 void GRRLIB_Printf(f32 xpos, f32 ypos, struct GRRLIB_texImg *tex, u32 color, f32 zoom, const char *text, ...) {
-    if (tex == NULL || tex->data == NULL) { return; }
+    if (tex == NULL || tex->data == NULL) {
+        return;
+    }
 
     int i, size;
     char tmp[1024];
@@ -870,7 +876,7 @@ bool GRRLIB_RectOnRect(int rect1x, int rect1y, int rect1w, int rect1h, int rect2
  * @param width The width of the rectangle.
  * @param height The height of the rectangle.
  */
-void GRRLIB_ClipDrawing( int x, int y, int width, int height ) {
+void GRRLIB_ClipDrawing(int x, int y, int width, int height) {
     GX_SetClipMode( GX_CLIP_ENABLE );
     GX_SetScissor( x, y, width, height );
 }
@@ -889,7 +895,7 @@ void GRRLIB_ClipReset() {
  * @param x The x-coordinate of the handle.
  * @param y The y-coordinate of the handle.
  */
-void GRRLIB_SetHandle( struct GRRLIB_texImg *tex, int x, int y ) {
+void GRRLIB_SetHandle(struct GRRLIB_texImg *tex, int x, int y) {
     if (tex->tiledtex) {
         tex->handlex = -(((int)tex->tilew)/2) + x;
         tex->handley = -(((int)tex->tileh)/2) + y;
@@ -904,7 +910,7 @@ void GRRLIB_SetHandle( struct GRRLIB_texImg *tex, int x, int y ) {
  * @param tex The texture to center.
  * @param enabled
  */
-void GRRLIB_SetMidHandle( struct GRRLIB_texImg *tex, bool enabled ) {
+void GRRLIB_SetMidHandle(struct GRRLIB_texImg *tex, bool enabled) {
     if (enabled) {
         if (tex->tiledtex) {
             tex->offsetx = (((int)tex->tilew)/2);
@@ -1185,11 +1191,11 @@ void GRRLIB_Init() {
     if (rmode == NULL)
         return;
 
-	// Video Mode Correction
+    // Video Mode Correction
     switch (rmode->viTVMode) {
-    	case VI_DEBUG_PAL:	// PAL 50hz 576i
-    		rmode = &TVPal574IntDfScale;
-    		break;
+        case VI_DEBUG_PAL:  // PAL 50hz 576i
+            rmode = &TVPal574IntDfScale;
+            break;
     }
 
     // Widescreen patch by CashMan's Productions (http://www.CashMan-Productions.fr.nf)
@@ -1361,7 +1367,6 @@ void GRRLIB_GetPixelFromFB(int x, int y, u8 *R1, u8 *G1, u8 *B1, u8* R2, u8 *G2,
     *B2 = GRRLIB_ClampVar8( 1.164 * (Colors[2] - 16) + 2.017 * (Colors[1] - 128) );
 }
 
-
 /**
  * A helper function for the YCbCr -> RGB conversion.
  * Clamps the given value into a range of 0 - 255 and thus preventing an overflow.
@@ -1382,12 +1387,12 @@ u8 GRRLIB_ClampVar8(float Value) {
 
 /**
  * Converts RGBA values to u32 color.
- * @param r Amount of Red (0 - 255);
- * @param g Amount of Green (0 - 255);
- * @param b Amount of Blue (0 - 255);
- * @param a Amount of Alpha (0 - 255);
+ * @param r Amount of red (0 - 255).
+ * @param g Amount of green (0 - 255).
+ * @param b Amount of blue (0 - 255).
+ * @param a Amount of alpha (0 - 255).
  * @return Returns the color in u32 format.
  */
-u32 GRRLIB_GetColor( u8 r, u8 g, u8 b, u8 a ) {
+u32 GRRLIB_GetColor(u8 r, u8 g, u8 b, u8 a) {
     return (r << 24) | (g << 16) | (b << 8) | a;
 }

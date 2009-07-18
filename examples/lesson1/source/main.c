@@ -168,7 +168,7 @@ int main() {
         FPS = CalculateFrameRate();
 
         if(wpaddown & WPAD_BUTTON_HOME) {
-            exit(0);
+            break;
         }
         if(wpadheld & WPAD_BUTTON_LEFT) {
             if(wpadheld & WPAD_BUTTON_B || page == 1)
