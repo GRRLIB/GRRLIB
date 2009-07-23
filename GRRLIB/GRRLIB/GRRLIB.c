@@ -503,7 +503,6 @@ void GRRLIB_FreeTexture(struct GRRLIB_texImg *tex) {
  * @return A GRRLIB_texImg structure newly created.
  */
 GRRLIB_texImg *GRRLIB_CreateEmptyTexture(unsigned int w, unsigned int h) {
-    unsigned int x, y;
     GRRLIB_texImg *my_texture = (struct GRRLIB_texImg *)calloc(1, sizeof(GRRLIB_texImg));
 
     if(my_texture != NULL) {
@@ -512,13 +511,10 @@ GRRLIB_texImg *GRRLIB_CreateEmptyTexture(unsigned int w, unsigned int h) {
         my_texture->h = h;
 
         // Initialize the texture
-        for (y = 0; y < h; y++) {
-            for (x = 0; x < w; x++) {
-                GRRLIB_SetPixelTotexImg(x, y, my_texture, 0x00000000);
-            }
-        }
-        GRRLIB_SetHandle( my_texture, 0, 0 );
-        GRRLIB_FlushTex( my_texture );
+		memset(my_texture->data, '\0', (h * w) << 2);
+
+        GRRLIB_SetHandle(my_texture, 0, 0);
+        GRRLIB_FlushTex(my_texture);
     }
     return my_texture;
 }
@@ -936,17 +932,11 @@ void GRRLIB_SetMidHandle(struct GRRLIB_texImg *tex, bool enabled) {
  */
 u32 GRRLIB_GetPixelFromtexImg(int x, int y, struct GRRLIB_texImg *tex) {
     u8 *truc = (u8*)tex->data;
-    u8 r, g, b, a;
     u32 offset;
 
-    offset = (((y >> 2)<<4)*tex->w) + ((x >> 2)<<6) + (((y%4 << 2) + x%4 ) << 1); // Fuckin equation found by NoNameNo ;)
+    offset = (((y >> 2)<<4)*tex->w) + ((x >> 2)<<6) + ((((y&3) << 2) + (x&3) ) << 1); // Fuckin equation found by NoNameNo ;)
 
-    a=*(truc+offset);
-    r=*(truc+offset+1);
-    g=*(truc+offset+32);
-    b=*(truc+offset+33);
-
-    return ((r<<24) | (g<<16) | (b<<8) | a);
+    return ((*(truc+offset+1)<<24) | (*(truc+offset+32)<<16) | (*(truc+offset+33)<<8) | *(truc+offset));
 }
 
 /**
@@ -961,12 +951,12 @@ void GRRLIB_SetPixelTotexImg(int x, int y, GRRLIB_texImg *tex, u32 color) {
     u8 *truc = (u8*)tex->data;
     u32 offset;
 
-    offset = (((y >> 2)<<4)*tex->w) + ((x >> 2)<<6) + (((y%4 << 2) + x%4 ) <<1); // Fuckin equation found by NoNameNo ;)
+    offset = (((y >> 2)<<4)*tex->w) + ((x >> 2)<<6) + ((((y&3) << 2) + (x&3) ) << 1); // Fuckin equation found by NoNameNo ;)
 
-    *(truc+offset)=color & 0xFF;
-    *(truc+offset+1)=(color>>24) & 0xFF;
-    *(truc+offset+32)=(color>>16) & 0xFF;
-    *(truc+offset+33)=(color>>8) & 0xFF;
+    *(truc+offset) = color & 0xFF;
+    *(truc+offset+1) = (color>>24) & 0xFF;
+    *(truc+offset+32) = (color>>16) & 0xFF;
+    *(truc+offset+33) = (color>>8) & 0xFF;
 }
 
 /**
@@ -1214,8 +1204,9 @@ void GRRLIB_Init() {
     VIDEO_SetBlack(true);
     VIDEO_Flush();
     VIDEO_WaitVSync();
-    if (rmode->viTVMode&VI_NON_INTERLACE)
+    if (rmode->viTVMode & VI_NON_INTERLACE) {
         VIDEO_WaitVSync();
+	}
 
     gp_fifo = (u8 *) memalign(32, DEFAULT_FIFO_SIZE);
     if (gp_fifo == NULL)
