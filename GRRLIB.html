@@ -1,0 +1,191 @@
+<html><body bgcolor="#FFFFFF" text="#000000"><center><table><tr><td>
+<!-- --------------------- This file is this wide -------------------------- -->
+<center><img src="grrlib_logo.png" /></center>
+<pre><b>
+Introduction
+------------
+
+GRRLIB is a C/C++ 2D Graphics library for Wii application developers.  It is
+essentially a wrapper which presents a friendly interface to the Nintendo GX
+core.
+
+As of v4.10., GRRLIB is supplied as a standard C/C++ library (aka. archive)
+called 'libgrrlib'.  Because GRRLIB processes JPEG and PNG images, it requires
+the installation of the 'libjpeg' and 'libpngu' libraries.  'libpngu', in turn,
+requires 'libpng' and 'libpng' requires 'libz'.
+
+libgrrlib          <- 2D graphics library
++-- libjpeg        <- JPEG image processor
++-- libpngu        <- Wii wrapper for libpng
+    +-- libpng     <- PNG image processor
+        +-- libz   <- Zip (lossless) compsression (for PNG compression)
+
+
+Developing for the Wii
+----------------------
+
+Do not progress until you have installed and configured devkitPro.  Guides are
+and assistance are available at http://forums.devkitpro.org
+
+If you have just performed a clean (re)install on your Windows PC, be sure to
+reboot before you continue.
+
+
+Downloading GRRLIB
+------------------
+
+You are advised to use "the latest SVN trunk version" of GRRLIB at all times.
+There is a simple guide to "Using SVN" here:
+http://grrlib.santo.fr/forum/viewtopic.php?id=182
+
+This document will presume that you have downloaded "the latest SVN trunk
+version" to a directory called  C:\grr\trunk
+
+Installing GRRLIB
+-----------------
+
+This guide is for Windows.  If you are using Linux, I am going to presume you
+are smart enough to convert these instructions.
+
+GRRLIB  is supplied as source code.
+libjpeg is supplied as a precompiled library.*
+libpngu is supplied as source code
+libpng  is supplied as a precompiled library
+libz    is supplied with devkitpro (Ie. preinstalled)
+
+*The version of libjpeg supplied with GRRLIB v4.1.0 contains bug fixes not
+available in the official release.  If you can track down the original author,
+please tell him about these fixes.
+
+Because of the way dependancies work, the libraries must be installed in reverse
+order.
+
+libz comes preinstalled with devkitPro, so we can move directly to libpng...
+
+To install libpng
+  c:
+  cd \grr\trunk\GRRLIB\lib\png
+  make install
+
+Next up the list is libpngu
+  c:
+  cd \grr\trunk\GRRLIB\lib\pngu
+  make clean
+  make all
+  make install
+
+Next up the list is libjpeg*
+  c:
+  cd \grr\trunk\GRRLIB\lib\jpeg
+  make install
+
+*The version of libjpeg supplied with GRRLIB v4.1.0 contains bug fixes not
+ available in the official release.
+
+Finally, we can now install libgrrlib
+  c:
+  cd \grr\trunk\GRRLIB\GRRLIB
+  make clean
+  make all
+  make install
+
+
+Using GRRLIB
+------------
+
+After everything is installed, simply put
+    #include <grrlib.h>
+at the top of your .c file and use the functions as required
+
+You will also need to add
+    -lgrrlib -ljpeg -lpngu -lpng -lz
+to the libs line in your makefile
+...Remember the order of the libraries is critical.  You may (need to) insert
+other libraries in the middle of the list, you may need to add others to the
+start, or even the end - but do _not_ change the order of the libraries shown
+here.
+
+You do NOT need to placce /anything/ in your application directory.
+
+If you would like to see a working example of this, you can look at the example
+found in: C:\grr\trunk\examples\bluechip\composition
+...This example also includes a "Makefile" which tries to make it clear what is
+happening (unlike the more comprehensive cross-platform Makefile supplied with
+the devkitPro template application).
+
+
+Error: guVector redefined
+-------------------------
+
+If you get this error, you are probably using a version of libogc more recent
+than the released v1.7.1a.
+
+In the libogc SVN revision 3650 Vector was renamed to guVector "to avoid
+collisions"  ...also Quaternion was renamed to guQuaternion - but GRRLIB does
+not use these!
+
+The main codebase of GRRLIB has been updated to reflect this change.
+But until the new libogc is officially released, if you are using a version of
+libogc later than v1.7.1a/svn3649, you will need to add:
+  -DNOGUFIX
+to the compiler flags (CFLAGS) in your makefile
+
+When the libogc changes are officially released, this *temporary fix* should be
+removed [see grrlib.h, line 50ish]
+The requirement for -DNOGUFIX will be deprecated, but its lingering presence
+will not be a hinderance
+
+Thanks to Nicksasa for reporting this problem
+
+
+Credits
+-------
+
+Project Leader : NoNameNo
+Documentation  : Crayon
+Lead Coder     : NoNameNo,
+Support Coders : BlueChip, DragonMinded, Xane
+Advisors       : RedShade
+
+
+Licence
+-------
+
+GRRLIB is released under the MIT Licence.  If we had chosen the GPL licence you
+would be +forced+ (legally required) to release your source code.  But in the
+spirit of "free as in FREE" we have left you with the +option+ to release your
+source code.
+
+We do request that you tell others about us by naming our library (GRRLIB) in
+the credits of your game/application.  And, if you choose to do that, we
+encourage you to use our logo to achieve it; You can find our logo here:
+C:\grr\trunk\grrlib_logo.png
+and here:
+http://grrlib.santo.fr/wiki/images/logo.png
+
+This is the official license text
+--------------------------------------------------------------------------------
+Copyright (c) 2009 The GRRLIB Team
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+--------------------------------------------------------------------------------
+
+[BlueChip]
+
+</b></pre></td></tr></table></center></body></html>
