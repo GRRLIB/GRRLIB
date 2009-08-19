@@ -74,7 +74,7 @@ void  GRRLIB_Init (void) {
     VIDEO_WaitVSync();
     if (rmode->viTVMode & VI_NON_INTERLACE) {
         VIDEO_WaitVSync();
-	}
+    }
 
     gp_fifo = (u8 *) memalign(32, DEFAULT_FIFO_SIZE);
     if (gp_fifo == NULL)

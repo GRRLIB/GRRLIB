@@ -45,7 +45,8 @@ void  GRRLIB_Plot (const f32 x,  const f32 y,  const u32 color) {
     GX_Begin(GX_POINTS, GX_VTXFMT0, 1);
         GX_Position3f32(x, y,  0);
         GX_Color1u32(color);
-    GX_End();}
+    GX_End();
+}
 
 /**
  * Draw a line.
@@ -64,7 +65,8 @@ void  GRRLIB_Line (const f32 x1, const f32 y1,
         GX_Color1u32(color);
         GX_Position3f32(x2, y2, 0);
         GX_Color1u32(color);
-    GX_End();}
+    GX_End();
+}
 
 /**
  * Draw a rectangle.
