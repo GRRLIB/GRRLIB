@@ -38,14 +38,14 @@ void  GRRLIB_FillScreen (const u32 color) {
  * @param x Specifies the x-coordinate of the dot.
  * @param y Specifies the y-coordinate of the dot.
  * @param color The color of the dot in RGBA format.
+ * @author JESPA
  */
 INLINE
 void  GRRLIB_Plot (const f32 x,  const f32 y,  const u32 color) {
-    guVector v[] = {{x,y,0.0f}};
-    u32 ncolor[] = {color};
-
-    GRRLIB_NPlot(v, ncolor, 1);
-}
+    GX_Begin(GX_POINTS, GX_VTXFMT0, 1);
+        GX_Position3f32(x, y,  0);
+        GX_Color1u32(color);
+    GX_End();}
 
 /**
  * Draw a line.
@@ -54,15 +54,17 @@ void  GRRLIB_Plot (const f32 x,  const f32 y,  const u32 color) {
  * @param x2 Ending point for line for the x coordinate.
  * @param y2 Ending point for line for the x coordinate.
  * @param color Line color in RGBA format.
+ * @author JESPA
  */
 INLINE
 void  GRRLIB_Line (const f32 x1, const f32 y1,
                    const f32 x2, const f32 y2, const u32 color) {
-    guVector v[] = {{x1,y1,0.0f}, {x2,y2,0.0f}};
-    u32 ncolor[] = {color,color};
-
-    GRRLIB_NGone(v, ncolor, 2);
-}
+    GX_Begin(GX_LINES, GX_VTXFMT0, 2);
+        GX_Position3f32(x1, y1,  0);
+        GX_Color1u32(color);
+        GX_Position3f32(x2, y2, 0);
+        GX_Color1u32(color);
+    GX_End();}
 
 /**
  * Draw a rectangle.

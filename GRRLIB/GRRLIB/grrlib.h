@@ -27,7 +27,7 @@ Project Leader : NoNameNo
 Documentation  : Crayon
 Lead Coder     : NoNameNo,
 Support Coders : BlueChip, DragonMinded, Xane
-Advisors       : RedShade
+Advisors       : RedShade, JESPA
 ------------------------------------------------------------------------------*/
 
 /**
