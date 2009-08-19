@@ -21,7 +21,7 @@ THE SOFTWARE.
 ------------------------------------------------------------------------------*/
 
 /**
- * @file GRRLIB_fnLibrary.h
+ * @file GRRLIB__lib.h
  * GRRLIB library functions.
  */
 

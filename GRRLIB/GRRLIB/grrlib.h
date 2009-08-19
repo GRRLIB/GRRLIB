@@ -89,12 +89,14 @@ typedef  unsigned int  uint;
 // Primitive colour macros
 //==============================================================================
 // Feel free to convert these to inline functions if it floats your boat
-#define R(c)  (((c) >>24) &0xFF)  // Exract RED   component of colour
-#define G(c)  (((c) >>16) &0xFF)  // Exract GREEN component of colour
-#define B(c)  (((c) >> 8) &0xFF)  // Exract BLUE  component of colour
-#define A(c)  ( (c)       &0xFF)  // Exract ALPHA component of colour
+#define R(c)  (((c) >>24) &0xFF)  /**< Exract RED   component of colour. */
+#define G(c)  (((c) >>16) &0xFF)  /**< Exract GREEN component of colour. */
+#define B(c)  (((c) >> 8) &0xFF)  /**< Exract BLUE  component of colour. */
+#define A(c)  ( (c)       &0xFF)  /**< Exract ALPHA component of colour. */
 
-// Build an RGB pixel from components
+/**
+ * Build an RGB pixel from components.
+ */
 #define RGBA(r,g,b,a) ( (u32)( ( ((u32)(r))        <<24) |  \
                                ((((u32)(g)) &0xFF) <<16) |  \
                                ((((u32)(b)) &0xFF) << 8) |  \
@@ -104,17 +106,15 @@ typedef  unsigned int  uint;
 // typedefs, enumerators & structs
 //==============================================================================
 /**
- * Compositions Modes
- * NORMAL : a-over-b alpha composition (normal)
- *  ...more to come
+ * Compositions Modes.
  */
 typedef  enum Composition_Modes {
-    GRRLIB_COMPOSE_NORMAL,
+    GRRLIB_COMPOSE_NORMAL,      /**< NORMAL : a-over-b alpha composition (normal) */
 } GRRLIB_ComposeMode;
 
 //------------------------------------------------------------------------------
 /**
- * GRRLIB Blending Modes
+ * GRRLIB Blending Modes.
  */
 typedef  enum GRRLIB_blendMode {
     GRRLIB_BLEND_ALPHA  = 0,    /**< Alpha Blending.        */
@@ -180,8 +180,6 @@ typedef  struct GRRLIB_bytemapChar {
  */
 typedef
     struct GRRLIB_bytemapFont {
-//! the order of the fields here is changed
-//!   to encourage efficient structure packing in the compiler
         char  *name;                /**< Font name.                      */
         u32   *palette;             /**< Font palette.                   */
         u16   nbChar;               /**< Number of characters in font.   */
