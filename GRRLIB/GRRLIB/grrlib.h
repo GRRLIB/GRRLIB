@@ -24,9 +24,9 @@ THE SOFTWARE.
 Library        : GRRLIB (GX inside)
 Version        : 4.1.0
 Project Leader : NoNameNo
-Documentation  : Crayon
+Documentation  : Crayon, BlueChip
 Lead Coder     : NoNameNo,
-Support Coders : BlueChip, DragonMinded, Xane
+Support Coders : Crayon, Xane, DragonMinded, BlueChip
 Advisors       : RedShade, JESPA
 ------------------------------------------------------------------------------*/
 
