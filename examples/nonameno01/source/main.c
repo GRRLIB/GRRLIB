@@ -5,8 +5,7 @@
         This code shows how to draw
         vectors using GRRLIB_DrawImgQuad.
 ============================================*/
-#include "../../../GRRLIB/GRRLIB/GRRLIB.h"
-
+#include <grrlib.h>
 
 #include <stdlib.h>
 #include <math.h>

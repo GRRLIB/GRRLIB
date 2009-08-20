@@ -1,11 +1,11 @@
 /*===========================================
         GRRLIB (GX Version)
         Example code by Xane
-        
+
         This example shows the different
         new blending modes.
 ============================================*/
-#include "../../../GRRLIB/GRRLIB/GRRLIB.h"
+#include <grrlib.h>
 
 #include <stdlib.h>
 #include <wiiuse/wpad.h>

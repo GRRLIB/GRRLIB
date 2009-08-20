@@ -4,7 +4,7 @@
 
         How To use Bitmap FX
 ============================================*/
-#include "../../../GRRLIB/GRRLIB/GRRLIB.h"
+#include <grrlib.h>
 
 #include <stdlib.h>
 #include <wiiuse/wpad.h>

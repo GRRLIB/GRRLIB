@@ -3,8 +3,7 @@
     Bugged since Screen2texture conversion
     loose color precision.
 ============================================*/
-#include "../../../GRRLIB/GRRLIB/GRRLIB.h"
-
+#include <grrlib.h>
 
 #include <stdlib.h>
 #include <math.h>

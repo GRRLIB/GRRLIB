@@ -4,13 +4,10 @@
 
         Minimum Code To Use GRRLIB
 ============================================*/
-#include "../../../GRRLIB/GRRLIB/GRRLIB.h"
-
+#include <grrlib.h>
 
 #include <stdlib.h>
 #include <wiiuse/wpad.h>
-
-
 
 int main() {
     u32 WPADDown;

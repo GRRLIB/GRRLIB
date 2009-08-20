@@ -10,4 +10,4 @@ clean:
 	@for i in $(SUBDIRS); do if test -e $$i/Makefile ; then $(MAKE) -C $$i clean || { exit 1;} fi; done;
 
 dist: clean
-	@tar --exclude=*CVS* -cvjf wii-examples-$(DATESTRING).tar.bz2 *
+	@tar --exclude=.svn -cvjf wii-examples-$(DATESTRING).tar.bz2 *
