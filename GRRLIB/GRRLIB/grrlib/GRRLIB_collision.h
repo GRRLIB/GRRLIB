@@ -21,6 +21,11 @@ THE SOFTWARE.
 ------------------------------------------------------------------------------*/
 
 /**
+ * @file GRRLIB_collision.h
+ * 
+ */
+
+/**
  * Determine whether the specified point lies within the specified rectangle.
  * @param hotx Specifies the x-coordinate of the upper-left corner of the rectangle.
  * @param hoty Specifies the y-coordinate of the upper-left corner of the rectangle.

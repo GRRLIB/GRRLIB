@@ -21,6 +21,11 @@ THE SOFTWARE.
 ------------------------------------------------------------------------------*/
 
 /**
+ * @file GRRLIB_clipping.h
+ * 
+ */
+
+/**
  * Reset the clipping to normal.
  */
 INLINE

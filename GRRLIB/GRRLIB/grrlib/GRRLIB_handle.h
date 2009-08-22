@@ -21,6 +21,11 @@ THE SOFTWARE.
 ------------------------------------------------------------------------------*/
 
 /**
+ * @file GRRLIB_handle.h
+ * 
+ */
+
+/**
  * Set a texture's X and Y handles. e.g. for rotation.
  * @param tex The texture to set the handle on.
  * @param x The x-coordinate of the handle.

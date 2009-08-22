@@ -21,6 +21,11 @@ THE SOFTWARE.
 ------------------------------------------------------------------------------*/
 
 /**
+ * @file GRRLIB_fbComplex.h
+ * 
+ */
+
+/**
  * Draw an array of points.
  * @param v Array containing the points.
  * @param color The color of the points in RGBA format.

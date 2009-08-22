@@ -21,6 +21,11 @@ THE SOFTWARE.
 ------------------------------------------------------------------------------*/
 
 /**
+ * @file GRRLIB_pixel.h
+ * 
+ */
+
+/**
  * Return the color value of a pixel from a GRRLIB_texImg.
  * @param x Specifies the x-coordinate of the pixel in the texture.
  * @param y Specifies the y-coordinate of the pixel in the texture.
