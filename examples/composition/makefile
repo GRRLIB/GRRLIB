@@ -73,4 +73,4 @@ run : $(DOL)
 .PRECIOUS : %.c
 %.c : %.png
 	@echo Converting resource: $<
-	@./raw2c.exe $<
+	@./raw2c.exe $< 2>null

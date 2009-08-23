@@ -22,6 +22,7 @@ THE SOFTWARE.
 
 //------------------------------------------------------------------------------
 // Test Harness for alpha composition functions
+// The composition function and this demo were both written by BlueChip
 /*
   PaintShopPro_X2 readings:
       |        | Blue-over-Red | Red-over-Blue |
