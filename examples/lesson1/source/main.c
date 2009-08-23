@@ -4,12 +4,13 @@
 
         How To use Bitmap Fonts
 ============================================*/
-#include "../../../GRRLIB/GRRLIB/GRRLIB.h"
-#include "../../../GRRLIB/GRRLIB/GRRLIB_addon.h"
+#include <grrlib.h>
 
 #include <ogc/lwp_watchdog.h>	// Needed for gettime and ticks_to_millisecs
 #include <stdlib.h>
 #include <wiiuse/wpad.h>
+#include <wiiuse/wpad.h>
+#include <fat.h>
 
 #include "gfx/BMfont1.h"
 #include "gfx/BMfont2.h"
@@ -51,6 +52,23 @@
 #define GRRLIB_WHITE   0xFFFFFFFF
 
 static u8 CalculateFrameRate();
+
+/**
+ * Make a PNG screenshot on the SD card.
+ * libfat is required to use the function.
+ * @param File name of the file to write.
+ * @return true if every thing worked, false otherwise.
+ */
+bool  ScrShot(const char* File) {
+    int ErrorCode = -1;
+    IMGCTX pngContext;
+
+    if(fatInitDefault() && (pngContext = PNGU_SelectImageFromDevice(File))) {
+        ErrorCode = PNGU_EncodeFromYCbYCr(pngContext, rmode->fbWidth, rmode->efbHeight, xfb[fb], 0);
+        PNGU_ReleaseImageContext(pngContext);
+    }
+    return !ErrorCode;
+}
 
 int main() {
     int left = 0, top = 0, page = 0, frame = TILE_DOWN + 1;
@@ -212,7 +230,7 @@ int main() {
         }
         if(wpadheld & WPAD_BUTTON_1 && wpadheld & WPAD_BUTTON_2) {
             WPAD_Rumble(WPAD_CHAN_0, 1); // Rumble on
-            GRRLIB_ScrShot("sd:/grrlib.png");
+            ScrShot("sd:/grrlib.png");
             WPAD_Rumble(WPAD_CHAN_0, 0); // Rumble off
         }
     }
