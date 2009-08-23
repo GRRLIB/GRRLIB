@@ -1,139 +1,113 @@
-#---------------------------------------------------------------------------------
-# Clear the implicit built in rules
-#---------------------------------------------------------------------------------
-.SUFFIXES:
-#---------------------------------------------------------------------------------
+# BC's quick'n'dirty makefile - with annotations
+
+#-------------------------------------------------------------------------------
+# Check devkitpro is installed
+#-------------------------------------------------------------------------------
 ifeq ($(strip $(DEVKITPPC)),)
-$(error "Please set DEVKITPPC in your environment. export DEVKITPPC=<path to>devkitPPC)
+  $(error "Use   export DEVKITPPC=<path to>devkitPPC   and try again")
 endif
 
-include $(DEVKITPPC)/wii_rules
-
-#---------------------------------------------------------------------------------
-# TARGET is the name of the output
-# BUILD is the directory where object files & intermediate files will be placed
-# SOURCES is a list of directories containing source code
-# INCLUDES is a list of directories containing extra header files
-#---------------------------------------------------------------------------------
-TARGET		:=	$(notdir $(CURDIR))
-BUILD		:=	build
-SOURCES		:=	source source/gfx
-DATA		:=	data
-INCLUDES	:=
-
-#---------------------------------------------------------------------------------
-# options for code generation
-#---------------------------------------------------------------------------------
-
-CFLAGS	= -g -O2 -mrvl -Wall $(MACHDEP) $(INCLUDE)
-CXXFLAGS	=	$(CFLAGS)
-
-LDFLAGS	=	-g $(MACHDEP) -mrvl -Wl,-Map,$(notdir $@).map
-
-#---------------------------------------------------------------------------------
-# any extra libraries we wish to link with the project
-#---------------------------------------------------------------------------------
-LIBS	:=	-lgrrlib -lpngu -lpng -ljpeg -lz -lfat -lwiiuse -lbte -logc -lm
-
-#---------------------------------------------------------------------------------
-# list of directories containing libraries, this must be the top level containing
-# include and lib
-#---------------------------------------------------------------------------------
-LIBDIRS	:= $(CURDIR)/$(GRRLIB)
-
-#---------------------------------------------------------------------------------
-# no real need to edit anything past this point unless you need to add additional
-# rules for different file extensions
-#---------------------------------------------------------------------------------
-ifneq ($(BUILD),$(notdir $(CURDIR)))
-#---------------------------------------------------------------------------------
-
-export OUTPUT	:=	$(CURDIR)/$(TARGET)
-
-export VPATH	:=	$(foreach dir,$(SOURCES),$(CURDIR)/$(dir)) \
-					$(foreach dir,$(DATA),$(CURDIR)/$(dir))
-
-export DEPSDIR	:=	$(CURDIR)/$(BUILD)
-
-#---------------------------------------------------------------------------------
-# automatically build a list of object files for our project
-#---------------------------------------------------------------------------------
-CFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
-CPPFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.cpp)))
-sFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.s)))
-SFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.S)))
-BINFILES	:=	$(foreach dir,$(DATA),$(notdir $(wildcard $(dir)/*.*)))
-
-#---------------------------------------------------------------------------------
-# use CXX for linking C++ projects, CC for standard C
-#---------------------------------------------------------------------------------
-ifeq ($(strip $(CPPFILES)),)
-	export LD	:=	$(CC)
-else
-	export LD	:=	$(CXX)
+ifeq ($(strip $(DEVKITPRO)),)
+  $(error "Use   export DEVKITPRO=<path to>devkitPRO   and try again")
 endif
 
-export OFILES	:=	$(addsuffix .o,$(BINFILES)) \
-					$(CPPFILES:.cpp=.o) $(CFILES:.c=.o) \
-					$(sFILES:.s=.o) $(SFILES:.S=.o)
+#-------------------------------------------------------------------------------
+# Applicatin will be named after this directory
+#-------------------------------------------------------------------------------
+APP := $(notdir $(CURDIR))
+ELF := $(APP).elf
+DOL := $(APP).dol
+MAP := $(APP).map
 
-#---------------------------------------------------------------------------------
-# build a list of include paths
-#---------------------------------------------------------------------------------
-export INCLUDE	:=	$(foreach dir,$(INCLUDES), -iquote $(CURDIR)/$(dir)) \
-					$(foreach dir,$(LIBDIRS),-I$(dir)/include) \
-					-I$(CURDIR)/$(BUILD) \
-					-I$(LIBOGC_INC)
+#-------------------------------------------------------------------------------
+# Source code and binary resources
+#-------------------------------------------------------------------------------
+SRC    := $(wildcard *.c)
+SRCOBJ := $(patsubst %.c,%.o,$(SRC))
 
-#---------------------------------------------------------------------------------
-# build a list of library paths
-#---------------------------------------------------------------------------------
-export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib) \
-					-L$(LIBOGC_LIB)
+RES    := $(wildcard *.png)
+RESOBJ := $(patsubst %.png,%.o,$(RES))
+RESC   := $(patsubst %.png,%.c,$(RES))
+RESH   := $(patsubst %.png,%.h,$(RES))
 
-export OUTPUT	:=	$(CURDIR)/$(TARGET)
-.PHONY: $(BUILD) clean
+OBJ  := $(RESOBJ) $(SRCOBJ)
 
-#---------------------------------------------------------------------------------
-$(BUILD):
-	@[ -d $@ ] || mkdir -p $@
-	@make --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
+#-------------------------------------------------------------------------------
+# Include required libraries
+#-------------------------------------------------------------------------------
+LIBS := -lgrrlib -lpngu -lpng -ljpeg -lz
+LIBS += -lwiiuse
+#LIBS += -lmodplay -lasnd
+LIBS += -lbte -logc
+LIBS +=  -lm
 
-#---------------------------------------------------------------------------------
-clean:
-	@echo clean ...
-	@rm -fr $(BUILD) $(OUTPUT).elf $(OUTPUT).dol
+#-------------------------------------------------------------------------------
+# Compilers & utils which we will be using
+#-------------------------------------------------------------------------------
+BINDIR  := $(DEVKITPPC)/bin
+PREFIX  := $(BINDIR)/powerpc-gekko-
 
-#---------------------------------------------------------------------------------
-run:
-	psoload $(TARGET).dol
+CC      := $(PREFIX)gcc
+CXX     := $(PREFIX)g++
+AR      := $(PREFIX)ar
+AS      := $(PREFIX)as
+LD      := $(CC)
+OBJCOPY := $(PREFIX)objcopy
 
-#---------------------------------------------------------------------------------
-reload:
-	psoload -r $(TARGET).dol
+ELF2DOL := $(BINDIR)/elf2dol
+UPLOAD  := $(BINDIR)/wiiload
 
+#-------------------------------------------------------------------------------
+# libogc - the main Wii/GC libraries
+#-------------------------------------------------------------------------------
+OGC  := $(DEVKITPRO)/libogc
+INCD := $(OGC)/include
+LIBD := $(OGC)/lib/wii
 
-#---------------------------------------------------------------------------------
-else
+#-------------------------------------------------------------------------------
+# Wii specific compiler flags
+#-------------------------------------------------------------------------------
+MACHDEP := -DGEKKO -mrvl -mcpu=750 -meabi -mhard-float
+CFLAGS  := -O2 -Wall $(MACHDEP) -I $(INCD)
 
-DEPENDS	:=	$(OFILES:.o=.d)
+#-------------------------------------------------------------------------------
+# Information for the linker
+#-------------------------------------------------------------------------------
+LDFLAGS   = $(MACHDEP) -Wl,-Map,$(MAP)
+LIBPATHS := -L$(DEVKITPRO)/libogc/lib/wii
 
-#---------------------------------------------------------------------------------
-# main targets
-#---------------------------------------------------------------------------------
-$(OUTPUT).dol: $(OUTPUT).elf
-$(OUTPUT).elf: $(OFILES)
+#-------------------------------------------------------------------------------
+# Build rules
+#-------------------------------------------------------------------------------
 
-#---------------------------------------------------------------------------------
-# This rule links in binary data with the .jpg extension
-#---------------------------------------------------------------------------------
-%.jpg.o	:	%.jpg
-#---------------------------------------------------------------------------------
-	@echo $(notdir $<)
-	$(bin2o)
+# "make all" -> Build the DOL file
+all : $(DOL)
 
--include $(DEPENDS)
+# "make clean" -> Erase everything made by `make`
+clean :
+	rm -f $(OBJ) $(RESC) $(RESH) $(ELF) $(DOL) $(MAP)
 
-#---------------------------------------------------------------------------------
-endif
-#---------------------------------------------------------------------------------
+# "make run" -> Send the DOL file to the Wii
+run : $(DOL)
+	$(UPLOAD) $(DOL)
+
+# The DOL file is built from the ELF file
+$(DOL) : $(ELF)
+	@echo Converting to: $@
+	@$(ELF2DOL) $< $@
+
+# The ELF is built from the OBJects
+$(ELF) : $(OBJ)
+	@echo Linking as: $@
+	@$(CC) $^ $(LDFLAGS) $(LIBPATHS) $(LIBS) -o $@
+
+# Objects (.o) are made from C files (.c)
+%.o : %.c
+	@echo Compiling: $<
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+# C files (.c) can be made from PNG images
+.PRECIOUS : %.c
+%.c : %.png
+	@echo Converting resource: $<
+	@./raw2c.exe $< 2>null
