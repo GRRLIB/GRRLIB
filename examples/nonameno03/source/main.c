@@ -3,8 +3,8 @@
 
     Perhaps needs some improvement...
 ============================================*/
-#include "../../../GRRLIB/GRRLIB/GRRLIB.h"
-#include "../../../GRRLIB/GRRLIB/GRRLIB_addon.h"
+#include <grrlib.h>
+#include "../GRRLIB_addon/GRRLIB_addon.h"
 
 #include "gfx/pointer.h"
 
@@ -35,7 +35,7 @@ int main() {
         WPAD_ScanPads();
         WPADDown = WPAD_ButtonsDown(0);
         WPADHeld = WPAD_ButtonsHeld(0);
-        WPAD_IR(WPAD_CHAN_0, &ir1); 
+        WPAD_IR(WPAD_CHAN_0, &ir1);
         wpadx=ir1.sx-200;
         wpady=ir1.sy-250;
 
