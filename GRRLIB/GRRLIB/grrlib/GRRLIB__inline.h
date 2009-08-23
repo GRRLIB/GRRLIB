@@ -22,7 +22,7 @@ THE SOFTWARE.
 
 /**
  * @file GRRLIB__inline.h
- * GRRLIB inline functions.
+ * GRRLIB inline function prototypes.
  */
 
 #ifndef __GRRLIB_H__

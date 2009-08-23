@@ -22,7 +22,7 @@ THE SOFTWARE.
 
 /**
  * @file GRRLIB_fbComplex.h
- * 
+ * Inline functions for complex (N-point) shape drawing.
  */
 
 /**

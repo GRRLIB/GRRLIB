@@ -22,7 +22,7 @@ THE SOFTWARE.
 
 /**
  * @file GRRLIB_cExtn.h
- * 
+ * Inline functions to offer additional C primitives.
  */
 
 #include <math.h>

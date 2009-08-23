@@ -22,7 +22,7 @@ THE SOFTWARE.
 
 /**
  * @file GRRLIB_fbGX.h
- * 
+ * Inline functions for interfacing directly to the GX Engine.
  */
 
 /**
