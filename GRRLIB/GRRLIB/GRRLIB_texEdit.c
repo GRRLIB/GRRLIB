@@ -173,9 +173,8 @@ GRRLIB_texImg*  GRRLIB_LoadTextureJPG (const u8 *my_jpg) {
     return my_texture;
 }
 
-//==============================================================================
 /**
- * Compose a layer/sprite to a canvas/textured-image
+ * Compose a layer/sprite to a canvas/textured-image.
  * Currently only performs "a-over-b (normal) alpha compositing" (opacity)
  * Ie. Light source is behind the eye, not behind the canvas!
  * @author BlueChip
@@ -185,55 +184,54 @@ GRRLIB_texImg*  GRRLIB_LoadTextureJPG (const u8 *my_jpg) {
  * @param canvas : The canvas/textured-image on which to draw
  * @param mode   : Currently unused - will be composition mode
  */
-//==============================================================================
 void  GRRLIB_Compose( int xoff, int yoff, GRRLIB_texImg* layer,
                       GRRLIB_texImg* canvas, GRRLIB_ComposeMode mode )
 {
-  int    x, y;                        // x & y on layer
-  int    cnv_x, cnv_y;                // x & y on canvas
+    int    x, y;                        // x & y on layer
+    int    cnv_x, cnv_y;                // x & y on canvas
 
-  float  cnv_a, lyr_a, alpha;         // Alpha of canvas & layer & result
-  u32    cnv_c, lyr_c;                // Colour of pixel from canvas & layer
-  u32    new_r, new_g, new_b, new_a;  // R, G, B & A values of result
+    float  cnv_a, lyr_a, alpha;         // Alpha of canvas & layer & result
+    u32    cnv_c, lyr_c;                // Colour of pixel from canvas & layer
+    u32    new_r, new_g, new_b, new_a;  // R, G, B & A values of result
 
-  // Loop through the layer, one pixel at a time
-  for (y = 0;  y < layer->h;  y++)  {
-    cnv_y  = y +yoff;                // y coord of canvas pixel to be changed
-    if (cnv_y < 0)  continue ;       // not on the canvas yet
-    if (cnv_y >= canvas->h)  break;  // off the bottom of the canvas
+    // Loop through the layer, one pixel at a time
+    for (y = 0;  y < layer->h;  y++)  {
+        cnv_y  = y + yoff;               // y coord of canvas pixel to be changed
+        if (cnv_y < 0)  continue ;       // not on the canvas yet
+        if (cnv_y >= canvas->h)  break;  // off the bottom of the canvas
 
-    for (x = 0;  x < layer->w;  x++)  {
-      cnv_x  = x +xoff;                // x coord of canvas pixel to be changed
-      if (cnv_x < 0)  continue ;       // not on the canvas yet
-      if (cnv_x >= canvas->h)  break;  // off the right of the canvas
+        for (x = 0;  x < layer->w;  x++)  {
+            cnv_x  = x + xoff;               // x coord of canvas pixel to be changed
+            if (cnv_x < 0)  continue ;       // not on the canvas yet
+            if (cnv_x >= canvas->h)  break;  // off the right of the canvas
 
-      // Grab the working pixels from the canvas and layer
-      cnv_c = GRRLIB_GetPixelFromtexImg(cnv_x,cnv_y, canvas);
-      lyr_c = GRRLIB_GetPixelFromtexImg(x,y,         layer);
+            // Grab the working pixels from the canvas and layer
+            cnv_c = GRRLIB_GetPixelFromtexImg(cnv_x, cnv_y, canvas);
+            lyr_c = GRRLIB_GetPixelFromtexImg(x, y,         layer);
 
-      // Calculate alpha value as 0.0 to 1.0 in 255th's
-      cnv_a = A(cnv_c) /255.0;
-      lyr_a = A(lyr_c) /255.0;
+            // Calculate alpha value as 0.0 to 1.0 in 255th's
+            cnv_a = A(cnv_c) /255.0;
+            lyr_a = A(lyr_c) /255.0;
 
-      // Perform desired composition
-      switch (mode) {
-        default:
-        case GRRLIB_COMPOSE_NORMAL :
-          // Perform "a-over-b (normal) alpha compositing" (opacity)
-          // http://en.wikipedia.org/wiki/Alpha_compositing
-          new_a = (u32)( A(lyr_c) + (A(cnv_c) *(1.0 -lyr_a)) );
-          alpha =  new_a /255.0;
-          new_r = ( (R(lyr_c) *lyr_a) + (R(cnv_c) *cnv_a *(1 -lyr_a)) ) /alpha;
-          new_g = ( (G(lyr_c) *lyr_a) + (G(cnv_c) *cnv_a *(1 -lyr_a)) ) /alpha;
-          new_b = ( (B(lyr_c) *lyr_a) + (B(cnv_c) *cnv_a *(1 -lyr_a)) ) /alpha;
-          break;
-      }
+            // Perform desired composition
+            switch (mode) {
+                default:
+                case GRRLIB_COMPOSE_NORMAL :
+                    // Perform "a-over-b (normal) alpha compositing" (opacity)
+                    // http://en.wikipedia.org/wiki/Alpha_compositing
+                    new_a = (u32)( A(lyr_c) + (A(cnv_c) *(1.0 -lyr_a)) );
+                    alpha =  new_a /255.0;
+                    new_r = ( (R(lyr_c) *lyr_a) + (R(cnv_c) *cnv_a *(1 -lyr_a)) ) /alpha;
+                    new_g = ( (G(lyr_c) *lyr_a) + (G(cnv_c) *cnv_a *(1 -lyr_a)) ) /alpha;
+                    new_b = ( (B(lyr_c) *lyr_a) + (B(cnv_c) *cnv_a *(1 -lyr_a)) ) /alpha;
+                    break;
+            }
 
-      // Replace the old canvas pixel with the new one
-      GRRLIB_SetPixelTotexImg( cnv_x,cnv_y, canvas,
-                               RGBA(new_r, new_g, new_b, new_a) );
-    }//for x
-  }// for y
+            // Replace the old canvas pixel with the new one
+            GRRLIB_SetPixelTotexImg( cnv_x, cnv_y, canvas,
+                                     RGBA(new_r, new_g, new_b, new_a) );
+        }//for x
+    }// for y
 
-  GRRLIB_FlushTex(canvas);
+    GRRLIB_FlushTex(canvas);
 }
