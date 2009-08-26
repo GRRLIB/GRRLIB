@@ -49,7 +49,7 @@ GRRLIB_texImg*  GRRLIB_CreateEmptyTexture (const uint w, const uint h)
         my_texture->h = h;
 
         // Initialize the texture
-		memset(my_texture->data, '\0', (h * w) << 2);
+        memset(my_texture->data, '\0', (h * w) << 2);
 
         GRRLIB_SetHandle(my_texture, 0, 0);
         GRRLIB_FlushTex(my_texture);
@@ -73,20 +73,20 @@ void  GRRLIB_FlushTex (GRRLIB_texImg *tex) {
  */
 INLINE
 void  GRRLIB_FreeTexture (GRRLIB_texImg *tex) {
-    free(tex->data);
-    free(tex);
-    tex = NULL;
+    if(tex != NULL) {
+        free(tex->data);
+        free(tex);
+        tex = NULL;
+    }
 }
 
-//==============================================================================
 /**
- * Clear a texture to transparent black
- * @param tex : Texture to clear
+ * Clear a texture to transparent black.
+ * @param tex Texture to clear.
  */
-//==============================================================================
 INLINE
 void  GRRLIB_ClearTex(GRRLIB_texImg* tex)
 {
-    bzero(tex->data, (tex->h *tex->w) <<2);
+    bzero(tex->data, (tex->h * tex->w) << 2);
     GRRLIB_FlushTex(tex);
 }

@@ -165,6 +165,6 @@ void  GRRLIB_Exit (void) {
 
     // Free up memory allocated for frame buffers & FIFOs
     if (xfb[0]  != NULL) {  free(MEM_K1_TO_K0(xfb[0]));  xfb[0]  = NULL;  }
-    if (xfb[1]  != NULL) {  free(MEM_K1_TO_K0(xfb[1]));  xfb[0]  = NULL;  }
+    if (xfb[1]  != NULL) {  free(MEM_K1_TO_K0(xfb[1]));  xfb[1]  = NULL;  }
     if (gp_fifo != NULL) {  free(gp_fifo);               gp_fifo = NULL;  }
 }
