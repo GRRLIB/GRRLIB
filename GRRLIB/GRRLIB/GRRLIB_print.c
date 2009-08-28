@@ -58,7 +58,7 @@ void  GRRLIB_Printf (const f32 xpos, const f32 ypos,
 }
 
 /**
- * Print formatted output.
+ * Print formatted output with a ByteMap font.
  * @param xpos Specifies the x-coordinate of the upper-left corner of the text.
  * @param ypos Specifies the y-coordinate of the upper-left corner of the text.
  * @param bmf The ByteMap font to use.
@@ -71,7 +71,6 @@ void  GRRLIB_PrintBMF (const f32 xpos, const f32 ypos,
                        const f32 zoom, const char *text, ...) {
     uint  i, j, x, y, n, size;
     char  tmp[1024];
-
     f32   xoff = xpos;
 
     va_list argp;

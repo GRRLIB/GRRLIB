@@ -29,6 +29,7 @@ THE SOFTWARE.
  * Load a ByteMap font structure from a buffer.
  * @param my_bmf The ByteMap font buffer to load.
  * @return A GRRLIB_bytemapFont structure filled with BMF informations.
+ * @see GRRLIB_FreeBMF
  */
 GRRLIB_bytemapFont*  GRRLIB_LoadBMF (const u8 my_bmf[] ) {
     GRRLIB_bytemapFont *fontArray = (struct GRRLIB_bytemapFont *)malloc(sizeof(GRRLIB_bytemapFont));

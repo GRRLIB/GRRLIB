@@ -138,11 +138,11 @@ int  GRRLIB_Init (void) {
     // Default settings
     GRRLIB_Settings.antialias = true;
     GRRLIB_Settings.blend     = GRRLIB_BLEND_ALPHA;
-    
+
     // Schedule cleanup for when program exits
     is_setup = true;
     atexit(GRRLIB_Exit);
-    
+
     return 0;
 }
 
