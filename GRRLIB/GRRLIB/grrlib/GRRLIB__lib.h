@@ -70,7 +70,7 @@ void  GRRLIB_BMFX_Pixelate  (const GRRLIB_texImg *texsrc,
 
 //------------------------------------------------------------------------------
 // GRRLIB_core.c - GRRLIB core functions
-void  GRRLIB_Init (void) ;
+int   GRRLIB_Init (void) ;
 void  GRRLIB_Exit (void) ;
 
 //------------------------------------------------------------------------------

@@ -20,6 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ------------------------------------------------------------------------------*/
 
+#include <stdlib.h>
 #include <malloc.h>
 #include <string.h>
 #include <ogc/conf.h>
@@ -34,19 +35,23 @@ Mtx                  GXmodelView2D;
 
 static void  *gp_fifo = NULL;
 
+static bool  is_setup = false;  // To control entry and exit
+
 /**
  * Initialize GRRLIB. Call this at the beginning your code.
+ * @return int 0=OK; -1=NoMemory
  * @see GRRLIB_Exit
  */
-void  GRRLIB_Init (void) {
+int  GRRLIB_Init (void) {
     f32 yscale;
     u32 xfbHeight;
     Mtx44 perspective;
 
+    // Ensure this function is only ever called once
+    if (is_setup)  return 0 ;
+
     VIDEO_Init();
-    rmode = VIDEO_GetPreferredMode(NULL);
-    if (rmode == NULL)
-        return;
+    if ( !(rmode = VIDEO_GetPreferredMode(NULL)) )  return -1 ;
 
     // Video Mode Correction
     switch (rmode->viTVMode) {
@@ -63,22 +68,16 @@ void  GRRLIB_Init (void) {
     }
 
     VIDEO_Configure(rmode);
-    xfb[0] = (u32 *)MEM_K0_TO_K1(SYS_AllocateFramebuffer(rmode));
-    xfb[1] = (u32 *)MEM_K0_TO_K1(SYS_AllocateFramebuffer(rmode));
-    if (xfb[0] == NULL || xfb[1] == NULL)
-        return;
+    if ( !(xfb[0] = MEM_K0_TO_K1(SYS_AllocateFramebuffer(rmode))) )  return -1 ;
+    if ( !(xfb[1] = MEM_K0_TO_K1(SYS_AllocateFramebuffer(rmode))) )  return -1 ;
 
     VIDEO_SetNextFramebuffer(xfb[fb]);
     VIDEO_SetBlack(true);
     VIDEO_Flush();
     VIDEO_WaitVSync();
-    if (rmode->viTVMode & VI_NON_INTERLACE) {
-        VIDEO_WaitVSync();
-    }
+    if (rmode->viTVMode & VI_NON_INTERLACE)  VIDEO_WaitVSync() ;
 
-    gp_fifo = (u8 *) memalign(32, DEFAULT_FIFO_SIZE);
-    if (gp_fifo == NULL)
-        return;
+    if ( !(gp_fifo = memalign(32, DEFAULT_FIFO_SIZE)) )  return -1 ;
     memset(gp_fifo, 0, DEFAULT_FIFO_SIZE);
     GX_Init(gp_fifo, DEFAULT_FIFO_SIZE);
 
@@ -93,13 +92,8 @@ void  GRRLIB_Init (void) {
     GX_SetCopyFilter(rmode->aa, rmode->sample_pattern, GX_TRUE, rmode->vfilter);
     GX_SetFieldMode(rmode->field_rendering, ((rmode->viHeight == 2 * rmode->xfbHeight) ? GX_ENABLE : GX_DISABLE));
 
-    if (rmode->aa) {
-        // Set 16 bit RGB565
-        GX_SetPixelFmt(GX_PF_RGB565_Z16, GX_ZC_LINEAR);
-    } else {
-        // Set 24 bit Z24
-        GX_SetPixelFmt(GX_PF_RGB8_Z24, GX_ZC_LINEAR);
-    }
+    if (rmode->aa)  GX_SetPixelFmt(GX_PF_RGB565_Z16, GX_ZC_LINEAR) ;  // Set 16 bit RGB565
+    else            GX_SetPixelFmt(GX_PF_RGB8_Z24  , GX_ZC_LINEAR) ;  // Set 24 bit Z24
 
     GX_SetDispCopyGamma(GX_GM_1_0);
 
@@ -143,13 +137,26 @@ void  GRRLIB_Init (void) {
 
     // Default settings
     GRRLIB_Settings.antialias = true;
-    GRRLIB_Settings.blend = GRRLIB_BLEND_ALPHA;
+    GRRLIB_Settings.blend     = GRRLIB_BLEND_ALPHA;
+    
+    // Schedule cleanup for when program exits
+    is_setup = true;
+    atexit(GRRLIB_Exit);
+    
+    return 0;
 }
 
 /**
  * Call this before exiting your application.
  */
 void  GRRLIB_Exit (void) {
+
+    // Ensure this function is only ever called once
+    // ...and only if the setup function has been called
+    static  bool  done = false;
+    if (done || !is_setup)  return ;
+    else                    done = true ;
+
     // Allow write access to the full screen
     GX_SetClipMode( GX_CLIP_DISABLE );
     GX_SetScissor( 0, 0, rmode->fbWidth, rmode->efbHeight );
