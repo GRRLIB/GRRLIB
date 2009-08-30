@@ -24,6 +24,7 @@ THE SOFTWARE.
 #include <malloc.h>
 #include <string.h>
 #include <ogc/conf.h>
+#include <fat.h>
 
 #define __GRRLIB_CORE__
 #include <grrlib.h>
@@ -39,7 +40,7 @@ static bool  is_setup = false;  // To control entry and exit
 
 /**
  * Initialize GRRLIB. Call this at the beginning your code.
- * @return int 0=OK; -1=NoMemory
+ * @return int 0=OK; -1=NoMemory; -2=NoFilingSystem
  * @see GRRLIB_Exit
  */
 int  GRRLIB_Init (void) {
@@ -142,6 +143,9 @@ int  GRRLIB_Init (void) {
     // Schedule cleanup for when program exits
     is_setup = true;
     atexit(GRRLIB_Exit);
+
+    // Initialise the filing system
+    if (!fatInitDefault())  return -2 ;
 
     return 0;
 }

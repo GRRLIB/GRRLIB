@@ -53,23 +53,6 @@
 
 static u8 CalculateFrameRate();
 
-/**
- * Make a PNG screenshot on the SD card.
- * libfat is required to use the function.
- * @param File name of the file to write.
- * @return true if every thing worked, false otherwise.
- */
-bool  ScrShot(const char* File) {
-    int ErrorCode = -1;
-    IMGCTX pngContext;
-
-    if(fatInitDefault() && (pngContext = PNGU_SelectImageFromDevice(File))) {
-        ErrorCode = PNGU_EncodeFromYCbYCr(pngContext, rmode->fbWidth, rmode->efbHeight, xfb[fb], 0);
-        PNGU_ReleaseImageContext(pngContext);
-    }
-    return !ErrorCode;
-}
-
 int main() {
     int left = 0, top = 0, page = 0, frame = TILE_DOWN + 1;
     unsigned int wait = TILE_DELAY, direction = TILE_DOWN, direction_new = TILE_DOWN;
@@ -230,7 +213,7 @@ int main() {
         }
         if(wpadheld & WPAD_BUTTON_1 && wpadheld & WPAD_BUTTON_2) {
             WPAD_Rumble(WPAD_CHAN_0, 1); // Rumble on
-            ScrShot("sd:/grrlib.png");
+            GRRLIB_ScrShot("sd:/grrlib.png");
             WPAD_Rumble(WPAD_CHAN_0, 0); // Rumble off
         }
     }

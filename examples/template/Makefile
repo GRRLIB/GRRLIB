@@ -33,9 +33,9 @@ RESH   := $(patsubst %.png,%.h,$(RES))
 OBJ  := $(RESOBJ) $(SRCOBJ)
 
 #-------------------------------------------------------------------------------
-# Include required libraries
+# Include required libraries ...the order can-be/is critical!
 #-------------------------------------------------------------------------------
-LIBS := -lgrrlib -lpngu -lpng -ljpeg -lz
+LIBS := -lgrrlib -lpngu -lpng -ljpeg -lz -lfat
 LIBS += -lwiiuse
 #LIBS += -lmodplay -lasnd
 LIBS += -lbte -logc

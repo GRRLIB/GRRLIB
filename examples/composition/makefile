@@ -13,7 +13,7 @@ ELF := $(APP).elf
 DOL := $(APP).dol
 MAP := $(notdir $(ELF)).map
 
-LIBS := -lgrrlib -lpngu -lpng -ljpeg -lz
+LIBS := -lgrrlib -lpngu -lpng -ljpeg -lz -lfat
 LIBS += -lwiiuse
 #LIBS += -lmodplay -lasnd
 LIBS += -lbte -logc
@@ -73,4 +73,4 @@ run : $(DOL)
 .PRECIOUS : %.c
 %.c : %.png
 	@echo Converting resource: $<
-	@./raw2c.exe $< 2>null
+	@./raw2c.exe $< 2>nul
