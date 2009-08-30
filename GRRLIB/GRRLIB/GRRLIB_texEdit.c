@@ -78,12 +78,11 @@ void  RawTo4x4RGBA (const u8 *src, void *dst,
  * @return A GRRLIB_texImg structure filled with image informations.
  */
 GRRLIB_texImg*  GRRLIB_LoadTexture (const u8 my_img[]) {
-    if (my_img[0]==0xFF && my_img[1]==0xD8 && my_img[2]==0xFF) {
+    // Check for jpeg signature
+    if ((my_img[0]==0xFF) && (my_img[1]==0xD8) && (my_img[2]==0xFF))
         return (GRRLIB_LoadTextureJPG(my_img));
-    }
-    else {
+    else
         return (GRRLIB_LoadTexturePNG(my_img));
-    }
 }
 
 /**
@@ -94,7 +93,7 @@ GRRLIB_texImg*  GRRLIB_LoadTexture (const u8 my_img[]) {
 GRRLIB_texImg*  GRRLIB_LoadTexturePNG (const u8 *my_png) {
     PNGUPROP imgProp;
     IMGCTX ctx;
-    GRRLIB_texImg *my_texture = (struct GRRLIB_texImg *)calloc(1, sizeof(GRRLIB_texImg));
+    GRRLIB_texImg *my_texture = calloc(1, sizeof(GRRLIB_texImg));
 
     if(my_texture != NULL) {
         ctx = PNGU_SelectImageFromBuffer(my_png);
@@ -122,7 +121,7 @@ GRRLIB_texImg*  GRRLIB_LoadTexturePNG (const u8 *my_png) {
 GRRLIB_texImg*  GRRLIB_LoadTextureJPG (const u8 *my_jpg) {
     struct jpeg_decompress_struct cinfo;
     struct jpeg_error_mgr jerr;
-    GRRLIB_texImg *my_texture = (struct GRRLIB_texImg *)calloc(1, sizeof(GRRLIB_texImg));
+    GRRLIB_texImg *my_texture = calloc(1, sizeof(GRRLIB_texImg));
     int n = 0;
     unsigned int i;
 
@@ -144,9 +143,9 @@ GRRLIB_texImg*  GRRLIB_LoadTextureJPG (const u8 *my_jpg) {
     jpeg_memory_src(&cinfo, my_jpg, n);
     jpeg_read_header(&cinfo, TRUE);
     jpeg_start_decompress(&cinfo);
-    unsigned char *tempBuffer = (unsigned char*) malloc(cinfo.output_width * cinfo.output_height * cinfo.num_components);
+    unsigned char *tempBuffer = malloc(cinfo.output_width * cinfo.output_height * cinfo.num_components);
     JSAMPROW row_pointer[1];
-    row_pointer[0] = (unsigned char*) malloc(cinfo.output_width * cinfo.num_components);
+    row_pointer[0] = malloc(cinfo.output_width * cinfo.num_components);
     size_t location = 0;
     while (cinfo.output_scanline < cinfo.output_height) {
         jpeg_read_scanlines(&cinfo, row_pointer, 1);
@@ -196,12 +195,12 @@ void  GRRLIB_Compose( int xoff, int yoff, GRRLIB_texImg* layer,
 
     // Loop through the layer, one pixel at a time
     for (y = 0;  y < layer->h;  y++)  {
-        cnv_y  = y + yoff;               // y coord of canvas pixel to be changed
+        cnv_y  = y + yoff;               // y coord of canvas pixel to edit
         if (cnv_y < 0)  continue ;       // not on the canvas yet
         if (cnv_y >= canvas->h)  break;  // off the bottom of the canvas
 
         for (x = 0;  x < layer->w;  x++)  {
-            cnv_x  = x + xoff;               // x coord of canvas pixel to be changed
+            cnv_x  = x + xoff;               // x coord of canvas pixel to edit
             if (cnv_x < 0)  continue ;       // not on the canvas yet
             if (cnv_x >= canvas->h)  break;  // off the right of the canvas
 
