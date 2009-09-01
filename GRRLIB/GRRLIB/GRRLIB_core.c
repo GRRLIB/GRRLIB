@@ -62,10 +62,13 @@ int  GRRLIB_Init (void) {
             break;
     }
 
-    // Widescreen patch by CashMan's Productions (http://www.CashMan-Productions.fr.nf)
+    // 16:9 and 4:3 Screen Adjustment
     if (CONF_GetAspectRatio() == CONF_ASPECT_16_9) {
         rmode->viWidth = 678;
         rmode->viXOrigin = (VI_MAX_WIDTH_NTSC - 678)/2;
+    } else {    // 4:3
+        rmode->viWidth = 672;
+        rmode->viXOrigin = (VI_MAX_WIDTH_NTSC - 672)/2;
     }
 
     VIDEO_Configure(rmode);
