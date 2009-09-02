@@ -51,45 +51,54 @@ int  GRRLIB_Init (void) {
     // Ensure this function is only ever called once
     if (is_setup)  return 0 ;
 
+    // Initialise the video subsystem
     VIDEO_Init();
+
+    // Grab a pointer to the video mode attributes
     if ( !(rmode = VIDEO_GetPreferredMode(NULL)) )  return -1 ;
 
     // Video Mode Correction
     switch (rmode->viTVMode) {
         case VI_DEBUG_PAL:  // PAL 50hz 576i
             //rmode = &TVPal574IntDfScale;
-            rmode = &TVPal528IntDf; //BC
+            rmode = &TVPal528IntDf; //! BC ...this is still wrong, but "less bad" for now
             break;
     }
 
     // 16:9 and 4:3 Screen Adjustment
     if (CONF_GetAspectRatio() == CONF_ASPECT_16_9) {
         rmode->viWidth = 678;
-        rmode->viXOrigin = (VI_MAX_WIDTH_NTSC - 678)/2;
+        rmode->viXOrigin = (VI_MAX_WIDTH_NTSC - 678)/2;  //! This probably needs to consider PAL
     } else {    // 4:3
         rmode->viWidth = 672;
         rmode->viXOrigin = (VI_MAX_WIDTH_NTSC - 672)/2;
     }
 
+    // --
     VIDEO_Configure(rmode);
+
+    // Get some memory to use for a "double buffered" frame buffer
     if ( !(xfb[0] = MEM_K0_TO_K1(SYS_AllocateFramebuffer(rmode))) )  return -1 ;
     if ( !(xfb[1] = MEM_K0_TO_K1(SYS_AllocateFramebuffer(rmode))) )  return -1 ;
 
-    VIDEO_SetNextFramebuffer(xfb[fb]);
-    VIDEO_SetBlack(true);
-    VIDEO_Flush();
-    VIDEO_WaitVSync();
+    VIDEO_SetNextFramebuffer(xfb[fb]);  // Choose a frame buffer to start with
+    VIDEO_SetBlack(true);               // and paint it black
+
+    VIDEO_Flush();                      // flush the frame to the TV
+    VIDEO_WaitVSync();                  // Wait for the TV to finish updating
+    // If the TV image is interlaced it takes two passes to display the image
     if (rmode->viTVMode & VI_NON_INTERLACE)  VIDEO_WaitVSync() ;
 
+    // The FIFO is the buffer the CPU uses to send commands to the GPU
     if ( !(gp_fifo = memalign(32, DEFAULT_FIFO_SIZE)) )  return -1 ;
     memset(gp_fifo, 0, DEFAULT_FIFO_SIZE);
     GX_Init(gp_fifo, DEFAULT_FIFO_SIZE);
 
-    // Clears the BG to color and clears the z-buffer
+    // Clear the background to opaque black and clears the z-buffer
     GX_SetCopyClear((GXColor){ 0, 0, 0, 0xff }, GX_MAX_Z24);
 
     // Other GX setup
-    yscale = GX_GetYScaleFactor(rmode->efbHeight, rmode->xfbHeight);
+    yscale    = GX_GetYScaleFactor(rmode->efbHeight, rmode->xfbHeight);
     xfbHeight = GX_SetDispCopyYScale(yscale);
     GX_SetDispCopySrc(0, 0, rmode->fbWidth, rmode->efbHeight);
     GX_SetDispCopyDst(rmode->fbWidth, xfbHeight);
@@ -102,22 +111,23 @@ int  GRRLIB_Init (void) {
     GX_SetDispCopyGamma(GX_GM_1_0);
 
     // Setup the vertex descriptor
-    // Tells the flipper to expect direct data
-    GX_ClearVtxDesc();
-    GX_InvVtxCache();
-    GX_InvalidateTexAll();
+    GX_ClearVtxDesc();      // clear all the vertex descriptors
+    GX_InvVtxCache();       // Invalidate the vertex cache
+    GX_InvalidateTexAll();  // Invalidate all textures
 
+    // Tells the flipper to expect direct data
     GX_SetVtxDesc(GX_VA_TEX0, GX_NONE);
     GX_SetVtxDesc(GX_VA_POS,  GX_DIRECT);
     GX_SetVtxDesc(GX_VA_CLR0, GX_DIRECT);
 
     GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS,  GX_POS_XYZ,  GX_F32, 0);
     GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_TEX0, GX_TEX_ST,   GX_F32, 0);
+    // Colour 0 is 8bit RGBA format
     GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_CLR0, GX_CLR_RGBA, GX_RGBA8, 0);
     GX_SetZMode(GX_FALSE, GX_LEQUAL, GX_TRUE);
 
-    GX_SetNumChans(1);
-    GX_SetNumTexGens(1);
+    GX_SetNumChans(1);    // colour is the same as vertex colour
+    GX_SetNumTexGens(1);  // One texture exists
     GX_SetTevOp(GX_TEVSTAGE0, GX_PASSCLR);
     GX_SetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, GX_TEXMAP0, GX_COLOR0A0);
     GX_SetTexCoordGen(GX_TEXCOORD0, GX_TG_MTX2x4, GX_TG_TEX0, GX_IDENTITY);
@@ -136,8 +146,6 @@ int  GRRLIB_Init (void) {
     GX_SetColorUpdate(GX_ENABLE);
     GX_SetCullMode(GX_CULL_NONE);
     GRRLIB_ClipReset();
-
-    VIDEO_SetBlack(false);
 
     // Default settings
     GRRLIB_Settings.antialias = true;
