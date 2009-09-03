@@ -40,18 +40,18 @@ extern  Mtx                  GXmodelView2D;
 void  GRRLIB_DrawImg (const f32 xpos, const f32 ypos, const GRRLIB_texImg *tex,
                       const f32 degrees, const f32 scaleX, const f32 scaleY,
                       const u32 color) {
-    if (tex == NULL || tex->data == NULL) {
-        return;
-    }
+    GXTexObj  texObj;
+    u16       width, height;
+    Mtx       m, m1, m2, mv;
 
-    GXTexObj texObj;
-    u16 width, height;
-    Mtx m, m1, m2, mv;
+    if (tex == NULL || tex->data == NULL)  return ;
 
-    GX_InitTexObj(&texObj, tex->data, tex->w, tex->h, GX_TF_RGBA8, GX_CLAMP, GX_CLAMP, GX_FALSE);
-    if (GRRLIB_Settings.antialias == false) {
-        GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR, 0.0f, 0.0f, 0.0f, 0, 0, GX_ANISO_1);
-    }
+    GX_InitTexObj(&texObj, tex->data, tex->w, tex->h,
+                  GX_TF_RGBA8, GX_CLAMP, GX_CLAMP, GX_FALSE);
+
+    if (GRRLIB_Settings.antialias == false)
+        GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR,
+                         0.0f, 0.0f, 0.0f, 0, 0, GX_ANISO_1);
 
     GX_LoadTexObj(&texObj, GX_TEXMAP0);
     GX_SetTevOp(GX_TEVSTAGE0, GX_MODULATE);
@@ -65,7 +65,14 @@ void  GRRLIB_DrawImg (const f32 xpos, const f32 ypos, const GRRLIB_texImg *tex,
     guMtxRotAxisDeg (m2, &axis, degrees);
     guMtxConcat(m2, m1, m);
 
-    guMtxTransApply(m, m, xpos+width+tex->handlex-tex->offsetx+(scaleX*( -tex->handley*sin(-DegToRad(degrees)) - tex->handlex*cos(-DegToRad(degrees)) )), ypos+height+tex->handley-tex->offsety+(scaleX*( -tex->handley*cos(-DegToRad(degrees)) + tex->handlex*sin(-DegToRad(degrees)) )), 0);
+    guMtxTransApply(m, m,
+        xpos +width  +tex->handlex
+            -tex->offsetx +( scaleX *(-tex->handley *sin(-DegToRad(degrees))
+                                      -tex->handlex *cos(-DegToRad(degrees))) ),
+        ypos +height +tex->handley
+            -tex->offsety +( scaleX *(-tex->handley *cos(-DegToRad(degrees))
+                                      +tex->handlex *sin(-DegToRad(degrees))) ),
+        0);
     guMtxConcat(GXmodelView2D, m, mv);
 
     GX_LoadPosMtxImm(mv, GX_PNMTX0);
@@ -107,10 +114,12 @@ void  GRRLIB_DrawImgQuad (const guVector pos[4], GRRLIB_texImg *tex,
     GXTexObj texObj;
     Mtx m, m1, m2, mv;
 
-    GX_InitTexObj(&texObj, tex->data, tex->w, tex->h, GX_TF_RGBA8, GX_CLAMP, GX_CLAMP, GX_FALSE);
-    if (GRRLIB_Settings.antialias == false) {
-        GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR, 0.0f, 0.0f, 0.0f, 0, 0, GX_ANISO_1);
-    }
+    GX_InitTexObj(&texObj, tex->data, tex->w, tex->h,
+                  GX_TF_RGBA8, GX_CLAMP, GX_CLAMP, GX_FALSE);
+
+    if (GRRLIB_Settings.antialias == false)
+        GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR,
+                         0.0f, 0.0f, 0.0f, 0, 0, GX_ANISO_1);
 
     GX_LoadTexObj(&texObj, GX_TEXMAP0);
     GX_SetTevOp(GX_TEVSTAGE0, GX_MODULATE);
@@ -177,10 +186,14 @@ void  GRRLIB_DrawTile (const f32 xpos, const f32 ypos, const GRRLIB_texImg *tex,
     f32 t1 = (((int)(frame/tex->nbtilew))/(f32)tex->nbtileh)+(FRAME_CORR/tex->h);
     f32 t2 = (((int)(frame/tex->nbtilew)+1)/(f32)tex->nbtileh)-(FRAME_CORR/tex->h);
 
-    GX_InitTexObj(&texObj, tex->data, tex->tilew*tex->nbtilew, tex->tileh*tex->nbtileh, GX_TF_RGBA8, GX_CLAMP, GX_CLAMP, GX_FALSE);
-    if (GRRLIB_Settings.antialias == false) {
-        GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR, 0.0f, 0.0f, 0.0f, 0, 0, GX_ANISO_1);
-    }
+    GX_InitTexObj(&texObj, tex->data,
+                  tex->tilew * tex->nbtilew, tex->tileh * tex->nbtileh,
+                  GX_TF_RGBA8, GX_CLAMP, GX_CLAMP, GX_FALSE);
+
+    if (GRRLIB_Settings.antialias == false)
+        GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR,
+                         0.0f, 0.0f, 0.0f, 0, 0, GX_ANISO_1);
+
     GX_LoadTexObj(&texObj, GX_TEXMAP0);
 
     GX_SetTevOp(GX_TEVSTAGE0, GX_MODULATE);
@@ -194,7 +207,14 @@ void  GRRLIB_DrawTile (const f32 xpos, const f32 ypos, const GRRLIB_texImg *tex,
     guVector axis = (guVector) {0, 0, 1};
     guMtxRotAxisDeg(m2, &axis, degrees);
     guMtxConcat(m2, m1, m);
-    guMtxTransApply(m, m, xpos+width+tex->handlex-tex->offsetx+(scaleX*( -tex->handley*sin(-DegToRad(degrees)) - tex->handlex*cos(-DegToRad(degrees)) )), ypos+height+tex->handley-tex->offsety+(scaleX*( -tex->handley*cos(-DegToRad(degrees)) + tex->handlex*sin(-DegToRad(degrees)) )), 0);
+    guMtxTransApply(m, m,
+        xpos +width  +tex->handlex
+            -tex->offsetx +( scaleX *(-tex->handley *sin(-DegToRad(degrees))
+                                      -tex->handlex *cos(-DegToRad(degrees))) ),
+        ypos +height +tex->handley
+            -tex->offsety +( scaleX *(-tex->handley *cos(-DegToRad(degrees))
+                                      +tex->handlex *sin(-DegToRad(degrees))) ),
+        0);
     guMtxConcat(GXmodelView2D, m, mv);
 
     GX_LoadPosMtxImm(mv, GX_PNMTX0);
@@ -244,10 +264,14 @@ void  GRRLIB_DrawTileQuad (const guVector pos[4], GRRLIB_texImg *tex,
     f32 t1 = (((int)(frame/tex->nbtilew))/(f32)tex->nbtileh)+(FRAME_CORR/tex->h);
     f32 t2 = (((int)(frame/tex->nbtilew)+1)/(f32)tex->nbtileh)-(FRAME_CORR/tex->h);
 
-    GX_InitTexObj(&texObj, tex->data, tex->tilew*tex->nbtilew, tex->tileh*tex->nbtileh, GX_TF_RGBA8, GX_CLAMP, GX_CLAMP, GX_FALSE);
-    if (GRRLIB_Settings.antialias == false) {
-        GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR, 0.0f, 0.0f, 0.0f, 0, 0, GX_ANISO_1);
-    }
+    GX_InitTexObj(&texObj, tex->data,
+                  tex->tilew * tex->nbtilew, tex->tileh * tex->nbtileh,
+                  GX_TF_RGBA8, GX_CLAMP, GX_CLAMP, GX_FALSE);
+
+    if (GRRLIB_Settings.antialias == false)
+        GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR,
+                         0.0f, 0.0f, 0.0f, 0, 0, GX_ANISO_1);
+
     GX_LoadTexObj(&texObj, GX_TEXMAP0);
 
     GX_SetTevOp(GX_TEVSTAGE0, GX_MODULATE);
