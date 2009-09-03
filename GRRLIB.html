@@ -50,13 +50,16 @@ or a text editor.
 As of v4.1.0, GRRLIB is supplied as a standard C/C++ library (aka. archive)
 called 'libgrrlib'.  Because GRRLIB processes JPEG and PNG images, it requires
 the installation of the 'libjpeg' and 'libpngu' libraries.  'libpngu', in turn,
-requires 'libpng' and 'libpng' requires 'libz'.
+requires 'libpng' and 'libpng' requires 'libz'.  GRRLIB also has FileIO
+functions to allow real-time loading and saving of graphical data, and thus also
+requires 'libfat'.
 
-libgrrlib          <- 2D graphics library
-+-- libjpeg        <- JPEG image processor
-+-- libpngu        <- Wii wrapper for libpng
-    +-- libpng     <- PNG image processor
-        +-- libz   <- Zip (lossless) compsression (for PNG compression)
+libgrrlib          &lt;- 2D graphics library
++-- libfat         &lt;- File I/O
++-- libjpeg        &lt;- JPEG image processor
++-- libpngu        &lt;- Wii wrapper for libpng
+    +-- libpng     &lt;- PNG image processor
+        +-- libz   &lt;- Zip (lossless) compsression (for PNG compression)
 
 
 Developing for the Wii
@@ -81,6 +84,11 @@ version" to a directory called  C:\grr\trunk
 Installing GRRLIB
 -----------------
 
+Note: Discussion is underway for 'libpng' and 'libjpeg' to be included with
+      devkitPro - obviously, this means that the "bugfix" included here will
+      be officially addressed and the "precompiled" libraries will /not/ require
+      installation [03-Sept-2009]
+
 This guide is for Windows.  If you are using Linux, I am going to presume you
 are smart enough to convert these instructions.
 
@@ -89,6 +97,7 @@ libjpeg is supplied as a precompiled library *1
 libpngu is supplied as source code
 libpng  is supplied as a precompiled library
 libz    is supplied with devkitpro (Ie. preinstalled)
+libfat  is supplied with devkitpro (Ie. preinstalled)
 
 *1 The version of libjpeg supplied with GRRLIB v4.1.0 contains bug fixes not
    available in the official release.  If you can track down the original
@@ -120,7 +129,7 @@ Next up the list is libjpeg *2 *3
    install the libpng, libpngu and libjpeg libraries in a single command:
      c:
      cd \grr\trunk\GRRLIB\lib
-     install     <- If you are using Linux, type `./install.sh` instead
+     install     &lt;- If you are using Linux, type `./install.sh` instead
 
 *3 The version of libjpeg supplied with GRRLIB v4.1.0 contains bug fixes not
    available in the official release.
