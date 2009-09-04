@@ -56,6 +56,9 @@ void  GRRLIB_BMFX_FlipV     (const GRRLIB_texImg *texsrc,
 void  GRRLIB_BMFX_Grayscale (const GRRLIB_texImg *texsrc,
                              GRRLIB_texImg *texdest) ;
 
+void  GRRLIB_BMFX_Sepia     (const GRRLIB_texImg *texsrc,
+                             GRRLIB_texImg *texdest) ;
+
 void  GRRLIB_BMFX_Invert    (const GRRLIB_texImg *texsrc,
                              GRRLIB_texImg *texdest) ;
 

@@ -74,15 +74,42 @@ void  GRRLIB_BMFX_Grayscale (const GRRLIB_texImg *texsrc,
         for (x = 0; x < texsrc->w; x++) {
             color = GRRLIB_GetPixelFromtexImg(x, y, texsrc);
 
-            gray = (((color >> 24 & 0xFF)*77 + (color >> 16 & 0xFF)*150 + (color >> 8 & 0xFF)*28) / (255));
+            gray = (((color >> 24 & 0xFF)* 77 +
+                     (color >> 16 & 0xFF)*150 +
+                     (color >>  8 & 0xFF)* 28  ) / 255);
 
             GRRLIB_SetPixelTotexImg(x, y, texdest,
                 ((gray << 24) | (gray << 16) | (gray << 8) | (color & 0xFF)));
         }
     }
-    GRRLIB_SetHandle( texdest, 0, 0 );
+    GRRLIB_SetHandle(texdest, 0,0);
 }
 
+/**
+ * Change a texture to sepia (old photo style).
+ * @see GRRLIB_FlushTex
+ * @param texsrc The texture source.
+ * @param texdest The texture grayscaled destination.
+ * @author elisherer
+ */
+void  GRRLIB_BMFX_Sepia (const GRRLIB_texImg *texsrc, GRRLIB_texImg *texdest) {
+    unsigned int  x, y;
+    u16           sr, sg, sb;
+    u32           color;
+
+    for (y = 0; y < texsrc->h; y++) {
+        for (x = 0; x < texsrc->w; x++) {
+            color = GRRLIB_GetPixelFromtexImg(x, y, texsrc);
+            sr = R(color)*0.393 + G(color)*0.769 + B(color)*0.189;
+            sg = R(color)*0.349 + G(color)*0.686 + B(color)*0.168;
+            sb = R(color)*0.272 + G(color)*0.534 + B(color)*0.131;
+            if (sr>255) sr=255;  if (sg>255) sg=255;  if (sb>255) sb=255;
+            GRRLIB_SetPixelTotexImg(x, y, texdest,
+                                    GRRLIB_GetColor(sr,sg,sb,color&0xFF));
+        }
+    }
+    GRRLIB_SetHandle(texdest, 0,0);
+}
 /**
  * Invert colors of the texture.
  * @see GRRLIB_FlushTex
