@@ -23,10 +23,10 @@ THE SOFTWARE.
 #include <stdio.h>
 
 /**
- * Load a file to memory.  The 2nd parameter is a pointer-to-your-pointer!
- * Ie. { u8 *data; load("file",&data); }.  It is your responsibility to free the
- * memory allocated by this function.
- * @param filename name of the file to be loaded.
+ * Load a file to memory.
+ * @param filename Name of the file to be loaded.
+ * @param data Pointer-to-your-pointer. Ie. { u8 *data; load("file", &data); }.
+ * It is your responsibility to free the memory allocated by this function.
  * @return int 0:EmptyFile, -1:FileNotFound, -2:OutOfMemory, -3:FileReadError,
  *             >0 -> FileLength.
  */
@@ -61,7 +61,6 @@ int  GRRLIB_LoadFile(const char* filename, unsigned char* *data) {
     return len;
 }
 
-
 /**
  * Load a texture from a file.
  * @param filename The JPEG or PNG filename to load.
@@ -86,7 +85,7 @@ GRRLIB_texImg*  GRRLIB_LoadTextureFromFile(const char *filename) {
 /**
  * Make a PNG screenshot on the SD card.
  * libfat is required to use the function.
- * @param File name of the file to write.
+ * @param filename name of the file to write.
  * @return bool true=everything worked, false=problems occurred.
  */
 bool  GRRLIB_ScrShot(const char* filename) {
