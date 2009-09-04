@@ -82,14 +82,14 @@ void  GRRLIB_BMFX_Grayscale (const GRRLIB_texImg *texsrc,
                 ((gray << 24) | (gray << 16) | (gray << 8) | (color & 0xFF)));
         }
     }
-    GRRLIB_SetHandle(texdest, 0,0);
+    GRRLIB_SetHandle(texdest, 0, 0);
 }
 
 /**
  * Change a texture to sepia (old photo style).
  * @see GRRLIB_FlushTex
  * @param texsrc The texture source.
- * @param texdest The texture grayscaled destination.
+ * @param texdest The texture destination.
  * @author elisherer
  */
 void  GRRLIB_BMFX_Sepia (const GRRLIB_texImg *texsrc, GRRLIB_texImg *texdest) {
@@ -108,7 +108,7 @@ void  GRRLIB_BMFX_Sepia (const GRRLIB_texImg *texsrc, GRRLIB_texImg *texdest) {
                                     GRRLIB_GetColor(sr,sg,sb,color&0xFF));
         }
     }
-    GRRLIB_SetHandle(texdest, 0,0);
+    GRRLIB_SetHandle(texdest, 0, 0);
 }
 /**
  * Invert colors of the texture.
