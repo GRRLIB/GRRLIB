@@ -53,6 +53,7 @@ int  GRRLIB_Init (void) {
 
     // Initialise the video subsystem
     VIDEO_Init();
+    VIDEO_SetBlack(true);  // Disable video output during initialisation
 
     // Grab a pointer to the video mode attributes
     if ( !(rmode = VIDEO_GetPreferredMode(NULL)) )  return -1 ;
@@ -82,7 +83,6 @@ int  GRRLIB_Init (void) {
     if ( !(xfb[1] = MEM_K0_TO_K1(SYS_AllocateFramebuffer(rmode))) )  return -1 ;
 
     VIDEO_SetNextFramebuffer(xfb[fb]);  // Choose a frame buffer to start with
-    VIDEO_SetBlack(true);               // and paint it black
 
     VIDEO_Flush();                      // flush the frame to the TV
     VIDEO_WaitVSync();                  // Wait for the TV to finish updating
@@ -158,6 +158,7 @@ int  GRRLIB_Init (void) {
     // Initialise the filing system
     if (!fatInitDefault())  return -2 ;
 
+    VIDEO_SetBlack(false);  // Enable video output
     return 0;
 }
 
