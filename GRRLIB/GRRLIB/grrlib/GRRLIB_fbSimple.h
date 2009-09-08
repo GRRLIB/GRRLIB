@@ -43,7 +43,7 @@ void  GRRLIB_FillScreen (const u32 color) {
  * @param x Specifies the x-coordinate of the dot.
  * @param y Specifies the y-coordinate of the dot.
  * @param color The color of the dot in RGBA format.
- * @author JESPA
+ * @author Jespa
  */
 INLINE
 void  GRRLIB_Plot (const f32 x,  const f32 y,  const u32 color) {

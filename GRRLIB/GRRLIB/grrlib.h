@@ -237,7 +237,7 @@ GRR_EXTERN  u32         fb       GRR_INIT(0);
  * Documentation  : Crayon, BlueChip\n
  * Lead Coder     : NoNameNo\n
  * Support Coders : Crayon, Xane, DragonMinded, BlueChip\n
- * Advisors       : RedShade, JESPA\n
+ * Advisors       : RedShade, Jespa\n
  *
  * @section Licence
  * Copyright (c) 2009 The GRRLIB Team
