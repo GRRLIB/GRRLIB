@@ -78,11 +78,10 @@ typedef  unsigned int  uint;
 //==============================================================================
 // Primitive colour macros
 //==============================================================================
-// Feel free to convert these to inline functions if it floats your boat
-#define R(c)  (((c) >>24) &0xFF)  /**< Exract RED   component of colour. */
-#define G(c)  (((c) >>16) &0xFF)  /**< Exract GREEN component of colour. */
-#define B(c)  (((c) >> 8) &0xFF)  /**< Exract BLUE  component of colour. */
-#define A(c)  ( (c)       &0xFF)  /**< Exract ALPHA component of colour. */
+#define R(c)  (((c) >>24) &0xFF)  /**< Exract Red   component of colour. */
+#define G(c)  (((c) >>16) &0xFF)  /**< Exract Green component of colour. */
+#define B(c)  (((c) >> 8) &0xFF)  /**< Exract Blue  component of colour. */
+#define A(c)  ( (c)       &0xFF)  /**< Exract Alpha component of colour. */
 
 /**
  * Build an RGB pixel from components.
@@ -114,18 +113,17 @@ typedef  enum GRRLIB_blendMode {
     GRRLIB_BLEND_INV    = 4,    /**< Invert Color Blending. */
 } GRRLIB_blendMode;
 
-// Blending mode aliases
-#define GRRLIB_BLEND_NONE   (GRRLIB_BLEND_ALPHA)
-#define GRRLIB_BLEND_LIGHT  (GRRLIB_BLEND_ADD)
-#define GRRLIB_BLEND_SHADE  (GRRLIB_BLEND_MULTI)
+#define GRRLIB_BLEND_NONE   (GRRLIB_BLEND_ALPHA)    /**< Alias for GRRLIB_BLEND_ALPHA. */
+#define GRRLIB_BLEND_LIGHT  (GRRLIB_BLEND_ADD)      /**< Alias for GRRLIB_BLEND_ADD. */
+#define GRRLIB_BLEND_SHADE  (GRRLIB_BLEND_MULTI)    /**< Alias for GRRLIB_BLEND_MULTI. */
 
 //------------------------------------------------------------------------------
 /**
  * Structure to hold the current drawing settings.
  */
 typedef  struct GRRLIB_drawSettings {
-    bool  antialias;    /**< AntiAlias is enabled when set to true. */
-    int   blend;        /**< Blending Mode.                         */
+    bool              antialias;    /**< AntiAlias is enabled when set to true. */
+    GRRLIB_blendMode  blend;        /**< Blending Mode.                         */
 } GRRLIB_drawSettings;
 
 //------------------------------------------------------------------------------

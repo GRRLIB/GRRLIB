@@ -107,10 +107,10 @@ INLINE  void  GRRLIB_GetPixelFromFB (int x, int y,
 
 //------------------------------------------------------------------------------
 // GRRLIB_settings.h - Rendering functions
-INLINE  void  GRRLIB_SetBlend        (const int blendmode) ;
-INLINE  int   GRRLIB_GetBlend        (void) ;
-INLINE  void  GRRLIB_SetAntiAliasing (const bool aa) ;
-INLINE  bool  GRRLIB_GetAntiAliasing (void) ;
+INLINE  void              GRRLIB_SetBlend        (const GRRLIB_blendMode blendmode) ;
+INLINE  GRRLIB_blendMode  GRRLIB_GetBlend        (void) ;
+INLINE  void              GRRLIB_SetAntiAliasing (const bool aa) ;
+INLINE  bool              GRRLIB_GetAntiAliasing (void) ;
 
 //------------------------------------------------------------------------------
 // GRRLIB_texSetup.h - Create and setup textures

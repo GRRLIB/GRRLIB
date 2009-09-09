@@ -62,14 +62,14 @@ int  GRRLIB_Init (void) {
     switch (rmode->viTVMode) {
         case VI_DEBUG_PAL:  // PAL 50hz 576i
             //rmode = &TVPal574IntDfScale;
-            rmode = &TVPal528IntDf; //! BC ...this is still wrong, but "less bad" for now
+            rmode = &TVPal528IntDf; // BC ...this is still wrong, but "less bad" for now
             break;
     }
 
     // 16:9 and 4:3 Screen Adjustment
     if (CONF_GetAspectRatio() == CONF_ASPECT_16_9) {
         rmode->viWidth = 678;
-        rmode->viXOrigin = (VI_MAX_WIDTH_NTSC - 678)/2;  //! This probably needs to consider PAL
+        rmode->viXOrigin = (VI_MAX_WIDTH_NTSC - 678)/2;  // This probably needs to consider PAL
     } else {    // 4:3
         rmode->viWidth = 672;
         rmode->viXOrigin = (VI_MAX_WIDTH_NTSC - 672)/2;
