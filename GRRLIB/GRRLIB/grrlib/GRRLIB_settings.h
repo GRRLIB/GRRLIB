@@ -25,9 +25,7 @@ THE SOFTWARE.
  * Inline functions for configuring the GRRLIB settings.
  */
 
-#include <math.h>
-
-#include "GRRLIB.h"
+#include <grrlib.h>
 
 extern  GRRLIB_drawSettings  GRRLIB_Settings;
 
