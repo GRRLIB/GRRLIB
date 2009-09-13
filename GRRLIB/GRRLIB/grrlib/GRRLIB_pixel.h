@@ -35,12 +35,14 @@ THE SOFTWARE.
 INLINE
 u32  GRRLIB_GetPixelFromtexImg (const int x, const int y,
                                 const GRRLIB_texImg *tex) {
-    u8 *truc = (u8*)tex->data;
-    u32 offset;
+    register u32  offs;
+    register u32  ar;
+    register u8*  bp = (u8*)tex->data;
 
-    offset = (((y >> 2)<<4)*tex->w) + ((x >> 2)<<6) + ((((y&3) << 2) + (x&3) ) << 1); // Fuckin equation found by NoNameNo ;)
+    offs = (((y&(~3))<<2)*tex->w) + ((x&(~3))<<4) + ((((y&3)<<2) + (x&3)) <<1);
 
-    return ((*(truc+offset+1)<<24) | (*(truc+offset+32)<<16) | (*(truc+offset+33)<<8) | *(truc+offset));
+    ar =                 (u32)(*((u16*)(bp+offs   )));
+    return (ar<<24) | ( ((u32)(*((u16*)(bp+offs+32)))) <<8) | (ar>>8);  // Wii is big-endian
 }
 
 /**
@@ -54,15 +56,13 @@ u32  GRRLIB_GetPixelFromtexImg (const int x, const int y,
 INLINE
 void  GRRLIB_SetPixelTotexImg (const int x, const int y,
                                GRRLIB_texImg *tex, const u32 color) {
-    u8 *truc = (u8*)tex->data;
-    u32 offset;
+    register u32  offs;
+    register u8*  bp = (u8*)tex->data;
 
-    offset = (((y >> 2)<<4)*tex->w) + ((x >> 2)<<6) + ((((y&3) << 2) + (x&3) ) << 1); // Fuckin equation found by NoNameNo ;)
+    offs = (((y&(~3))<<2)*tex->w) + ((x&(~3))<<4) + ((((y&3)<<2) + (x&3)) <<1);
 
-    *(truc+offset) = color & 0xFF;
-    *(truc+offset+1) = (color>>24) & 0xFF;
-    *(truc+offset+32) = (color>>16) & 0xFF;
-    *(truc+offset+33) = (color>>8) & 0xFF;
+    *((u16*)(bp+offs   )) = (u16)((color <<8) | (color >>24));
+    *((u16*)(bp+offs+32)) = (u16) (color >>8);
 }
 
 /**
