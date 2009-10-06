@@ -128,7 +128,7 @@ typedef  struct GRRLIB_drawSettings {
 
 //------------------------------------------------------------------------------
 /**
- * Structure to hold the texture informations.
+ * Structure to hold the texture information.
  */
 typedef  struct GRRLIB_texImg {
     uint   w;           /**< Texture Width.    */
@@ -150,7 +150,7 @@ typedef  struct GRRLIB_texImg {
 
 //------------------------------------------------------------------------------
 /**
- * Structure to hold the bytemap character informations.
+ * Structure to hold the bytemap character information.
  */
 typedef  struct GRRLIB_bytemapChar {
     u8  character;      /**< Character identity. */
@@ -164,7 +164,7 @@ typedef  struct GRRLIB_bytemapChar {
 
 //------------------------------------------------------------------------------
 /**
- * Structure to hold the bytemap font informations.
+ * Structure to hold the bytemap font information.
  */
 typedef
     struct GRRLIB_bytemapFont {

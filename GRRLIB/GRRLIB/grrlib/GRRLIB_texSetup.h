@@ -59,7 +59,7 @@ GRRLIB_texImg*  GRRLIB_CreateEmptyTexture (const uint w, const uint h)
 
 /**
  * Write the contents of a texture in the data cache down to main memory.
- * For performance the CPU holds a data cache where modifications are stored before they get written down to mainmemory.
+ * For performance the CPU holds a data cache where modifications are stored before they get written down to main memory.
  * @param tex The texture to flush.
  */
 INLINE

@@ -64,7 +64,7 @@ int  GRRLIB_LoadFile(const char* filename, unsigned char* *data) {
 /**
  * Load a texture from a file.
  * @param filename The JPEG or PNG filename to load.
- * @return A GRRLIB_texImg structure filled with image informations.
+ * @return A GRRLIB_texImg structure filled with image information.
  */
 GRRLIB_texImg*  GRRLIB_LoadTextureFromFile(const char *filename) {
     GRRLIB_texImg  *tex;

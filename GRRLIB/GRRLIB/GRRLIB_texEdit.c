@@ -75,7 +75,7 @@ void  RawTo4x4RGBA (const u8 *src, void *dst,
 /**
  * Load a texture from a buffer.
  * @param my_img The JPEG or PNG buffer to load.
- * @return A GRRLIB_texImg structure filled with image informations.
+ * @return A GRRLIB_texImg structure filled with image information.
  */
 GRRLIB_texImg*  GRRLIB_LoadTexture (const u8 my_img[]) {
     // Check for jpeg signature
@@ -88,7 +88,7 @@ GRRLIB_texImg*  GRRLIB_LoadTexture (const u8 my_img[]) {
 /**
  * Load a texture from a buffer.
  * @param my_png the PNG buffer to load.
- * @return A GRRLIB_texImg structure filled with image informations.
+ * @return A GRRLIB_texImg structure filled with image information.
  */
 GRRLIB_texImg*  GRRLIB_LoadTexturePNG (const u8 *my_png) {
     PNGUPROP imgProp;
@@ -116,7 +116,7 @@ GRRLIB_texImg*  GRRLIB_LoadTexturePNG (const u8 *my_png) {
  * Take care to have the JPG finnish with 0xFF 0xD9!!
  * @author DrTwox
  * @param my_jpg The JPEG buffer to load.
- * @return A GRRLIB_texImg structure filled with image informations.
+ * @return A GRRLIB_texImg structure filled with image information.
  */
 GRRLIB_texImg*  GRRLIB_LoadTextureJPG (const u8 *my_jpg) {
     struct jpeg_decompress_struct cinfo;
