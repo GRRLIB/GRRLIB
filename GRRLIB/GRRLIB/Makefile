@@ -10,8 +10,7 @@ endif
 
 PWD := $(shell pwd)
 
-CC  := $(DEVKITPPC)/bin/powerpc-gekko-gcc
-AR  := $(DEVKITPPC)/bin/powerpc-gekko-ar
+include $(DEVKITPPC)/base_rules
 
 OGC  := $(DEVKITPRO)/libogc
 INCD := $(OGC)/include

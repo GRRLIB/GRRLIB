@@ -8,8 +8,7 @@ ifeq ($(strip $(DEVKITPRO)),)
   $(error "Use   export DEVKITPRO=<path to>devkitPRO   and try again")
 endif
 
-CC  := $(DEVKITPPC)/bin/powerpc-gekko-gcc
-AR  := $(DEVKITPPC)/bin/powerpc-gekko-ar
+include $(DEVKITPPC)/base_rules
 
 OGC  := $(DEVKITPRO)/libogc
 INCD := $(OGC)/include
