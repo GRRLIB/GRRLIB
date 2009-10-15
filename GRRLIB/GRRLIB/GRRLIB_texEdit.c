@@ -31,10 +31,10 @@ THE SOFTWARE.
 /**
  * Convert a raw BMP (RGB, no alpha) to 4x4RGBA.
  * @author DragonMinded
- * @param src
- * @param dst
- * @param width
- * @param height
+ * @param src Source.
+ * @param dst Destination.
+ * @param width Width.
+ * @param height Height.
 */
 static
 void  RawTo4x4RGBA (const u8 *src, void *dst,
@@ -177,11 +177,11 @@ GRRLIB_texImg*  GRRLIB_LoadTextureJPG (const u8 *my_jpg) {
  * Currently only performs "a-over-b (normal) alpha compositing" (opacity)
  * Ie. Light source is behind the eye, not behind the canvas!
  * @author BlueChip
- * @param xoff   : The x-offset within the canvas (negative values allowed)
- * @param yoff   : The y-offset within the canvas (negative values allowed)
- * @param layer  : The layer/sprite to draw
- * @param canvas : The canvas/textured-image on which to draw
- * @param mode   : Currently unused - will be composition mode
+ * @param xoff   The x-offset within the canvas (negative values allowed)
+ * @param yoff   The y-offset within the canvas (negative values allowed)
+ * @param layer  The layer/sprite to draw
+ * @param canvas The canvas/textured-image on which to draw
+ * @param mode   Currently unused - will be composition mode
  */
 void  GRRLIB_Compose( int xoff, int yoff, GRRLIB_texImg* layer,
                       GRRLIB_texImg* canvas, GRRLIB_ComposeMode mode )
