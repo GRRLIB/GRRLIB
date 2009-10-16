@@ -20,7 +20,7 @@ LIBS += -lbte -logc
 LIBS +=  -lm
 
 BINDIR  := $(DEVKITPPC)/bin
-PREFIX  := $(BINDIR)/powerpc-gekko-
+PREFIX  := $(BINDIR)/powerpc-eabi-
 CC      := $(PREFIX)gcc
 CXX     := $(PREFIX)g++
 AR      := $(PREFIX)ar

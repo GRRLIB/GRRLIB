@@ -54,17 +54,17 @@ void GRRLIB_addon_Exit(){
  * @param toto Text on the button.
  */
 void GRRLIB_addon_Button(int indice, int x,int y,u32 col, int wpadx, int wpady, u32 WPADDown, u32 WPADHeld, int but, int *resdown, int *resheld, char toto[]){
-    int butwidth=strlen(toto)*16+8;
-    Vector bg[]={{x+4,y,0},{x+4+strlen(toto)*16,y,0},{x+4+strlen(toto)*16,y+24,0},{x+4,y+24,0}};
+    int butwidth = strlen(toto)*16+8;
+    guVector bg[] = {{x+4,y,0},{x+4+strlen(toto)*16,y,0},{x+4+strlen(toto)*16,y+24,0},{x+4,y+24,0}};
     if((toto[0]=='^') && ((toto[1]=='U') || (toto[1]=='D') || (toto[1]=='L') || (toto[1]=='R'))){
-        butwidth=1*16+8;
-        bg[1].x=x+4+1*16;
-        bg[2].x=x+4+1*16;
+        butwidth = 1*16+8;
+        bg[1].x = x+4+1*16;
+        bg[2].x = x+4+1*16;
     }
 
-    GRRLIB_DrawTile(x,y, tex_GRRLIBbutton , 0, 1, 1, col,0 );
+    GRRLIB_DrawTile(x, y, tex_GRRLIBbutton , 0, 1, 1, col,0 );
     GRRLIB_DrawTileQuad(bg, tex_GRRLIBbutton, col,1 );
-    GRRLIB_DrawTile(bg[1].x,y, tex_GRRLIBbutton , 0, 1, 1, col,2);
+    GRRLIB_DrawTile(bg[1].x, y, tex_GRRLIBbutton , 0, 1, 1, col,2);
 
     if(GRRLIB_PtInRect(x, y, butwidth, 24, wpadx, wpady)) {
         if((toto[0]=='^') && (toto[1]=='U')) GRRLIB_Printf(x+4, y+2, tex_GRRLIBfont, 0xFFFFFFFF, 1, "%c", 0xa1);
@@ -79,7 +79,7 @@ void GRRLIB_addon_Button(int indice, int x,int y,u32 col, int wpadx, int wpady, 
             *resheld=indice;
         }
     }
-    else{
+    else {
         if((toto[0]=='^') && (toto[1]=='U')) GRRLIB_Printf(x+4, y+2, tex_GRRLIBfont, 0xFFFFFF77, 1, "%c", 0xa1);
         else if((toto[0]=='^') && (toto[1]=='D')) GRRLIB_Printf(x+4, y+2, tex_GRRLIBfont, 0xFFFFFF77, 1, "%c", 0xa2);
         else if((toto[0]=='^') && (toto[1]=='L')) GRRLIB_Printf(x+4, y+2, tex_GRRLIBfont, 0xFFFFFF77, 1, "%c", 0xa3);

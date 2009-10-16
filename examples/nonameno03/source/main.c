@@ -19,7 +19,7 @@ int main() {
     ir_t ir1;
     int wpadx=0, wpady=0;
 
-    int resdown=0,resheld=0;
+    int resdown=0, resheld=0;
 
 
     GRRLIB_Init();
@@ -36,8 +36,8 @@ int main() {
         WPADDown = WPAD_ButtonsDown(0);
         WPADHeld = WPAD_ButtonsHeld(0);
         WPAD_IR(WPAD_CHAN_0, &ir1);
-        wpadx=ir1.sx-200;
-        wpady=ir1.sy-250;
+        wpadx = ir1.sx-200;
+        wpady = ir1.sy-250;
 
         GRRLIB_addon_Button(1, 100,100,0xFFFF00FF, wpadx, wpady, WPADDown, WPADHeld, WPAD_BUTTON_A, &resdown, &resheld, " My First Button ");
         GRRLIB_addon_Button(2, 100,140,0xFF00FFFF, wpadx, wpady, WPADDown, WPADHeld, WPAD_BUTTON_A, &resdown, &resheld, " My Second Button ");

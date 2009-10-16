@@ -60,7 +60,7 @@ int main() {
 
     ir_t ir1;
     u32 wpaddown, wpadheld;
-    Vector triangle[] = {{400,200,0.0f}, {500,400,0.0f}, {300,400,0.0f}};
+    guVector triangle[] = {{400,200,0.0f}, {500,400,0.0f}, {300,400,0.0f}};
     u32 trianglecolor[] = {GRRLIB_GREEN, GRRLIB_RED, GRRLIB_BLUE};
 
     GRRLIB_Init();

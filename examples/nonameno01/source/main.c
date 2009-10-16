@@ -17,13 +17,13 @@
 int main() {
     u32 wpaddown;
 
-    Vector ln[4];
-    Vector d[4];
-    float xt,yt,zt;
+    guVector ln[4];
+    guVector d[4];
+    float xt ,yt, zt;
     int i;
-    float a=0.0,b=0.0;
+    float a=0.0, b=0.0;
     float c=2;
-    Vector l[4]={{-0.8,-0.8,0},{0.8,-0.8,0},{0.8,0.8,0},{-0.8,0.8,0}};
+    guVector l[4]={{-0.8,-0.8,0},{0.8,-0.8,0},{0.8,0.8,0},{-0.8,0.8,0}};
 
     GRRLIB_Init();
     WPAD_Init();
