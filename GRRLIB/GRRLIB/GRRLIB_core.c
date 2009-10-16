@@ -47,6 +47,7 @@ int  GRRLIB_Init (void) {
     f32 yscale;
     u32 xfbHeight;
     Mtx44 perspective;
+    s8 error_code = 0;
 
     // Ensure this function is only ever called once
     if (is_setup)  return 0 ;
@@ -156,10 +157,10 @@ int  GRRLIB_Init (void) {
     atexit(GRRLIB_Exit);
 
     // Initialise the filing system
-    if (!fatInitDefault())  return -2 ;
+    if (!fatInitDefault())  error_code = -2;
 
     VIDEO_SetBlack(false);  // Enable video output
-    return 0;
+    return error_code;
 }
 
 /**
