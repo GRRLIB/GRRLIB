@@ -21,6 +21,7 @@ THE SOFTWARE.
 ------------------------------------------------------------------------------*/
 #include <grrlib.h>
 #include <stdio.h>
+#include <pngu.h>
 
 /**
  * Load a file to memory.

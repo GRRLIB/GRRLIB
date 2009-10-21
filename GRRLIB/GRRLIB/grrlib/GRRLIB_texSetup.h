@@ -26,11 +26,8 @@ THE SOFTWARE.
  */
 
 #include <malloc.h>
-#include <pngu.h>
 #include <stdio.h>
 #include <string.h>
-
-#include <jpeglib.h> // this bad header file must be included last :(
 
 /**
  * Create an empty texture.

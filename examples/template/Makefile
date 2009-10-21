@@ -45,7 +45,7 @@ LIBS +=  -lm
 # Compilers & utils which we will be using
 #-------------------------------------------------------------------------------
 BINDIR  := $(DEVKITPPC)/bin
-PREFIX  := $(BINDIR)/powerpc-gekko-
+PREFIX  := $(BINDIR)/powerpc-eabi-
 
 CC      := $(PREFIX)gcc
 CXX     := $(PREFIX)g++
