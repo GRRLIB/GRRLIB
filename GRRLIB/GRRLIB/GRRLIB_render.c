@@ -72,7 +72,7 @@ void  GRRLIB_DrawImg (const f32 xpos, const f32 ypos, const GRRLIB_texImg *tex,
             -tex->offsetx +( scaleX *(-tex->handley *sin(-DegToRad(degrees))
                                       -tex->handlex *cos(-DegToRad(degrees))) ),
         ypos +height +tex->handley
-            -tex->offsety +( scaleX *(-tex->handley *cos(-DegToRad(degrees))
+            -tex->offsety +( scaleY *(-tex->handley *cos(-DegToRad(degrees))
                                       +tex->handlex *sin(-DegToRad(degrees))) ),
         0);
     guMtxConcat(GXmodelView2D, m, mv);
@@ -207,7 +207,7 @@ void  GRRLIB_DrawTile (const f32 xpos, const f32 ypos, const GRRLIB_texImg *tex,
             -tex->offsetx +( scaleX *(-tex->handley *sin(-DegToRad(degrees))
                                       -tex->handlex *cos(-DegToRad(degrees))) ),
         ypos +height +tex->handley
-            -tex->offsety +( scaleX *(-tex->handley *cos(-DegToRad(degrees))
+            -tex->offsety +( scaleY *(-tex->handley *cos(-DegToRad(degrees))
                                       +tex->handlex *sin(-DegToRad(degrees))) ),
         0);
 
