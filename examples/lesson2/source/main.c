@@ -15,7 +15,7 @@
 
 int main() {
     u32 wpaddown;
-    int page = 0;
+    s8 page = 0;
 
     // Font texture
     GRRLIB_texImg *text_font1 = GRRLIB_LoadTexture(font1);
