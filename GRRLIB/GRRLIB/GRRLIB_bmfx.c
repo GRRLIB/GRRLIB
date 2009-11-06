@@ -74,12 +74,12 @@ void  GRRLIB_BMFX_Grayscale (const GRRLIB_texImg *texsrc,
         for (x = 0; x < texsrc->w; x++) {
             color = GRRLIB_GetPixelFromtexImg(x, y, texsrc);
 
-            gray = (((color >> 24 & 0xFF)* 77 +
-                     (color >> 16 & 0xFF)*150 +
-                     (color >>  8 & 0xFF)* 28  ) / 255);
+            gray = ((R(color)* 77 +
+                     G(color)*150 +
+                     B(color)* 28 ) / 255);
 
             GRRLIB_SetPixelTotexImg(x, y, texdest,
-                ((gray << 24) | (gray << 16) | (gray << 8) | (color & 0xFF)));
+                ((gray << 24) | (gray << 16) | (gray << 8) | A(color)));
         }
     }
     GRRLIB_SetHandle(texdest, 0, 0);
@@ -105,7 +105,7 @@ void  GRRLIB_BMFX_Sepia (const GRRLIB_texImg *texsrc, GRRLIB_texImg *texdest) {
             sb = R(color)*0.272 + G(color)*0.534 + B(color)*0.131;
             if (sr>255) sr=255;  if (sg>255) sg=255;  if (sb>255) sb=255;
             GRRLIB_SetPixelTotexImg(x, y, texdest,
-                                    GRRLIB_GetColor(sr,sg,sb,color&0xFF));
+                                    GRRLIB_GetColor(sr,sg,sb,A(color)));
         }
     }
     GRRLIB_SetHandle(texdest, 0, 0);
