@@ -30,13 +30,11 @@ THE SOFTWARE.
 /**
  * A helper function for the YCbCr -> RGB conversion.
  * Clamps the given value into a range of 0 - 255 and thus preventing an overflow.
- * @param Value The value to clamp.
+ * @param Value The value to clamp. Using float to increase the precision. This makes a full spectrum (0 - 255) possible.
  * @return Returns a clean, clamped unsigned char.
  */
 INLINE
 u8  GRRLIB_ClampVar8 (f32 Value) {
-    /* Using float to increase the precision.
-    This makes a full spectrum (0 - 255) possible. */
     Value = roundf(Value);
     if      (Value < 0)    Value = 0 ;
     else if (Value > 255)  Value = 255 ;

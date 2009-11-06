@@ -27,6 +27,10 @@ THE SOFTWARE.
 
 /**
  * Draws a vector.
+ * @param v The vector to draw.
+ * @param color The color of the vector in RGBA format.
+ * @param n Number of points in the vector.
+ * @param fmt Type of primitive.
  */
 INLINE
 void  GRRLIB_GXEngine (const guVector v[], const u32 color[], const long n,
