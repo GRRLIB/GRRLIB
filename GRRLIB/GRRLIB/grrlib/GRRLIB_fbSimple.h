@@ -31,9 +31,8 @@ THE SOFTWARE.
  */
 INLINE
 void  GRRLIB_FillScreen (const u32 color) {
-    GRRLIB_Rectangle(-40, -40,
-                     rmode->fbWidth +80, rmode->xfbHeight +80,
-                     color, 1);
+    GX_SetCopyClear((GXColor){ R(color), G(color), B(color), 0xFF },
+                    GX_MAX_Z24);
 }
 
 /**
