@@ -24,13 +24,16 @@ THE SOFTWARE.
 
 /**
  * Make a snapshot of the screen in a texture.
+ * @param posx top left corner of the grabbed part 
+ * @param posy top left corner of the grabbed part 
  * @param tex A pointer to a texture representing the screen or NULL if an error occurs.
+ * @param clear, want that GX clear the grabbed part ?
  */
-void  GRRLIB_Screen2Texture (GRRLIB_texImg *tex) {
+void  GRRLIB_Screen2Texture (int posx, int posy, GRRLIB_texImg *tex, bool clear) {
     if(tex->data != NULL) {
-        GX_SetTexCopySrc(0, 0, rmode->fbWidth, rmode->efbHeight);
-        GX_SetTexCopyDst(rmode->fbWidth, rmode->efbHeight, GX_TF_RGBA8, GX_FALSE);
-        GX_CopyTex(tex->data, GX_FALSE);
+        GX_SetTexCopySrc(posx, posy, tex->w, tex->h);
+        GX_SetTexCopyDst(tex->w, tex->h, GX_TF_RGBA8, GX_FALSE);
+        GX_CopyTex(tex->data, clear);
         GX_PixModeSync();
         GRRLIB_FlushTex(tex);
     }
