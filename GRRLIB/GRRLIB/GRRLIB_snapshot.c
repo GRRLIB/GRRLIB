@@ -24,10 +24,10 @@ THE SOFTWARE.
 
 /**
  * Make a snapshot of the screen in a texture.
- * @param posx top left corner of the grabbed part 
- * @param posy top left corner of the grabbed part 
+ * @param posx top left corner of the grabbed part.
+ * @param posy top left corner of the grabbed part.
  * @param tex A pointer to a texture representing the screen or NULL if an error occurs.
- * @param clear, want that GX clear the grabbed part ?
+ * @param clear When this flag is set to true, the grabbed part is cleared while copying.
  */
 void  GRRLIB_Screen2Texture (int posx, int posy, GRRLIB_texImg *tex, bool clear) {
     if(tex->data != NULL) {
