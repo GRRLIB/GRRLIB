@@ -177,10 +177,10 @@ void  GRRLIB_DrawTile (const f32 xpos, const f32 ypos, const GRRLIB_texImg *tex,
     if (tex == NULL || tex->data == NULL)  return ;
 
     // The 0.001f/x is the frame correction formula by spiffen
-    s1 = ((     (frame %tex->nbtilew)   ) /(f32)tex->nbtilew) +(0.001f /tex->w);
-    s2 = ((     (frame %tex->nbtilew) +1) /(f32)tex->nbtilew) -(0.001f /tex->w);
-    t1 = (((int)(frame /tex->nbtilew)   ) /(f32)tex->nbtileh) +(0.001f /tex->h);
-    t2 = (((int)(frame /tex->nbtilew) +1) /(f32)tex->nbtileh) -(0.001f /tex->h);
+    s1 = (frame % tex->nbtilew) * tex->ofnormaltexx;
+    s2 = s1 + tex->ofnormaltexx;
+    t1 = (int)(frame/tex->nbtilew) * tex->ofnormaltexy;
+    t2 = t1 + tex->ofnormaltexy;
 
     GX_InitTexObj(&texObj, tex->data,
                   tex->tilew * tex->nbtilew, tex->tileh * tex->nbtileh,

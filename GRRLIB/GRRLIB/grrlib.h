@@ -115,6 +115,9 @@ typedef  struct GRRLIB_texImg {
     uint   nbtilew;     /**< Number of tiles for the x axis.   */
     uint   nbtileh;     /**< Number of tiles for the y axis.   */
     uint   tilestart;   /**< Offset to tile starting position. */
+    f32    ofnormaltexx; /**< Offset of normalized texture on x */
+    f32    ofnormaltexy; /**< Offset of normalized texture on y */
+
 
     void  *data;        /**< Pointer to the texture data. */
 } GRRLIB_texImg;

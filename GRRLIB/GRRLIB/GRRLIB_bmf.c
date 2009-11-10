@@ -111,5 +111,7 @@ void  GRRLIB_InitTileSet (GRRLIB_texImg *tex,
         tex->nbtileh = tex->h / tileh;
     tex->tilestart = tilestart;
     tex->tiledtex = true;
+    tex->ofnormaltexx = 1.0F/tex->nbtilew;	
+    tex->ofnormaltexy = 1.0F/tex->nbtileh;	
     GRRLIB_SetHandle( tex, 0, 0 );
 }
