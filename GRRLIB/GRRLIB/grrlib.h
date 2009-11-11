@@ -102,22 +102,21 @@ typedef  struct GRRLIB_drawSettings {
  * Structure to hold the texture information.
  */
 typedef  struct GRRLIB_texImg {
-    uint   w;           /**< Texture Width.    */
-    uint   h;           /**< Texture Height.   */
-    int    handlex;     /**< Texture Handle x. */
-    int    handley;     /**< Texture Handle y. */
-    int    offsetx;     /**< Texture Offset x. */
-    int    offsety;     /**< Texture Offset y. */
+    uint   w;           /**< Texture width.    */
+    uint   h;           /**< Texture height.   */
+    int    handlex;     /**< Texture handle x. */
+    int    handley;     /**< Texture handle y. */
+    int    offsetx;     /**< Texture offset x. */
+    int    offsety;     /**< Texture offset y. */
 
-    bool   tiledtex;    /**< true => Texture is tiled.         */
-    uint   tilew;       /**< Width of one tile.                */
-    uint   tileh;       /**< Height of one tile.               */
-    uint   nbtilew;     /**< Number of tiles for the x axis.   */
-    uint   nbtileh;     /**< Number of tiles for the y axis.   */
-    uint   tilestart;   /**< Offset to tile starting position. */
-    f32    ofnormaltexx; /**< Offset of normalized texture on x */
-    f32    ofnormaltexy; /**< Offset of normalized texture on y */
-
+    bool   tiledtex;    /**< Texture is tiled if set to true.   */
+    uint   tilew;       /**< Width of one tile.                 */
+    uint   tileh;       /**< Height of one tile.                */
+    uint   nbtilew;     /**< Number of tiles for the x axis.    */
+    uint   nbtileh;     /**< Number of tiles for the y axis.    */
+    uint   tilestart;   /**< Offset to tile starting position.  */
+    f32    ofnormaltexx;/**< Offset of normalized texture on x. */
+    f32    ofnormaltexy;/**< Offset of normalized texture on y. */
 
     void  *data;        /**< Pointer to the texture data. */
 } GRRLIB_texImg;
@@ -131,7 +130,7 @@ typedef  struct GRRLIB_bytemapChar {
     u8  width;          /**< Character width.    */
     u8  height;         /**< Character height.   */
     s8  relx;           /**< Horizontal offset relative to cursor (-128 to 127).            */
-    s8  rely;           /**< Vertical   offset relative to cursor (-128 to 127).            */
+    s8  rely;           /**< Vertical offset relative to cursor (-128 to 127).              */
     u8  kerning;        /**< Kerning (Horizontal cursor shift after drawing the character). */
     u8  *data;          /**< Character data (uncompressed, 8 bits per pixel).               */
 } GRRLIB_bytemapChar;
@@ -140,8 +139,7 @@ typedef  struct GRRLIB_bytemapChar {
 /**
  * Structure to hold the bytemap font information.
  */
-typedef
-    struct GRRLIB_bytemapFont {
+typedef  struct GRRLIB_bytemapFont {
         char  *name;                /**< Font name.                      */
         u32   *palette;             /**< Font palette.                   */
         u16   nbChar;               /**< Number of characters in font.   */
