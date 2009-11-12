@@ -101,6 +101,5 @@ void  GRRLIB_PrintBMF (const f32 xpos, const f32 ypos,
 
     GRRLIB_FlushTex( tex_BMfont );
     GRRLIB_DrawImg(0, 0, tex_BMfont, 0, 1, 1, 0xFFFFFFFF);
-    free(tex_BMfont->data);
-    free(tex_BMfont);
+    GRRLIB_FreeTexture(tex_BMfont);
 }
