@@ -130,6 +130,7 @@ void  GRRLIB_Screen2Texture (int posx, int posy, GRRLIB_texImg *tex, bool clear)
 GRRLIB_texImg*  GRRLIB_LoadTexture    (const u8 *my_img) ;
 GRRLIB_texImg*  GRRLIB_LoadTexturePNG (const u8 *my_png) ;
 GRRLIB_texImg*  GRRLIB_LoadTextureJPG (const u8 *my_jpg) ;
+GRRLIB_texImg*  GRRLIB_LoadTextureBMP (const u8 *my_bmp) ;
 void            GRRLIB_Compose        (int xoff, int yoff, GRRLIB_texImg* layer,
                                        GRRLIB_texImg* canvas,
                                        GRRLIB_ComposeMode mode) ;

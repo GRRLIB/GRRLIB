@@ -79,8 +79,10 @@ void  RawTo4x4RGBA (const u8 *src, void *dst,
  */
 GRRLIB_texImg*  GRRLIB_LoadTexture (const u8 my_img[]) {
     // Check for jpeg signature
-    if ((my_img[0]==0xFF) && (my_img[1]==0xD8) && (my_img[2]==0xFF))
+    if (my_img[0]==0xFF && my_img[1]==0xD8 && my_img[2]==0xFF)
         return (GRRLIB_LoadTextureJPG(my_img));
+    else if (my_img[0]=='B' && my_img[1]=='M')
+        return (GRRLIB_LoadTextureBMP(my_img));
     else
         return (GRRLIB_LoadTexturePNG(my_img));
 }
@@ -104,6 +106,164 @@ GRRLIB_texImg*  GRRLIB_LoadTexturePNG (const u8 *my_png) {
             PNGU_ReleaseImageContext(ctx);
             my_texture->w = imgProp.imgWidth;
             my_texture->h = imgProp.imgHeight;
+            GRRLIB_SetHandle( my_texture, 0, 0 );
+            GRRLIB_FlushTex( my_texture );
+        }
+    }
+    return my_texture;
+}
+
+/**
+ * Create an array of palette.
+ * @param my_bmp Bitmap buffer to parse.
+ * @param Size The number of palette to add.
+ * @return An array of palette. Memory must be deleted.
+ */
+static RGBQUAD*  GRRLIB_CreatePalette (const u8 *my_bmp, u32 Size) {
+    u32 n, i = 0;
+    RGBQUAD *Palette = calloc(Size, sizeof(RGBQUAD));
+    for(n=0; n<Size; n++) {
+        Palette[n].rgbBlue = my_bmp[i];
+        Palette[n].rgbGreen = my_bmp[i+1];
+        Palette[n].rgbRed = my_bmp[i+2];
+        Palette[n].rgbReserved = 0;
+        i += 4;
+    }
+    return Palette;
+}
+
+/**
+ * Load a texture from a buffer.
+ * It only works for the MS-Windows standard format uncompressed (1 bit, 4 bits, 8 bits, 24 bits and 32 bits).
+ * @param my_bmp the Bitmap buffer to load.
+ * @return A GRRLIB_texImg structure filled with image information.
+ */
+GRRLIB_texImg*  GRRLIB_LoadTextureBMP (const u8 *my_bmp) {
+    BITMAPFILEHEADER MyBitmapFileHeader;
+    BITMAPINFOHEADER MyBitmapHeader;
+    RGBQUAD *Palette;
+    u16 pal_ref;
+    u32 BufferSize;
+    s32 y, x, i;
+    GRRLIB_texImg *my_texture = calloc(1, sizeof(GRRLIB_texImg));
+
+    if(my_texture != NULL) {
+        // Fill file header structure
+        MyBitmapFileHeader.bfType      = (my_bmp[0]  | my_bmp[1]<<8);
+        MyBitmapFileHeader.bfSize      = (my_bmp[2]  | my_bmp[3]<<8  | my_bmp[4]<<16 | my_bmp[5]<<24);
+        MyBitmapFileHeader.bfReserved1 = (my_bmp[6]  | my_bmp[7]<<8);
+        MyBitmapFileHeader.bfReserved2 = (my_bmp[8]  | my_bmp[9]<<8);
+        MyBitmapFileHeader.bfOffBits   = (my_bmp[10] | my_bmp[11]<<8 | my_bmp[12]<<16 | my_bmp[13]<<24);
+        // Fill the bitmap structure
+        MyBitmapHeader.biSize          = (my_bmp[14] | my_bmp[15]<<8 | my_bmp[16]<<16 | my_bmp[17]<<24);
+        MyBitmapHeader.biWidth         = (my_bmp[18] | my_bmp[19]<<8 | my_bmp[20]<<16 | my_bmp[21]<<24);
+        MyBitmapHeader.biHeight        = (my_bmp[22] | my_bmp[23]<<8 | my_bmp[24]<<16 | my_bmp[25]<<24);
+        MyBitmapHeader.biPlanes        = (my_bmp[26] | my_bmp[27]<<8);
+        MyBitmapHeader.biBitCount      = (my_bmp[28] | my_bmp[29]<<8);
+        MyBitmapHeader.biCompression   = (my_bmp[30] | my_bmp[31]<<8 | my_bmp[32]<<16 | my_bmp[33]<<24);
+        MyBitmapHeader.biSizeImage     = (my_bmp[34] | my_bmp[35]<<8 | my_bmp[36]<<16 | my_bmp[37]<<24);
+        MyBitmapHeader.biXPelsPerMeter = (my_bmp[38] | my_bmp[39]<<8 | my_bmp[40]<<16 | my_bmp[41]<<24);
+        MyBitmapHeader.biYPelsPerMeter = (my_bmp[42] | my_bmp[43]<<8 | my_bmp[44]<<16 | my_bmp[45]<<24);
+        MyBitmapHeader.biClrUsed       = (my_bmp[46] | my_bmp[47]<<8 | my_bmp[48]<<16 | my_bmp[49]<<24);
+        MyBitmapHeader.biClrImportant  = (my_bmp[50] | my_bmp[51]<<8 | my_bmp[52]<<16 | my_bmp[53]<<24);
+
+        my_texture->data = memalign(32, MyBitmapHeader.biWidth * MyBitmapHeader.biHeight * 4);
+        if(my_texture->data != NULL && MyBitmapFileHeader.bfType == 0x4D42) {
+            my_texture->w = MyBitmapHeader.biWidth;
+            my_texture->h = MyBitmapHeader.biHeight;
+            switch(MyBitmapHeader.biBitCount) {
+                case 32:    // RGBA images
+                    i = 54;
+                    for(y=MyBitmapHeader.biHeight-1; y>=0; y--) {
+                        for(x=0; x<MyBitmapHeader.biWidth; x++) {
+                            GRRLIB_SetPixelTotexImg(x, y, my_texture,
+                                RGBA(my_bmp[i+2], my_bmp[i+1], my_bmp[i], my_bmp[i+3]));
+                            i += 4;
+                        }
+                    }
+                    break;
+                case 24:    // truecolor images
+                    BufferSize = (MyBitmapHeader.biWidth % 4);
+                    i = 54;
+                    for(y=MyBitmapHeader.biHeight-1; y>=0; y--) {
+                        for(x=0; x<MyBitmapHeader.biWidth; x++) {
+                            GRRLIB_SetPixelTotexImg(x, y, my_texture,
+                                RGBA(my_bmp[i+2], my_bmp[i+1], my_bmp[i], 0xFF));
+                            i += 3;
+                        }
+                        i += BufferSize;   // Padding
+                    }
+                    break;
+                case 8:     // 256 color images
+                    BufferSize = (int) MyBitmapHeader.biWidth;
+                    while(BufferSize % 4) {
+                        BufferSize++;
+                    }
+                    BufferSize -= MyBitmapHeader.biWidth;
+                    Palette = GRRLIB_CreatePalette(&my_bmp[54], 256);
+                    i = 1078; // 54 + (MyBitmapHeader.biBitCount * 4)
+                    for(y=MyBitmapHeader.biHeight-1; y>=0; y--) {
+                        for(x=0; x<MyBitmapHeader.biWidth; x++) {
+                            GRRLIB_SetPixelTotexImg(x, y, my_texture,
+                                RGBA(Palette[my_bmp[i]].rgbRed,
+                                     Palette[my_bmp[i]].rgbGreen,
+                                     Palette[my_bmp[i]].rgbBlue,
+                                     0xFF));
+                            i++;
+                        }
+                        i += BufferSize;   // Padding
+                    }
+                    free(Palette);
+                    break;
+                case 4:     // 16 color images
+                    BufferSize = (int)((MyBitmapHeader.biWidth*4) / 8.0);
+                    while(8*BufferSize < MyBitmapHeader.biWidth*4) {
+                        BufferSize++;
+                    }
+                    while(BufferSize % 4) {
+                        BufferSize++;
+                    }
+                    Palette = GRRLIB_CreatePalette(&my_bmp[54], 16);
+                    i = 118; // 54 + (MyBitmapHeader.biBitCount * 4)
+                    for(y=MyBitmapHeader.biHeight-1; y>=0; y--) {
+                        for(x=0; x<MyBitmapHeader.biWidth; x++) {
+                            pal_ref = (my_bmp[i + (x / 2)] >> ((x % 2) ? 0 : 4)) & 0x0F;
+                            GRRLIB_SetPixelTotexImg(x, y, my_texture,
+                                RGBA(Palette[pal_ref].rgbRed,
+                                     Palette[pal_ref].rgbGreen,
+                                     Palette[pal_ref].rgbBlue,
+                                     0xFF));
+                        }
+                        i += BufferSize;   // Padding
+                    }
+                    free(Palette);
+                    break;
+                case 1:     // black & white images
+                    BufferSize = (int)(MyBitmapHeader.biWidth / 8.0);
+                    while(8*BufferSize < MyBitmapHeader.biWidth) {
+                        BufferSize++;
+                    }
+                    while(BufferSize % 4) {
+                        BufferSize++;
+                    }
+                    Palette = GRRLIB_CreatePalette(&my_bmp[54], 2);
+                    i = 62; // 54 + (MyBitmapHeader.biBitCount * 4)
+                    for(y=MyBitmapHeader.biHeight-1; y>=0; y--) {
+                        for(x=0; x<MyBitmapHeader.biWidth; x++) {
+                            pal_ref = (my_bmp[i + (x / 8)] >> (-x%8+7)) & 0x01;
+                            GRRLIB_SetPixelTotexImg(x, y, my_texture,
+                                RGBA(Palette[pal_ref].rgbRed,
+                                     Palette[pal_ref].rgbGreen,
+                                     Palette[pal_ref].rgbBlue,
+                                     0xFF));
+                        }
+                        i += BufferSize;   // Padding
+                    }
+                    free(Palette);
+                    break;
+                default:
+                    GRRLIB_ClearTex(my_texture);
+            }
             GRRLIB_SetHandle( my_texture, 0, 0 );
             GRRLIB_FlushTex( my_texture );
         }

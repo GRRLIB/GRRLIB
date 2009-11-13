@@ -150,6 +150,45 @@ typedef  struct GRRLIB_bytemapFont {
     }
 GRRLIB_bytemapFont;
 
+//------------------------------------------------------------------------------
+/**
+ * This structure contains information about the type, size, and layout of a file that containing a device-independent bitmap (DIB).
+ */
+typedef  struct tagBITMAPFILEHEADER {
+    u16 bfType;             /**< Specifies the file type. It must be set to the signature word BM (0x4D42) to indicate bitmap. */
+    u32 bfSize;             /**< Specifies the size, in bytes, of the bitmap file. */
+    u16 bfReserved1;        /**< Reserved; set to zero. */
+    u16 bfReserved2;        /**< Reserved; set to zero. */
+    u32 bfOffBits;          /**< Specifies the offset, in bytes, from the BITMAPFILEHEADER structure to the bitmap bits. */
+} BITMAPFILEHEADER;
+/**
+ * This structure contains information about the dimensions and color format of a device-independent bitmap (DIB).
+ */
+typedef  struct tagBITMAPINFOHEADER {
+    u32 biSize;             /**< Specifies the size of the structure, in bytes. */
+    u32 biWidth;            /**< Specifies the width of the bitmap, in pixels. */
+    u32 biHeight;           /**< Specifies the height of the bitmap, in pixels. */
+    u16 biPlanes;           /**< Specifies the number of planes for the target device. */
+    u16 biBitCount;         /**< Specifies the number of bits per pixel. */
+    u32 biCompression;      /**< Specifies the type of compression for a compressed bottom-up bitmap.*/
+    u32 biSizeImage;        /**< Specifies the size, in bytes, of the image. */
+    u32 biXPelsPerMeter;    /**< Specifies the horizontal resolution, in pixels per meter, of the target device for the bitmap. */
+    u32 biYPelsPerMeter;    /**< Specifies the vertical resolution, in pixels per meter, of the target device for the bitmap. */
+    u32 biClrUsed;          /**< Specifies the number of color indexes in the color table that are actually used by the bitmap. */
+    u32 biClrImportant;     /**< Specifies the number of color indexes required for displaying the bitmap. */
+} BITMAPINFOHEADER;
+/**
+ * The RGBQUAD structure describes a color consisting of relative intensities of
+ * red, green, and blue. The bmiColors member of the BITMAPINFO structure
+ * consists of an array of RGBQUAD structures.
+ */
+typedef struct tagRGBQUAD {
+    u8 rgbBlue;             /**< Specifies the intensity of blue in the color. */
+    u8 rgbGreen;            /**< Specifies the intensity of green in the color. */
+    u8 rgbRed;              /**< Specifies the intensity of red in the color. */
+    u8 rgbReserved;         /**< Not used; must be set to zero. */
+} RGBQUAD;
+
 //==============================================================================
 // Allow general access to screen and frame information
 //==============================================================================

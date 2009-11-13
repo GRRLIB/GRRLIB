@@ -18,6 +18,7 @@
 #include "gfx/BMfont4.h"
 #include "gfx/BMfont5.h"
 #include "gfx/test_jpg.h"
+#include "gfx/test_bmp.h"
 #include "gfx/ocean.h"
 #include "gfx/frontal.h"
 #include "gfx/sprite.h"
@@ -69,6 +70,7 @@ int main() {
     WPAD_SetDataFormat(WPAD_CHAN_0, WPAD_FMT_BTNS_ACC_IR);
 
     GRRLIB_texImg *tex_test_jpg = GRRLIB_LoadTexture(test_jpg);
+    GRRLIB_texImg *tex_test_bmp = GRRLIB_LoadTextureBMP(test_bmp);
 
     GRRLIB_bytemapFont *bmf_Font1 = GRRLIB_LoadBMF(ocean);
     GRRLIB_bytemapFont *bmf_Font2 = GRRLIB_LoadBMF(frontal);
@@ -106,8 +108,8 @@ int main() {
             case 1:   // Draw images
                 GRRLIB_Printf(5, 25, tex_BMfont2, GRRLIB_WHITE, 1, "IMAGES DEMO");
 
-
-                GRRLIB_DrawImg(10, 50, tex_test_jpg, 0, 1, 1, GRRLIB_WHITE);
+                GRRLIB_DrawImg(10, 50, tex_test_jpg, 0, 1, 1, GRRLIB_WHITE);  // Draw a jpeg
+                GRRLIB_DrawImg(350, 50, tex_test_bmp, 0, 4, 4, GRRLIB_WHITE); // Draw a bitmap
 
                 // Draw a sprite
                 GRRLIB_DrawTile(600, 400, tex_sprite_png, 0, 2, 2, GRRLIB_WHITE, 12*4); // Rupee
@@ -220,6 +222,7 @@ int main() {
     GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
     // Free some textures
     GRRLIB_FreeTexture(tex_test_jpg);
+    GRRLIB_FreeTexture(tex_test_bmp);
     GRRLIB_FreeTexture(tex_sprite_png);
     GRRLIB_FreeTexture(tex_BMfont1);
     GRRLIB_FreeTexture(tex_BMfont2);
