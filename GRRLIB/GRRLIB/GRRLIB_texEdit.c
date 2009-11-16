@@ -74,11 +74,10 @@ void  RawTo4x4RGBA (const u8 *src, void *dst,
 
 /**
  * Load a texture from a buffer.
- * @param my_img The JPEG or PNG buffer to load.
+ * @param my_img The JPEG, PNG or Bitmap buffer to load.
  * @return A GRRLIB_texImg structure filled with image information.
  */
 GRRLIB_texImg*  GRRLIB_LoadTexture (const u8 my_img[]) {
-    // Check for jpeg signature
     if (my_img[0]==0xFF && my_img[1]==0xD8 && my_img[2]==0xFF)
         return (GRRLIB_LoadTextureJPG(my_img));
     else if (my_img[0]=='B' && my_img[1]=='M')
@@ -102,13 +101,19 @@ GRRLIB_texImg*  GRRLIB_LoadTexturePNG (const u8 *my_png) {
         PNGU_GetImageProperties(ctx, &imgProp);
         my_texture->data = memalign(32, imgProp.imgWidth * imgProp.imgHeight * 4);
         if(my_texture->data != NULL) {
-            PNGU_DecodeTo4x4RGBA8(ctx, imgProp.imgWidth, imgProp.imgHeight, my_texture->data, 255);
-            PNGU_ReleaseImageContext(ctx);
-            my_texture->w = imgProp.imgWidth;
-            my_texture->h = imgProp.imgHeight;
-            GRRLIB_SetHandle( my_texture, 0, 0 );
-            GRRLIB_FlushTex( my_texture );
+            if(PNGU_DecodeTo4x4RGBA8(ctx, imgProp.imgWidth, imgProp.imgHeight, my_texture->data, 255) == PNGU_OK) {
+                my_texture->w = imgProp.imgWidth;
+                my_texture->h = imgProp.imgHeight;
+                GRRLIB_SetHandle( my_texture, 0, 0 );
+                GRRLIB_FlushTex( my_texture );
+            }
+            else
+            {
+                free(my_texture->data);
+                my_texture->data = NULL;
+            }
         }
+        PNGU_ReleaseImageContext(ctx);
     }
     return my_texture;
 }
@@ -134,7 +139,7 @@ static RGBQUAD*  GRRLIB_CreatePalette (const u8 *my_bmp, u32 Size) {
 
 /**
  * Load a texture from a buffer.
- * It only works for the MS-Windows standard format uncompressed (1 bit, 4 bits, 8 bits, 24 bits and 32 bits).
+ * It only works for the MS-Windows standard format uncompressed (1-bit, 4-bit, 8-bit, 24-bit and 32-bit).
  * @param my_bmp the Bitmap buffer to load.
  * @return A GRRLIB_texImg structure filled with image information.
  */
