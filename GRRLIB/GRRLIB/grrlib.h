@@ -268,4 +268,9 @@ GRR_EXTERN  u32         fb       GRR_INIT(0);
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
+ *
+ * @example template/main.c
+ * This example shows the minimum code required to use GRRLIB.
+ * It could be used as a template to start a new project.
+ * More elaborate examples can be found inside the \e examples folder.
  */
