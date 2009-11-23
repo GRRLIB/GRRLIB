@@ -12,7 +12,7 @@ ifeq ($(strip $(DEVKITPRO)),)
 endif
 
 #-------------------------------------------------------------------------------
-# Applicatin will be named after this directory
+# Application will be named after this directory
 #-------------------------------------------------------------------------------
 APP := $(notdir $(CURDIR))
 ELF := $(APP).elf

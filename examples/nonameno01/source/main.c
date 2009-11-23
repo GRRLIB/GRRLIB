@@ -19,7 +19,7 @@ int main() {
 
     guVector ln[4];
     guVector d[4];
-    float xt ,yt, zt;
+    float xt, yt, zt;
     int i;
     float a=0.0, b=0.0;
     float c=2;
@@ -35,7 +35,7 @@ int main() {
 
         a+=0.04;
         b+=0.02;
-        for(i=0;i<4;i++){
+        for(i=0;i<4;i++) {
             xt=l[i].x*cos(a)-l[i].z*sin(a);
             yt=l[i].y;
             zt=l[i].x*sin(a)+l[i].z*cos(a);
