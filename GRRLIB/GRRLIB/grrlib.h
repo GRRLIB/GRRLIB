@@ -95,6 +95,14 @@ typedef  enum GRRLIB_blendMode {
 typedef  struct GRRLIB_drawSettings {
     bool              antialias;    /**< AntiAlias is enabled when set to true. */
     GRRLIB_blendMode  blend;        /**< Blending Mode.                         */
+    u8                colorR;       /**< Red component of color.                */
+    u8                colorG;       /**< Green component of color.              */
+    u8                colorB;       /**< Blue component of color.               */
+    u8                colorA;       /**< Alpha component of color.              */
+    u32               colorRGBA;    /**< Color in RGBA.                         */
+    f32               rotation;     /**< Angle of rotation in degrees.          */
+    f32               scaleX;       /**< Horizontal scale.                      */
+    f32               scaleY;       /**< Vertical scale.                        */
 } GRRLIB_drawSettings;
 
 //------------------------------------------------------------------------------

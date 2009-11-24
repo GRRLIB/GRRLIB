@@ -149,6 +149,7 @@ int  GRRLIB_Init (void) {
     GRRLIB_ClipReset();
 
     // Default settings
+    GRRLIB_ResetSettings();
     GRRLIB_Settings.antialias = true;
     GRRLIB_Settings.blend     = GRRLIB_BLEND_ALPHA;
 

@@ -20,6 +20,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ------------------------------------------------------------------------------*/
 
+extern  GRRLIB_drawSettings  GRRLIB_Settings;
+
+
 /**
  * @file GRRLIB_fbSimple.h
  * Inline functions for primitive point and line drawing.
@@ -31,23 +34,23 @@ THE SOFTWARE.
  */
 INLINE
 void  GRRLIB_FillScreen (const u32 color) {
-    GRRLIB_Rectangle(-40, -40,
-                     rmode->fbWidth +80, rmode->xfbHeight +80,
-                     color, 1);
+	u32 tmpColor = GRRLIB_Settings.colorRGBA;
+	GRRLIB_SetColorRGBA(color);
+    GRRLIB_Rectangle(-40, -40, rmode->fbWidth +80, rmode->xfbHeight +80, 1);
+    GRRLIB_SetColorRGBA(tmpColor);
 }
 
 /**
  * Draw a dot.
  * @param x Specifies the x-coordinate of the dot.
  * @param y Specifies the y-coordinate of the dot.
- * @param color The color of the dot in RGBA format.
  * @author Jespa
  */
 INLINE
-void  GRRLIB_Plot (const f32 x,  const f32 y,  const u32 color) {
+void  GRRLIB_Plot (const f32 x,  const f32 y) {
     GX_Begin(GX_POINTS, GX_VTXFMT0, 1);
         GX_Position3f32(x, y, 0);
-        GX_Color1u32(color);
+        GX_Color1u32(GRRLIB_Settings.colorRGBA);
     GX_End();
 }
 
@@ -57,17 +60,16 @@ void  GRRLIB_Plot (const f32 x,  const f32 y,  const u32 color) {
  * @param y1 Starting point for line for the y coordinate.
  * @param x2 Ending point for line for the x coordinate.
  * @param y2 Ending point for line for the x coordinate.
- * @param color Line color in RGBA format.
  * @author JESPA
  */
 INLINE
 void  GRRLIB_Line (const f32 x1, const f32 y1,
-                   const f32 x2, const f32 y2, const u32 color) {
+                   const f32 x2, const f32 y2) {
     GX_Begin(GX_LINES, GX_VTXFMT0, 2);
         GX_Position3f32(x1, y1, 0);
-        GX_Color1u32(color);
+        GX_Color1u32(GRRLIB_Settings.colorRGBA);
         GX_Position3f32(x2, y2, 0);
-        GX_Color1u32(color);
+        GX_Color1u32(GRRLIB_Settings.colorRGBA);
     GX_End();
 }
 
@@ -77,15 +79,20 @@ void  GRRLIB_Line (const f32 x1, const f32 y1,
  * @param y Specifies the y-coordinate of the upper-left corner of the rectangle.
  * @param width The width of the rectangle.
  * @param height The height of the rectangle.
- * @param color The color of the rectangle in RGBA format.
  * @param filled Set to true to fill the rectangle.
  */
 INLINE
 void  GRRLIB_Rectangle (const f32 x,      const f32 y,
                         const f32 width,  const f32 height,
-                        const u32 color,  const u8 filled) {
-    f32 x2 = x + width;
-    f32 y2 = y + height;
+                        const u8 filled) {
+    
+    // Get current drawing settings.
+	u32 color = GRRLIB_Settings.colorRGBA;
+	f32 scaleX = GRRLIB_Settings.scaleX;
+	f32 scaleY = GRRLIB_Settings.scaleY;
+	
+    f32 x2 = x + width * scaleX;
+    f32 y2 = y + height * scaleY;
 
     if (filled) {
         GX_Begin(GX_QUADS, GX_VTXFMT0, 4);

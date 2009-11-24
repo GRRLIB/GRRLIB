@@ -34,14 +34,8 @@ static  guVector  axis = (guVector){0, 0, 1};
  * @param xpos Specifies the x-coordinate of the upper-left corner.
  * @param ypos Specifies the y-coordinate of the upper-left corner.
  * @param tex The texture to draw.
- * @param degrees Angle of rotation.
- * @param scaleX Specifies the x-coordinate scale. -1 could be used for flipping the texture horizontally.
- * @param scaleY Specifies the y-coordinate scale. -1 could be used for flipping the texture vertically.
- * @param color Color in RGBA format.
  */
-void  GRRLIB_DrawImg (const f32 xpos, const f32 ypos, const GRRLIB_texImg *tex,
-                      const f32 degrees, const f32 scaleX, const f32 scaleY,
-                      const u32 color) {
+void  GRRLIB_DrawImg (const f32 xpos, const f32 ypos, const GRRLIB_texImg *tex) {
     GXTexObj  texObj;
     u16       width, height;
     Mtx       m, m1, m2, mv;
@@ -58,6 +52,12 @@ void  GRRLIB_DrawImg (const f32 xpos, const f32 ypos, const GRRLIB_texImg *tex,
     GX_LoadTexObj(&texObj,      GX_TEXMAP0);
     GX_SetTevOp  (GX_TEVSTAGE0, GX_MODULATE);
     GX_SetVtxDesc(GX_VA_TEX0,   GX_DIRECT);
+
+	// Get current drawing settings.
+	u32 color = GRRLIB_Settings.colorRGBA;
+	f32 degrees = GRRLIB_Settings.rotation;
+	f32 scaleX = GRRLIB_Settings.scaleX;
+	f32 scaleY = GRRLIB_Settings.scaleY;
 
     guMtxIdentity  (m1);
     guMtxScaleApply(m1, m1, scaleX, scaleY, 1.0);
@@ -105,10 +105,8 @@ void  GRRLIB_DrawImg (const f32 xpos, const f32 ypos, const GRRLIB_texImg *tex,
  * Draw a textured quad.
  * @param pos Vector array of the 4 points.
  * @param tex The texture to draw.
- * @param color Color in RGBA format.
  */
-void  GRRLIB_DrawImgQuad (const guVector pos[4], GRRLIB_texImg *tex,
-                          const u32 color) {
+void  GRRLIB_DrawImgQuad (const guVector pos[4], GRRLIB_texImg *tex) {
     GXTexObj  texObj;
     Mtx       m, m1, m2, mv;
 
@@ -124,6 +122,9 @@ void  GRRLIB_DrawImgQuad (const guVector pos[4], GRRLIB_texImg *tex,
     GX_LoadTexObj(&texObj,      GX_TEXMAP0);
     GX_SetTevOp  (GX_TEVSTAGE0, GX_MODULATE);
     GX_SetVtxDesc(GX_VA_TEX0,   GX_DIRECT);
+
+	// Get current drawing settings.
+	u32 color = GRRLIB_Settings.colorRGBA;
 
     guMtxIdentity  (m1);
     guMtxScaleApply(m1, m1, 1, 1, 1.0);
@@ -160,15 +161,9 @@ void  GRRLIB_DrawImgQuad (const guVector pos[4], GRRLIB_texImg *tex,
  * @param xpos Specifies the x-coordinate of the upper-left corner.
  * @param ypos Specifies the y-coordinate of the upper-left corner.
  * @param tex The texture containing the tile to draw.
- * @param degrees Angle of rotation.
- * @param scaleX Specifies the x-coordinate scale. -1 could be used for flipping the texture horizontally.
- * @param scaleY Specifies the y-coordinate scale. -1 could be used for flipping the texture vertically.
- * @param color Color in RGBA format.
  * @param frame Specifies the frame to draw.
  */
-void  GRRLIB_DrawTile (const f32 xpos, const f32 ypos, const GRRLIB_texImg *tex,
-                       const f32 degrees, const f32 scaleX, const f32 scaleY,
-                       const u32 color, const int frame) {
+void  GRRLIB_DrawTile (const f32 xpos, const f32 ypos, const GRRLIB_texImg *tex, const int frame) {
     GXTexObj  texObj;
     f32       width, height;
     Mtx       m, m1, m2, mv;
@@ -196,6 +191,12 @@ void  GRRLIB_DrawTile (const f32 xpos, const f32 ypos, const GRRLIB_texImg *tex,
 
     width  = tex->tilew * 0.5f;
     height = tex->tileh * 0.5f;
+
+	// Get current drawing settings.
+	u32 color = GRRLIB_Settings.colorRGBA;
+	f32 degrees = GRRLIB_Settings.rotation;
+	f32 scaleX = GRRLIB_Settings.scaleX;
+	f32 scaleY = GRRLIB_Settings.scaleY;
 
     guMtxIdentity  (m1);
     guMtxScaleApply(m1, m1, scaleX, scaleY, 1.0f);
@@ -246,15 +247,9 @@ void  GRRLIB_DrawTile (const f32 xpos, const f32 ypos, const GRRLIB_texImg *tex,
  * @param partw Specifies the width in the texture.
  * @param parth Specifies the height in the texture.
  * @param tex The texture containing the tile to draw.
- * @param degrees Angle of rotation.
- * @param scaleX Specifies the x-coordinate scale. -1 could be used for flipping the texture horizontally.
- * @param scaleY Specifies the y-coordinate scale. -1 could be used for flipping the texture vertically.
- * @param color Color in RGBA format.
  */
 void  GRRLIB_DrawPart (const f32 xpos, const f32 ypos, const f32 partx, const f32 party,
-                       const f32 partw, const f32 parth, const GRRLIB_texImg *tex,
-                       const f32 degrees, const f32 scaleX, const f32 scaleY,
-                       const u32 color) {
+                       const f32 partw, const f32 parth, const GRRLIB_texImg *tex) {
     GXTexObj  texObj;
     f32       width, height;
     Mtx       m, m1, m2, mv;
@@ -275,6 +270,12 @@ void  GRRLIB_DrawPart (const f32 xpos, const f32 ypos, const f32 partx, const f3
     if (GRRLIB_Settings.antialias == false)
         GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR,
                          0.0f, 0.0f, 0.0f, 0, 0, GX_ANISO_1);
+
+	// Get current drawing settings.
+	u32 color = GRRLIB_Settings.colorRGBA;
+	f32 degrees = GRRLIB_Settings.rotation;
+	f32 scaleX = GRRLIB_Settings.scaleX;
+	f32 scaleY = GRRLIB_Settings.scaleY;
 
     GX_LoadTexObj(&texObj,      GX_TEXMAP0);
     GX_SetTevOp  (GX_TEVSTAGE0, GX_MODULATE);
@@ -327,11 +328,9 @@ void  GRRLIB_DrawPart (const f32 xpos, const f32 ypos, const f32 partx, const f3
  * Draw a tile in a quad.
  * @param pos Vector array of the 4 points.
  * @param tex The texture to draw.
- * @param color Color in RGBA format.
  * @param frame Specifies the frame to draw.
  */
-void  GRRLIB_DrawTileQuad (const guVector pos[4], GRRLIB_texImg *tex,
-                           const u32 color, const int frame) {
+void  GRRLIB_DrawTileQuad (const guVector pos[4], GRRLIB_texImg *tex, const int frame) {
     GXTexObj  texObj;
     Mtx       m, m1, m2, mv;
     f32       s1, s2, t1, t2;
@@ -355,6 +354,9 @@ void  GRRLIB_DrawTileQuad (const guVector pos[4], GRRLIB_texImg *tex,
     GX_LoadTexObj(&texObj,      GX_TEXMAP0);
     GX_SetTevOp  (GX_TEVSTAGE0, GX_MODULATE);
     GX_SetVtxDesc(GX_VA_TEX0,   GX_DIRECT);
+
+	// Get current drawing settings.
+	u32 color = GRRLIB_Settings.colorRGBA;
 
     guMtxIdentity  (m1);
     guMtxScaleApply(m1, m1, 1, 1, 1.0f);

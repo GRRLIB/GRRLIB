@@ -91,8 +91,8 @@ bool            GRRLIB_ScrShot             (const char* filename) ;
 //------------------------------------------------------------------------------
 //! GRRLIB_print.c - Will someome please tell me what these are :)
 void  GRRLIB_Printf   (const f32 xpos, const f32 ypos,
-                       const GRRLIB_texImg *tex, const u32 color,
-                       const f32 zoom, const char *text, ...) ;
+                       const GRRLIB_texImg *tex, 
+                       const char *text, ...) ;
 
 void  GRRLIB_PrintBMF (const f32 xpos, const f32 ypos,
                        const GRRLIB_bytemapFont *bmf,
@@ -100,25 +100,19 @@ void  GRRLIB_PrintBMF (const f32 xpos, const f32 ypos,
 
 //------------------------------------------------------------------------------
 // GRRLIB_render.c - Rendering functions
-void  GRRLIB_DrawImg  (const f32 xpos, const f32 ypos, const GRRLIB_texImg *tex,
-                       const f32 degrees, const f32 scaleX, const f32 scaleY,
-                       const u32 color) ;
+void  GRRLIB_DrawImg  (const f32 xpos, const f32 ypos, const GRRLIB_texImg *tex) ;
 
-void  GRRLIB_DrawImgQuad  (const guVector pos[4], GRRLIB_texImg *tex,
-                           const u32 color) ;
+void  GRRLIB_DrawImgQuad  (const guVector pos[4], GRRLIB_texImg *tex) ;
 
 void  GRRLIB_DrawTile (const f32 xpos, const f32 ypos, const GRRLIB_texImg *tex,
-                       const f32 degrees, const f32 scaleX, const f32 scaleY,
-                       const u32 color, const int frame) ;
+                       const int frame) ;
 
-void  GRRLIB_DrawPart (const f32 xpos, const f32 ypos, const f32 partx, const f32 party, const f32 partw, const f32 parth, const GRRLIB_texImg *tex,
-                       const f32 degrees, const f32 scaleX, const f32 scaleY,
-                       const u32 color);
+void  GRRLIB_DrawPart (const f32 xpos, const f32 ypos, const f32 partx, const f32 party,
+                       const f32 partw, const f32 parth, const GRRLIB_texImg *tex);
 
-void  GRRLIB_DrawTileQuad (const guVector pos[4], GRRLIB_texImg *tex,
-                           const u32 color, const int frame) ;
+void  GRRLIB_DrawTileQuad (const guVector pos[4], GRRLIB_texImg *tex, const int frame) ;
 
-void  GRRLIB_Render   (void) ;
+void  GRRLIB_Render  (void) ;
 
 //------------------------------------------------------------------------------
 // GRRLIB_snapshot.c - Create a texture containing a snapshot of a part of the framebuffer
