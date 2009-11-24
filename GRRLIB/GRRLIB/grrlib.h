@@ -216,7 +216,7 @@ GRR_EXTERN  u32         fb       GRR_INIT(0);
 #  define INLINE
 #else
 # if __GNUC__ && !__GNUC_STDC_INLINE__
-#  define INLINE extern inline
+#  define INLINE static inline
 # else
 #  define INLINE inline
 # endif
