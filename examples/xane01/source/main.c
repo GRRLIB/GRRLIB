@@ -85,33 +85,37 @@ int main() {
 		SY = 240 + (cos(DegToRad(Step*3)) * 100);
 
 		// Draw Stage
-		GRRLIB_DrawImg( 0, 0, GFX_Background, 0, 1, 1, GRRLIB_GetColor(255, 255, 255, 255) );
+		GRRLIB_SetColorRGBA(RGBA(255, 255, 255, 255));
+		GRRLIB_DrawImg( 0, 0, GFX_Background );
 		GRRLIB_SetBlend( (Blending+1) ); Color = 255;
 		switch (Stage) {
 			case 2: Color = 160; break;
 			case 3: Color = 128; break;
 			case 4: Color = 64;  break;
 		}
-		GRRLIB_DrawImg( SX, SY, GFX_Blob[BlobType], 0, 1, 1, GRRLIB_GetColor(Color, Color, Color, 255) );
+		GRRLIB_SetColorRGBA(RGBA(Color, Color, Color, 255));
+		GRRLIB_DrawImg( SX, SY, GFX_Blob[BlobType] );
 
 		// IR Pointer
 		if (P1Mote.state == 1) {
-			GRRLIB_DrawImg( P1MX, P1MY, GFX_Blob[BlobType], 0, 1, 1, GRRLIB_GetColor(Color, Color, Color, 255) );
+			GRRLIB_DrawImg( P1MX, P1MY, GFX_Blob[BlobType] );
 		}
 
 		// Draw Text
 		GRRLIB_SetBlend ( GRRLIB_BLEND_ALPHA );
-		GRRLIB_Rectangle( 28, 28, 480 + 16, 76, GRRLIB_GetColor(0, 0, 0, 160), 1 );
-		GRRLIB_Printf   ( 32, 32, GFX_Font, 0xFFFFFFFF, 1, "Point your WiiMote on the screen." );
-		GRRLIB_Printf   ( 32, 48, GFX_Font, 0xFFFFFFFF, 1, "Press LEFT and RIGHT to switch through the different stages." );
-		GRRLIB_Printf   ( 32, 64, GFX_Font, 0xFFFFFFFF, 1, "Press A to change the blob sprite." );
+		GRRLIB_SetColorRGBA( RGBA(0, 0, 0, 160) );
+		GRRLIB_Rectangle( 28, 28, 480 + 16, 76, 1 );
+		GRRLIB_SetColorRGBA(0xFFFFFFFF);
+		GRRLIB_Printf   ( 32, 32, GFX_Font, "Point your WiiMote on the screen." );
+		GRRLIB_Printf   ( 32, 48, GFX_Font, "Press LEFT and RIGHT to switch through the different stages." );
+		GRRLIB_Printf   ( 32, 64, GFX_Font, "Press A to change the blob sprite." );
 		switch (Stage) {
-			case 0: GRRLIB_Printf( 32, 88, GFX_Font, 0xFFFFFFFF, 1, "Stage 1: Additive Blending" );       Blending = 0; break;
-			case 1: GRRLIB_Printf( 32, 88, GFX_Font, 0xFFFFFFFF, 1, "Stage 2: Alpha Light Blending" );    Blending = 1; break;
-			case 2: GRRLIB_Printf( 32, 88, GFX_Font, 0xFFFFFFFF, 1, "Stage 3: Multiply Blending (75%)" ); Blending = 2; break;
-			case 3: GRRLIB_Printf( 32, 88, GFX_Font, 0xFFFFFFFF, 1, "Stage 4: Multiply Blending (50%)" ); Blending = 2; break;
-			case 4: GRRLIB_Printf( 32, 88, GFX_Font, 0xFFFFFFFF, 1, "Stage 5: Multiply Blending (25%)" ); Blending = 2; break;
-			case 5: GRRLIB_Printf( 32, 88, GFX_Font, 0xFFFFFFFF, 1, "Stage 6: Invert Color Blending" );   Blending = 3; break;
+			case 0: GRRLIB_Printf( 32, 88, GFX_Font, "Stage 1: Additive Blending" );       Blending = 0; break;
+			case 1: GRRLIB_Printf( 32, 88, GFX_Font, "Stage 2: Alpha Light Blending" );    Blending = 1; break;
+			case 2: GRRLIB_Printf( 32, 88, GFX_Font, "Stage 3: Multiply Blending (75%)" ); Blending = 2; break;
+			case 3: GRRLIB_Printf( 32, 88, GFX_Font, "Stage 4: Multiply Blending (50%)" ); Blending = 2; break;
+			case 4: GRRLIB_Printf( 32, 88, GFX_Font, "Stage 5: Multiply Blending (25%)" ); Blending = 2; break;
+			case 5: GRRLIB_Printf( 32, 88, GFX_Font, "Stage 6: Invert Color Blending" );   Blending = 3; break;
 		}
 
         GRRLIB_Render();

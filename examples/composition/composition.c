@@ -84,20 +84,22 @@ void  test_compose(void)
     GRRLIB_FillScreen(0x000000FF);
 
     // Draw frame
-    GRRLIB_Rectangle(38,38,404,404,0x808080FF,false);
-    GRRLIB_Rectangle(39,39,402,402,0x808080FF,false);
+    GRRLIB_SetColorRGBA(0x808080FF);
+    GRRLIB_Rectangle(38,38,404,404,false);
+    GRRLIB_Rectangle(39,39,402,402,false);
 
     // Draw Test bar
-    GRRLIB_Rectangle(283,50,20,380,0xFFFFFFFF, true);
+    GRRLIB_SetColorRGBA(0xFFFFFFFF);
+    GRRLIB_Rectangle(283,50,20,380, true);
 
     // Draw Composed Canvas
-    GRRLIB_DrawImg(40,40, cnv,0.0, 1.0,1.0, 0xFFFFFFFF);
+    GRRLIB_DrawImg(40,40, cnv);
 
     // Test card (alpha performed by Wii)
-    GRRLIB_Rectangle(570,50,20,450,0xFFFFFFFF, true);
-    GRRLIB_DrawImg(450, 65, red,0.0, 1.0,1.0, 0xFFFFFFFF);
-    GRRLIB_DrawImg(450,165, blu,0.0, 1.0,1.0, 0xFFFFFFFF);
-    GRRLIB_DrawImg(450,265, red,0.0, 1.0,1.0, 0xFFFFFFFF);
+    GRRLIB_Rectangle(570,50,20,450, true);
+    GRRLIB_DrawImg(450, 65, red);
+    GRRLIB_DrawImg(450,165, blu);
+    GRRLIB_DrawImg(450,265, red);
 
     // Draw it [and workaround bug in GRRLIB]
     GRRLIB_Render();
