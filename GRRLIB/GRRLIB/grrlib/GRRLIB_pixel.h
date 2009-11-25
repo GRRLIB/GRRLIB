@@ -66,19 +66,6 @@ void  GRRLIB_SetPixelTotexImg (const int x, const int y,
 }
 
 /**
- * Converts RGBA values to u32 color.
- * @param r Amount of red (0 - 255).
- * @param g Amount of green (0 - 255).
- * @param b Amount of blue (0 - 255).
- * @param a Amount of alpha (0 - 255).
- * @return Returns the color in u32 format.
- */
-INLINE
-u32  GRRLIB_GetColor (const u8 r, const u8 g, const u8 b, const u8 a) {
-    return (r << 24) | (g << 16) | (b << 8) | a;
-}
-
-/**
  * Reads a pixel directly from the FrontBuffer.
  * Since the FB is stored in YCbCr,
  * @param x The x-coordinate within the FB.

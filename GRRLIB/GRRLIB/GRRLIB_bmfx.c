@@ -105,7 +105,7 @@ void  GRRLIB_BMFX_Sepia (const GRRLIB_texImg *texsrc, GRRLIB_texImg *texdest) {
             sb = R(color)*0.272 + G(color)*0.534 + B(color)*0.131;
             if (sr>255) sr=255;  if (sg>255) sg=255;  if (sb>255) sb=255;
             GRRLIB_SetPixelTotexImg(x, y, texdest,
-                                    GRRLIB_GetColor(sr,sg,sb,A(color)));
+                                    RGBA(sr,sg,sb,A(color)));
         }
     }
     GRRLIB_SetHandle(texdest, 0, 0);
