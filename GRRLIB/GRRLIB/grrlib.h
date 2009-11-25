@@ -66,14 +66,6 @@ typedef  unsigned int  uint;
 // typedefs, enumerators & structs
 //==============================================================================
 /**
- * Compositions Modes.
- */
-typedef  enum Composition_Modes {
-    GRRLIB_COMPOSE_NORMAL,      /**< NORMAL : a-over-b alpha composition (normal) */
-} GRRLIB_ComposeMode;
-
-//------------------------------------------------------------------------------
-/**
  * GRRLIB Blending Modes.
  */
 typedef  enum GRRLIB_blendMode {
