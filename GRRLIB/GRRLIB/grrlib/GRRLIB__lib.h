@@ -91,7 +91,7 @@ bool            GRRLIB_ScrShot             (const char* filename) ;
 //------------------------------------------------------------------------------
 //! GRRLIB_print.c - Will someome please tell me what these are :)
 void  GRRLIB_Printf   (const f32 xpos, const f32 ypos,
-                       const GRRLIB_texImg *tex, 
+                       const GRRLIB_texImg *tex,
                        const char *text, ...) ;
 
 void  GRRLIB_PrintBMF (const f32 xpos, const f32 ypos,

@@ -102,10 +102,10 @@ void  GRRLIB_SetColor (const u8 r, const u8 g, const u8 b) {
  */
 INLINE
 void  GRRLIB_SetColorRGBA (const u32 color) {
-	GRRLIB_Settings.colorR = R(color);
-	GRRLIB_Settings.colorG = G(color);
-	GRRLIB_Settings.colorB = B(color);
-	GRRLIB_Settings.colorA = A(color);
+    GRRLIB_Settings.colorR = R(color);
+    GRRLIB_Settings.colorG = G(color);
+    GRRLIB_Settings.colorB = B(color);
+    GRRLIB_Settings.colorA = A(color);
     GRRLIB_Settings.colorRGBA = color;
 }
 

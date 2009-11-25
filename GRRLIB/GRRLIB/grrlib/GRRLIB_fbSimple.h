@@ -34,8 +34,8 @@ extern  GRRLIB_drawSettings  GRRLIB_Settings;
  */
 INLINE
 void  GRRLIB_FillScreen (const u32 color) {
-	u32 tmpColor = GRRLIB_Settings.colorRGBA;
-	GRRLIB_SetColorRGBA(color);
+    u32 tmpColor = GRRLIB_Settings.colorRGBA;
+    GRRLIB_SetColorRGBA(color);
     GRRLIB_Rectangle(-40, -40, rmode->fbWidth +80, rmode->xfbHeight +80, 1);
     GRRLIB_SetColorRGBA(tmpColor);
 }
@@ -85,12 +85,12 @@ INLINE
 void  GRRLIB_Rectangle (const f32 x,      const f32 y,
                         const f32 width,  const f32 height,
                         const u8 filled) {
-    
+
     // Get current drawing settings.
-	u32 color = GRRLIB_Settings.colorRGBA;
-	f32 scaleX = GRRLIB_Settings.scaleX;
-	f32 scaleY = GRRLIB_Settings.scaleY;
-	
+    u32 color = GRRLIB_Settings.colorRGBA;
+    f32 scaleX = GRRLIB_Settings.scaleX;
+    f32 scaleY = GRRLIB_Settings.scaleY;
+
     f32 x2 = x + width * scaleX;
     f32 y2 = y + height * scaleY;
 

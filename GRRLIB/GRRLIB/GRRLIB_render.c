@@ -53,11 +53,11 @@ void  GRRLIB_DrawImg (const f32 xpos, const f32 ypos, const GRRLIB_texImg *tex) 
     GX_SetTevOp  (GX_TEVSTAGE0, GX_MODULATE);
     GX_SetVtxDesc(GX_VA_TEX0,   GX_DIRECT);
 
-	// Get current drawing settings.
-	u32 color = GRRLIB_Settings.colorRGBA;
-	f32 degrees = GRRLIB_Settings.rotation;
-	f32 scaleX = GRRLIB_Settings.scaleX;
-	f32 scaleY = GRRLIB_Settings.scaleY;
+    // Get current drawing settings.
+    u32 color = GRRLIB_Settings.colorRGBA;
+    f32 degrees = GRRLIB_Settings.rotation;
+    f32 scaleX = GRRLIB_Settings.scaleX;
+    f32 scaleY = GRRLIB_Settings.scaleY;
 
     guMtxIdentity  (m1);
     guMtxScaleApply(m1, m1, scaleX, scaleY, 1.0);
@@ -123,8 +123,8 @@ void  GRRLIB_DrawImgQuad (const guVector pos[4], GRRLIB_texImg *tex) {
     GX_SetTevOp  (GX_TEVSTAGE0, GX_MODULATE);
     GX_SetVtxDesc(GX_VA_TEX0,   GX_DIRECT);
 
-	// Get current drawing settings.
-	u32 color = GRRLIB_Settings.colorRGBA;
+    // Get current drawing settings.
+    u32 color = GRRLIB_Settings.colorRGBA;
 
     guMtxIdentity  (m1);
     guMtxScaleApply(m1, m1, 1, 1, 1.0);
@@ -192,11 +192,11 @@ void  GRRLIB_DrawTile (const f32 xpos, const f32 ypos, const GRRLIB_texImg *tex,
     width  = tex->tilew * 0.5f;
     height = tex->tileh * 0.5f;
 
-	// Get current drawing settings.
-	u32 color = GRRLIB_Settings.colorRGBA;
-	f32 degrees = GRRLIB_Settings.rotation;
-	f32 scaleX = GRRLIB_Settings.scaleX;
-	f32 scaleY = GRRLIB_Settings.scaleY;
+    // Get current drawing settings.
+    u32 color = GRRLIB_Settings.colorRGBA;
+    f32 degrees = GRRLIB_Settings.rotation;
+    f32 scaleX = GRRLIB_Settings.scaleX;
+    f32 scaleY = GRRLIB_Settings.scaleY;
 
     guMtxIdentity  (m1);
     guMtxScaleApply(m1, m1, scaleX, scaleY, 1.0f);
@@ -271,11 +271,11 @@ void  GRRLIB_DrawPart (const f32 xpos, const f32 ypos, const f32 partx, const f3
         GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR,
                          0.0f, 0.0f, 0.0f, 0, 0, GX_ANISO_1);
 
-	// Get current drawing settings.
-	u32 color = GRRLIB_Settings.colorRGBA;
-	f32 degrees = GRRLIB_Settings.rotation;
-	f32 scaleX = GRRLIB_Settings.scaleX;
-	f32 scaleY = GRRLIB_Settings.scaleY;
+    // Get current drawing settings.
+    u32 color = GRRLIB_Settings.colorRGBA;
+    f32 degrees = GRRLIB_Settings.rotation;
+    f32 scaleX = GRRLIB_Settings.scaleX;
+    f32 scaleY = GRRLIB_Settings.scaleY;
 
     GX_LoadTexObj(&texObj,      GX_TEXMAP0);
     GX_SetTevOp  (GX_TEVSTAGE0, GX_MODULATE);
@@ -355,8 +355,8 @@ void  GRRLIB_DrawTileQuad (const guVector pos[4], GRRLIB_texImg *tex, const int 
     GX_SetTevOp  (GX_TEVSTAGE0, GX_MODULATE);
     GX_SetVtxDesc(GX_VA_TEX0,   GX_DIRECT);
 
-	// Get current drawing settings.
-	u32 color = GRRLIB_Settings.colorRGBA;
+    // Get current drawing settings.
+    u32 color = GRRLIB_Settings.colorRGBA;
 
     guMtxIdentity  (m1);
     guMtxScaleApply(m1, m1, 1, 1, 1.0f);
