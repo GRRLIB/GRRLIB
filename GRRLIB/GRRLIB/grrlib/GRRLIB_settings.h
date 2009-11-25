@@ -111,7 +111,7 @@ void  GRRLIB_SetColorRGBA (const u32 color) {
 
 /**
  * Set global rendering color in RGB-format.
- * @param a Alpha component of color.
+ * @param alpha Alpha component of color.
  */
 INLINE
 void  GRRLIB_SetAlpha (const u32 alpha) {
