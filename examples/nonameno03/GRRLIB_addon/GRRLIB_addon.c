@@ -81,12 +81,12 @@ void GRRLIB_addon_Button(int indice, int x,int y,u32 col, int wpadx, int wpady, 
         }
     }
     else {
-	GRRLIB_SetColorRGBA(0xFFFFFF77);
+        GRRLIB_SetColorRGBA(0xFFFFFF77);
         if((toto[0]=='^') && (toto[1]=='U')) GRRLIB_Printf(x+4, y+2, tex_GRRLIBfont, "%c", 0xa1);
         else if((toto[0]=='^') && (toto[1]=='D')) GRRLIB_Printf(x+4, y+2, tex_GRRLIBfont, "%c", 0xa2);
         else if((toto[0]=='^') && (toto[1]=='L')) GRRLIB_Printf(x+4, y+2, tex_GRRLIBfont, "%c", 0xa3);
         else if((toto[0]=='^') && (toto[1]=='R')) GRRLIB_Printf(x+4, y+2, tex_GRRLIBfont, "%c", 0xa4);
         else GRRLIB_Printf(x+4, y+2, tex_GRRLIBfont, toto);
-	GRRLIB_SetColorRGBA(0xFFFFFFFF);
+        GRRLIB_SetColorRGBA(0xFFFFFFFF);
     }
 }

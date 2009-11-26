@@ -37,29 +37,27 @@ int main() {
         WPAD_ScanPads();
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) exit(0);
 
-	GRRLIB_CompoStart ();	
-	  GRRLIB_SetAlpha(0xff);
-	  for(i=0;i<360;i+=30){
-		GRRLIB_Settings.rotation= i+rot;
-		GRRLIB_DrawTile((rmode->fbWidth/2)-(tex_font->tilew/2), (rmode->efbHeight/2)-(tex_font->tileh+circsize),tex_font,65-32+((int)i/45));
-	  }
-	GRRLIB_CompoEnd(0, 0, tex_screen);
+        GRRLIB_CompoStart();
+            GRRLIB_SetAlpha(0xff);
+            for(i=0;i<360;i+=30) {
+                GRRLIB_Settings.rotation= i+rot;
+                GRRLIB_DrawTile((rmode->fbWidth/2)-(tex_font->tilew/2), (rmode->efbHeight/2)-(tex_font->tileh+circsize), tex_font, 65-32+((int)i/45));
+            }
+        GRRLIB_CompoEnd(0, 0, tex_screen);
 
-	GRRLIB_Settings.rotation=0;
-	rot-=0.6;
+        GRRLIB_Settings.rotation=0;
+        rot-=0.6;
 
-	
-	GRRLIB_SetAlpha(0xff);
-	GRRLIB_DrawImg(50, 50,tex_screen);
-	GRRLIB_SetAlpha(0xFF);
-	GRRLIB_DrawImg(100, 100,tex_screen);
+        GRRLIB_SetAlpha(0xFF);
+        GRRLIB_DrawImg(50, 50, tex_screen);
+        GRRLIB_DrawImg(100, 100, tex_screen);
 
         GRRLIB_Render();
     }
 
     GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
-    GRRLIB_FreeTexture(tex_screen);    
-    GRRLIB_FreeTexture(tex_font);    
+    GRRLIB_FreeTexture(tex_screen);
+    GRRLIB_FreeTexture(tex_font);
     exit(0);
 }
 

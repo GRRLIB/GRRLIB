@@ -40,30 +40,30 @@ void  GRRLIB_Screen2Texture (int posx, int posy, GRRLIB_texImg *tex, bool clear)
 }
 
 /**
- * Start GX Compositing Process.
+ * Start GX compositing process.
+ * @see GRRLIB_CompoEnd
  */
 void GRRLIB_CompoStart (void){
-	GX_SetPixelFmt(GX_PF_RGBA6_Z24,GX_ZC_LINEAR);
-        GX_PokeAlphaRead(GX_READ_NONE);
-
+    GX_SetPixelFmt(GX_PF_RGBA6_Z24,GX_ZC_LINEAR);
+    GX_PokeAlphaRead(GX_READ_NONE);
 }
 
 /**
- * End GX Compositing Process (Make a snapshot of the screen in a texture WITH ALPHA LAYER).
+ * End GX compositing process (Make a snapshot of the screen in a texture WITH ALPHA LAYER).
+ * EFB is cleared after this function.
+ * @see GRRLIB_CompoStart
  * @param posx top left corner of the grabbed part.
  * @param posy top left corner of the grabbed part.
  * @param tex A pointer to a texture representing the screen or NULL if an error occurs.
- * @info EFB is cleared after this function.
  */
 void GRRLIB_CompoEnd(int posx, int posy, GRRLIB_texImg *tex){
-	GRRLIB_Screen2Texture(posx, posy, tex, FALSE);
+    GRRLIB_Screen2Texture(posx, posy, tex, FALSE);
 
-        GX_SetTexCopySrc(0, 0, rmode->fbWidth, rmode->efbHeight);
-        GX_SetTexCopyDst(rmode->fbWidth, rmode->efbHeight, GX_TF_RGBA8, GX_FALSE);
-        GX_CopyTex(TrashTex, GX_TRUE);
-        GX_PixModeSync();
-	
-        if (rmode->aa)  GX_SetPixelFmt(GX_PF_RGB565_Z16, GX_ZC_LINEAR) ;
-        else            GX_SetPixelFmt(GX_PF_RGB8_Z24  , GX_ZC_LINEAR) ;
+    GX_SetTexCopySrc(0, 0, rmode->fbWidth, rmode->efbHeight);
+    GX_SetTexCopyDst(rmode->fbWidth, rmode->efbHeight, GX_TF_RGBA8, GX_FALSE);
+    GX_CopyTex(TrashTex, GX_TRUE);
+    GX_PixModeSync();
 
+    if (rmode->aa)  GX_SetPixelFmt(GX_PF_RGB565_Z16, GX_ZC_LINEAR) ;
+    else            GX_SetPixelFmt(GX_PF_RGB8_Z24  , GX_ZC_LINEAR) ;
 }
