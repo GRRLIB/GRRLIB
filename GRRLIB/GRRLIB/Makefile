@@ -8,7 +8,8 @@ ifeq ($(strip $(DEVKITPRO)),)
   $(error "Use   export DEVKITPRO=<path to>devkitPRO   and try again")
 endif
 
-PWD := $(shell pwd)
+NULLSTR :=
+PWD     := $(subst $(NULLSTR) ,\ ,$(shell pwd))
 
 include $(DEVKITPPC)/base_rules
 
