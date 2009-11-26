@@ -11,11 +11,12 @@ endif
 NULLSTR :=
 PWD     := $(subst $(NULLSTR) ,\ ,$(shell pwd))
 
-include $(DEVKITPPC)/base_rules
+PREFIX  := $(DEVKITPPC)/bin/powerpc-eabi-
+CC   := $(PREFIX)gcc
+AR   := $(PREFIX)ar
 
-OGC  := $(DEVKITPRO)/libogc
-INCD := $(OGC)/include
-LIBD := $(OGC)/lib/wii
+INCD := $(DEVKITPRO)/libogc/include
+LIBD := $(DEVKITPRO)/libogc/lib/wii
 
 MACHDEP := -DGEKKO -mrvl -mcpu=750 -meabi -mhard-float
 CFLAGS  := -O2 -Wall $(MACHDEP) -I$(PWD) -I$(INCD)
