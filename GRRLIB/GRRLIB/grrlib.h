@@ -205,7 +205,7 @@ typedef struct tagRGBQUAD {
 GRR_EXTERN  GXRModeObj  *rmode;
 GRR_EXTERN  void        *xfb[2]  GRR_INITS(NULL, NULL);
 GRR_EXTERN  u32         fb       GRR_INIT(0);
-
+GRR_EXTERN  void	*TrashTex;
 //==============================================================================
 // procedure and function prototypes
 // Inline function handling - http://www.greenend.org.uk/rjk/2003/03/inline.html

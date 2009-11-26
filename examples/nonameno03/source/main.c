@@ -44,8 +44,8 @@ int main() {
         GRRLIB_addon_Button(3, 100,180,0x00FFFFFF, wpadx, wpady, WPADDown, WPADHeld, WPAD_BUTTON_A, &resdown, &resheld, " My Third Button ");
         GRRLIB_addon_Button(4, 100,260,0xCCCCCCFF, wpadx, wpady, WPADDown, WPADHeld, WPAD_BUTTON_A, &resdown, &resheld, " -- QuIt -- ");
 
-        GRRLIB_Printf(100, 310, tex_GRRLIBfont, 0xFFFFFFFF, 1, "button down : %d",resdown);
-        GRRLIB_Printf(100, 330, tex_GRRLIBfont, 0xFFFFFFFF, 1, "button held : %d",resheld);
+        GRRLIB_Printf(100, 310, tex_GRRLIBfont, "button down : %d",resdown);
+        GRRLIB_Printf(100, 330, tex_GRRLIBfont, "button held : %d",resheld);
 
         if(resdown==4){
             exit(0);
@@ -53,7 +53,7 @@ int main() {
 
         resdown=0,resheld=0;
 
-        GRRLIB_DrawImg(wpadx-32, wpady-32, tex_pointer , 0, 1, 1, 0xFFFFFFFF );
+        GRRLIB_DrawImg(wpadx-32, wpady-32, tex_pointer);
 
         GRRLIB_Render();
     }
