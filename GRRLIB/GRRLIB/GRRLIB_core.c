@@ -98,6 +98,9 @@ int  GRRLIB_Init (void) {
     // Clear the background to opaque black and clears the z-buffer
     GX_SetCopyClear((GXColor){ 0, 0, 0, 0 }, GX_MAX_Z24);
 
+    if (rmode->aa)  GX_SetPixelFmt(GX_PF_RGB565_Z16, GX_ZC_LINEAR) ;  // Set 16 bit RGB565
+    else            GX_SetPixelFmt(GX_PF_RGB8_Z24  , GX_ZC_LINEAR) ;  // Set 24 bit Z24
+
     // Other GX setup
     yscale    = GX_GetYScaleFactor(rmode->efbHeight, rmode->xfbHeight);
     xfbHeight = GX_SetDispCopyYScale(yscale);
@@ -105,9 +108,6 @@ int  GRRLIB_Init (void) {
     GX_SetDispCopyDst(rmode->fbWidth, xfbHeight);
     GX_SetCopyFilter(rmode->aa, rmode->sample_pattern, GX_TRUE, rmode->vfilter);
     GX_SetFieldMode(rmode->field_rendering, ((rmode->viHeight == 2 * rmode->xfbHeight) ? GX_ENABLE : GX_DISABLE));
-
-    GX_SetPixelFmt(GX_PF_RGBA6_Z24,GX_ZC_LINEAR);
-    GX_PokeAlphaRead(GX_READ_NONE);
 
     GX_SetDispCopyGamma(GX_GM_1_0);
 
