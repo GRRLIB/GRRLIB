@@ -43,8 +43,8 @@ void  GRRLIB_Screen2Texture (int posx, int posy, GRRLIB_texImg *tex, bool clear)
  * Start GX compositing process.
  * @see GRRLIB_CompoEnd
  */
-void GRRLIB_CompoStart (void){
-    GX_SetPixelFmt(GX_PF_RGBA6_Z24,GX_ZC_LINEAR);
+void GRRLIB_CompoStart (void) {
+    GX_SetPixelFmt(GX_PF_RGBA6_Z24, GX_ZC_LINEAR);
     GX_PokeAlphaRead(GX_READ_NONE);
 }
 
@@ -56,7 +56,7 @@ void GRRLIB_CompoStart (void){
  * @param posy top left corner of the grabbed part.
  * @param tex A pointer to a texture representing the screen or NULL if an error occurs.
  */
-void GRRLIB_CompoEnd(int posx, int posy, GRRLIB_texImg *tex){
+void GRRLIB_CompoEnd(int posx, int posy, GRRLIB_texImg *tex) {
     GRRLIB_Screen2Texture(posx, posy, tex, FALSE);
 
     GX_SetTexCopySrc(0, 0, rmode->fbWidth, rmode->efbHeight);

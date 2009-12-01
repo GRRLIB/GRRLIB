@@ -94,9 +94,9 @@ bool  GRRLIB_ScrShot(const char* filename) {
     int     ret = -1;
 
     if ( (pngContext = PNGU_SelectImageFromDevice(filename)) ) {
-        ret = PNGU_EncodeFromYCbYCr( pngContext,
-                                     rmode->fbWidth, rmode->efbHeight,
-                                     xfb[fb], 0 );
+        ret = PNGU_EncodeFromEFB( pngContext,
+                                  rmode->fbWidth, rmode->efbHeight,
+                                  0 );
         PNGU_ReleaseImageContext(pngContext);
     }
     return !ret;
