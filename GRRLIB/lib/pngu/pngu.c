@@ -9,6 +9,7 @@ More info : http://frontier-dev.net
 ********************************************************************************************/
 #include <stdio.h>
 #include <malloc.h>
+#include <ogc/gx.h>
 #include "pngu.h"
 #include "png.h"
 
@@ -823,17 +824,17 @@ int PNGU_EncodeFromEFB (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, PNGU_u32 st
     int x,y,res;
     unsigned char * tmpbuffer = (unsigned char *)malloc(width*height*3);
     memset(tmpbuffer, 0, width*height*3);
-    PNGU_u32 ARGBColor;
+    GXColor peekColor;
 
     for(y=0; y < height; y++)
     {
         for(x=0; x < width; x++)
         {
-            GX_PeekARGB(x, y, &ARGBColor);
+            GX_PeekARGB(x, y, &peekColor);
 
-            tmpbuffer[y*640*3+x*3]   = (((ARGBColor) >>16) & 0xFF); // R
-            tmpbuffer[y*640*3+x*3+1] = (((ARGBColor) >> 8) & 0xFF); // G
-            tmpbuffer[y*640*3+x*3+2] = ( (ARGBColor)       & 0xFF); // B
+            tmpbuffer[y*640*3+x*3]   = peekColor.r; // R
+            tmpbuffer[y*640*3+x*3+1] = peekColor.g; // G
+            tmpbuffer[y*640*3+x*3+2] = peekColor.b; // B
         }
     }
 
