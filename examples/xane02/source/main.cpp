@@ -118,8 +118,7 @@ int main() {
 		P1MY = P1Mote.sy - 150;
 
 		// Drawing Background
-		GRRLIB_SetColorRGBA( RGBA(255, 255, 255, 255) );
-		GRRLIB_DrawImg( 0, 0, GFX_Background );
+		GRRLIB_DrawImg( 0, 0, GFX_Background, 0, 1, 1, RGBA(255, 255, 255, 255) );
 
 		// Add any pending objects into the main container
 		if (ParticleListTmp.size()) {
@@ -132,10 +131,7 @@ int main() {
 		// Update and draw all particles
 		for (vector<Particle *>::iterator PartIter = ParticleList.begin(); PartIter != ParticleList.end();) {
 			if (updateParticle((*PartIter)) == true) {
-				GRRLIB_SetColorRGBA( RGBA( (*PartIter)->red, (*PartIter)->green, (*PartIter)->blue, GRRLIB_ClampVar8((*PartIter)->alpha*255) ) );
-				GRRLIB_SetScale ( (*PartIter)->scale, (*PartIter)->scale );
-				GRRLIB_SetRotation ( (*PartIter)->rot );
-				GRRLIB_DrawImg( (*PartIter)->x, (*PartIter)->y, (*PartIter)->tex );
+				GRRLIB_DrawImg( (*PartIter)->x, (*PartIter)->y, (*PartIter)->tex, (*PartIter)->rot, (*PartIter)->scale, (*PartIter)->scale, RGBA( (*PartIter)->red, (*PartIter)->green, (*PartIter)->blue, GRRLIB_ClampVar8((*PartIter)->alpha*255) ) );
 			} else {
 				free( (*PartIter) );
 				ParticleList.erase(PartIter);
@@ -146,22 +142,15 @@ int main() {
 		}
 
 		// Draw Crosshair
-		GRRLIB_ResetSettings();
-		GRRLIB_DrawImg( P1MX, P1MY, GFX_Crosshair );
+		GRRLIB_DrawImg( P1MX, P1MY, GFX_Crosshair, 0, 1, 1, RGBA(255, 255, 255, 255) );
 
 		// Draw Text
-		GRRLIB_SetColorRGBA( RGBA(0, 0, 0, 160) );
-		GRRLIB_Rectangle( 28, 28, 280, 20, 1 );
-		GRRLIB_SetColorRGBA( 0xFFFFFFFF );
-		GRRLIB_Printf   ( 32, 32, GFX_Font, "Point your WiiMote on the screen." );
-		GRRLIB_SetColorRGBA( RGBA(0, 0, 0, 160) );
-		GRRLIB_Rectangle( 28, 48, 200, 16, 1 );
-		GRRLIB_SetColorRGBA( 0xFFFFFFFF );
-		GRRLIB_Printf   ( 32, 48, GFX_Font, "Number of Particle: %d", ParticleCnt );
-		GRRLIB_SetColorRGBA( RGBA(0, 0, 0, 160) );
-		GRRLIB_Rectangle( 28, 64, 64, 16, 1 );
-		GRRLIB_SetColorRGBA( 0xFFFFFFFF );
-		GRRLIB_Printf   ( 32, 64, GFX_Font, "FPS: %d", FPS );
+		GRRLIB_Rectangle( 28, 28, 280, 20, RGBA(0, 0, 0, 160), 1 );
+		GRRLIB_Printf   ( 32, 32, GFX_Font, 0xFFFFFFFF, 1, "Point your WiiMote on the screen." );
+		GRRLIB_Rectangle( 28, 48, 200, 16, RGBA(0, 0, 0, 160), 1 );
+		GRRLIB_Printf   ( 32, 48, GFX_Font, 0xFFFFFFFF, 1, "Number of Particle: %d", ParticleCnt );
+		GRRLIB_Rectangle( 28, 64, 64, 16, RGBA(0, 0, 0, 160), 1 );
+		GRRLIB_Printf   ( 32, 64, GFX_Font, 0xFFFFFFFF, 1, "FPS: %d", FPS );
 
 		// Renders the Scene
         GRRLIB_Render();

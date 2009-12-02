@@ -79,12 +79,12 @@ INLINE  void  GRRLIB_GXEngine (const guVector v[], const u32 color[],
 //------------------------------------------------------------------------------
 // GRRLIB_fbSimple.h -
 INLINE  void  GRRLIB_FillScreen (const u32 color) ;
-INLINE  void  GRRLIB_Plot       (const f32 x,  const f32 y) ;
+INLINE  void  GRRLIB_Plot       (const f32 x,  const f32 y, const u32 color) ;
 INLINE  void  GRRLIB_Line       (const f32 x1, const f32 y1,
-                                 const f32 x2, const f32 y2) ;
+                                 const f32 x2, const f32 y2, const u32 color) ;
 INLINE  void  GRRLIB_Rectangle  (const f32 x,      const f32 y,
                                  const f32 width,  const f32 height,
-                                 const u8 filled) ;
+                                 const u32 color, const u8 filled) ;
 
 //------------------------------------------------------------------------------
 // GRRLIB_handle.h - Texture handle manipulation
@@ -109,21 +109,6 @@ INLINE  void              GRRLIB_SetBlend        (const GRRLIB_blendMode blendmo
 INLINE  GRRLIB_blendMode  GRRLIB_GetBlend        (void) ;
 INLINE  void              GRRLIB_SetAntiAliasing (const bool aa) ;
 INLINE  bool              GRRLIB_GetAntiAliasing (void) ;
-INLINE  void              GRRLIB_SetColor        (const u8 r, const u8 g, const u8 b) ;
-INLINE  void              GRRLIB_SetColorRGBA    (const u32 color) ;
-INLINE  void              GRRLIB_SetAlpha        (const u32 alpha) ;
-INLINE  u8                GRRLIB_GetColorRed     (void) ;
-INLINE  u8                GRRLIB_GetColorGreen   (void) ;
-INLINE  u8                GRRLIB_GetColorBlue    (void) ;
-INLINE  u8                GRRLIB_GetAlpha        (void) ;
-INLINE  void              GRRLIB_SetRotation     (const f32 rot) ;
-INLINE  f32               GRRLIB_GetRotation     (void) ;
-INLINE  void              GRRLIB_SetScale        (const f32 sx, const f32 sy) ;
-INLINE  void              GRRLIB_SetScaleX       (const f32 sx) ;
-INLINE  void              GRRLIB_SetScaleY       (const f32 sy) ;
-INLINE  f32               GRRLIB_GetScaleX       (void) ;
-INLINE  f32               GRRLIB_GetScaleY       (void) ;
-INLINE  void              GRRLIB_ResetSettings   (void) ;
 
 //------------------------------------------------------------------------------
 // GRRLIB_texSetup.h - Create and setup textures

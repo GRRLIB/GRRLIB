@@ -47,7 +47,7 @@ int main() {
         }
 
         GRRLIB_FillScreen(0xFFFFFFFF);
-        GRRLIB_DrawImgQuad(d, tex_pirate);
+        GRRLIB_DrawImgQuad(d, tex_pirate, 0xFFFFFFFF);
 
 
         GRRLIB_Render();

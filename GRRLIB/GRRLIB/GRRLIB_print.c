@@ -31,12 +31,14 @@ THE SOFTWARE.
  * @param xpos Specifies the x-coordinate of the upper-left corner of the text.
  * @param ypos Specifies the y-coordinate of the upper-left corner of the text.
  * @param tex The texture containing the character set.
+ * @param color Text color in RGBA format. The alpha channel is used to change the opacity of the text.
+ * @param zoom This is a factor by which the text size will be increase or decrease.
  * @param text Text to draw.
  * @param ... Optional arguments.
  */
 void  GRRLIB_Printf (const f32 xpos, const f32 ypos,
-                     const GRRLIB_texImg *tex,
-                     const char *text, ...) {
+                     const GRRLIB_texImg *tex, const u32 color,
+                     const f32 zoom, const char *text, ...) {
     if (tex == NULL || tex->data == NULL) {
         return;
     }
@@ -51,7 +53,7 @@ void  GRRLIB_Printf (const f32 xpos, const f32 ypos,
 
     for (i = 0; i < size; i++) {
         u8 c = tmp[i]-tex->tilestart;
-        GRRLIB_DrawTile(xpos+i*tex->tilew*GRRLIB_GetScaleX(), ypos, tex, c);
+        GRRLIB_DrawTile(xpos+i*tex->tilew*zoom, ypos, tex, 0, zoom, zoom, color, c);
     }
 }
 
@@ -98,6 +100,6 @@ void  GRRLIB_PrintBMF (const f32 xpos, const f32 ypos,
     }
 
     GRRLIB_FlushTex( tex_BMfont );
-    GRRLIB_DrawImg(0, 0, tex_BMfont);
+    GRRLIB_DrawImg(0, 0, tex_BMfont, 0, 1, 1, 0xFFFFFFFF);
     GRRLIB_FreeTexture(tex_BMfont);
 }

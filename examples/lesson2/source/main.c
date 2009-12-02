@@ -24,7 +24,7 @@ int main() {
     // Load the original texture and create empty texture of the same size as the original one
     GRRLIB_texImg *tex_pirate   = GRRLIB_LoadTexture(pirate);
     GRRLIB_texImg *tex_gray     = GRRLIB_CreateEmptyTexture(tex_pirate->w, tex_pirate->h);
-    GRRLIB_texImg *tex_sepia    = GRRLIB_CreateEmptyTexture(tex_pirate->w, tex_pirate->h);
+	GRRLIB_texImg *tex_sepia    = GRRLIB_CreateEmptyTexture(tex_pirate->w, tex_pirate->h);
     GRRLIB_texImg *tex_invert   = GRRLIB_CreateEmptyTexture(tex_pirate->w, tex_pirate->h);
     GRRLIB_texImg *tex_blur1    = GRRLIB_CreateEmptyTexture(tex_pirate->w, tex_pirate->h);
     GRRLIB_texImg *tex_blur2    = GRRLIB_CreateEmptyTexture(tex_pirate->w, tex_pirate->h);
@@ -122,86 +122,71 @@ int main() {
         switch(page)
         {
             case 1:
-                GRRLIB_SetColorRGBA(0X000000FF);
-                GRRLIB_Printf(10, 10, text_font1, "GRAYSCALE FX");
+                GRRLIB_Printf(10, 10, text_font1, 0X000000FF, 1, "GRAYSCALE FX");
 
-                GRRLIB_SetColorRGBA(0xFFFFFFFF);
-                GRRLIB_DrawImg(10, 60, tex_pirate);
-                GRRLIB_DrawImg(10+tex_pirate->w*1, 60, tex_gray);
+                GRRLIB_DrawImg(10, 60, tex_pirate, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*1, 60, tex_gray, 0, 1, 1, 0xFFFFFFFF);
                 break;
             case 2:
-                GRRLIB_SetColorRGBA(0X000000FF);
-                GRRLIB_Printf(10, 10, text_font1, "SEPIA FX");
+                GRRLIB_Printf(10, 10, text_font1, 0X000000FF, 1, "SEPIA FX");
 
-                GRRLIB_SetColorRGBA(0xFFFFFFFF);
-                GRRLIB_DrawImg(10, 60, tex_pirate);
-                GRRLIB_DrawImg(10+tex_pirate->w*1, 60, tex_sepia);
+                GRRLIB_DrawImg(10, 60, tex_pirate, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*1, 60, tex_sepia, 0, 1, 1, 0xFFFFFFFF);
                 break;
             case 3:
-                GRRLIB_SetColorRGBA(0X000000FF);
-                GRRLIB_Printf(10, 10, text_font1, "INVERT FX");
+                GRRLIB_Printf(10, 10, text_font1, 0X000000FF, 1, "INVERT FX");
 
-                GRRLIB_SetColorRGBA(0xFFFFFFFF);
-                GRRLIB_DrawImg(10, 60, tex_pirate);
-                GRRLIB_DrawImg(10+tex_pirate->w*1, 60, tex_invert);
+                GRRLIB_DrawImg(10, 60, tex_pirate, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*1, 60, tex_invert, 0, 1, 1, 0xFFFFFFFF);
                 break;
             case 4:
-                GRRLIB_SetColorRGBA(0X000000FF);
-                GRRLIB_Printf(10, 10, text_font1, "FLIPH AND FLIPV FX");
+                GRRLIB_Printf(10, 10, text_font1, 0X000000FF, 1, "FLIPH AND FLIPV FX");
 
-                GRRLIB_SetColorRGBA(0xFFFFFFFF);
-                GRRLIB_DrawImg(10, 60, tex_pirate);
-                GRRLIB_DrawImg(10+tex_pirate->w*1, 60, tex_fliph);
-                GRRLIB_DrawImg(10+tex_pirate->w*2, 60, tex_flipv);
-                GRRLIB_DrawImg(10+tex_pirate->w*3, 60, tex_fliphv);
+                GRRLIB_DrawImg(10, 60, tex_pirate, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*1, 60, tex_fliph, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*2, 60, tex_flipv, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*3, 60, tex_fliphv, 0, 1, 1, 0xFFFFFFFF);
                 break;
             case 5:
-                GRRLIB_SetColorRGBA(0X000000FF);
-                GRRLIB_Printf(10, 10, text_font1, "BLUR FX");
+                GRRLIB_Printf(10, 10, text_font1, 0X000000FF, 1, "BLUR FX");
 
-                GRRLIB_SetColorRGBA(0xFFFFFFFF);
-                GRRLIB_DrawImg(10, 60, tex_pirate);
-                GRRLIB_DrawImg(10+tex_pirate->w*1, 60, tex_blur1);
-                GRRLIB_DrawImg(10+tex_pirate->w*2, 60, tex_blur2);
-                GRRLIB_DrawImg(10+tex_pirate->w*3, 60, tex_blur3);
-                GRRLIB_DrawImg(10, 60+tex_pirate->h*1, tex_blur4);
-                GRRLIB_DrawImg(10+tex_pirate->w*1, 60+tex_pirate->h*1, tex_blur5);
-                GRRLIB_DrawImg(10+tex_pirate->w*2, 60+tex_pirate->h*1, tex_blur6);
+                GRRLIB_DrawImg(10, 60, tex_pirate, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*1, 60, tex_blur1, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*2, 60, tex_blur2, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*3, 60, tex_blur3, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10, 60+tex_pirate->h*1, tex_blur4, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*1, 60+tex_pirate->h*1, tex_blur5, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*2, 60+tex_pirate->h*1, tex_blur6, 0, 1, 1, 0xFFFFFFFF);
                 break;
             case 6:
-                GRRLIB_SetColorRGBA(0X000000FF);
-                GRRLIB_Printf(10, 10, text_font1, "PIXELATE FX");
+                GRRLIB_Printf(10, 10, text_font1, 0X000000FF, 1, "PIXELATE FX");
 
-                GRRLIB_SetColorRGBA(0xFFFFFFFF);
-                GRRLIB_DrawImg(10, 60, tex_pirate);
-                GRRLIB_DrawImg(10+tex_pirate->w*1, 60, tex_pixel1);
-                GRRLIB_DrawImg(10+tex_pirate->w*2, 60, tex_pixel2);
-                GRRLIB_DrawImg(10+tex_pirate->w*3, 60, tex_pixel3);
-                GRRLIB_DrawImg(10, 60+tex_pirate->h*1, tex_pixel4);
-                GRRLIB_DrawImg(10+tex_pirate->w*1, 60+tex_pirate->h*1, tex_pixel5);
-                GRRLIB_DrawImg(10+tex_pirate->w*2, 60+tex_pirate->h*1, tex_pixel6);
+                GRRLIB_DrawImg(10, 60, tex_pirate, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*1, 60, tex_pixel1, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*2, 60, tex_pixel2, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*3, 60, tex_pixel3, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10, 60+tex_pirate->h*1, tex_pixel4, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*1, 60+tex_pirate->h*1, tex_pixel5, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*2, 60+tex_pirate->h*1, tex_pixel6, 0, 1, 1, 0xFFFFFFFF);
                 break;
             case 7:
-                GRRLIB_SetColorRGBA(0X000000FF);
-                GRRLIB_Printf(10, 10, text_font1, "SCATTER FX");
+                GRRLIB_Printf(10, 10, text_font1, 0X000000FF, 1, "SCATTER FX");
 
-                GRRLIB_SetColorRGBA(0xFFFFFFFF);
-                GRRLIB_DrawImg(10, 60, tex_pirate);
-                GRRLIB_DrawImg(10+tex_pirate->w*1, 60, tex_scatter1);
-                GRRLIB_DrawImg(10+tex_pirate->w*2, 60, tex_scatter2);
-                GRRLIB_DrawImg(10+tex_pirate->w*3, 60, tex_scatter3);
-                GRRLIB_DrawImg(10, 60+tex_pirate->h*1, tex_scatter4);
-                GRRLIB_DrawImg(10+tex_pirate->w*1, 60+tex_pirate->h*1, tex_scatter5);
-                GRRLIB_DrawImg(10+tex_pirate->w*2, 60+tex_pirate->h*1, tex_scatter6);
+                GRRLIB_DrawImg(10, 60, tex_pirate, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*1, 60, tex_scatter1, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*2, 60, tex_scatter2, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*3, 60, tex_scatter3, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10, 60+tex_pirate->h*1, tex_scatter4, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*1, 60+tex_pirate->h*1, tex_scatter5, 0, 1, 1, 0xFFFFFFFF);
+                GRRLIB_DrawImg(10+tex_pirate->w*2, 60+tex_pirate->h*1, tex_scatter6, 0, 1, 1, 0xFFFFFFFF);
                 break;
             default:
-                GRRLIB_SetColorRGBA(0X000000FF);
-                GRRLIB_Printf(10, 10, text_font1, "WELCOME TO THE");
-                GRRLIB_Printf(10, 40, text_font1, "GRRLIB FX DEMO.");
-                GRRLIB_Printf(10, 80, text_font1, "TO QUIT PRESS THE");
-                GRRLIB_Printf(10, 120, text_font1, "HOME BUTTON.");
-                GRRLIB_Printf(10, 160, text_font1, "USE + OR - TO MOVE");
-                GRRLIB_Printf(10, 200, text_font1, "ACROSS PAGES.");
+                GRRLIB_Printf(10, 10, text_font1, 0X000000FF, 1, "WELCOME TO THE");
+                GRRLIB_Printf(10, 40, text_font1, 0X000000FF, 1, "GRRLIB FX DEMO.");
+                GRRLIB_Printf(10, 80, text_font1, 0X000000FF, 1, "TO QUIT PRESS THE");
+                GRRLIB_Printf(10, 120, text_font1, 0X000000FF, 1, "HOME BUTTON.");
+                GRRLIB_Printf(10, 160, text_font1, 0X000000FF, 1, "USE + OR - TO MOVE");
+                GRRLIB_Printf(10, 200, text_font1, 0X000000FF, 1, "ACROSS PAGES.");
         }
 
         GRRLIB_Render();

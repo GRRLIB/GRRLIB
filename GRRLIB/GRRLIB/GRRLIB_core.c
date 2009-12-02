@@ -48,6 +48,9 @@ int  GRRLIB_Init (void) {
     u32 xfbHeight;
     Mtx44 perspective;
     s8 error_code = 0;
+  
+    //just to get the GRRLIB version in the dol ;)
+    if(1){ printf("GRRLIB 4.1.2"); }
 
     // Ensure this function is only ever called once
     if (is_setup)  return 0 ;
@@ -149,7 +152,6 @@ int  GRRLIB_Init (void) {
     GRRLIB_ClipReset();
 
     // Default settings
-    GRRLIB_ResetSettings();
     GRRLIB_Settings.antialias = true;
     GRRLIB_Settings.blend     = GRRLIB_BLEND_ALPHA;
 

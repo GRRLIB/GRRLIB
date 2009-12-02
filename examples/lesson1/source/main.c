@@ -1,12 +1,12 @@
 /*===========================================
         GRRLIB (GX Version)
-        - Example Code -
+		- Example Code -
 
         How To use Bitmap Fonts
 ============================================*/
 #include <grrlib.h>
 
-#include <ogc/lwp_watchdog.h>   // Needed for gettime and ticks_to_millisecs
+#include <ogc/lwp_watchdog.h>	// Needed for gettime and ticks_to_millisecs
 #include <stdlib.h>
 #include <wiiuse/wpad.h>
 #include <wiiuse/wpad.h>
@@ -106,17 +106,14 @@ int main() {
         switch(page)
         {
             case 1:   // Draw images
-                GRRLIB_ResetSettings();
-                GRRLIB_Printf(5, 25, tex_BMfont2, "IMAGES DEMO");
+                GRRLIB_Printf(5, 25, tex_BMfont2, GRRLIB_WHITE, 1, "IMAGES DEMO");
 
-                GRRLIB_DrawImg(10, 50, tex_test_jpg);  // Draw a jpeg
-                GRRLIB_SetScale(4, 4);
-                GRRLIB_DrawImg(350, 50, tex_test_bmp); // Draw a bitmap
+                GRRLIB_DrawImg(10, 50, tex_test_jpg, 0, 1, 1, GRRLIB_WHITE);  // Draw a jpeg
+                GRRLIB_DrawImg(350, 50, tex_test_bmp, 0, 4, 4, GRRLIB_WHITE); // Draw a bitmap
 
                 // Draw a sprite
-                GRRLIB_SetScale(2, 2);
-                GRRLIB_DrawTile(600, 400, tex_sprite_png, 12*4); // Rupee
-                GRRLIB_DrawTile(320+left, 240+top, tex_sprite_png, frame);
+                GRRLIB_DrawTile(600, 400, tex_sprite_png, 0, 2, 2, GRRLIB_WHITE, 12*4); // Rupee
+                GRRLIB_DrawTile(320+left, 240+top, tex_sprite_png, 0, 2, 2, GRRLIB_WHITE, frame);
                 if(GRRLIB_RectOnRect(320+left, 240+top, 48, 64, 618, 434, 12, 30))
                 {
                     WPAD_Rumble(WPAD_CHAN_0, 1);
@@ -143,47 +140,33 @@ int main() {
                 }
                 break;
             case 2:   // Draw shapes
-                GRRLIB_ResetSettings();
-                GRRLIB_Printf(5, 25, tex_BMfont2, "SHAPES DEMO");
+                GRRLIB_Printf(5, 25, tex_BMfont2, GRRLIB_WHITE, 1, "SHAPES DEMO");
 
-                GRRLIB_SetColorRGBA(GRRLIB_RED);
-                GRRLIB_Rectangle(100, 100, 200, 100, 1);
-                GRRLIB_SetColorRGBA(GRRLIB_SILVER);
-                GRRLIB_Line(100, 100, 350, 200);
+                GRRLIB_Rectangle(100, 100, 200, 100, GRRLIB_RED, 1);
+                GRRLIB_Line(100, 100, 350, 200, GRRLIB_SILVER);
                 GRRLIB_NGoneFilled(triangle, trianglecolor, 3);
-                GRRLIB_SetColorRGBA(0x0000FFC8); // Blue with alpha
-                GRRLIB_Rectangle(left + 150, top + 150, 200, 200, 1);
-                GRRLIB_SetColorRGBA(GRRLIB_OLIVE);
+                GRRLIB_Rectangle(left + 150, top + 150, 200, 200, 0x0000FFC8, 1); // Blue with alpha
                 GRRLIB_Circle(left + 300, top + 300, 50, GRRLIB_OLIVE, 1);
 
                 // Draw a yellow four pixel dot where the wiimote is pointing
-                GRRLIB_SetColorRGBA(GRRLIB_YELLOW);
-                GRRLIB_Plot(ir1.sx, ir1.sy);
-                GRRLIB_Plot(ir1.sx + 1, ir1.sy);
-                GRRLIB_Plot(ir1.sx, ir1.sy + 1);
-                GRRLIB_Plot(ir1.sx + 1, ir1.sy + 1);
+                GRRLIB_Plot(ir1.sx, ir1.sy, GRRLIB_YELLOW);
+                GRRLIB_Plot(ir1.sx + 1, ir1.sy, GRRLIB_YELLOW);
+                GRRLIB_Plot(ir1.sx, ir1.sy + 1, GRRLIB_YELLOW);
+                GRRLIB_Plot(ir1.sx + 1, ir1.sy + 1, GRRLIB_YELLOW);
                 break;
             default: // Print some text
-                GRRLIB_ResetSettings();
-                GRRLIB_Printf(5, 25, tex_BMfont2, "TEXT DEMO");
+                GRRLIB_Printf(5, 25, tex_BMfont2, GRRLIB_WHITE, 1, "TEXT DEMO");
 
-                GRRLIB_Printf(5, 100, tex_BMfont4, "TO QUIT PRESS THE HOME BUTTON.");
-                GRRLIB_SetColorRGBA(GRRLIB_YELLOW);
-                GRRLIB_Printf(5, 140, tex_BMfont4, "USE + OR - TO MOVE ACROSS PAGES.");
-                GRRLIB_SetColorRGBA(GRRLIB_GREEN);
-                GRRLIB_Printf(5, 180, tex_BMfont4, "USE THE D-PAD TO MOVE STUFF.");
-                GRRLIB_SetColorRGBA(GRRLIB_WHITE);
-                GRRLIB_Printf(left, top+250, tex_BMfont1, "IR X VALUE: %d", (int)ir1.x);
-                GRRLIB_Printf(left, top+300, tex_BMfont3, "IR Y VALUE: %d", (int)ir1.y);
-                GRRLIB_SetColorRGBA(0XFFFFFF50);
-                GRRLIB_Printf(left, top+350, tex_BMfont3, "TEXT WITH ALPHA");
-                GRRLIB_SetColorRGBA(GRRLIB_LIME);
-                GRRLIB_Printf(left, top+400, tex_BMfont5, "This font has the 128 ASCII characters");
-                GRRLIB_SetColorRGBA(GRRLIB_WHITE);
+                GRRLIB_Printf(5, 100, tex_BMfont4, GRRLIB_WHITE, 1, "TO QUIT PRESS THE HOME BUTTON.");
+                GRRLIB_Printf(5, 140, tex_BMfont4, GRRLIB_YELLOW, 1, "USE + OR - TO MOVE ACROSS PAGES.");
+                GRRLIB_Printf(5, 180, tex_BMfont4, GRRLIB_GREEN, 1, "USE THE D-PAD TO MOVE STUFF.");
+                GRRLIB_Printf(left, top+250, tex_BMfont1, GRRLIB_WHITE, 1, "IR X VALUE: %d", (int)ir1.x);
+                GRRLIB_Printf(left, top+300, tex_BMfont3, GRRLIB_WHITE, 1, "IR Y VALUE: %d", (int)ir1.y);
+                GRRLIB_Printf(left, top+350, tex_BMfont3, 0XFFFFFF50, 1, "TEXT WITH ALPHA");
+                GRRLIB_Printf(left, top+400, tex_BMfont5, GRRLIB_LIME, 1, "This font has the 128 ASCII characters");
                 GRRLIB_PrintBMF(left, top+420, bmf_Font2, 1, "%s", bmf_Font2->name);
         }
-        GRRLIB_ResetSettings();
-        GRRLIB_Printf(500, 27, tex_BMfont5, "Current FPS: %d", FPS);
+        GRRLIB_Printf(500, 27, tex_BMfont5, GRRLIB_WHITE, 1, "Current FPS: %d", FPS);
         GRRLIB_Render();
         FPS = CalculateFrameRate();
 
@@ -270,3 +253,4 @@ static u8 CalculateFrameRate() {
     }
     return FPS;
 }
+
