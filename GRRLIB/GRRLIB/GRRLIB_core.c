@@ -48,9 +48,6 @@ int  GRRLIB_Init (void) {
     u32 xfbHeight;
     Mtx44 perspective;
     s8 error_code = 0;
-  
-    //just to get the GRRLIB version in the dol ;)
-    if(1){ printf("GRRLIB 4.1.2"); }
 
     // Ensure this function is only ever called once
     if (is_setup)  return 0 ;
@@ -113,6 +110,8 @@ int  GRRLIB_Init (void) {
     GX_SetFieldMode(rmode->field_rendering, ((rmode->viHeight == 2 * rmode->xfbHeight) ? GX_ENABLE : GX_DISABLE));
 
     GX_SetDispCopyGamma(GX_GM_1_0);
+
+    if(rmode->fbWidth <= 0){ printf("GRRLIB " GRRLIB_VER_STRING); }
 
     // Setup the vertex descriptor
     GX_ClearVtxDesc();      // clear all the vertex descriptors

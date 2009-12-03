@@ -155,7 +155,7 @@ int main() {
                 GRRLIB_Plot(ir1.sx + 1, ir1.sy + 1, GRRLIB_YELLOW);
                 break;
             default: // Print some text
-                GRRLIB_Printf(5, 25, tex_BMfont2, GRRLIB_WHITE, 1, "TEXT DEMO");
+                GRRLIB_Printf(5, 25, tex_BMfont2, GRRLIB_WHITE, 1, "GRRLIB %s TEXT DEMO", GRRLIB_VER_STRING);
 
                 GRRLIB_Printf(5, 100, tex_BMfont4, GRRLIB_WHITE, 1, "TO QUIT PRESS THE HOME BUTTON.");
                 GRRLIB_Printf(5, 140, tex_BMfont4, GRRLIB_YELLOW, 1, "USE + OR - TO MOVE ACROSS PAGES.");
