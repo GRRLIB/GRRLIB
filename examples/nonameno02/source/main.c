@@ -23,6 +23,7 @@ int main() {
     GRRLIB_Init();
     WPAD_Init();
 
+    GRRLIB_Settings.antialias = false;
 
     GRRLIB_texImg *tex_screen[10];
     for(i=0; i<10; i++) {
