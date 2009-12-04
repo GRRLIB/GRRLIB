@@ -238,6 +238,11 @@ GRR_EXTERN  void        *TrashTex;
  * GRRLIB is a C/C++ 2D Graphics library for Wii application developers.
  * It is essentially a wrapper which presents a friendly interface to the Nintendo GX core.
  *
+ * @section Links
+ * Forum: http://grrlib.santo.fr/forum\n
+ * Code: http://code.google.com/p/grrlib\n
+ * IRC: <a href="irc://irc.efnet.net/grrlib">##GRRLIB</a> on EFnet
+ *
  * @section Credits
  * Project Leader : NoNameNo\n
  * Documentation  : Crayon, BlueChip\n
