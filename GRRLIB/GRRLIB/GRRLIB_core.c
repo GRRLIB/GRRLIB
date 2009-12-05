@@ -161,8 +161,6 @@ int  GRRLIB_Init (void) {
     // Initialise the filing system
     if (!fatInitDefault())  error_code = -2;
 
-    TrashTex = memalign(32, rmode->fbWidth * rmode->efbHeight * 4);
-
     VIDEO_SetBlack(false);  // Enable video output
     return error_code;
 }
@@ -191,8 +189,6 @@ void  GRRLIB_Exit (void) {
     GX_DrawDone();
     GX_AbortFrame();
 
-    // free the temp Texture (allocated for compositing)
-    free(TrashTex);
     // Free up memory allocated for frame buffers & FIFOs
     if (xfb[0]  != NULL) {  free(MEM_K1_TO_K0(xfb[0]));  xfb[0]  = NULL;  }
     if (xfb[1]  != NULL) {  free(MEM_K1_TO_K0(xfb[1]));  xfb[1]  = NULL;  }
