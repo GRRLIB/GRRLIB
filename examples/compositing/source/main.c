@@ -15,7 +15,7 @@ extern GXRModeObj *rmode;
 
 int main() {
     float rot=0;
-    float i=0;
+    float i;
     int circsize=150;
 
     GRRLIB_Init();
