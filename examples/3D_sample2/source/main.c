@@ -8,21 +8,26 @@
 #include <malloc.h>
 #include <wiiuse/wpad.h>
 
+
 #include "gfx/font.h"
+#include "gfx/girl.h"
 
 int main() {
 float a=0;
 u32 col[3];
 col[0]=0xFFFFFFFF;
-col[1]=0xAAAAAAFF;
-col[2]=0x666666FF;
+col[1]=0xFFFFFFFF;
+col[2]=0xFFFFFFFF;
 int cubeZ=0;
 
     GRRLIB_Init();
     WPAD_Init();
 
+    GRRLIB_texImg *tex_girl= GRRLIB_LoadTexture(girl);
+
     GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(font);
     GRRLIB_InitTileSet(tex_font, 16, 16, 32);
+
 
     GRRLIB_Settings.antialias = true;
 
@@ -36,68 +41,93 @@ int cubeZ=0;
         if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_A) cubeZ++;
         if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_B) cubeZ--;
 
-	GRRLIB_3dMode(0.1,1000,45,0);
+	GRRLIB_3dMode(0.1,1000,45,1);
+	GRRLIB_setTexture(tex_girl,0);
 	GRRLIB_objectView(0,0,cubeZ, a,a*2,a*3);
 	GX_Begin(GX_QUADS, GX_VTXFMT0, 24);
-	    GX_Position3f32(-1.0f,1.0f,-1.0f);
-	    GX_Color1u32(col[0]);
-	    GX_Position3f32(-1.0f,-1.0f,-1.0f);
-	    GX_Color1u32(col[0]);
-	    GX_Position3f32(1.0f,-1.0f,-1.0f);
-	    GX_Color1u32(col[0]);
-	    GX_Position3f32(1.0f,1.0f,-1.0f);
-	    GX_Color1u32(col[0]);
-
 	    GX_Position3f32(-1.0f,1.0f,1.0f);
 	    GX_Color1u32(col[0]);
-	    GX_Position3f32(-1.0f,-1.0f,1.0f);
+	    GX_TexCoord2f32(0.0f,0.0f);
+	    GX_Position3f32(1.0f,1.0f,1.0f);
 	    GX_Color1u32(col[0]);
+	    GX_TexCoord2f32(1.0f,0.0f);
 	    GX_Position3f32(1.0f,-1.0f,1.0f);
 	    GX_Color1u32(col[0]);
-	    GX_Position3f32(1.0f,1.0f,1.0f);
+	    GX_TexCoord2f32(1.0f,1.0f);
+	    GX_Position3f32(-1.0f,-1.0f,1.0f);
 	    GX_Color1u32(col[0]);
+	    GX_TexCoord2f32(0.0f,1.0f);
 
-	    GX_Position3f32(-1.0f,1.0f,1.0f);
-	    GX_Color1u32(col[1]);
+	    GX_Position3f32(1.0f,1.0f,-1.0f);
+	    GX_Color1u32(col[0]);
+	    GX_TexCoord2f32(0.0f,0.0f);
+	    GX_Position3f32(-1.0f,1.0f,-1.0f);
+	    GX_Color1u32(col[0]);
+	    GX_TexCoord2f32(1.0f,0.0f);
+	    GX_Position3f32(-1.0f,-1.0f,-1.0f);
+	    GX_Color1u32(col[0]);
+	    GX_TexCoord2f32(1.0f,1.0f);
+	    GX_Position3f32(1.0f,-1.0f,-1.0f);
+	    GX_Color1u32(col[0]);
+	    GX_TexCoord2f32(0.0f,1.0f);
+
 	    GX_Position3f32(1.0f,1.0f,1.0f);
 	    GX_Color1u32(col[1]);
+	    GX_TexCoord2f32(0.0f,0.0f);
 	    GX_Position3f32(1.0f,1.0f,-1.0f);
 	    GX_Color1u32(col[1]);
-	    GX_Position3f32(-1.0f,1.0f,-1.0f);
-	    GX_Color1u32(col[1]);
-
-	    GX_Position3f32(-1.0f,-1.0f,1.0f);
-	    GX_Color1u32(col[1]);
-	    GX_Position3f32(1.0f,-1.0f,1.0f);
-	    GX_Color1u32(col[1]);
+	    GX_TexCoord2f32(1.0f,0.0f);
 	    GX_Position3f32(1.0f,-1.0f,-1.0f);
 	    GX_Color1u32(col[1]);
+	    GX_TexCoord2f32(1.0f,1.0f);
+	    GX_Position3f32(1.0f,-1.0f,1.0f);
+	    GX_Color1u32(col[1]);
+	    GX_TexCoord2f32(0.0f,1.0f);
+
+	    GX_Position3f32(-1.0f,1.0f,-1.0f);
+	    GX_Color1u32(col[1]);
+	    GX_TexCoord2f32(0.0f,0.0f);
+	    GX_Position3f32(-1.0f,1.0f,1.0f);
+	    GX_Color1u32(col[1]);
+	    GX_TexCoord2f32(1.0f,0.0f);
+	    GX_Position3f32(-1.0f,-1.0f,1.0f);
+	    GX_Color1u32(col[1]);
+	    GX_TexCoord2f32(1.0f,1.0f);
 	    GX_Position3f32(-1.0f,-1.0f,-1.0f);
 	    GX_Color1u32(col[1]);
+	    GX_TexCoord2f32(0.0f,1.0f);
 
-	    GX_Position3f32(-1.0f,1.0f,1.0f);
-	    GX_Color1u32(col[2]);
 	    GX_Position3f32(-1.0f,1.0f,-1.0f);
 	    GX_Color1u32(col[2]);
-	    GX_Position3f32(-1.0f,-1.0f,-1.0f);
-	    GX_Color1u32(col[2]);
-	    GX_Position3f32(-1.0f,-1.0f,1.0f);
-	    GX_Color1u32(col[2]);
-
-	    GX_Position3f32(1.0f,1.0f,1.0f);
-	    GX_Color1u32(col[2]);
+	    GX_TexCoord2f32(0.0f,0.0f);
 	    GX_Position3f32(1.0f,1.0f,-1.0f);
 	    GX_Color1u32(col[2]);
+	    GX_TexCoord2f32(1.0f,0.0f);
+	    GX_Position3f32(1.0f,1.0f,1.0f);
+	    GX_Color1u32(col[2]);
+	    GX_TexCoord2f32(1.0f,1.0f);
+	    GX_Position3f32(-1.0f,1.0f,1.0f);
+	    GX_Color1u32(col[2]);
+	    GX_TexCoord2f32(0.0f,1.0f);
+
 	    GX_Position3f32(1.0f,-1.0f,-1.0f);
 	    GX_Color1u32(col[2]);
+	    GX_TexCoord2f32(0.0f,0.0f);
+	    GX_Position3f32(-1.0f,-1.0f,-1.0f);
+	    GX_Color1u32(col[2]);
+	    GX_TexCoord2f32(1.0f,0.0f);
+	    GX_Position3f32(-1.0f,-1.0f,1.0f);
+	    GX_Color1u32(col[2]);
+	    GX_TexCoord2f32(1.0f,1.0f);
 	    GX_Position3f32(1.0f,-1.0f,1.0f);
 	    GX_Color1u32(col[2]);
+	    GX_TexCoord2f32(0.0f,1.0f);
         GX_End();
 	a+=0.5f;
 
-        // Switch To 2D Mode to display text
-        GRRLIB_2dMode();
-        GRRLIB_Printf((640-(16*29))/2, 20, tex_font, 0xFFFFFFFF, 1, "PRESS A OR B TO ZOOM THE CUBE");
+	// Switch To 2D Mode to display text
+	GRRLIB_2dMode();
+	GRRLIB_Printf((640-(16*29))/2, 20, tex_font, 0xFFFFFFFF, 1, "PRESS A OR B TO ZOOM THE CUBE");
 
         GRRLIB_Render();
     }
