@@ -1,7 +1,5 @@
 /*===========================================
     NoNameNo Compositing Sample Code
-    Bugged since Screen2texture conversion
-    loose color precision.
 ============================================*/
 #include <grrlib.h>
 
@@ -37,14 +35,20 @@ int main() {
         WPAD_ScanPads();
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) exit(0);
 
-        GRRLIB_CompoStart();
+// we say thant we will want to capture to a texture all the following
+        GRRLIB_CompoStart(); 
+
             for(i=0;i<360;i+=30) {
+// We draw some letters
                 GRRLIB_DrawTile((rmode->fbWidth/2)-(tex_font->tilew/2), (rmode->efbHeight/2)-(tex_font->tileh+circsize), tex_font, rot+i, 1, 1, 0xFFFFFFFF, 65-32+((int)i/45));
             }
+
+// we say we want to capture now, (the buffer will be cleared after the capture)
         GRRLIB_CompoEnd(0, 0, tex_screen);
 
         rot-=0.6;
 
+// we now draw twice the captured buffer
         GRRLIB_DrawImg(50, 50, tex_screen, 0, 1, 1, 0xFFFFFFFF);
         GRRLIB_DrawImg(100, 100, tex_screen, 0, 1, 1, 0xFFFFFFFF);
 
