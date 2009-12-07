@@ -1,7 +1,7 @@
 #include <grrlib.h>
 
 /**
- * Set the BackGround Parameter when screen is cleared.
+ * Set the background parameter when screen is cleared.
  * @param r Red component.
  * @param g Green component.
  * @param b Blue component.
@@ -48,12 +48,12 @@ void GRRLIB_camera3dSettings(f32 posx, f32 posy, f32 posz,
 
 /**
  * Set up the position matrix (contributed my chris_c aka DaShAmAn).
- * @param miniDist Minimal distance for the cam.
+ * @param minDist Minimal distance for the cam.
  * @param maxDist Maximal distance for the cam.
  * @param fov Field of view for the cam.
  * @param texturemode False, GX won't need TexCoord, True, GX will need TexCoord.
  */
-void GRRLIB_3dMode(f32 minDist,f32 maxDist,f32 fov, bool texturemode) {
+void GRRLIB_3dMode(f32 minDist, f32 maxDist, f32 fov, bool texturemode) {
     Mtx m;
 
     guLookAt(_GRR_view, &_GRR_cam, &_GRR_up, &_GRR_look);   
@@ -92,7 +92,7 @@ void GRRLIB_2dMode() {
     GX_LoadProjectionMtx(m, GX_ORTHOGRAPHIC);
 
     guMtxIdentity(view);
-    guMtxTransApply(view,view, 0,0, -100.0F);
+    guMtxTransApply(view,view, 0, 0, -100.0F);
     GX_LoadPosMtxImm(view, GX_PNMTX0);
 
     GX_ClearVtxDesc();

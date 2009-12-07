@@ -4,11 +4,12 @@
 
 bool geckoinit = false;
 
-bool GRRLIB_GeckoInit()
-{
+/**
+ * Initialize Gecko.
+ */
+bool GRRLIB_GeckoInit() {
 	u32 geckoattached = usb_isgeckoalive(EXI_CHANNEL_1);
-	if (geckoattached)
-	{
+	if (geckoattached) {
 		usb_flush(EXI_CHANNEL_1);
 		geckoinit = true;
 		return true;
@@ -16,17 +17,21 @@ bool GRRLIB_GeckoInit()
 	else return false;
 }
 
+/**
+ * Print Gecko.
+ * @param text Text to print.
+ * @param ... Optional arguments.
+ */
 void  GRRLIB_GeckoPrintf (const char *text, ...) {
     int size;
     char tmp[1024];
 
-    if (!(geckoinit))return;
+    if (!(geckoinit)) return;
 
     va_list argp;
     va_start(argp, text);
     size = vsprintf(tmp, text, argp);
     va_end(argp);
 
-    usb_sendbuffer_safe(1,tmp,size);
+    usb_sendbuffer_safe(1, tmp,size);
 }
-

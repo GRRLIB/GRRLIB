@@ -30,7 +30,7 @@ int main() {
     GRRLIB_camera3dSettings(0.0f,0.0f,13.0f, 0,1,0, 0,0,0);
 
     while(1) {
-    GRRLIB_2dMode();
+        GRRLIB_2dMode();
         WPAD_ScanPads();
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) exit(0);
         if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_A) cubeZ++;
