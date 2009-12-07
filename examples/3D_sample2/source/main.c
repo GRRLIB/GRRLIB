@@ -1,5 +1,6 @@
 /*===========================================
-    NoNameNo Simple 3D cube Sample Code
+    NoNameNo 
+    Simple Textured 3D cube 
 ============================================*/
 #include <grrlib.h>
 
@@ -132,6 +133,8 @@ int main() {
         GRRLIB_Render();
     }
     GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
+    GRRLIB_FreeTexture(tex_girl);
+    GRRLIB_FreeTexture(tex_font);
 
     exit(0);
 }
