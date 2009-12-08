@@ -59,16 +59,16 @@ void  GRRLIB_Printf (const f32 xpos, const f32 ypos,
 
 /**
  * Print formatted output with a ByteMap font.
+ * This function could be slow, it should be used with GRRLIB_CompoStart and GRRLIB_CompoEnd.
  * @param xpos Specifies the x-coordinate of the upper-left corner of the text.
  * @param ypos Specifies the y-coordinate of the upper-left corner of the text.
  * @param bmf The ByteMap font to use.
- * @param zoom This is a factor by which the text size will be increase or decrease.
  * @param text Text to draw.
  * @param ... Optional arguments.
  */
 void  GRRLIB_PrintBMF (const f32 xpos, const f32 ypos,
                        const GRRLIB_bytemapFont *bmf,
-                       const f32 zoom, const char *text, ...) {
+                       const char *text, ...) {
     uint  i, j, x, y, n, size;
     char  tmp[1024];
     f32   xoff = xpos;
@@ -78,8 +78,6 @@ void  GRRLIB_PrintBMF (const f32 xpos, const f32 ypos,
     size = vsprintf(tmp, text, argp);
     va_end(argp);
 
-    GRRLIB_texImg *tex_BMfont = GRRLIB_CreateEmptyTexture(rmode->fbWidth, rmode->xfbHeight);
-
     for (i=0; i<size; i++) {
         for (j=0; j<bmf->nbChar; j++) {
             if (tmp[i] == bmf->charDef[j].character) {
@@ -87,8 +85,9 @@ void  GRRLIB_PrintBMF (const f32 xpos, const f32 ypos,
                 for (y=0; y<bmf->charDef[j].height; y++) {
                     for (x=0; x<bmf->charDef[j].width; x++) {
                         if (bmf->charDef[j].data[n]) {
-                            GRRLIB_SetPixelTotexImg(xoff + x + bmf->charDef[j].relx, ypos + y + bmf->charDef[j].rely,
-                                tex_BMfont, bmf->palette[bmf->charDef[j].data[n]]);
+                            GRRLIB_Plot(xoff + x + bmf->charDef[j].relx,
+                                        ypos + y + bmf->charDef[j].rely,
+                                        bmf->palette[bmf->charDef[j].data[n]]);
                         }
                         n++;
                     }
@@ -98,8 +97,4 @@ void  GRRLIB_PrintBMF (const f32 xpos, const f32 ypos,
             }
         }
     }
-
-    GRRLIB_FlushTex( tex_BMfont );
-    GRRLIB_DrawImg(0, 0, tex_BMfont, 0, 1, 1, 0xFFFFFFFF);
-    GRRLIB_FreeTexture(tex_BMfont);
 }

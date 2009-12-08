@@ -96,7 +96,7 @@ void  GRRLIB_Printf   (const f32 xpos, const f32 ypos,
 
 void  GRRLIB_PrintBMF (const f32 xpos, const f32 ypos,
                        const GRRLIB_bytemapFont *bmf,
-                       const f32 zoom, const char *text, ...) ;
+                       const char *text, ...) ;
 
 //------------------------------------------------------------------------------
 // GRRLIB_render.c - Rendering functions
