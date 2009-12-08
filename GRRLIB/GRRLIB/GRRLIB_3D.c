@@ -104,7 +104,7 @@ void GRRLIB_3dMode(f32 minDist, f32 maxDist, f32 fov, bool texturemode) {
  * Go back to 2D Mode (contributed my chris_c aka DaShAmAn).
  */
 void GRRLIB_2dMode() {
-    Mtx view,m;
+    Mtx view, m;
 
     GX_SetZMode(GX_FALSE, GX_LEQUAL, GX_TRUE);
 
@@ -114,7 +114,7 @@ void GRRLIB_2dMode() {
     GX_LoadProjectionMtx(m, GX_ORTHOGRAPHIC);
 
     guMtxIdentity(view);
-    guMtxTransApply(view,view, 0, 0, -100.0F);
+    guMtxTransApply(view, view, 0, 0, -100.0F);
     GX_LoadPosMtxImm(view, GX_PNMTX0);
 
     GX_ClearVtxDesc();
@@ -142,22 +142,22 @@ static  guVector  _GRRaxisz = (guVector){0,0,1}; // NOT ever!
  * @param angz z rotation angle of the object.
  */
 void GRRLIB_objectView(f32 posx, f32 posy, f32 posz, f32 angx, f32 angy, f32 angz) {
-    Mtx m,mv,rx,ry,rz;
+    Mtx m, mv, rx, ry, rz;
     Mtx mvi ;
 
     guMtxIdentity(m);
     guMtxRotAxisDeg(rx, &_GRRaxisx, angx);
     guMtxRotAxisDeg(ry, &_GRRaxisy, angy);
     guMtxRotAxisDeg(rz, &_GRRaxisz, angz);
-    guMtxConcat(ry,rx,m);
-    guMtxConcat(m,rz,m);
+    guMtxConcat(ry, rx, m);
+    guMtxConcat(m, rz, m);
 			
-    guMtxTransApply(m, m, posx,posy,posz);
-    guMtxConcat(_GRR_view,m,mv);
+    guMtxTransApply(m, m, posx, posy, posz);
+    guMtxConcat(_GRR_view, m, mv);
     GX_LoadPosMtxImm(mv, GX_PNMTX0);
 
-    guMtxInverse(mv,mvi);
-    guMtxTranspose(mvi,mv);
+    guMtxInverse(mv, mvi);
+    guMtxTranspose(mvi, mv);
     GX_LoadNrmMtxImm(mv, GX_PNMTX0);
 }
 
@@ -170,10 +170,10 @@ void GRRLIB_setTexture(GRRLIB_texImg *tex, bool rep) {
     GXTexObj  texObj;
 
     if (rep) {
-        GX_InitTexObj(&texObj, tex->data, tex->w, tex->h,GX_TF_RGBA8, GX_REPEAT, GX_REPEAT, GX_FALSE);
+        GX_InitTexObj(&texObj, tex->data, tex->w, tex->h, GX_TF_RGBA8, GX_REPEAT, GX_REPEAT, GX_FALSE);
     } 
     else {
-        GX_InitTexObj(&texObj, tex->data, tex->w, tex->h,GX_TF_RGBA8, GX_CLAMP, GX_CLAMP, GX_FALSE);
+        GX_InitTexObj(&texObj, tex->data, tex->w, tex->h, GX_TF_RGBA8, GX_CLAMP, GX_CLAMP, GX_FALSE);
     }
     if (GRRLIB_Settings.antialias == false){
         GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR, 0.0f, 0.0f, 0.0f, 0, 0, GX_ANISO_1);
