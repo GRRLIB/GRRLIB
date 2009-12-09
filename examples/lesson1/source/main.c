@@ -1,6 +1,6 @@
 /*===========================================
         GRRLIB (GX Version)
-		- Example Code -
+        - Example Code -
 
         How To use Bitmap Fonts
 ============================================*/
@@ -8,7 +8,6 @@
 
 #include <ogc/lwp_watchdog.h>	// Needed for gettime and ticks_to_millisecs
 #include <stdlib.h>
-#include <wiiuse/wpad.h>
 #include <wiiuse/wpad.h>
 #include <fat.h>
 
