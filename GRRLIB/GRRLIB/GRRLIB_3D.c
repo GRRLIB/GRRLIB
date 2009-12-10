@@ -90,14 +90,14 @@ void GRRLIB_3dMode(f32 minDist, f32 maxDist, f32 fov, bool texturemode) {
     GX_SetVtxDesc(GX_VA_CLR0, GX_DIRECT);
 
     if(texturemode==FALSE) GX_SetVtxDesc(GX_VA_TEX0, GX_NONE);
-    if(texturemode==TRUE) GX_SetVtxDesc(GX_VA_TEX0, GX_DIRECT);
+    else                   GX_SetVtxDesc(GX_VA_TEX0, GX_DIRECT);
 
     GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_POS_XYZ, GX_F32, 0);
     GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_CLR0, GX_CLR_RGBA, GX_RGBA8, 0);
     GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_TEX0, GX_TEX_ST, GX_F32, 0);
 
     if(texturemode==FALSE) GX_SetTevOp(GX_TEVSTAGE0, GX_PASSCLR);
-    if(texturemode==TRUE) GX_SetTevOp(GX_TEVSTAGE0, GX_REPLACE);
+    else                   GX_SetTevOp(GX_TEVSTAGE0, GX_REPLACE);
 }
 
 /**
@@ -175,11 +175,11 @@ void GRRLIB_setTexture(GRRLIB_texImg *tex, bool rep) {
     else {
         GX_InitTexObj(&texObj, tex->data, tex->w, tex->h, GX_TF_RGBA8, GX_CLAMP, GX_CLAMP, GX_FALSE);
     }
-    if (GRRLIB_Settings.antialias == false){
+    if (GRRLIB_Settings.antialias == false) {
         GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR, 0.0f, 0.0f, 0.0f, 0, 0, GX_ANISO_1);
         GX_SetCopyFilter(GX_FALSE, rmode->sample_pattern, GX_FALSE, rmode->vfilter);
     }
-    else{
+    else {
         GX_SetCopyFilter(rmode->aa, rmode->sample_pattern, GX_TRUE, rmode->vfilter);
     }
 
