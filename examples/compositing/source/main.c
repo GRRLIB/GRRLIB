@@ -36,7 +36,7 @@ int main() {
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) exit(0);
 
 // we say thant we will want to capture to a texture all the following
-        GRRLIB_CompoStart(); 
+        GRRLIB_CompoStart();
 
             for(i=0;i<360;i+=30) {
 // We draw some letters

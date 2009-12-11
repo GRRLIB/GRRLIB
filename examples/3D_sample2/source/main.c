@@ -1,6 +1,6 @@
 /*===========================================
-    NoNameNo 
-    Simple Textured 3D cube 
+    NoNameNo
+    Simple Textured 3D cube
 ============================================*/
 #include <grrlib.h>
 
