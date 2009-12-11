@@ -163,7 +163,7 @@ int main() {
                 GRRLIB_Printf(left, top+300, tex_BMfont3, GRRLIB_WHITE, 1, "IR Y VALUE: %d", (int)ir1.y);
                 GRRLIB_Printf(left, top+350, tex_BMfont3, 0XFFFFFF50, 1, "TEXT WITH ALPHA");
                 GRRLIB_Printf(left, top+400, tex_BMfont5, GRRLIB_LIME, 1, "This font has the 128 ASCII characters");
-                GRRLIB_PrintBMF(left, top+420, bmf_Font2, 1, "%s", bmf_Font2->name);
+                GRRLIB_PrintBMF(left, top+420, bmf_Font2, "%s", bmf_Font2->name);
         }
         GRRLIB_Printf(500, 27, tex_BMfont5, GRRLIB_WHITE, 1, "Current FPS: %d", FPS);
         GRRLIB_Render();
