@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <wiiuse/wpad.h>
 
-int main() {
+int main(int argc, char **argv) {
     // Initialise the Graphics & Video subsystem
     GRRLIB_Init();
 
@@ -19,10 +19,10 @@ int main() {
     // Loop forever
     while(1) {
 
-        WPAD_ScanPads();  // Scan the wiimotes
+        WPAD_ScanPads();  // Scan the Wiimotes
 
         // If [HOME] was pressed on the first Wiimote, break out of the loop
-        if (WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME)  break ;
+        if (WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME)  break;
 
         // ---------------------------------------------------------------------
         // Place your drawing code here

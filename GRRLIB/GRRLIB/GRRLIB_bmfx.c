@@ -141,7 +141,7 @@ void  GRRLIB_BMFX_Blur (const GRRLIB_texImg *texsrc,
     int numba = (1+(factor<<1))*(1+(factor<<1));
     u32 x, y;
     s32 k, l;
-    int tmp = 0;
+    int tmp;
     int newr, newg, newb, newa;
     u32 colours[numba];
     u32 thiscol;

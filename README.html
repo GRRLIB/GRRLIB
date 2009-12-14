@@ -37,7 +37,7 @@ Licence
 Introduction
 ------------
 
-GRRLIB is a C/C++ 2D Graphics library for Wii application developers.  It is
+GRRLIB is a C/C++ 2D/3D graphics library for Wii application developers.  It is
 essentially a wrapper which presents a friendly interface to the Nintendo GX
 core.
 
@@ -51,7 +51,7 @@ requires 'libpng' and 'libpng' requires 'libz'.  GRRLIB also has FileIO
 functions to allow real-time loading and saving of graphical data, and thus also
 requires 'libfat'.
 
-libgrrlib          &lt;- 2D graphics library
+libgrrlib          &lt;- 2D/3D graphics library
 +-- libfat         &lt;- File I/O
 +-- libjpeg        &lt;- JPEG image processor
 +-- libpngu        &lt;- Wii wrapper for libpng
@@ -144,7 +144,7 @@ Using GRRLIB
 
 After everything is installed, simply put
     #include &lt;grrlib.h>     <!-- #include <grrlib.h> -->
-at the top of your .c file and use the functions as required
+at the top of your .c/.cpp file and use the functions as required
 
 You will also need to add
     -lgrrlib -lfat -ljpeg -lpngu -lpng -lz
@@ -157,10 +157,7 @@ here.
 You do NOT need to place /anything/ in your application directory.
 
 If you would like to see a working example of this, you can look at the example
-found in: C:\grr\trunk\examples\bluechip\composition
-...This example also includes a "Makefile" which tries to make it clear what is
-happening (unlike the more comprehensive cross-platform Makefile supplied with
-the devkitPro 'template' application).
+found in: C:\grr\trunk\examples\template\source
 
 
 Upgrading to v4.1.0 From Previous Versions of GRRLIB

@@ -234,7 +234,7 @@ GRR_EXTERN  u32         fb       GRR_INIT(0);
  * Welcome to the GRRLIB documentation.
  *
  * @section Introduction
- * GRRLIB is a C/C++ 2D Graphics library for Wii application developers.
+ * GRRLIB is a C/C++ 2D/3D graphics library for Wii application developers.
  * It is essentially a wrapper which presents a friendly interface to the Nintendo GX core.
  *
  * @section Links
