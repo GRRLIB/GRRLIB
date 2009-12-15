@@ -17,6 +17,7 @@ int main() {
     float rot=0;
     float i;
     int circsize=150;
+    char text[]="GRRLIB ROXX ";
 
     GRRLIB_Init();
     WPAD_Init();
@@ -40,7 +41,7 @@ int main() {
 
             for(i=0;i<360;i+=30) {
 // We draw some letters
-                GRRLIB_DrawTile((rmode->fbWidth/2)-(tex_font->tilew/2), (rmode->efbHeight/2)-(tex_font->tileh+circsize), tex_font, rot+i, 1, 1, 0xFFFFFFFF, 65-32+((int)i/45));
+                GRRLIB_DrawTile((rmode->fbWidth/2)-(tex_font->tilew/2), (rmode->efbHeight/2)-(tex_font->tileh+circsize), tex_font, rot+i, 1, 1, 0xFFFFFFFF, text[(int)(i/30)]-32);
             }
 
 // we say we want to capture now, (the buffer will be cleared after the capture)
@@ -48,8 +49,9 @@ int main() {
 
         rot-=0.6;
 
-// we now draw twice the captured buffer
-        GRRLIB_DrawImg(50, 50, tex_screen, 0, 1, 1, 0xFFFFFFFF);
+// we now draw 3 times  the captured buffer playing with color
+        GRRLIB_DrawImg(0, 0, tex_screen, 0, 1, 1, 0xFF00FFFF);
+        GRRLIB_DrawImg(50, 50, tex_screen, 0, 1, 1, 0xFFFF00FF);
         GRRLIB_DrawImg(100, 100, tex_screen, 0, 1, 1, 0xFFFFFFFF);
 
         GRRLIB_Render();
