@@ -278,20 +278,12 @@ GRRLIB_texImg*  GRRLIB_LoadTextureBMP (const u8 *my_bmp) {
 
 /**
  * Load a texture from a buffer.
- * Take care to have the JPG finnish with 0xFF 0xD9!!
- * @author DrTwox
+ * Take care to have the JPG finnish with 0xFF 0xD9!
  * @param my_jpg The JPEG buffer to load.
  * @return A GRRLIB_texImg structure filled with image information.
  */
 GRRLIB_texImg*  GRRLIB_LoadTextureJPG (const u8 *my_jpg) {
-    struct jpeg_decompress_struct cinfo;
-    struct jpeg_error_mgr jerr;
-    GRRLIB_texImg *my_texture = calloc(1, sizeof(GRRLIB_texImg));
     int n = 0;
-    unsigned int i;
-
-    if(my_texture == NULL)
-        return NULL;
 
     if ((my_jpg[0]==0xFF) && (my_jpg[1]==0xD8) && (my_jpg[2]==0xFF)) {
         while(true) {
@@ -302,10 +294,29 @@ GRRLIB_texImg*  GRRLIB_LoadTextureJPG (const u8 *my_jpg) {
         n+=2;
     }
 
+    return GRRLIB_LoadTextureJPGEx(my_jpg, n);
+}
+
+/**
+ * Load a texture from a buffer.
+ * @author DrTwox
+ * @param my_jpg The JPEG buffer to load.
+ * @param my_size Size of the JPEG buffer to load.
+ * @return A GRRLIB_texImg structure filled with image information.
+ */
+GRRLIB_texImg*  GRRLIB_LoadTextureJPGEx (const u8 *my_jpg, const int my_size) {
+    struct jpeg_decompress_struct cinfo;
+    struct jpeg_error_mgr jerr;
+    GRRLIB_texImg *my_texture = calloc(1, sizeof(GRRLIB_texImg));
+    unsigned int i;
+
+    if(my_texture == NULL)
+        return NULL;
+
     jpeg_create_decompress(&cinfo);
     cinfo.err = jpeg_std_error(&jerr);
     cinfo.progress = NULL;
-    jpeg_memory_src(&cinfo, my_jpg, n);
+    jpeg_memory_src(&cinfo, my_jpg, my_size);
     jpeg_read_header(&cinfo, TRUE);
     jpeg_start_decompress(&cinfo);
     unsigned char *tempBuffer = malloc(cinfo.output_width * cinfo.output_height * cinfo.num_components);

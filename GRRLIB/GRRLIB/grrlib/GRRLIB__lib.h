@@ -130,6 +130,7 @@ void GRRLIB_CompoEnd(int posx, int posy, GRRLIB_texImg *tex);
 GRRLIB_texImg*  GRRLIB_LoadTexture    (const u8 *my_img) ;
 GRRLIB_texImg*  GRRLIB_LoadTexturePNG (const u8 *my_png) ;
 GRRLIB_texImg*  GRRLIB_LoadTextureJPG (const u8 *my_jpg) ;
+GRRLIB_texImg*  GRRLIB_LoadTextureJPGEx (const u8 *my_jpg, const int) ;
 GRRLIB_texImg*  GRRLIB_LoadTextureBMP (const u8 *my_bmp) ;
 
 //------------------------------------------------------------------------------
