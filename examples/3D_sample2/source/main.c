@@ -15,10 +15,7 @@
 
 int main() {
     float a=0;
-    u32 col[3];
-    col[0]=0xFFFFFFFF;
-    col[1]=0xFFFFFFFF;
-    col[2]=0xFFFFFFFF;
+    u32 col[3] = {0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF};
     int cubeZ=0;
 
     GRRLIB_Init();
@@ -138,4 +135,3 @@ int main() {
 
     exit(0);
 }
-

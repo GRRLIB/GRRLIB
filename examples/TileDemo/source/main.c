@@ -139,7 +139,7 @@ int main() {
     GRRLIB_Init();
     GRRLIB_Settings.antialias = false;
     WPAD_Init();
-    GRRLIB_ClipDrawing(0,0,640,480);
+    GRRLIB_ClipDrawing(0,0,rmode->fbWidth,rmode->efbHeight);
     GRRLIB_texImg *tex_tile1 = GRRLIB_LoadTexture(tile1);
     GRRLIB_InitTileSet(tex_tile1, TileMap1Width, TileMap1Height, 0);
     GRRLIB_texImg *tex_perso = GRRLIB_LoadTexture(perso);
@@ -197,14 +197,16 @@ int main() {
             }
         }
         if(diry!=0) {
-        idperso++;
+            idperso++;
             if(idperso>22)
                 idperso=16;
         }
 
         cptx+=dirx;
-        if(dirx>0) bgx++;
-        if(dirx<0) bgx--;
+        if(dirx>0)
+            bgx++;
+        else if(dirx<0)
+            bgx--;
         if((bgx>-1) ||(bgx<-63))
             bgx=-32;
 
