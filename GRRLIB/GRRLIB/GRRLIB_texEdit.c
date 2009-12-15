@@ -77,7 +77,7 @@ void  RawTo4x4RGBA (const u8 *src, void *dst,
  * @param my_img The JPEG, PNG or Bitmap buffer to load.
  * @return A GRRLIB_texImg structure filled with image information.
  */
-GRRLIB_texImg*  GRRLIB_LoadTexture (const u8 my_img[]) {
+GRRLIB_texImg*  GRRLIB_LoadTexture (const u8 *my_img) {
     if (my_img[0]==0xFF && my_img[1]==0xD8 && my_img[2]==0xFF)
         return (GRRLIB_LoadTextureJPG(my_img));
     else if (my_img[0]=='B' && my_img[1]=='M')

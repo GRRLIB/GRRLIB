@@ -69,7 +69,7 @@ int main() {
     WPAD_SetDataFormat(WPAD_CHAN_0, WPAD_FMT_BTNS_ACC_IR);
 
     GRRLIB_texImg *tex_test_jpg = GRRLIB_LoadTexture(test_jpg);
-    GRRLIB_texImg *tex_test_bmp = GRRLIB_LoadTextureBMP(test_bmp);
+    GRRLIB_texImg *tex_test_bmp = GRRLIB_LoadTexture(test_bmp);
 
     GRRLIB_bytemapFont *bmf_Font1 = GRRLIB_LoadBMF(ocean);
     GRRLIB_bytemapFont *bmf_Font2 = GRRLIB_LoadBMF(frontal);
