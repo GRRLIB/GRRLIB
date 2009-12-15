@@ -22,6 +22,15 @@ THE SOFTWARE.
 
 #include <grrlib.h>
 
+// User should not directly modify these
+static  Mtx       _GRR_view;
+static  guVector  _GRR_cam  = {0.0F, 0.0F, 0.0F},
+                  _GRR_up   = {0.0F, 1.0F, 0.0F},
+                  _GRR_look = {0.0F, 0.0F, -100.0F};
+static  guVector  _GRRaxisx = (guVector){1, 0, 0}; // DO NOT MODIFY!!!
+static  guVector  _GRRaxisy = (guVector){0, 1, 0}; // Even at runtime
+static  guVector  _GRRaxisz = (guVector){0, 0, 1}; // NOT ever!
+
 /**
  * Set the background parameter when screen is cleared.
  * @param r Red component.
@@ -29,15 +38,9 @@ THE SOFTWARE.
  * @param b Blue component.
  * @param a Alpha component.
  */
-void GRRLIB_setBackgroundColour(u8 r, u8 g, u8 b, u8 a) {
+void GRRLIB_SetBackgroundColour(u8 r, u8 g, u8 b, u8 a) {
    GX_SetCopyClear((GXColor){ r, g, b, a }, GX_MAX_Z24); 
 }
-
-// user should not directly modify these
-guVector _GRR_cam = {0.0F, 0.0F, 0.0F},
-         _GRR_up  = {0.0F, 1.0F, 0.0F},
-         _GRR_look   = {0.0F, 0.0F, -100.0F};
-Mtx _GRR_view;
 
 /**
  * Set the camera parameter (contributed my chris_c aka DaShAmAn).
@@ -51,7 +54,7 @@ Mtx _GRR_view;
  * @param looky y up posision of the cam.
  * @param lookz z up posision of the cam.
  */
-void GRRLIB_camera3dSettings(f32 posx, f32 posy, f32 posz, 
+void GRRLIB_Camera3dSettings(f32 posx, f32 posy, f32 posz, 
     f32 upx, f32 upy, f32 upz, 
     f32 lookx, f32 looky, f32 lookz) {
 
@@ -128,10 +131,6 @@ void GRRLIB_2dMode() {
     GX_SetTevOp  (GX_TEVSTAGE0, GX_PASSCLR);
 }
 
-static  guVector  _GRRaxisx = (guVector){1,0,0}; // DO NOT MODIFY!!!
-static  guVector  _GRRaxisy = (guVector){0,1,0}; // Even at runtime
-static  guVector  _GRRaxisz = (guVector){0,0,1}; // NOT ever!
-
 /**
  * Set the view matrix to draw object (contributed my chris_c aka DaShAmAn).
  * @param posx x posision of the object.
@@ -141,7 +140,7 @@ static  guVector  _GRRaxisz = (guVector){0,0,1}; // NOT ever!
  * @param angy y rotation angle of the object.
  * @param angz z rotation angle of the object.
  */
-void GRRLIB_objectView(f32 posx, f32 posy, f32 posz, f32 angx, f32 angy, f32 angz) {
+void GRRLIB_ObjectView(f32 posx, f32 posy, f32 posz, f32 angx, f32 angy, f32 angz) {
     Mtx m, mv, rx, ry, rz;
     Mtx mvi ;
 
@@ -166,7 +165,7 @@ void GRRLIB_objectView(f32 posx, f32 posy, f32 posz, f32 angx, f32 angy, f32 ang
  * @param tex poiter to an image texture (GRRLIB_texImg format).
  * @param rep Texture Repeat Mode, True will repeat it, False won't.
 */
-void GRRLIB_setTexture(GRRLIB_texImg *tex, bool rep) {
+void GRRLIB_SetTexture(GRRLIB_texImg *tex, bool rep) {
     GXTexObj  texObj;
 
     if (rep) {
@@ -187,4 +186,3 @@ void GRRLIB_setTexture(GRRLIB_texImg *tex, bool rep) {
     GX_SetTevOp  (GX_TEVSTAGE0, GX_MODULATE);
     GX_SetVtxDesc(GX_VA_TEX0,   GX_DIRECT);
 }
-

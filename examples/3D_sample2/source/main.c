@@ -29,8 +29,8 @@ int main() {
 
     GRRLIB_Settings.antialias = true;
 
-    GRRLIB_setBackgroundColour(0x00, 0x00, 0x00, 0xFF);
-    GRRLIB_camera3dSettings(0.0f,0.0f,13.0f, 0,1,0, 0,0,0);
+    GRRLIB_SetBackgroundColour(0x00, 0x00, 0x00, 0xFF);
+    GRRLIB_Camera3dSettings(0.0f,0.0f,13.0f, 0,1,0, 0,0,0);
 
     while(1) {
         GRRLIB_2dMode();
@@ -40,8 +40,8 @@ int main() {
         if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_B) cubeZ--;
 
         GRRLIB_3dMode(0.1,1000,45,1);
-        GRRLIB_setTexture(tex_girl,0);
-        GRRLIB_objectView(0,0,cubeZ, a,a*2,a*3);
+        GRRLIB_SetTexture(tex_girl,0);
+        GRRLIB_ObjectView(0,0,cubeZ, a,a*2,a*3);
         GX_Begin(GX_QUADS, GX_VTXFMT0, 24);
             GX_Position3f32(-1.0f,1.0f,1.0f);
             GX_Color1u32(col[0]);

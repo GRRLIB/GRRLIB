@@ -155,7 +155,7 @@ int main() {
 
     GRRLIB_texImg *tex_screen = GRRLIB_CreateEmptyTexture(rmode->fbWidth, rmode->efbHeight);
 
-    GRRLIB_setBackgroundColour(0x00, 0x00, 0x00, 0xFF);
+    GRRLIB_SetBackgroundColour(0x00, 0x00, 0x00, 0xFF);
 
     while(1) {
         GRRLIB_2dMode();
@@ -276,10 +276,10 @@ int main() {
         GRRLIB_Screen2Texture(0, 0, tex_screen, GX_TRUE);
 
 
-        GRRLIB_camera3dSettings(0.0f,0.0f,camZ, 0,1,0, 0,0,0);
+        GRRLIB_Camera3dSettings(0.0f,0.0f,camZ, 0,1,0, 0,0,0);
         GRRLIB_3dMode(0.1,3000,45,1);
-        GRRLIB_setTexture(tex_screen,0);
-        GRRLIB_objectView(0,0,0, a,a*2,a*3);
+        GRRLIB_SetTexture(tex_screen,0);
+        GRRLIB_ObjectView(0,0,0, a,a*2,a*3);
         GX_Begin(GX_QUADS, GX_VTXFMT0, 16);
             GX_Position3f32(-rmode->fbWidth/2,rmode->efbHeight/2,rmode->fbWidth/2);
             GX_Color1u32(col[0]);

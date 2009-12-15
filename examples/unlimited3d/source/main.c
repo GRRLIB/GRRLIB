@@ -67,11 +67,11 @@ int main() {
         GRRLIB_Render();
     }
 
-    GRRLIB_setBackgroundColour(0x00, 0x00, 0x00, 0xFF);
+    GRRLIB_SetBackgroundColour(0x00, 0x00, 0x00, 0xFF);
 
     while(1) {
         WPAD_ScanPads();
-        GRRLIB_camera3dSettings(0.0f,0.0f,camZ, 0,1,0, 0,0,0);
+        GRRLIB_Camera3dSettings(0.0f,0.0f,camZ, 0,1,0, 0,0,0);
 
         GRRLIB_2dMode();
         GRRLIB_DrawImg(0, 0, tex_screen[screen_index], 0, 1, 1, 0xFFFFFFFF);
@@ -81,8 +81,8 @@ int main() {
 
 
         cubeZ+=0.02f;
-        GRRLIB_objectView((float)(((R + r-ff)*cos(t-f) - d*cos(((R + r-f)/r)*t)))/20.0f,(float)(((R + r-ff)*sin(t) - d*sin(((R + r)/r)*t)-f))/20.0f,sin(cubeZ)*10, a,a*2,a*3);
-        GRRLIB_setTexture(tex_girl, 0);
+        GRRLIB_ObjectView((float)(((R + r-ff)*cos(t-f) - d*cos(((R + r-f)/r)*t)))/20.0f,(float)(((R + r-ff)*sin(t) - d*sin(((R + r)/r)*t)-f))/20.0f,sin(cubeZ)*10, a,a*2,a*3);
+        GRRLIB_SetTexture(tex_girl, 0);
         GX_Begin(GX_QUADS, GX_VTXFMT0, 24);
             GX_Position3f32(-1.0f,1.0f,1.0f);
             GX_Color1u32(col[0]);
@@ -176,12 +176,12 @@ int main() {
         spr+=0.1f;
         t+=0.01f;
 
-        if(t>n*2*PI){
+        if(t>n*2*PI) {
             n++;
             f+=0.01f;
         }
 
-        if(f>2*PI){
+        if(f>2*PI) {
             f=0;
             ff+=0.02f;
         }

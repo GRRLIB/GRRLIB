@@ -140,12 +140,12 @@ void GRRLIB_GeckoPrintf (const char *text, ...);
 
 //------------------------------------------------------------------------------
 // GRRLIB_3D.c - 3D functions for GRRLIB
-void GRRLIB_setBackgroundColour(u8 r, u8 g, u8 b, u8 a);
-void GRRLIB_camera3dSettings(f32 posx, f32 posy, f32 posz, f32 upx, f32 upy, f32 upz, f32 lookx, f32 looky, f32 lookz);
+void GRRLIB_SetBackgroundColour(u8 r, u8 g, u8 b, u8 a);
+void GRRLIB_Camera3dSettings(f32 posx, f32 posy, f32 posz, f32 upx, f32 upy, f32 upz, f32 lookx, f32 looky, f32 lookz);
 void GRRLIB_3dMode(f32 minDist, f32 maxDist, f32 fov, bool texturemode);
 void GRRLIB_2dMode();
-void GRRLIB_objectView(f32 posx, f32 posy, f32 posz, f32 angx, f32 angy, f32 angz);
-void GRRLIB_setTexture(GRRLIB_texImg *tex, bool rep);
+void GRRLIB_ObjectView(f32 posx, f32 posy, f32 posz, f32 angx, f32 angy, f32 angz);
+void GRRLIB_SetTexture(GRRLIB_texImg *tex, bool rep);
 
 
 #endif // __GRRLIB_FNLIB_H__

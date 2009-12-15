@@ -23,8 +23,8 @@ int main() {
     GRRLIB_Settings.antialias = true;
 
 
-    GRRLIB_setBackgroundColour(0x00, 0x00, 0x00, 0xFF);
-    GRRLIB_camera3dSettings(0.0f,0.0f,13.0f, 0,1,0, 0,0,0);
+    GRRLIB_SetBackgroundColour(0x00, 0x00, 0x00, 0xFF);
+    GRRLIB_Camera3dSettings(0.0f,0.0f,13.0f, 0,1,0, 0,0,0);
 
     while(1) {
         GRRLIB_2dMode();
@@ -33,7 +33,7 @@ int main() {
 
 
         GRRLIB_3dMode(0.1,1000,45,0);
-        GRRLIB_objectView(0,0,-30, a,a*2,a*3);
+        GRRLIB_ObjectView(0,0,-30, a,a*2,a*3);
         GX_Begin(GX_TRIANGLES, GX_VTXFMT0, logoNbFace * 3);
         for(i=0; i<logoNbFace*3; i+=3) {
             if(i<=(246*3*2))
