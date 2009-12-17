@@ -42,6 +42,16 @@ cd pngu
   if errorlevel 1 goto error
 cd ..
 
+Rem -- FreeType library
+echo.
+echo ---------------------------------------------------------------------------
+echo Installing FreeType Library...
+echo.
+cd freetype
+  make install
+  if errorlevel 1 goto error
+cd ..
+
 echo.
 echo Done
 goto end
