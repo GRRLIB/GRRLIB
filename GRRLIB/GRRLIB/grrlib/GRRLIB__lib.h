@@ -26,7 +26,7 @@ THE SOFTWARE.
  */
 
 #ifndef __GRRLIB_H__
-#  error Do not include GRRLIB_fnLib.h directly, include only GRRLIB.h
+#  error Do not include GRRLIB__lib.h directly, include only GRRLIB.h
 #endif
 
 #ifndef __GRRLIB_FNLIB_H__
@@ -113,7 +113,8 @@ void  GRRLIB_DrawTile (const f32 xpos, const f32 ypos, const GRRLIB_texImg *tex,
 
 void  GRRLIB_DrawPart (const f32 xpos, const f32 ypos, const f32 partx, const f32 party,
                        const f32 partw, const f32 parth, const GRRLIB_texImg *tex,
-                       const f32 degrees, const f32 scaleX, const f32 scaleY, const u32 color);
+                       const f32 degrees, const f32 scaleX, const f32 scaleY,
+                       const u32 color) ;
 
 void  GRRLIB_DrawTileQuad (const guVector pos[4], GRRLIB_texImg *tex, const u32 color, const int frame) ;
 
