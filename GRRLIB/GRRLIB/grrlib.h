@@ -144,8 +144,7 @@ typedef  struct GRRLIB_bytemapFont {
         s8    tracking;             /**< Tracking (Add-space after each char) (-128 to 127). */
 
         GRRLIB_bytemapChar  *charDef;   /**< Array of bitmap characters. */
-    }
-GRRLIB_bytemapFont;
+} GRRLIB_bytemapChar;
 
 //------------------------------------------------------------------------------
 /**
