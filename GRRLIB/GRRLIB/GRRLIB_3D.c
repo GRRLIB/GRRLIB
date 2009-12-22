@@ -39,7 +39,7 @@ static  guVector  _GRRaxisz = (guVector){0, 0, 1}; // NOT ever!
  * @param a Alpha component.
  */
 void GRRLIB_SetBackgroundColour(u8 r, u8 g, u8 b, u8 a) {
-   GX_SetCopyClear((GXColor){ r, g, b, a }, GX_MAX_Z24); 
+   GX_SetCopyClear((GXColor){ r, g, b, a }, GX_MAX_Z24);
 }
 
 /**
@@ -54,8 +54,8 @@ void GRRLIB_SetBackgroundColour(u8 r, u8 g, u8 b, u8 a) {
  * @param looky y up posision of the cam.
  * @param lookz z up posision of the cam.
  */
-void GRRLIB_Camera3dSettings(f32 posx, f32 posy, f32 posz, 
-    f32 upx, f32 upy, f32 upz, 
+void GRRLIB_Camera3dSettings(f32 posx, f32 posy, f32 posz,
+    f32 upx, f32 upy, f32 upz,
     f32 lookx, f32 looky, f32 lookz) {
 
    _GRR_cam.x=posx;
@@ -81,9 +81,9 @@ void GRRLIB_Camera3dSettings(f32 posx, f32 posy, f32 posz,
 void GRRLIB_3dMode(f32 minDist, f32 maxDist, f32 fov, bool texturemode) {
     Mtx m;
 
-    guLookAt(_GRR_view, &_GRR_cam, &_GRR_up, &_GRR_look);   
+    guLookAt(_GRR_view, &_GRR_cam, &_GRR_up, &_GRR_look);
     guPerspective(m, fov, (f32)rmode->fbWidth/rmode->efbHeight, minDist, maxDist);
-    GX_LoadProjectionMtx(m, GX_PERSPECTIVE);     
+    GX_LoadProjectionMtx(m, GX_PERSPECTIVE);
     GX_SetZMode (GX_TRUE, GX_LEQUAL, GX_TRUE);
 
     GX_SetCullMode(GX_CULL_NONE);
@@ -150,7 +150,7 @@ void GRRLIB_ObjectView(f32 posx, f32 posy, f32 posz, f32 angx, f32 angy, f32 ang
     guMtxRotAxisDeg(rz, &_GRRaxisz, angz);
     guMtxConcat(ry, rx, m);
     guMtxConcat(m, rz, m);
-			
+
     guMtxTransApply(m, m, posx, posy, posz);
     guMtxConcat(_GRR_view, m, mv);
     GX_LoadPosMtxImm(mv, GX_PNMTX0);
@@ -170,7 +170,7 @@ void GRRLIB_SetTexture(GRRLIB_texImg *tex, bool rep) {
 
     if (rep) {
         GX_InitTexObj(&texObj, tex->data, tex->w, tex->h, GX_TF_RGBA8, GX_REPEAT, GX_REPEAT, GX_FALSE);
-    } 
+    }
     else {
         GX_InitTexObj(&texObj, tex->data, tex->w, tex->h, GX_TF_RGBA8, GX_CLAMP, GX_CLAMP, GX_FALSE);
     }
