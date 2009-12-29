@@ -167,11 +167,10 @@ int  GRRLIB_Init (void) {
 
 /**
  * Call this before exiting your application.
+ * Ensure this function is only ever called once
+ * and only if the setup function has been called.
  */
 void  GRRLIB_Exit (void) {
-
-    // Ensure this function is only ever called once
-    // ...and only if the setup function has been called
     static  bool  done = false;
     if (done || !is_setup)  return ;
     else                    done = true ;
