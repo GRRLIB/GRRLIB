@@ -47,9 +47,10 @@ or a text editor.
 As of v4.1.0, GRRLIB is supplied as a standard C/C++ library (aka. archive)
 called 'libgrrlib'.  Because GRRLIB processes JPEG and PNG images, it requires
 the installation of the 'libjpeg' and 'libpngu' libraries.  'libpngu', in turn,
-requires 'libpng' and 'libpng' requires 'libz'.  GRRLIB also has FileIO
-functions to allow real-time loading and saving of graphical data, and thus also
-requires 'libfat'.
+requires 'libpng' and 'libpng' requires 'libz'.  GRRLIB has FileIO functions
+to allow real-time loading and saving of graphical data, and thus requires
+'libfat'.  GRRLIB also has the possibility to use TrueType fonts, so
+'libfreetype' is also required.
 
 libgrrlib          &lt;- 2D/3D graphics library
 +-- libfat         &lt;- File I/O
@@ -57,7 +58,7 @@ libgrrlib          &lt;- 2D/3D graphics library
 +-- libpngu        &lt;- Wii wrapper for libpng
     +-- libpng     &lt;- PNG image processor
         +-- libz   &lt;- Zip (lossless) compression (for PNG compression)
-+-- libfreetype    &lt;- TrueType Font processor
++-- libfreetype    &lt;- TrueType font processor
 
 
 Developing for the Wii
@@ -93,12 +94,12 @@ Note: Discussion is underway for 'libpng' and 'libjpeg' to be included with
 This guide is for Windows.  If you are using Linux, I am going to presume you
 are smart enough to convert these instructions.
 
-GRRLIB  is supplied as source code.
-libjpeg is supplied as a precompiled library *1
-libpngu is supplied as source code
-libpng  is supplied as a precompiled library
-libz    is supplied with devkitpro (Ie. preinstalled)
-libfat  is supplied with devkitpro (Ie. preinstalled)
+GRRLIB   is supplied as source code.
+libjpeg  is supplied as a precompiled library *1
+libpngu  is supplied as source code
+libpng   is supplied as a precompiled library
+libz     is supplied with devkitpro (Ie. preinstalled)
+libfat   is supplied with devkitpro (Ie. preinstalled)
 libfreetype is supplied as a precompiled library
 
 *1 The version of libjpeg supplied with GRRLIB v4.2.0 contains bug fixes not
@@ -120,13 +121,19 @@ Next up the list is libpngu *2
   cd \grr\trunk\GRRLIB\lib\pngu
   make clean all install
 
+To install libfreetype *2
+  c:
+  cd \grr\trunk\GRRLIB\lib\freetype
+  make install
+
 Next up the list is libjpeg *2 *3
   c:
   cd \grr\trunk\GRRLIB\lib\jpeg
   make install
 
 *2 A Windows batch-file and a Linux shell-script are included which will
-   install the libpng, libpngu and libjpeg libraries in a single command:
+   install the libpng, libpngu, libjpeg and libfreetype libraries in a single
+   command:
      c:
      cd \grr\trunk\GRRLIB\lib
      install     &lt;- If you are using Linux, type `./install.sh` instead
@@ -149,7 +156,7 @@ After everything is installed, simply put
 at the top of your .c/.cpp file and use the functions as required
 
 You will also need to add
-    -lgrrlib -lfat -ljpeg -lpngu -lpng -lz
+    -lgrrlib -lfreetype -lfat -ljpeg -lpngu -lpng -lz
 to the libs line in your makefile
 ...Remember the order of the libraries is critical.  You may (need to) insert
 other libraries in the middle of the list, you may need to add others to the
