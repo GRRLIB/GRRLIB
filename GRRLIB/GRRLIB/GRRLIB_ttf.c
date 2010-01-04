@@ -33,7 +33,6 @@ static void DrawBitmap(FT_Bitmap *bitmap, int offset, int top, const u32 color) 
 /**
  * Initialize FreeType library.
  * @return int 0=OK; -1=Failed
- * @see GRRLIB_ExitFreetype
  */
 int GRRLIB_InitTTF () {
     if (FT_Init_FreeType(&ftLibrary)) {

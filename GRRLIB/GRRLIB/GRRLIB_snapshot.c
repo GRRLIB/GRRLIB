@@ -36,8 +36,8 @@ void  GRRLIB_Screen2Texture (int posx, int posy, GRRLIB_texImg *tex, bool clear)
         GX_CopyTex(tex->data, GX_FALSE);
         GX_PixModeSync();
         GRRLIB_FlushTex(tex);
-	if(clear)
-		GX_CopyDisp      (xfb[!fb], GX_TRUE);
+        if(clear)
+            GX_CopyDisp(xfb[!fb], GX_TRUE);
     }
 }
 
