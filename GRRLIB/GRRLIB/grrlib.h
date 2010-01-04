@@ -37,6 +37,8 @@ THE SOFTWARE.
 // Includes
 //==============================================================================
 #include <gccore.h>
+#include <ft2build.h>
+#include FT_FREETYPE_H
 //==============================================================================
 
 //==============================================================================
@@ -137,14 +139,23 @@ typedef  struct GRRLIB_bytemapChar {
  * Structure to hold the bytemap font information.
  */
 typedef  struct GRRLIB_bytemapFont {
-        char  *name;                /**< Font name.                      */
-        u32   *palette;             /**< Font palette.                   */
-        u16   nbChar;               /**< Number of characters in font.   */
-        u8    version;              /**< Version.                        */
-        s8    tracking;             /**< Tracking (Add-space after each char) (-128 to 127). */
+    char  *name;                /**< Font name.                      */
+    u32   *palette;             /**< Font palette.                   */
+    u16   nbChar;               /**< Number of characters in font.   */
+    u8    version;              /**< Version.                        */
+    s8    tracking;             /**< Tracking (Add-space after each char) (-128 to 127). */
 
-        GRRLIB_bytemapChar  *charDef;   /**< Array of bitmap characters. */
+    GRRLIB_bytemapChar  *charDef;   /**< Array of bitmap characters. */
 } GRRLIB_bytemapFont;
+
+//------------------------------------------------------------------------------
+/**
+ * Structure to hold the TTF information.
+ */
+typedef struct GRRLIB_Font {
+    FT_Face face;       /**< A TTF face object. */
+    FT_Bool kerning;    /**< true whenever a face object contains kerning data that can be accessed with FT_Get_Kerning. */
+} GRRLIB_ttfFont;
 
 //------------------------------------------------------------------------------
 /**

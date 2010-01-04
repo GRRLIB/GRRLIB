@@ -28,6 +28,7 @@ THE SOFTWARE.
 
 #define __GRRLIB_CORE__
 #include <grrlib.h>
+#include "grrlib/GRRLIB_ttf.h"
 
 #define DEFAULT_FIFO_SIZE (256 * 1024) /**< GX fifo buffer size. */
 
@@ -161,6 +162,9 @@ int  GRRLIB_Init (void) {
     // Initialise the filing system
     if (!fatInitDefault())  error_code = -2;
 
+    // Initialise TTF
+    if (GRRLIB_InitTTF())  error_code = -3;
+
     VIDEO_SetBlack(false);  // Enable video output
     return error_code;
 }
@@ -192,4 +196,7 @@ void  GRRLIB_Exit (void) {
     if (xfb[0]  != NULL) {  free(MEM_K1_TO_K0(xfb[0]));  xfb[0]  = NULL;  }
     if (xfb[1]  != NULL) {  free(MEM_K1_TO_K0(xfb[1]));  xfb[1]  = NULL;  }
     if (gp_fifo != NULL) {  free(gp_fifo);               gp_fifo = NULL;  }
+
+    // Done with TTF
+    GRRLIB_ExitTTF();
 }

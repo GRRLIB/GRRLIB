@@ -34,7 +34,7 @@ LDFLAGS	=	-g $(MACHDEP) -Wl,-Map,$(notdir $@).map
 # any extra libraries we wish to link with the project
 # the order can-be/is critical
 #---------------------------------------------------------------------------------
-LIBS	:= -lgrrlib -lpngu -lpng -ljpeg -lz -lfat
+LIBS	:= -lgrrlib -lfreetype -lpngu -lpng -ljpeg -lz -lfat
 LIBS	+= -lwiiuse
 #LIBS	+= -lmodplay -lasnd
 LIBS	+= -lbte -logc -lm
