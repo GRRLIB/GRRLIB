@@ -31,5 +31,12 @@ cd pngu
   make install
 cd ..
 
+# FreeType library
+echo -e "\n--------------------------------------------------------------------"
+echo -e "Installing FreeType Library...\n"
+cd freetype
+  make install
+cd ..
+
 # The End
 echo -e "\nDone\n"
