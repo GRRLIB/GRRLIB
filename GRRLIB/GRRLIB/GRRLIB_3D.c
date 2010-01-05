@@ -76,9 +76,11 @@ void GRRLIB_Camera3dSettings(f32 posx, f32 posy, f32 posz,
  * @param minDist Minimal distance for the cam.
  * @param maxDist Maximal distance for the cam.
  * @param fov Field of view for the cam.
+ * @param colormode False, GX won't need vertex colors , True, GX will need vertex colors.
  * @param texturemode False, GX won't need texture coordinate, True, GX will need texture coordinate.
+ * @param normalmode False, GX won't need normal coordinate, True, GX will need normal coordinate.
  */
-void GRRLIB_3dMode(f32 minDist, f32 maxDist, f32 fov, bool texturemode) {
+void GRRLIB_3dMode(f32 minDist, f32 maxDist, f32 fov, bool colormode, bool texturemode, bool normalmode) {
     Mtx m;
 
     guLookAt(_GRR_view, &_GRR_cam, &_GRR_up, &_GRR_look);
@@ -90,17 +92,18 @@ void GRRLIB_3dMode(f32 minDist, f32 maxDist, f32 fov, bool texturemode) {
 
     GX_ClearVtxDesc();
     GX_SetVtxDesc(GX_VA_POS, GX_DIRECT);
-    GX_SetVtxDesc(GX_VA_CLR0, GX_DIRECT);
-
-    if(texturemode==FALSE) GX_SetVtxDesc(GX_VA_TEX0, GX_NONE);
-    else                   GX_SetVtxDesc(GX_VA_TEX0, GX_DIRECT);
+    if(normalmode==TRUE)   GX_SetVtxDesc(GX_VA_NRM, GX_DIRECT);
+    if(colormode==TRUE)   GX_SetVtxDesc(GX_VA_CLR0, GX_DIRECT);
+    if(texturemode==TRUE) GX_SetVtxDesc(GX_VA_TEX0, GX_DIRECT);
 
     GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_POS_XYZ, GX_F32, 0);
-    GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_CLR0, GX_CLR_RGBA, GX_RGBA8, 0);
-    GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_TEX0, GX_TEX_ST, GX_F32, 0);
+    if(normalmode==TRUE)   GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_NRM, GX_NRM_XYZ, GX_F32, 0);
+    if(colormode==TRUE)    GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_CLR0, GX_CLR_RGBA, GX_RGBA8, 0);
+    if(texturemode==TRUE ) GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_TEX0, GX_TEX_ST, GX_F32, 0);
 
     if(texturemode==FALSE) GX_SetTevOp(GX_TEVSTAGE0, GX_PASSCLR);
-    else                   GX_SetTevOp(GX_TEVSTAGE0, GX_REPLACE);
+    else                   GX_SetTevOp(GX_TEVSTAGE0, GX_MODULATE);
+
 }
 
 /**
@@ -139,17 +142,24 @@ void GRRLIB_2dMode() {
  * @param angx x rotation angle of the object.
  * @param angy y rotation angle of the object.
  * @param angz z rotation angle of the object.
+ * @param scalx x scale of the object.
+ * @param scaly y scale of the object.
+ * @param scalz z scale of the object.
  */
-void GRRLIB_ObjectView(f32 posx, f32 posy, f32 posz, f32 angx, f32 angy, f32 angz) {
-    Mtx m, mv, rx, ry, rz;
+void GRRLIB_ObjectView(f32 posx, f32 posy, f32 posz, f32 angx, f32 angy, f32 angz, f32 scalx, f32 scaly, f32 scalz) {
+    Mtx m, m1, mv, rx, ry, rz;
     Mtx mvi ;
 
-    guMtxIdentity(m);
+    guMtxIdentity(m1);
+    guMtxScaleApply(m1, m1, scalx, scaly, scalz);
+
     guMtxRotAxisDeg(rx, &_GRRaxisx, angx);
     guMtxRotAxisDeg(ry, &_GRRaxisy, angy);
     guMtxRotAxisDeg(rz, &_GRRaxisz, angz);
     guMtxConcat(ry, rx, m);
     guMtxConcat(m, rz, m);
+
+    guMtxConcat(m, m1, m);
 
     guMtxTransApply(m, m, posx, posy, posz);
     guMtxConcat(_GRR_view, m, mv);
@@ -159,6 +169,7 @@ void GRRLIB_ObjectView(f32 posx, f32 posy, f32 posz, f32 angx, f32 angy, f32 ang
     guMtxTranspose(mvi, mv);
     GX_LoadNrmMtxImm(mv, GX_PNMTX0);
 }
+
 
 /**
  * Set the texture to an object (contributed by chris_c aka DaShAmAn).
@@ -186,3 +197,46 @@ void GRRLIB_SetTexture(GRRLIB_texImg *tex, bool rep) {
     GX_SetTevOp  (GX_TEVSTAGE0, GX_MODULATE);
     GX_SetVtxDesc(GX_VA_TEX0,   GX_DIRECT);
 }
+
+/**
+ * Initialise a Diffuse Light.
+ * @param id a light ID in libogc style : GX_LIGHT0,..., GX_LIGHT7).
+ * @param lpos a guVector x,y,z position of the light.
+ * @param lcol color of the light.
+*/
+void GRRLIB_InitLight(u8 id, guVector lpos, u32 lcol){
+GXLightObj MyLight;
+        guVecMultiply(_GRR_view, &lpos, &lpos);
+        GX_InitLightPos(&MyLight, lpos.x, lpos.y, lpos.z);
+        GX_InitLightColor(&MyLight, (GXColor) { R(lcol), G(lcol),B(lcol), A(lcol) });
+        GX_InitLightAttn(&MyLight, 1.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F);
+        GX_LoadLightObj(&MyLight, id);
+}
+
+/**
+ * All Light Off, colors come from the Vertex.
+*/
+void GRRLIB_LightOff(void){
+        GX_SetNumChans(1);
+        GX_SetChanCtrl(GX_COLOR0A0, GX_DISABLE, GX_SRC_VTX, GX_SRC_VTX, 0, GX_DF_NONE, GX_AF_NONE);
+        GX_SetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, GX_TEXMAP0, GX_COLOR0A0);
+}
+
+/**
+ * Define what light to turn on and some other param.
+ * @param id light IDs of the desired switched ON lights (ORed) (ie GX_LIGHT0|GX_LIGHT7).
+ * @param ambcol Ambiant color u32 formated
+ * @param matcol Material color u32 formated.
+ * @param colsrc Material color sources comes from the Vertex ???? (True/False)
+*/
+void GRRLIB_LightSwitch(u8 id, u32 ambcol, u32 matcol, u8 colsrc){
+        u8 src;
+        if(colsrc==0) src = GX_SRC_REG;
+        else src = GX_SRC_VTX;
+
+        GX_SetNumChans(1);
+        GX_SetChanCtrl(GX_COLOR0A0, GX_ENABLE, GX_SRC_REG, src, id, GX_DF_CLAMP,GX_AF_SPOT);
+        GX_SetChanAmbColor(GX_COLOR0A0, (GXColor) {  R(ambcol),  G(ambcol), B(ambcol), A(ambcol)});
+        GX_SetChanMatColor(GX_COLOR0A0, (GXColor) {  R(matcol),  G(matcol), B(matcol), A(matcol)});
+}
+
