@@ -33,7 +33,7 @@ THE SOFTWARE.
  */
 GRRLIB_bytemapFont*  GRRLIB_LoadBMF (const u8 my_bmf[] ) {
     GRRLIB_bytemapFont *fontArray = (struct GRRLIB_bytemapFont *)malloc(sizeof(GRRLIB_bytemapFont));
-    int i, j = 1;
+    u32 i, j = 1;
     u8 lineheight, usedcolors, highestcolor, nbPalette;
     short int sizeover, sizeunder, sizeinner, numcolpal;
     u16 nbPixels;
@@ -83,7 +83,7 @@ GRRLIB_bytemapFont*  GRRLIB_LoadBMF (const u8 my_bmf[] ) {
  * @param bmf A GRRLIB_bytemapFont structure.
  */
 void  GRRLIB_FreeBMF (const GRRLIB_bytemapFont *bmf) {
-    unsigned int i;
+    u16 i;
 
     for (i=0; i<bmf->nbChar; i++) {
         free(bmf->charDef[i].data);
