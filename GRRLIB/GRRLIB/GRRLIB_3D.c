@@ -103,7 +103,6 @@ void GRRLIB_3dMode(f32 minDist, f32 maxDist, f32 fov, bool colormode, bool textu
 
     if(texturemode==FALSE) GX_SetTevOp(GX_TEVSTAGE0, GX_PASSCLR);
     else                   GX_SetTevOp(GX_TEVSTAGE0, GX_MODULATE);
-
 }
 
 /**
@@ -170,7 +169,6 @@ void GRRLIB_ObjectView(f32 posx, f32 posy, f32 posz, f32 angx, f32 angy, f32 ang
     GX_LoadNrmMtxImm(mv, GX_PNMTX0);
 }
 
-
 /**
  * Set the texture to an object (contributed by chris_c aka DaShAmAn).
  * @param tex poiter to an image texture (GRRLIB_texImg format).
@@ -199,44 +197,43 @@ void GRRLIB_SetTexture(GRRLIB_texImg *tex, bool rep) {
 }
 
 /**
- * Initialise a Diffuse Light.
- * @param id a light ID in libogc style : GX_LIGHT0,..., GX_LIGHT7).
- * @param lpos a guVector x,y,z position of the light.
- * @param lcol color of the light.
+ * Initialise a diffuse light.
+ * @param id A light ID in libogc style : GX_LIGHT0,..., GX_LIGHT7.
+ * @param lpos A guVector x,y,z position of the light.
+ * @param lcol Color of the light.
 */
-void GRRLIB_InitLight(u8 id, guVector lpos, u32 lcol){
-GXLightObj MyLight;
-        guVecMultiply(_GRR_view, &lpos, &lpos);
-        GX_InitLightPos(&MyLight, lpos.x, lpos.y, lpos.z);
-        GX_InitLightColor(&MyLight, (GXColor) { R(lcol), G(lcol),B(lcol), A(lcol) });
-        GX_InitLightAttn(&MyLight, 1.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F);
-        GX_LoadLightObj(&MyLight, id);
+void GRRLIB_InitLight(u8 id, guVector lpos, u32 lcol) {
+    GXLightObj MyLight;
+    guVecMultiply(_GRR_view, &lpos, &lpos);
+    GX_InitLightPos(&MyLight, lpos.x, lpos.y, lpos.z);
+    GX_InitLightColor(&MyLight, (GXColor) { R(lcol), G(lcol),B(lcol), A(lcol) });
+    GX_InitLightAttn(&MyLight, 1.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F);
+    GX_LoadLightObj(&MyLight, id);
 }
 
 /**
- * All Light Off, colors come from the Vertex.
+ * All light off, colors come from the Vertex.
 */
-void GRRLIB_LightOff(void){
-        GX_SetNumChans(1);
-        GX_SetChanCtrl(GX_COLOR0A0, GX_DISABLE, GX_SRC_VTX, GX_SRC_VTX, 0, GX_DF_NONE, GX_AF_NONE);
-        GX_SetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, GX_TEXMAP0, GX_COLOR0A0);
+void GRRLIB_LightOff(void) {
+    GX_SetNumChans(1);
+    GX_SetChanCtrl(GX_COLOR0A0, GX_DISABLE, GX_SRC_VTX, GX_SRC_VTX, 0, GX_DF_NONE, GX_AF_NONE);
+    GX_SetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, GX_TEXMAP0, GX_COLOR0A0);
 }
 
 /**
  * Define what light to turn on and some other param.
- * @param id light IDs of the desired switched ON lights (ORed) (ie GX_LIGHT0|GX_LIGHT7).
+ * @param id Light IDs of the desired switched ON lights (ORed) (ie GX_LIGHT0|GX_LIGHT7).
  * @param ambcol Ambiant color u32 formated
  * @param matcol Material color u32 formated.
  * @param colsrc Material color sources comes from the Vertex ???? (True/False)
 */
-void GRRLIB_LightSwitch(u8 id, u32 ambcol, u32 matcol, u8 colsrc){
-        u8 src;
-        if(colsrc==0) src = GX_SRC_REG;
-        else src = GX_SRC_VTX;
+void GRRLIB_LightSwitch(u8 id, u32 ambcol, u32 matcol, u8 colsrc) {
+    u8 src;
+    if(colsrc==0) src = GX_SRC_REG;
+    else src = GX_SRC_VTX;
 
-        GX_SetNumChans(1);
-        GX_SetChanCtrl(GX_COLOR0A0, GX_ENABLE, GX_SRC_REG, src, id, GX_DF_CLAMP,GX_AF_SPOT);
-        GX_SetChanAmbColor(GX_COLOR0A0, (GXColor) {  R(ambcol),  G(ambcol), B(ambcol), A(ambcol)});
-        GX_SetChanMatColor(GX_COLOR0A0, (GXColor) {  R(matcol),  G(matcol), B(matcol), A(matcol)});
+    GX_SetNumChans(1);
+    GX_SetChanCtrl(GX_COLOR0A0, GX_ENABLE, GX_SRC_REG, src, id, GX_DF_CLAMP,GX_AF_SPOT);
+    GX_SetChanAmbColor(GX_COLOR0A0, (GXColor) {  R(ambcol),  G(ambcol), B(ambcol), A(ambcol)});
+    GX_SetChanMatColor(GX_COLOR0A0, (GXColor) {  R(matcol),  G(matcol), B(matcol), A(matcol)});
 }
-
