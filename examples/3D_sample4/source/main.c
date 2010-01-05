@@ -32,21 +32,21 @@ int main() {
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) exit(0);
 
 
-        GRRLIB_3dMode(0.1,1000,45,0);
-        GRRLIB_ObjectView(0,0,-30, a,a*2,a*3);
+        GRRLIB_3dMode(0.1,1000,45,1,0,0);
+        GRRLIB_ObjectView(0,0,-30, a,a*2,a*3,1,1,1);
         GX_Begin(GX_TRIANGLES, GX_VTXFMT0, logoNbFace * 3);
         for(i=0; i<logoNbFace*3; i+=3) {
             if(i<=(246*3*2))
                 col=0xFFFFFFFF;
             else
                 col=0xAAAAAAFF;
-            
+
             GX_Position3f32(logoPos[logoFac[i][0]-1].x,logoPos[logoFac[i][0]-1].y,logoPos[logoFac[i][0]-1].z);
             GX_Color1u32(col);
-            
+
             GX_Position3f32(logoPos[logoFac[i+1][0]-1].x,logoPos[logoFac[i+1][0]-1].y,logoPos[logoFac[i+1][0]-1].z);
             GX_Color1u32(col);
-            
+
             GX_Position3f32(logoPos[logoFac[i+2][0]-1].x,logoPos[logoFac[i+2][0]-1].y,logoPos[logoFac[i+2][0]-1].z);
             GX_Color1u32(col);
         }

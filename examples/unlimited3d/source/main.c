@@ -32,7 +32,6 @@ int main() {
     float spr=0;
     int n=1;
     float a=0;
-    u32 col[3] = {0xFFFFFFFF, 0xFFFFFFFF, 0xAAAAAAFF};
     float cubeZ=10.0f;
     float camZ=30.0f;;
 
@@ -76,90 +75,66 @@ int main() {
         GRRLIB_2dMode();
         GRRLIB_DrawImg(0, 0, tex_screen[screen_index], 0, 1, 1, 0xFFFFFFFF);
 
-        GRRLIB_3dMode(0.1, 1000, 45, 1);
+        GRRLIB_3dMode(0.1, 1000, 45, 0,1,0);
         GRRLIB_SetBlend(GRRLIB_BLEND_ALPHA);
 
 
         cubeZ+=0.02f;
-        GRRLIB_ObjectView((float)(((R + r-ff)*cos(t-f) - d*cos(((R + r-f)/r)*t)))/20.0f,(float)(((R + r-ff)*sin(t) - d*sin(((R + r)/r)*t)-f))/20.0f,sin(cubeZ)*10, a,a*2,a*3);
+        GRRLIB_ObjectView((float)(((R + r-ff)*cos(t-f) - d*cos(((R + r-f)/r)*t)))/20.0f,(float)(((R + r-ff)*sin(t) - d*sin(((R + r)/r)*t)-f))/20.0f,sin(cubeZ)*10, a,a*2,a*3,1,1,1);
         GRRLIB_SetTexture(tex_girl, 0);
         GX_Begin(GX_QUADS, GX_VTXFMT0, 24);
             GX_Position3f32(-1.0f,1.0f,1.0f);
-            GX_Color1u32(col[0]);
             GX_TexCoord2f32(0.0f,0.0f);
             GX_Position3f32(1.0f,1.0f,1.0f);
-            GX_Color1u32(col[0]);
             GX_TexCoord2f32(1.0f,0.0f);
             GX_Position3f32(1.0f,-1.0f,1.0f);
-            GX_Color1u32(col[0]);
             GX_TexCoord2f32(1.0f,1.0f);
             GX_Position3f32(-1.0f,-1.0f,1.0f);
-            GX_Color1u32(col[0]);
             GX_TexCoord2f32(0.0f,1.0f);
 
             GX_Position3f32(1.0f,1.0f,-1.0f);
-            GX_Color1u32(col[0]);
             GX_TexCoord2f32(0.0f,0.0f);
             GX_Position3f32(-1.0f,1.0f,-1.0f);
-            GX_Color1u32(col[0]);
             GX_TexCoord2f32(1.0f,0.0f);
             GX_Position3f32(-1.0f,-1.0f,-1.0f);
-            GX_Color1u32(col[0]);
             GX_TexCoord2f32(1.0f,1.0f);
             GX_Position3f32(1.0f,-1.0f,-1.0f);
-            GX_Color1u32(col[0]);
             GX_TexCoord2f32(0.0f,1.0f);
 
             GX_Position3f32(1.0f,1.0f,1.0f);
-            GX_Color1u32(col[1]);
             GX_TexCoord2f32(0.0f,0.0f);
             GX_Position3f32(1.0f,1.0f,-1.0f);
-            GX_Color1u32(col[1]);
             GX_TexCoord2f32(1.0f,0.0f);
             GX_Position3f32(1.0f,-1.0f,-1.0f);
-            GX_Color1u32(col[1]);
             GX_TexCoord2f32(1.0f,1.0f);
             GX_Position3f32(1.0f,-1.0f,1.0f);
-            GX_Color1u32(col[1]);
             GX_TexCoord2f32(0.0f,1.0f);
 
             GX_Position3f32(-1.0f,1.0f,-1.0f);
-            GX_Color1u32(col[1]);
             GX_TexCoord2f32(0.0f,0.0f);
             GX_Position3f32(-1.0f,1.0f,1.0f);
-            GX_Color1u32(col[1]);
             GX_TexCoord2f32(1.0f,0.0f);
             GX_Position3f32(-1.0f,-1.0f,1.0f);
-            GX_Color1u32(col[1]);
             GX_TexCoord2f32(1.0f,1.0f);
             GX_Position3f32(-1.0f,-1.0f,-1.0f);
-            GX_Color1u32(col[1]);
             GX_TexCoord2f32(0.0f,1.0f);
 
             GX_Position3f32(-1.0f,1.0f,-1.0f);
-            GX_Color1u32(col[2]);
             GX_TexCoord2f32(0.0f,0.0f);
             GX_Position3f32(1.0f,1.0f,-1.0f);
-            GX_Color1u32(col[2]);
             GX_TexCoord2f32(1.0f,0.0f);
             GX_Position3f32(1.0f,1.0f,1.0f);
-            GX_Color1u32(col[2]);
             GX_TexCoord2f32(1.0f,1.0f);
             GX_Position3f32(-1.0f,1.0f,1.0f);
-            GX_Color1u32(col[2]);
             GX_TexCoord2f32(0.0f,1.0f);
 
             GX_Position3f32(1.0f,-1.0f,-1.0f);
-            GX_Color1u32(col[2]);
             GX_TexCoord2f32(0.0f,0.0f);
             GX_Position3f32(-1.0f,-1.0f,-1.0f);
-            GX_Color1u32(col[2]);
             GX_TexCoord2f32(1.0f,0.0f);
             GX_Position3f32(-1.0f,-1.0f,1.0f);
-            GX_Color1u32(col[2]);
             GX_TexCoord2f32(1.0f,1.0f);
             GX_Position3f32(1.0f,-1.0f,1.0f);
-            GX_Color1u32(col[2]);
             GX_TexCoord2f32(0.0f,1.0f);
         GX_End();
 

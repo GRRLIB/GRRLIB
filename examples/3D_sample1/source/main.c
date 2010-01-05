@@ -34,8 +34,8 @@ int main() {
         if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_A) cubeZ++;
         if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_B) cubeZ--;
 
-        GRRLIB_3dMode(0.1,1000,45,0);
-        GRRLIB_ObjectView(0,0,cubeZ, a,a*2,a*3);
+        GRRLIB_3dMode(0.1,1000,45,1,0,0);
+        GRRLIB_ObjectView(0,0,cubeZ, a,a*2,a*3,1,1,1);
         GX_Begin(GX_QUADS, GX_VTXFMT0, 24);
             GX_Position3f32(-1.0f,1.0f,-1.0f);
             GX_Color1u32(col[0]);
