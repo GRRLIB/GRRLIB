@@ -50,9 +50,12 @@ int main() {
 	GRRLIB_LightSwitch(GX_LIGHT0|GX_LIGHT1|GX_LIGHT2,RGBA(Amb,Amb,Amb,0xFF),0x808080FF,0);
 
         GRRLIB_ObjectView(0,0,0, a,a*2,a*3, 1,1,1);
-	GRRLIB_DrawTorus(0.4f, 2.0f, 20, 50, 0);
-        GRRLIB_ObjectView(0,0,0, -a,-a*2,-a*3, 1,1,1);
-	GRRLIB_DrawTorus(0.8f, 4.0f, 20, 50, 1);
+	GRRLIB_DrawTorus(0.4f, 3.0f, 20, 50, 1);
+        GRRLIB_ObjectView(0,0,0, -a,a*2,-a*3, 1,1,1);
+	GRRLIB_DrawSphere(2.0f, 30, 30, 0);
+
+	
+
 
         a+=0.5f;
 

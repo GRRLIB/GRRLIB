@@ -286,3 +286,37 @@ void GRRLIB_DrawTorus(f32 r, f32 R, int nsides, int rings, bool filled){
     }
 }
 
+/**
+ * Draw a Sphere (with normal).
+ * @param r Radius of the Sprhere.
+ * @param lats Number of lattitudes.
+ * @param longs Number of Longitutes.
+ * @param filled Wired or not.
+*/
+void GRRLIB_DrawSphere(f32 r, int lats, int longs, bool filled) {
+    int i,j;
+
+    for(i = 0; i <= lats; i++) {
+        f32 lat0 = M_PI * (-0.5F + (f32) (i - 1) / lats);
+        f32 z0  = sin(lat0);
+        f32 zr0 =  cos(lat0);
+
+        f32 lat1 = M_PI * (-0.5F + (f32) i / lats);
+        f32 z1 = sin(lat1);
+        f32 zr1 = cos(lat1);
+	if(filled) GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 2*(longs+1));
+        else GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 2*(longs+1));
+        for(j = 0; j <= longs; j++) {
+           f32 lng = 2 * M_PI * (f32) (j - 1) / longs;
+            f32 x = cos(lng);
+            f32 y = sin(lng);
+
+            GX_Position3f32(x * zr0 * r, y * zr0 * r, z0 * r);
+            GX_Normal3f32(x * zr0 * r, y * zr0 * r, z0 * r);
+            GX_Position3f32(x * zr1 * r, y * zr1 * r, z1 * r);
+            GX_Normal3f32(x * zr1 * r, y * zr1 * r, z1 * r);
+        }
+        GX_End();
+    }
+}
+

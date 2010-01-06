@@ -151,6 +151,7 @@ void GRRLIB_InitLight(u8 id, guVector lpos, u32 lcol);
 void GRRLIB_LightOff(void);
 void GRRLIB_LightSwitch(u8 id, u32 ambcol, u32 matcol, u8 colsrc);
 void GRRLIB_DrawTorus(f32 r, f32 R, int nsides, int rings, bool filled);
+void GRRLIB_DrawSphere(f32 r, int lats, int longs, bool filled);
 
 //------------------------------------------------------------------------------
 // GRRLIB_Freetype.c - FreeType function for GRRLIB
