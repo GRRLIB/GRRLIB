@@ -237,3 +237,52 @@ void GRRLIB_LightSwitch(u8 id, u32 ambcol, u32 matcol, u8 colsrc) {
     GX_SetChanAmbColor(GX_COLOR0A0, (GXColor) {  R(ambcol),  G(ambcol), B(ambcol), A(ambcol)});
     GX_SetChanMatColor(GX_COLOR0A0, (GXColor) {  R(matcol),  G(matcol), B(matcol), A(matcol)});
 }
+
+/**
+ * Draw a Torus (with normal).
+ * @param r Radius of the ring.
+ * @param R Radius of the torus.
+ * @param nsides Number of faces per ring.
+ * @param rings Number of rings.
+ * @param filled Wired or not.
+*/
+void GRRLIB_DrawTorus(f32 r, f32 R, int nsides, int rings, bool filled){
+    int i, j;
+    f32 theta, phi, theta1;
+    f32 cosTheta, sinTheta;
+    f32 cosTheta1, sinTheta1;
+    f32 ringDelta, sideDelta;
+
+    ringDelta = 2.0 * M_PI / rings;
+    sideDelta = 2.0 * M_PI / nsides;
+
+    theta = 0.0;
+    cosTheta = 1.0;
+    sinTheta = 0.0;
+    for (i = rings - 1; i >= 0; i--) {
+      theta1 = theta + ringDelta;
+      cosTheta1 = cos(theta1);
+      sinTheta1 = sin(theta1);
+      if(filled) GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 2*(nsides+1));
+      else GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 2*(nsides+1));
+      phi = 0.0;
+      for (j = nsides; j >= 0; j--) {
+        f32 cosPhi, sinPhi, dist;
+
+        phi += sideDelta;
+        cosPhi = cos(phi);
+        sinPhi = sin(phi);
+        dist = R + r * cosPhi;
+
+        GX_Position3f32(cosTheta1 * dist, -sinTheta1 * dist, r * sinPhi);
+        GX_Normal3f32(cosTheta1 * cosPhi, -sinTheta1 * cosPhi, sinPhi);
+        GX_Position3f32(cosTheta * dist, -sinTheta * dist,  r * sinPhi);
+        GX_Normal3f32(cosTheta * cosPhi, -sinTheta * cosPhi, sinPhi);
+      }
+      GX_End();
+      theta = theta1;
+      cosTheta = cosTheta1;
+      sinTheta = sinTheta1;
+    }
+}
+
