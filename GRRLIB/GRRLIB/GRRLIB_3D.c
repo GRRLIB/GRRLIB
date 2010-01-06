@@ -374,3 +374,47 @@ void GRRLIB_DrawCube(f32 size, bool filled)
   }
 }
 
+/**
+ * Draw a Cube (with normal).
+ * @param r Radius of the cylinder.
+ * @param h High of the cylinder.
+ * @param d Dencity of slice.
+ * @param filled Wired or not.
+*/
+void GRRLIB_DrawCylinder(f32 r, f32 h, int d, bool filled){
+   int i;
+
+   if(filled) GX_Begin(GX_TRIANGLESTRIP,GX_VTXFMT0, 2 * (d+1));
+   else GX_Begin(GX_LINESTRIP,GX_VTXFMT0, 2 * (d+1));
+   for(i = 0 ; i <= d ; i++){
+      f32 dx = cosf( M_PI * 2.0f * i / d );
+      f32 dy = sinf( M_PI * 2.0f * i / d );
+      GX_Position3f32( r * dx, -0.5f * h, r * dy );
+      GX_Normal3f32( dx, 0.0f, dy );
+      GX_Position3f32( r * dx, 0.5f * h, r * dy );
+      GX_Normal3f32( dx, 0.0f, dy );
+   }
+   GX_End();
+
+   if(filled) GX_Begin(GX_TRIANGLEFAN,GX_VTXFMT0,d+2);
+   else GX_Begin(GX_LINESTRIP,GX_VTXFMT0,d+2);
+   GX_Position3f32(0.0f, -0.5f * h, 0.0f);
+   GX_Normal3f32(0.0f, -1.0f, 0.0f);
+   for(i = 0 ; i <= d ; i++){
+      GX_Position3f32( r * cosf( M_PI * 2.0f * i / d ), -0.5f * h, r * sinf( M_PI * 2.0f * i / d ) );
+      GX_Normal3f32(0.0f, -1.0f, 0.0f);
+   }
+   GX_End();
+
+   if(filled) GX_Begin(GX_TRIANGLEFAN,GX_VTXFMT0,d+2);
+   else GX_Begin(GX_LINESTRIP,GX_VTXFMT0,d+2);
+   GX_Position3f32(0.0f, 0.5f * h, 0.0f);
+   GX_Normal3f32(0.0f, 1.0f, 0.0f);
+   for(i = 0 ; i <= d ; i++){
+      GX_Position3f32( r * cosf( M_PI * 2.0f * i / d ), 0.5f * h, r * sinf( M_PI * 2.0f * i / d ) );
+      GX_Normal3f32(0.0f, 1.0f, 0.0f);
+   }
+   GX_End();
+
+}
+
