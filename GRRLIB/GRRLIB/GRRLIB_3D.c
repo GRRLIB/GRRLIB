@@ -320,3 +320,57 @@ void GRRLIB_DrawSphere(f32 r, int lats, int longs, bool filled) {
     }
 }
 
+/**
+ * Draw a Cube (with normal).
+ * @param size Size of the cube edge.
+ * @param filled Wired or not.
+*/
+void GRRLIB_DrawCube(f32 size, bool filled)
+{
+  static f32 n[6][3] =
+  {
+    {-1.0, 0.0, 0.0},
+    {0.0, 1.0, 0.0},
+    {1.0, 0.0, 0.0},
+    {0.0, -1.0, 0.0},
+    {0.0, 0.0, 1.0},
+    {0.0, 0.0, -1.0}
+  };
+  static int faces[6][4] =
+  {
+    {0, 1, 2, 3},
+    {3, 2, 6, 7},
+    {7, 6, 5, 4},
+    {4, 5, 1, 0},
+    {5, 6, 2, 1},
+    {7, 4, 0, 3}
+  };
+  f32 v[8][3];
+  int i;
+
+  v[0][0] = v[1][0] = v[2][0] = v[3][0] = -size / 2;
+  v[4][0] = v[5][0] = v[6][0] = v[7][0] = size / 2;
+  v[0][1] = v[1][1] = v[4][1] = v[5][1] = -size / 2;
+  v[2][1] = v[3][1] = v[6][1] = v[7][1] = size / 2;
+  v[0][2] = v[3][2] = v[4][2] = v[7][2] = -size / 2;
+  v[1][2] = v[2][2] = v[5][2] = v[6][2] = size / 2;
+
+  for (i = 5; i >= 0; i--) {
+    if(filled) GX_Begin(GX_QUADS, GX_VTXFMT0,4);
+    else GX_Begin(GX_LINESTRIP, GX_VTXFMT0,5);
+    GX_Position3f32(v[faces[i][0]][0],v[faces[i][0]][1],v[faces[i][0]][2] );
+    GX_Normal3f32(n[i][0], n[i][1], n[i][2]);
+    GX_Position3f32(v[faces[i][1]][0],v[faces[i][1]][1],v[faces[i][1]][2]);
+    GX_Normal3f32(n[i][0], n[i][1], n[i][2]);
+    GX_Position3f32(v[faces[i][2]][0],v[faces[i][2]][1],v[faces[i][2]][2]);
+    GX_Normal3f32(n[i][0], n[i][1], n[i][2]);
+    GX_Position3f32(v[faces[i][3]][0],v[faces[i][3]][1],v[faces[i][3]][2]);
+    GX_Normal3f32(n[i][0], n[i][1], n[i][2]);
+    if(!filled) {
+	GX_Position3f32(v[faces[i][0]][0],v[faces[i][0]][1],v[faces[i][0]][2]);
+	GX_Normal3f32(n[i][0], n[i][1], n[i][2]);
+    }
+    GX_End();
+  }
+}
+

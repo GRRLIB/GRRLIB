@@ -53,6 +53,10 @@ int main() {
 	GRRLIB_DrawTorus(0.4f, 3.0f, 20, 50, 1);
         GRRLIB_ObjectView(0,0,0, -a,a*2,-a*3, 1,1,1);
 	GRRLIB_DrawSphere(2.0f, 30, 30, 0);
+        GRRLIB_ObjectView(-4,-4,0, a,a*2,-a*3, 1,1,1);
+	GRRLIB_DrawCube(2.0f, 0);
+        GRRLIB_ObjectView(4,-4,0, a,-a*2,-a*3, 1,1,1);
+	GRRLIB_DrawCube(2.0f, 1);
 
 	
 
