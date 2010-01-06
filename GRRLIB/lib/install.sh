@@ -13,6 +13,13 @@ popd
 
 # PNG & PNGU libraries
 echo -e "\n--------------------------------------------------------------------"
+echo -e "Building PNG Library...\n"
+cd png
+  make clean
+  make all
+cd ..
+
+echo -e "\n--------------------------------------------------------------------"
 echo -e "Installing PNG Library...\n"
 cd png
   make install

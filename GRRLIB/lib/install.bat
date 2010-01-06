@@ -15,6 +15,17 @@ cd ..
 Rem -- PNG & PNGU libraries
 echo.
 echo ---------------------------------------------------------------------------
+echo Building PNGU Library...
+echo.
+cd png
+  make clean -s
+  if errorlevel 1 goto error
+  make all
+  if errorlevel 1 goto error
+cd ..
+
+echo.
+echo ---------------------------------------------------------------------------
 echo Installing PNG Library...
 echo.
 cd png
@@ -27,7 +38,7 @@ echo ---------------------------------------------------------------------------
 echo Building PNGU Library...
 echo.
 cd pngu
-  make clean
+  make clean -s
   if errorlevel 1 goto error
   make all
   if errorlevel 1 goto error
