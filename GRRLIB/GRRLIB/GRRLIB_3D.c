@@ -92,17 +92,17 @@ void GRRLIB_3dMode(f32 minDist, f32 maxDist, f32 fov, bool colormode, bool textu
 
     GX_ClearVtxDesc();
     GX_SetVtxDesc(GX_VA_POS, GX_DIRECT);
-    if(normalmode==TRUE)   GX_SetVtxDesc(GX_VA_NRM, GX_DIRECT);
-    if(colormode==TRUE)   GX_SetVtxDesc(GX_VA_CLR0, GX_DIRECT);
-    if(texturemode==TRUE) GX_SetVtxDesc(GX_VA_TEX0, GX_DIRECT);
+    if(normalmode)   GX_SetVtxDesc(GX_VA_NRM, GX_DIRECT);
+    if(colormode)    GX_SetVtxDesc(GX_VA_CLR0, GX_DIRECT);
+    if(texturemode)  GX_SetVtxDesc(GX_VA_TEX0, GX_DIRECT);
 
     GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_POS_XYZ, GX_F32, 0);
-    if(normalmode==TRUE)   GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_NRM, GX_NRM_XYZ, GX_F32, 0);
-    if(colormode==TRUE)    GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_CLR0, GX_CLR_RGBA, GX_RGBA8, 0);
-    if(texturemode==TRUE ) GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_TEX0, GX_TEX_ST, GX_F32, 0);
+    if(normalmode)   GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_NRM, GX_NRM_XYZ, GX_F32, 0);
+    if(colormode)    GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_CLR0, GX_CLR_RGBA, GX_RGBA8, 0);
+    if(texturemode)  GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_TEX0, GX_TEX_ST, GX_F32, 0);
 
-    if(texturemode==FALSE) GX_SetTevOp(GX_TEVSTAGE0, GX_PASSCLR);
-    else                   GX_SetTevOp(GX_TEVSTAGE0, GX_MODULATE);
+    if(texturemode)  GX_SetTevOp(GX_TEVSTAGE0, GX_MODULATE);
+    else             GX_SetTevOp(GX_TEVSTAGE0, GX_PASSCLR);
 }
 
 /**
@@ -206,7 +206,7 @@ void GRRLIB_InitLight(u8 id, guVector lpos, u32 lcol) {
     GXLightObj MyLight;
     guVecMultiply(_GRR_view, &lpos, &lpos);
     GX_InitLightPos(&MyLight, lpos.x, lpos.y, lpos.z);
-    GX_InitLightColor(&MyLight, (GXColor) { R(lcol), G(lcol),B(lcol), A(lcol) });
+    GX_InitLightColor(&MyLight, (GXColor) { R(lcol), G(lcol), B(lcol), A(lcol) });
     GX_InitLightAttn(&MyLight, 1.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F);
     GX_LoadLightObj(&MyLight, id);
 }
