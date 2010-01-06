@@ -69,9 +69,8 @@ int main() {
 	GRRLIB_LightOff();
         // Switch To 2D Mode to display text
         GRRLIB_2dMode();
-        GRRLIB_Printf((640-(16*40))/2, 20, tex_font, 0xFFFFFFFF, 1, "PRESS PLUS OR MINUS TO PLAY WITH AMBIENT");
-        GRRLIB_Printf((640-(16*15))/2, 36, tex_font, 0xFFFFFFFF, 1, "AMBIENT = 0X%02X%02X%02XFF",Amb,Amb,Amb,Amb);
-        GRRLIB_Printf((640-(16*15))/2, 52, tex_font, 0xFFFFFFFF, 1, "ZLIGHT = %f",zlight);
+        GRRLIB_Printf((640-(16*37))/2, 20, tex_font, 0xFFFFFFFF, 1, "( PLUS / MINUS ) AMBIENT = 0X%02X%02X%02XFF",Amb,Amb,Amb,Amb);
+        GRRLIB_Printf((640-(16*37))/2, 36, tex_font, 0xFFFFFFFF, 1, "   ( A / B )      ZLIGHT = %f              ",zlight);
 
         GRRLIB_Render();
     }
