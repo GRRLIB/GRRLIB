@@ -252,6 +252,7 @@ void GRRLIB_DrawTorus(f32 r, f32 R, int nsides, int rings, bool filled){
     f32 cosTheta, sinTheta;
     f32 cosTheta1, sinTheta1;
     f32 ringDelta, sideDelta;
+    f32 cosPhi, sinPhi, dist;
 
     ringDelta = 2.0 * M_PI / rings;
     sideDelta = 2.0 * M_PI / nsides;
@@ -260,41 +261,39 @@ void GRRLIB_DrawTorus(f32 r, f32 R, int nsides, int rings, bool filled){
     cosTheta = 1.0;
     sinTheta = 0.0;
     for (i = rings - 1; i >= 0; i--) {
-      theta1 = theta + ringDelta;
-      cosTheta1 = cos(theta1);
-      sinTheta1 = sin(theta1);
-      if(filled) GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 2*(nsides+1));
-      else GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 2*(nsides+1));
-      phi = 0.0;
-      for (j = nsides; j >= 0; j--) {
-        f32 cosPhi, sinPhi, dist;
-
-        phi += sideDelta;
-        cosPhi = cos(phi);
-        sinPhi = sin(phi);
-        dist = R + r * cosPhi;
-
-        GX_Position3f32(cosTheta1 * dist, -sinTheta1 * dist, r * sinPhi);
-        GX_Normal3f32(cosTheta1 * cosPhi, -sinTheta1 * cosPhi, sinPhi);
-        GX_Position3f32(cosTheta * dist, -sinTheta * dist,  r * sinPhi);
-        GX_Normal3f32(cosTheta * cosPhi, -sinTheta * cosPhi, sinPhi);
-      }
-      GX_End();
-      theta = theta1;
-      cosTheta = cosTheta1;
-      sinTheta = sinTheta1;
+        theta1 = theta + ringDelta;
+        cosTheta1 = cos(theta1);
+        sinTheta1 = sin(theta1);
+        if(filled) GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 2*(nsides+1));
+        else       GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 2*(nsides+1));
+        phi = 0.0;
+        for (j = nsides; j >= 0; j--) {
+            phi += sideDelta;
+            cosPhi = cos(phi);
+            sinPhi = sin(phi);
+            dist = R + r * cosPhi;
+            
+            GX_Position3f32(cosTheta1 * dist, -sinTheta1 * dist, r * sinPhi);
+            GX_Normal3f32(cosTheta1 * cosPhi, -sinTheta1 * cosPhi, sinPhi);
+            GX_Position3f32(cosTheta * dist, -sinTheta * dist,  r * sinPhi);
+            GX_Normal3f32(cosTheta * cosPhi, -sinTheta * cosPhi, sinPhi);
+        }
+        GX_End();
+        theta = theta1;
+        cosTheta = cosTheta1;
+        sinTheta = sinTheta1;
     }
 }
 
 /**
  * Draw a Sphere (with normal).
- * @param r Radius of the Sprhere.
+ * @param r Radius of the Sphere.
  * @param lats Number of lattitudes.
  * @param longs Number of Longitutes.
  * @param filled Wired or not.
 */
 void GRRLIB_DrawSphere(f32 r, int lats, int longs, bool filled) {
-    int i,j;
+    int i, j;
 
     for(i = 0; i <= lats; i++) {
         f32 lat0 = M_PI * (-0.5F + (f32) (i - 1) / lats);
@@ -304,10 +303,10 @@ void GRRLIB_DrawSphere(f32 r, int lats, int longs, bool filled) {
         f32 lat1 = M_PI * (-0.5F + (f32) i / lats);
         f32 z1 = sin(lat1);
         f32 zr1 = cos(lat1);
-	if(filled) GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 2*(longs+1));
-        else GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 2*(longs+1));
+	    if(filled) GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 2*(longs+1));
+        else       GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 2*(longs+1));
         for(j = 0; j <= longs; j++) {
-           f32 lng = 2 * M_PI * (f32) (j - 1) / longs;
+            f32 lng = 2 * M_PI * (f32) (j - 1) / longs;
             f32 x = cos(lng);
             f32 y = sin(lng);
 
