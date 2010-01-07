@@ -20,6 +20,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ------------------------------------------------------------------------------*/
 
+#include <math.h>
+
 #include <grrlib.h>
 
 // User should not directly modify these
@@ -44,15 +46,15 @@ void GRRLIB_SetBackgroundColour(u8 r, u8 g, u8 b, u8 a) {
 
 /**
  * Set the camera parameter (contributed my chris_c aka DaShAmAn).
- * @param posx x posision of the cam.
- * @param posy y posision of the cam.
- * @param posz z posision of the cam.
+ * @param posx x position of the camera.
+ * @param posy y position of the camera.
+ * @param posz z position of the camera.
  * @param upx Alpha component.
  * @param upy Alpha component.
  * @param upz Alpha component.
- * @param lookx x up posision of the cam.
- * @param looky y up posision of the cam.
- * @param lookz z up posision of the cam.
+ * @param lookx x up position of the camera.
+ * @param looky y up position of the camera.
+ * @param lookz z up position of the camera.
  */
 void GRRLIB_Camera3dSettings(f32 posx, f32 posy, f32 posz,
     f32 upx, f32 upy, f32 upz,
@@ -73,10 +75,10 @@ void GRRLIB_Camera3dSettings(f32 posx, f32 posy, f32 posz,
 
 /**
  * Set up the position matrix (contributed by chris_c aka DaShAmAn).
- * @param minDist Minimal distance for the cam.
- * @param maxDist Maximal distance for the cam.
- * @param fov Field of view for the cam.
- * @param colormode False, GX won't need vertex colors , True, GX will need vertex colors.
+ * @param minDist Minimal distance for the camera.
+ * @param maxDist Maximal distance for the camera.
+ * @param fov Field of view for the camera.
+ * @param colormode False, GX won't need vertex colors, True, GX will need vertex colors.
  * @param texturemode False, GX won't need texture coordinate, True, GX will need texture coordinate.
  * @param normalmode False, GX won't need normal coordinate, True, GX will need normal coordinate.
  */
@@ -106,7 +108,7 @@ void GRRLIB_3dMode(f32 minDist, f32 maxDist, f32 fov, bool colormode, bool textu
 }
 
 /**
- * Go back to 2D Mode (contributed by chris_c aka DaShAmAn).
+ * Go back to 2D mode (contributed by chris_c aka DaShAmAn).
  */
 void GRRLIB_2dMode() {
     Mtx view, m;
@@ -135,9 +137,9 @@ void GRRLIB_2dMode() {
 
 /**
  * Set the view matrix to draw object (contributed by chris_c aka DaShAmAn).
- * @param posx x posision of the object.
- * @param posy y posision of the object.
- * @param posz z posision of the object.
+ * @param posx x position of the object.
+ * @param posy y position of the object.
+ * @param posz z position of the object.
  * @param angx x rotation angle of the object.
  * @param angy y rotation angle of the object.
  * @param angz z rotation angle of the object.
@@ -233,20 +235,20 @@ void GRRLIB_LightSwitch(u8 id, u32 ambcol, u32 matcol, u8 colsrc) {
     else src = GX_SRC_VTX;
 
     GX_SetNumChans(1);
-    GX_SetChanCtrl(GX_COLOR0A0, GX_ENABLE, GX_SRC_REG, src, id, GX_DF_CLAMP,GX_AF_SPOT);
+    GX_SetChanCtrl(GX_COLOR0A0, GX_ENABLE, GX_SRC_REG, src, id, GX_DF_CLAMP, GX_AF_SPOT);
     GX_SetChanAmbColor(GX_COLOR0A0, (GXColor) {  R(ambcol),  G(ambcol), B(ambcol), A(ambcol)});
     GX_SetChanMatColor(GX_COLOR0A0, (GXColor) {  R(matcol),  G(matcol), B(matcol), A(matcol)});
 }
 
 /**
- * Draw a Torus (with normal).
+ * Draw a torus (with normal).
  * @param r Radius of the ring.
  * @param R Radius of the torus.
  * @param nsides Number of faces per ring.
  * @param rings Number of rings.
  * @param filled Wired or not.
 */
-void GRRLIB_DrawTorus(f32 r, f32 R, int nsides, int rings, bool filled){
+void GRRLIB_DrawTorus(f32 r, f32 R, int nsides, int rings, bool filled) {
     int i, j;
     f32 theta, phi, theta1;
     f32 cosTheta, sinTheta;
@@ -272,7 +274,7 @@ void GRRLIB_DrawTorus(f32 r, f32 R, int nsides, int rings, bool filled){
             cosPhi = cos(phi);
             sinPhi = sin(phi);
             dist = R + r * cosPhi;
-            
+
             GX_Position3f32(cosTheta1 * dist, -sinTheta1 * dist, r * sinPhi);
             GX_Normal3f32(cosTheta1 * cosPhi, -sinTheta1 * cosPhi, sinPhi);
             GX_Position3f32(cosTheta * dist, -sinTheta * dist,  r * sinPhi);
@@ -286,29 +288,32 @@ void GRRLIB_DrawTorus(f32 r, f32 R, int nsides, int rings, bool filled){
 }
 
 /**
- * Draw a Sphere (with normal).
- * @param r Radius of the Sphere.
+ * Draw a sphere (with normal).
+ * @param r Radius of the sphere.
  * @param lats Number of lattitudes.
- * @param longs Number of Longitutes.
+ * @param longs Number of longitutes.
  * @param filled Wired or not.
 */
 void GRRLIB_DrawSphere(f32 r, int lats, int longs, bool filled) {
     int i, j;
+    f32 lat0, z0, zr0,
+        lat1, z1, zr1,
+        lng, x, y;
 
     for(i = 0; i <= lats; i++) {
-        f32 lat0 = M_PI * (-0.5F + (f32) (i - 1) / lats);
-        f32 z0  = sin(lat0);
-        f32 zr0 =  cos(lat0);
+        lat0 = M_PI * (-0.5F + (f32) (i - 1) / lats);
+        z0  = sin(lat0);
+        zr0 = cos(lat0);
 
-        f32 lat1 = M_PI * (-0.5F + (f32) i / lats);
-        f32 z1 = sin(lat1);
-        f32 zr1 = cos(lat1);
-	    if(filled) GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 2*(longs+1));
+        lat1 = M_PI * (-0.5F + (f32) i / lats);
+        z1 = sin(lat1);
+        zr1 = cos(lat1);
+        if(filled) GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 2*(longs+1));
         else       GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 2*(longs+1));
         for(j = 0; j <= longs; j++) {
-            f32 lng = 2 * M_PI * (f32) (j - 1) / longs;
-            f32 x = cos(lng);
-            f32 y = sin(lng);
+            lng = 2 * M_PI * (f32) (j - 1) / longs;
+            x = cos(lng);
+            y = sin(lng);
 
             GX_Position3f32(x * zr0 * r, y * zr0 * r, z0 * r);
             GX_Normal3f32(x * zr0 * r, y * zr0 * r, z0 * r);
@@ -320,100 +325,99 @@ void GRRLIB_DrawSphere(f32 r, int lats, int longs, bool filled) {
 }
 
 /**
- * Draw a Cube (with normal).
+ * Draw a cube (with normal).
  * @param size Size of the cube edge.
  * @param filled Wired or not.
 */
 void GRRLIB_DrawCube(f32 size, bool filled)
 {
-  static f32 n[6][3] =
-  {
-    {-1.0, 0.0, 0.0},
-    {0.0, 1.0, 0.0},
-    {1.0, 0.0, 0.0},
-    {0.0, -1.0, 0.0},
-    {0.0, 0.0, 1.0},
-    {0.0, 0.0, -1.0}
-  };
-  static int faces[6][4] =
-  {
-    {0, 1, 2, 3},
-    {3, 2, 6, 7},
-    {7, 6, 5, 4},
-    {4, 5, 1, 0},
-    {5, 6, 2, 1},
-    {7, 4, 0, 3}
-  };
-  f32 v[8][3];
-  int i;
+    static f32 n[6][3] =
+    {
+        {-1.0, 0.0, 0.0},
+        {0.0, 1.0, 0.0},
+        {1.0, 0.0, 0.0},
+        {0.0, -1.0, 0.0},
+        {0.0, 0.0, 1.0},
+        {0.0, 0.0, -1.0}
+    };
+    static int faces[6][4] =
+    {
+        {0, 1, 2, 3},
+        {3, 2, 6, 7},
+        {7, 6, 5, 4},
+        {4, 5, 1, 0},
+        {5, 6, 2, 1},
+        {7, 4, 0, 3}
+    };
+    f32 v[8][3];
+    int i;
 
-  v[0][0] = v[1][0] = v[2][0] = v[3][0] = -size / 2;
-  v[4][0] = v[5][0] = v[6][0] = v[7][0] = size / 2;
-  v[0][1] = v[1][1] = v[4][1] = v[5][1] = -size / 2;
-  v[2][1] = v[3][1] = v[6][1] = v[7][1] = size / 2;
-  v[0][2] = v[3][2] = v[4][2] = v[7][2] = -size / 2;
-  v[1][2] = v[2][2] = v[5][2] = v[6][2] = size / 2;
+    v[0][0] = v[1][0] = v[2][0] = v[3][0] = -size / 2;
+    v[4][0] = v[5][0] = v[6][0] = v[7][0] = size / 2;
+    v[0][1] = v[1][1] = v[4][1] = v[5][1] = -size / 2;
+    v[2][1] = v[3][1] = v[6][1] = v[7][1] = size / 2;
+    v[0][2] = v[3][2] = v[4][2] = v[7][2] = -size / 2;
+    v[1][2] = v[2][2] = v[5][2] = v[6][2] = size / 2;
 
-  for (i = 5; i >= 0; i--) {
-    if(filled) GX_Begin(GX_QUADS, GX_VTXFMT0,4);
-    else GX_Begin(GX_LINESTRIP, GX_VTXFMT0,5);
-    GX_Position3f32(v[faces[i][0]][0],v[faces[i][0]][1],v[faces[i][0]][2] );
-    GX_Normal3f32(n[i][0], n[i][1], n[i][2]);
-    GX_Position3f32(v[faces[i][1]][0],v[faces[i][1]][1],v[faces[i][1]][2]);
-    GX_Normal3f32(n[i][0], n[i][1], n[i][2]);
-    GX_Position3f32(v[faces[i][2]][0],v[faces[i][2]][1],v[faces[i][2]][2]);
-    GX_Normal3f32(n[i][0], n[i][1], n[i][2]);
-    GX_Position3f32(v[faces[i][3]][0],v[faces[i][3]][1],v[faces[i][3]][2]);
-    GX_Normal3f32(n[i][0], n[i][1], n[i][2]);
-    if(!filled) {
-	GX_Position3f32(v[faces[i][0]][0],v[faces[i][0]][1],v[faces[i][0]][2]);
-	GX_Normal3f32(n[i][0], n[i][1], n[i][2]);
+    for (i = 5; i >= 0; i--) {
+        if(filled) GX_Begin(GX_QUADS, GX_VTXFMT0, 4);
+        else       GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 5);
+        GX_Position3f32(v[faces[i][0]][0], v[faces[i][0]][1], v[faces[i][0]][2] );
+        GX_Normal3f32(n[i][0], n[i][1], n[i][2]);
+        GX_Position3f32(v[faces[i][1]][0], v[faces[i][1]][1], v[faces[i][1]][2]);
+        GX_Normal3f32(n[i][0], n[i][1], n[i][2]);
+        GX_Position3f32(v[faces[i][2]][0], v[faces[i][2]][1], v[faces[i][2]][2]);
+        GX_Normal3f32(n[i][0], n[i][1], n[i][2]);
+        GX_Position3f32(v[faces[i][3]][0], v[faces[i][3]][1], v[faces[i][3]][2]);
+        GX_Normal3f32(n[i][0], n[i][1], n[i][2]);
+        if(!filled) {
+            GX_Position3f32(v[faces[i][0]][0], v[faces[i][0]][1], v[faces[i][0]][2]);
+            GX_Normal3f32(n[i][0], n[i][1], n[i][2]);
+        }
+        GX_End();
     }
-    GX_End();
-  }
 }
 
 /**
- * Draw a Cube (with normal).
+ * Draw a cylinder (with normal).
  * @param r Radius of the cylinder.
  * @param h High of the cylinder.
  * @param d Dencity of slice.
  * @param filled Wired or not.
 */
-void GRRLIB_DrawCylinder(f32 r, f32 h, int d, bool filled){
-   int i;
+void GRRLIB_DrawCylinder(f32 r, f32 h, int d, bool filled) {
+    int i;
+    f32 dx, dy;
 
-   if(filled) GX_Begin(GX_TRIANGLESTRIP,GX_VTXFMT0, 2 * (d+1));
-   else GX_Begin(GX_LINESTRIP,GX_VTXFMT0, 2 * (d+1));
-   for(i = 0 ; i <= d ; i++){
-      f32 dx = cosf( M_PI * 2.0f * i / d );
-      f32 dy = sinf( M_PI * 2.0f * i / d );
-      GX_Position3f32( r * dx, -0.5f * h, r * dy );
-      GX_Normal3f32( dx, 0.0f, dy );
-      GX_Position3f32( r * dx, 0.5f * h, r * dy );
-      GX_Normal3f32( dx, 0.0f, dy );
-   }
-   GX_End();
+    if(filled) GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 2 * (d+1));
+    else       GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 2 * (d+1));
+    for(i = 0 ; i <= d ; i++) {
+        dx = cosf( M_PI * 2.0f * i / d );
+        dy = sinf( M_PI * 2.0f * i / d );
+        GX_Position3f32( r * dx, -0.5f * h, r * dy );
+        GX_Normal3f32( dx, 0.0f, dy );
+        GX_Position3f32( r * dx, 0.5f * h, r * dy );
+        GX_Normal3f32( dx, 0.0f, dy );
+    }
+    GX_End();
 
-   if(filled) GX_Begin(GX_TRIANGLEFAN,GX_VTXFMT0,d+2);
-   else GX_Begin(GX_LINESTRIP,GX_VTXFMT0,d+2);
-   GX_Position3f32(0.0f, -0.5f * h, 0.0f);
-   GX_Normal3f32(0.0f, -1.0f, 0.0f);
-   for(i = 0 ; i <= d ; i++){
-      GX_Position3f32( r * cosf( M_PI * 2.0f * i / d ), -0.5f * h, r * sinf( M_PI * 2.0f * i / d ) );
-      GX_Normal3f32(0.0f, -1.0f, 0.0f);
-   }
-   GX_End();
+    if(filled) GX_Begin(GX_TRIANGLEFAN, GX_VTXFMT0, d+2);
+    else       GX_Begin(GX_LINESTRIP, GX_VTXFMT0, d+2);
+    GX_Position3f32(0.0f, -0.5f * h, 0.0f);
+    GX_Normal3f32(0.0f, -1.0f, 0.0f);
+    for(i = 0 ; i <= d ; i++) {
+        GX_Position3f32( r * cosf( M_PI * 2.0f * i / d ), -0.5f * h, r * sinf( M_PI * 2.0f * i / d ) );
+        GX_Normal3f32(0.0f, -1.0f, 0.0f);
+    }
+    GX_End();
 
-   if(filled) GX_Begin(GX_TRIANGLEFAN,GX_VTXFMT0,d+2);
-   else GX_Begin(GX_LINESTRIP,GX_VTXFMT0,d+2);
-   GX_Position3f32(0.0f, 0.5f * h, 0.0f);
-   GX_Normal3f32(0.0f, 1.0f, 0.0f);
-   for(i = 0 ; i <= d ; i++){
-      GX_Position3f32( r * cosf( M_PI * 2.0f * i / d ), 0.5f * h, r * sinf( M_PI * 2.0f * i / d ) );
-      GX_Normal3f32(0.0f, 1.0f, 0.0f);
-   }
-   GX_End();
-
+    if(filled) GX_Begin(GX_TRIANGLEFAN, GX_VTXFMT0, d+2);
+    else       GX_Begin(GX_LINESTRIP, GX_VTXFMT0, d+2);
+    GX_Position3f32(0.0f, 0.5f * h, 0.0f);
+    GX_Normal3f32(0.0f, 1.0f, 0.0f);
+    for(i = 0 ; i <= d ; i++) {
+        GX_Position3f32( r * cosf( M_PI * 2.0f * i / d ), 0.5f * h, r * sinf( M_PI * 2.0f * i / d ) );
+        GX_Normal3f32(0.0f, 1.0f, 0.0f);
+    }
+    GX_End();
 }
-
