@@ -50,6 +50,6 @@ void  GRRLIB_Circle (const f32 x,  const f32 y,  const f32 radius,
         ncolor[a] = color;
     }
 
-    if (!filled)  GRRLIB_GXEngine(v, ncolor, 36, GX_LINESTRIP  ) ;
-    else          GRRLIB_GXEngine(v, ncolor, 36, GX_TRIANGLEFAN) ;
+    if (!filled)  GRRLIB_GXEngine(v, ncolor, 36, GX_LINESTRIP  );
+    else          GRRLIB_GXEngine(v, ncolor, 36, GX_TRIANGLEFAN);
 }

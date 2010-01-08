@@ -51,14 +51,14 @@ int  GRRLIB_Init (void) {
     s8 error_code = 0;
 
     // Ensure this function is only ever called once
-    if (is_setup)  return 0 ;
+    if (is_setup)  return 0;
 
     // Initialise the video subsystem
     VIDEO_Init();
     VIDEO_SetBlack(true);  // Disable video output during initialisation
 
     // Grab a pointer to the video mode attributes
-    if ( !(rmode = VIDEO_GetPreferredMode(NULL)) )  return -1 ;
+    if ( !(rmode = VIDEO_GetPreferredMode(NULL)) )  return -1;
 
     // Video Mode Correction
     switch (rmode->viTVMode) {
@@ -81,26 +81,26 @@ int  GRRLIB_Init (void) {
     VIDEO_Configure(rmode);
 
     // Get some memory to use for a "double buffered" frame buffer
-    if ( !(xfb[0] = MEM_K0_TO_K1(SYS_AllocateFramebuffer(rmode))) )  return -1 ;
-    if ( !(xfb[1] = MEM_K0_TO_K1(SYS_AllocateFramebuffer(rmode))) )  return -1 ;
+    if ( !(xfb[0] = MEM_K0_TO_K1(SYS_AllocateFramebuffer(rmode))) )  return -1;
+    if ( !(xfb[1] = MEM_K0_TO_K1(SYS_AllocateFramebuffer(rmode))) )  return -1;
 
     VIDEO_SetNextFramebuffer(xfb[fb]);  // Choose a frame buffer to start with
 
     VIDEO_Flush();                      // flush the frame to the TV
     VIDEO_WaitVSync();                  // Wait for the TV to finish updating
     // If the TV image is interlaced it takes two passes to display the image
-    if (rmode->viTVMode & VI_NON_INTERLACE)  VIDEO_WaitVSync() ;
+    if (rmode->viTVMode & VI_NON_INTERLACE)  VIDEO_WaitVSync();
 
     // The FIFO is the buffer the CPU uses to send commands to the GPU
-    if ( !(gp_fifo = memalign(32, DEFAULT_FIFO_SIZE)) )  return -1 ;
+    if ( !(gp_fifo = memalign(32, DEFAULT_FIFO_SIZE)) )  return -1;
     memset(gp_fifo, 0, DEFAULT_FIFO_SIZE);
     GX_Init(gp_fifo, DEFAULT_FIFO_SIZE);
 
     // Clear the background to opaque black and clears the z-buffer
     GX_SetCopyClear((GXColor){ 0, 0, 0, 0 }, GX_MAX_Z24);
 
-    if (rmode->aa)  GX_SetPixelFmt(GX_PF_RGB565_Z16, GX_ZC_LINEAR) ;  // Set 16 bit RGB565
-    else            GX_SetPixelFmt(GX_PF_RGB8_Z24  , GX_ZC_LINEAR) ;  // Set 24 bit Z24
+    if (rmode->aa)  GX_SetPixelFmt(GX_PF_RGB565_Z16, GX_ZC_LINEAR);  // Set 16 bit RGB565
+    else            GX_SetPixelFmt(GX_PF_RGB8_Z24  , GX_ZC_LINEAR);  // Set 24 bit Z24
 
     // Other GX setup
     yscale    = GX_GetYScaleFactor(rmode->efbHeight, rmode->xfbHeight);
@@ -176,8 +176,8 @@ int  GRRLIB_Init (void) {
  */
 void  GRRLIB_Exit (void) {
     static  bool  done = false;
-    if (done || !is_setup)  return ;
-    else                    done = true ;
+    if (done || !is_setup)  return;
+    else                    done = true;
 
     // Allow write access to the full screen
     GX_SetClipMode( GX_CLIP_DISABLE );

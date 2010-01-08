@@ -36,8 +36,8 @@ THE SOFTWARE.
 INLINE
 u8  GRRLIB_ClampVar8 (f32 Value) {
     Value = roundf(Value);
-    if      (Value < 0)    Value = 0 ;
-    else if (Value > 255)  Value = 255 ;
+    if      (Value < 0)    Value = 0;
+    else if (Value > 255)  Value = 255;
 
     return (u8)Value;
 }

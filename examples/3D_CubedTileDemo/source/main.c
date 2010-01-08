@@ -159,9 +159,9 @@ int main() {
     while(1) {
         GRRLIB_2dMode();
         WPAD_ScanPads();
-        if (WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME)  break ;
-        if (WPAD_ButtonsHeld(0) & WPAD_BUTTON_PLUS)  camZ+=20.0f ;
-        if (WPAD_ButtonsHeld(0) & WPAD_BUTTON_MINUS)  camZ-=20.0f ;
+        if (WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME)  break;
+        if (WPAD_ButtonsHeld(0) & WPAD_BUTTON_PLUS)  camZ+=20.0f;
+        if (WPAD_ButtonsHeld(0) & WPAD_BUTTON_MINUS)  camZ-=20.0f;
 
         if((dirx==0) && (diry==0)) {
             if (WPAD_ButtonsHeld(0) & WPAD_BUTTON_LEFT) { diry=-4; idperso=15;}

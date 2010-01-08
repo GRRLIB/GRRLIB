@@ -149,7 +149,7 @@ void GRRLIB_2dMode() {
  */
 void GRRLIB_ObjectView(f32 posx, f32 posy, f32 posz, f32 angx, f32 angy, f32 angz, f32 scalx, f32 scaly, f32 scalz) {
     Mtx m, m1, mv, rx, ry, rz;
-    Mtx mvi ;
+    Mtx mvi;
 
     guMtxIdentity(m1);
     guMtxScaleApply(m1, m1, scalx, scaly, scalz);

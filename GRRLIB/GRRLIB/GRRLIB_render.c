@@ -44,7 +44,7 @@ void  GRRLIB_DrawImg (const f32 xpos, const f32 ypos, const GRRLIB_texImg *tex, 
     u16       width, height;
     Mtx       m, m1, m2, mv;
 
-    if (tex == NULL || tex->data == NULL)  return ;
+    if (tex == NULL || tex->data == NULL)  return;
 
     GX_InitTexObj(&texObj, tex->data, tex->w, tex->h,
                   GX_TF_RGBA8, GX_CLAMP, GX_CLAMP, GX_FALSE);
@@ -114,7 +114,7 @@ void  GRRLIB_DrawImgQuad (const guVector pos[4], GRRLIB_texImg *tex, const u32 c
     GXTexObj  texObj;
     Mtx       m, m1, m2, mv;
 
-    if (tex == NULL || tex->data == NULL)  return ;
+    if (tex == NULL || tex->data == NULL)  return;
 
     GX_InitTexObj(&texObj, tex->data, tex->w, tex->h,
                   GX_TF_RGBA8, GX_CLAMP, GX_CLAMP, GX_FALSE);
@@ -179,7 +179,7 @@ void  GRRLIB_DrawTile (const f32 xpos, const f32 ypos, const GRRLIB_texImg *tex,
     Mtx       m, m1, m2, mv;
     f32       s1, s2, t1, t2;
 
-    if (tex == NULL || tex->data == NULL)  return ;
+    if (tex == NULL || tex->data == NULL)  return;
 
     // The 0.001f/x is the frame correction formula by spiffen
     s1 = (frame % tex->nbtilew) * tex->ofnormaltexx;
@@ -267,7 +267,7 @@ void  GRRLIB_DrawPart (const f32 xpos, const f32 ypos, const f32 partx, const f3
     Mtx       m, m1, m2, mv;
     f32       s1, s2, t1, t2;
 
-    if (tex == NULL || tex->data == NULL)  return ;
+    if (tex == NULL || tex->data == NULL)  return;
 
     // The 0.001f/x is the frame correction formula by spiffen
     s1 = (partx /tex->w) +(0.001f /tex->w);
@@ -347,7 +347,7 @@ void  GRRLIB_DrawTileQuad (const guVector pos[4], GRRLIB_texImg *tex, const u32 
     Mtx       m, m1, m2, mv;
     f32       s1, s2, t1, t2;
 
-    if (tex == NULL || tex->data == NULL)  return ;
+    if (tex == NULL || tex->data == NULL)  return;
 
     // The 0.001f/x is the frame correction formula by spiffen
     s1 = ((     (frame %tex->nbtilew)   ) /(f32)tex->nbtilew) +(0.001f /tex->w);
@@ -419,5 +419,5 @@ void  GRRLIB_Render (void) {
     VIDEO_Flush();                      // Flush video buffer to screen
     VIDEO_WaitVSync();                  // Wait for screen to update
     // Interlaced screens require two frames to update
-    if (rmode->viTVMode &VI_NON_INTERLACE)  VIDEO_WaitVSync() ;
+    if (rmode->viTVMode &VI_NON_INTERLACE)  VIDEO_WaitVSync();
 }

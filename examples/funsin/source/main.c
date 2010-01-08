@@ -10,7 +10,7 @@
 
 int main() {
     int offset1, offset2, offset3, offset4;
-    int periode1, periode2, periode3, periode4 ;
+    int periode1, periode2, periode3, periode4;
     int length1, length2, length3, length4;
     int amp1, amp2, amp3, amp4;
     int origine1, origine2, origine3, origine4;
@@ -67,8 +67,8 @@ int main() {
     while(1) {
         GRRLIB_FillScreen(0x000000FF);
         WPAD_ScanPads();  // Scan the wiimotes
-        if (WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME)  break ;
-        old1=siny1;old2=siny2;old3=siny3;old4=siny4;
+        if (WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME)  break;
+        old1=siny1; old2=siny2; old3=siny3; old4=siny4;
 
 
         for(x=0;x<=640;x++) {

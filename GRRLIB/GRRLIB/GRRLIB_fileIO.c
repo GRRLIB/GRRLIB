@@ -36,11 +36,11 @@ int  GRRLIB_LoadFile(const char* filename, unsigned char* *data) {
     FILE  *fd;
 
     // Open the file
-    if ( !(fd = fopen(filename, "rb")) )  return -1 ;
+    if ( !(fd = fopen(filename, "rb")) )  return -1;
 
     // Get file length
     fseek(fd, 0, SEEK_END);
-    if ( !(len = ftell(fd)) )  {
+    if ( !(len = ftell(fd)) ) {
         *data = NULL;
         return 0;
     }
@@ -48,14 +48,14 @@ int  GRRLIB_LoadFile(const char* filename, unsigned char* *data) {
 
     // Grab some memory in which to store the file
     if ( !(*data = malloc(len)) ) {
-       fclose(fd);
-       return -2;
+        fclose(fd);
+        return -2;
     }
 
-    if ( fread(*data, 1, len, fd) != len)  {
-      fclose(fd);
-      free(*data);  *data = NULL;
-      return -3;
+    if ( fread(*data, 1, len, fd) != len) {
+        fclose(fd);
+        free(*data);  *data = NULL;
+        return -3;
     }
 
     fclose(fd);
@@ -72,7 +72,7 @@ GRRLIB_texImg*  GRRLIB_LoadTextureFromFile(const char *filename) {
     unsigned char  *data;
 
     // return NULL it load fails
-    if (GRRLIB_LoadFile(filename, &data) <= 0)  return NULL ;
+    if (GRRLIB_LoadFile(filename, &data) <= 0)  return NULL;
 
     // Convert to texture
     tex = GRRLIB_LoadTexture(data);

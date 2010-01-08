@@ -27,7 +27,7 @@ THE SOFTWARE.
 static FT_Library ftLibrary;        /**< A handle to a FreeType library instance. */
 
 // Static function prototypes
-static void DrawBitmap(FT_Bitmap *bitmap, int offset, int top, const u32 color) ;
+static void DrawBitmap(FT_Bitmap *bitmap, int offset, int top, const u32 color);
 
 
 /**
