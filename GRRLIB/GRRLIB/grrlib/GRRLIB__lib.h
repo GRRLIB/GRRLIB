@@ -89,7 +89,7 @@ GRRLIB_texImg*  GRRLIB_LoadTextureFromFile (const char* filename);
 bool            GRRLIB_ScrShot             (const char* filename);
 
 //------------------------------------------------------------------------------
-// GRRLIB_print.c - Will someome please tell me what these are :)
+// GRRLIB_print.c - Will someone please tell me what these are :)
 void  GRRLIB_Printf   (const f32 xpos, const f32 ypos,
                        const GRRLIB_texImg *tex, const u32 color,
                        const f32 zoom, const char *text, ...);

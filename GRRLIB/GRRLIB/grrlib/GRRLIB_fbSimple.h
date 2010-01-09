@@ -82,33 +82,32 @@ INLINE
 void  GRRLIB_Rectangle (const f32 x,      const f32 y,
                         const f32 width,  const f32 height,
                         const u32 color, const u8 filled) {
-
     f32 x2 = x + width;
     f32 y2 = y + height;
 
     if (filled) {
         GX_Begin(GX_QUADS, GX_VTXFMT0, 4);
-            GX_Position3f32(x,y,0.0f);
+            GX_Position3f32(x, y, 0.0f);
             GX_Color1u32(color);
-            GX_Position3f32(x2,y,0.0f);
+            GX_Position3f32(x2, y, 0.0f);
             GX_Color1u32(color);
-            GX_Position3f32(x2,y2,0.0f);
+            GX_Position3f32(x2, y2, 0.0f);
             GX_Color1u32(color);
-            GX_Position3f32(x,y2,0.0f);
+            GX_Position3f32(x, y2, 0.0f);
             GX_Color1u32(color);
         GX_End();
     }
     else {
         GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 5);
-            GX_Position3f32(x,y,0.0f);
+            GX_Position3f32(x, y, 0.0f);
             GX_Color1u32(color);
-            GX_Position3f32(x2,y,0.0f);
+            GX_Position3f32(x2, y, 0.0f);
             GX_Color1u32(color);
-            GX_Position3f32(x2,y2,0.0f);
+            GX_Position3f32(x2, y2, 0.0f);
             GX_Color1u32(color);
-            GX_Position3f32(x,y2,0.0f);
+            GX_Position3f32(x, y2, 0.0f);
             GX_Color1u32(color);
-            GX_Position3f32(x,y,0.0f);
+            GX_Position3f32(x, y, 0.0f);
             GX_Color1u32(color);
         GX_End();
     }

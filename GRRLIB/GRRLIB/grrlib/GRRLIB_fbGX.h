@@ -39,7 +39,7 @@ void  GRRLIB_GXEngine (const guVector v[], const u32 color[], const long n,
 
     GX_Begin(fmt, GX_VTXFMT0, n);
     for (i = 0; i < n; i++) {
-        GX_Position3f32(v[i].x, v[i].y,  v[i].z);
+        GX_Position3f32(v[i].x, v[i].y, v[i].z);
         GX_Color1u32(color[i]);
     }
     GX_End();

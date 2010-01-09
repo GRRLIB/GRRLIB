@@ -231,11 +231,11 @@ void  GRRLIB_BMFX_Pixelate (const GRRLIB_texImg *texsrc,
     for (x = 0; x < texsrc->w - 1 - factor; x += factor) {
         for (y = 0; y < texsrc->h - 1 - factor; y +=factor) {
             rgb = GRRLIB_GetPixelFromtexImg(x, y, texsrc);
-                for (xx = x; xx < x + factor; xx++) {
-                    for (yy = y; yy < y + factor; yy++) {
-                        GRRLIB_SetPixelTotexImg(xx, yy, texdest, rgb);
-                    }
+            for (xx = x; xx < x + factor; xx++) {
+                for (yy = y; yy < y + factor; yy++) {
+                    GRRLIB_SetPixelTotexImg(xx, yy, texdest, rgb);
                 }
+            }
         }
     }
 }

@@ -278,7 +278,7 @@ GRRLIB_texImg*  GRRLIB_LoadTextureBMP (const u8 *my_bmp) {
 
 /**
  * Load a texture from a buffer.
- * Take care to have the JPG finnish with 0xFF 0xD9!
+ * Take care to have the JPG finish with 0xFF 0xD9!
  * @param my_jpg The JPEG buffer to load.
  * @return A GRRLIB_texImg structure filled with image information.
  */
