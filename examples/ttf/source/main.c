@@ -5,11 +5,18 @@
 
 #include <stdlib.h>
 #include <wiiuse/wpad.h>
+#include <ogc/lwp_watchdog.h>   // Needed for gettime and ticks_to_millisecs
 
 // Font
 #include "FreeMonoBold_ttf.h"
 
+// Prototype
+static u8 CalculateFrameRate();
+
 int main(int argc, char **argv) {
+    char FPS[255] = "";
+    bool ShowFPS = false;
+
     // Initialise the Graphics & Video subsystem
     GRRLIB_Init();
 
@@ -55,6 +62,11 @@ int main(int argc, char **argv) {
                          rand() % 0xFFFFFF);
         GRRLIB_Screen2Texture(0, 0, CopiedImg, false);
 
+        if(ShowFPS) {
+            sprintf(FPS, "Current FPS: %d", CalculateFrameRate());
+            GRRLIB_PrintfTTF(500+1, 25+1, myFont, FPS, 12, 0x000000);
+            GRRLIB_PrintfTTF(500, 25, myFont, FPS, 12, 0xFFFFFF);
+        }
         GRRLIB_Render();  // Render the frame buffer to the TV
 
         WPAD_ScanPads();  // Scan the Wii Remotes
@@ -64,6 +76,9 @@ int main(int argc, char **argv) {
         }
         if (WPAD_ButtonsDown(0) & WPAD_BUTTON_A) {
             GRRLIB_Screen2Texture(0, 0, CopiedImg, false);
+        }
+        if (WPAD_ButtonsDown(0) & WPAD_BUTTON_1) {
+            ShowFPS = !ShowFPS;
         }
         if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_1 && WPAD_ButtonsHeld(0) & WPAD_BUTTON_2) {
             WPAD_Rumble(0, true);  // Rumble on
@@ -77,4 +92,23 @@ int main(int argc, char **argv) {
     GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
 
     exit(0);  // Use exit() to exit a program, do not use 'return' from main()
+}
+
+/**
+ * This function calculates the number of frames we render each second.
+ * @return The number of frames per second.
+ */
+static u8 CalculateFrameRate() {
+    static u8 frameCount = 0;
+    static u32 lastTime;
+    static u8 FPS = 0;
+    u32 currentTime = ticks_to_millisecs(gettime());
+
+    frameCount++;
+    if(currentTime - lastTime > 1000) {
+        lastTime = currentTime;
+        FPS = frameCount;
+        frameCount = 0;
+    }
+    return FPS;
 }

@@ -87,14 +87,19 @@ void  GRRLIB_FreeTTF (GRRLIB_ttfFont *myFont) {
  * @param color Text color in RGB format.
  */
 void GRRLIB_PrintfTTF(int x, int y, GRRLIB_ttfFont *myFont, const char *string, unsigned int fontSize, const u32 color) {
+    if(myFont == NULL || string == NULL)
+        return;
+
     size_t length = strlen(string) + 1;
     wchar_t *utf32 = (wchar_t*)malloc(length * sizeof(wchar_t));
-    utf32[length] = '\0';
-    mbstowcs(utf32, string, length);
-
-    GRRLIB_PrintfTTFW(x, y, myFont, utf32, fontSize, color);
-
-    free(utf32);
+    if(utf32) {
+        length = mbstowcs(utf32, string, length);
+        if(length > 0) {
+            utf32[length] = L'\0';
+            GRRLIB_PrintfTTFW(x, y, myFont, utf32, fontSize, color);
+        }
+        free(utf32);
+    }
 }
 
 /**
@@ -108,6 +113,9 @@ void GRRLIB_PrintfTTF(int x, int y, GRRLIB_ttfFont *myFont, const char *string, 
  * @param color Text color in RGB format.
  */
 void GRRLIB_PrintfTTFW(int x, int y, GRRLIB_ttfFont *myFont, const wchar_t *utf32, unsigned int fontSize, const u32 color) {
+    if(myFont == NULL || utf32 == NULL)
+        return;
+
     unsigned int loop;
     int penX = 0;
     int penY = fontSize;
@@ -137,7 +145,7 @@ void GRRLIB_PrintfTTFW(int x, int y, GRRLIB_ttfFont *myFont, const wchar_t *utf3
             continue;
         }
 
-        DrawBitmap(&slot->bitmap, 
+        DrawBitmap(&slot->bitmap,
                    penX + slot->bitmap_left + x,
                    penY - slot->bitmap_top + y,
                    color);
@@ -164,7 +172,7 @@ static void DrawBitmap(FT_Bitmap *bitmap, int offset, int top, const u32 color) 
                          RGBA((color >> 16) & 0xFF,
                               (color >> 8) & 0xFF,
                               color & 0xFF,
-                              bitmap->buffer[ q * bitmap->width + p ]) );      
+                              bitmap->buffer[ q * bitmap->width + p ]) );
         }
     }
 }
@@ -177,14 +185,14 @@ static void DrawBitmap(FT_Bitmap *bitmap, int offset, int top, const u32 color) 
  * @return The width of a text in pixel.
  */
 unsigned int GRRLIB_WidthTTF(GRRLIB_ttfFont *myFont, const char *string, unsigned int fontSize) {
-    if(string == NULL) {
+    if(myFont == NULL || string == NULL) {
         return 0;
     }
     unsigned int penX;
     size_t length = strlen(string) + 1;
     wchar_t *utf32 = (wchar_t*)malloc(length * sizeof(wchar_t));
-    utf32[length] = '\0';
     length = mbstowcs(utf32, string, length);
+    utf32[length] = L'\0';
 
     penX = GRRLIB_WidthTTFW(myFont, utf32, fontSize);
 
@@ -201,15 +209,15 @@ unsigned int GRRLIB_WidthTTF(GRRLIB_ttfFont *myFont, const char *string, unsigne
  * @return The width of a text in pixel.
  */
 unsigned int GRRLIB_WidthTTFW(GRRLIB_ttfFont *myFont, const wchar_t *utf32, unsigned int fontSize) {
+    if(myFont == NULL || utf32 == NULL) {
+        return 0;
+    }
+
     unsigned int loop;
     unsigned int penX = 0;
     FT_UInt glyphIndex;
     FT_UInt previousGlyph = 0;
     size_t length;
-
-    if(utf32 == NULL) {
-        return 0;
-    }
 
     if(FT_Set_Pixel_Sizes(myFont->face, 0, fontSize)) {
          FT_Set_Pixel_Sizes(myFont->face, 0, 12);
