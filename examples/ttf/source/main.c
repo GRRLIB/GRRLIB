@@ -59,13 +59,13 @@ int main(int argc, char **argv) {
                          myFont,
                          Letter,
                          rand() % 180 + 20,
-                         rand() % 0xFFFFFF);
+                         ((rand() % 0xFFFFFF) << 8) | 0xFF);
         GRRLIB_Screen2Texture(0, 0, CopiedImg, false);
 
         if(ShowFPS) {
             sprintf(FPS, "Current FPS: %d", CalculateFrameRate());
-            GRRLIB_PrintfTTF(500+1, 25+1, myFont, FPS, 12, 0x000000);
-            GRRLIB_PrintfTTF(500, 25, myFont, FPS, 12, 0xFFFFFF);
+            GRRLIB_PrintfTTF(500+1, 25+1, myFont, FPS, 12, 0x000000FF);
+            GRRLIB_PrintfTTF(500, 25, myFont, FPS, 12, 0xFFFFFFFF);
         }
         GRRLIB_Render();  // Render the frame buffer to the TV
 

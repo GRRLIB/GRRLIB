@@ -72,9 +72,11 @@ GRRLIB_ttfFont* GRRLIB_LoadTTF (const u8* file_base, s32 file_size) {
  * @param myFont A TTF.
  */
 void  GRRLIB_FreeTTF (GRRLIB_ttfFont *myFont) {
-    FT_Done_Face(myFont->face);
-    free(myFont);
-    myFont = NULL;
+    if(myFont) {
+        FT_Done_Face(myFont->face);
+        free(myFont);
+        myFont = NULL;
+    }
 }
 
 /**
@@ -84,7 +86,7 @@ void  GRRLIB_FreeTTF (GRRLIB_ttfFont *myFont) {
  * @param myFont A TTF.
  * @param string Text to draw.
  * @param fontSize Size of the font.
- * @param color Text color in RGB format.
+ * @param color Text color in RGBA format.
  */
 void GRRLIB_PrintfTTF(int x, int y, GRRLIB_ttfFont *myFont, const char *string, unsigned int fontSize, const u32 color) {
     if(myFont == NULL || string == NULL)
@@ -110,7 +112,7 @@ void GRRLIB_PrintfTTF(int x, int y, GRRLIB_ttfFont *myFont, const char *string, 
  * @param myFont A TTF.
  * @param utf32 Text to draw.
  * @param fontSize Size of the font.
- * @param color Text color in RGB format.
+ * @param color Text color in RGBA format.
  */
 void GRRLIB_PrintfTTFW(int x, int y, GRRLIB_ttfFont *myFont, const wchar_t *utf32, unsigned int fontSize, const u32 color) {
     if(myFont == NULL || utf32 == NULL)
@@ -159,7 +161,7 @@ void GRRLIB_PrintfTTFW(int x, int y, GRRLIB_ttfFont *myFont, const wchar_t *utf3
  * @param bitmap Bitmap to draw.
  * @param offset x-coordinate offset.
  * @param top y-coordinate.
- * @param color character color in RGB format.
+ * @param color character color in RGBA format.
  */
 static void DrawBitmap(FT_Bitmap *bitmap, int offset, int top, const u32 color) {
     FT_Int i, j, p, q;
@@ -169,9 +171,9 @@ static void DrawBitmap(FT_Bitmap *bitmap, int offset, int top, const u32 color) 
     for ( i = offset, p = 0; i < x_max; i++, p++ ) {
         for ( j = top, q = 0; j < y_max; j++, q++ ) {
             GRRLIB_Plot( i, j,
-                         RGBA((color >> 16) & 0xFF,
-                              (color >> 8) & 0xFF,
-                              color & 0xFF,
+                         RGBA(R(color),
+                              G(color),
+                              B(color),
                               bitmap->buffer[ q * bitmap->width + p ]) );
         }
     }
