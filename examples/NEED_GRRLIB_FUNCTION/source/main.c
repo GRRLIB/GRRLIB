@@ -119,7 +119,7 @@ GXTexObj  texObj;
 	}
 
 	if(demo==2){
-		/////////////////// DEFINE A  DIFUSE LIGHT /////////////////////////////////////////////
+		/////////////////// DEFINE A  SPECUALR LIGHT /////////////////////////////////////////////
 		guVector l0dir={0.0f,0.0f,0.0f};
     		GX_InitSpecularDir(&MyLight0, l0dir.x,l0dir.y,l0dir.z);
 
@@ -159,7 +159,7 @@ GXTexObj  texObj;
 	}
 
 	if(demo==3){
-		/////////////////// DEFINE A  DIFUSE LIGHT /////////////////////////////////////////////
+		/////////////////// DEFINE A  SPECUALR LIGHT /////////////////////////////////////////////
 		guVector l0dir={0.0f,0.0f,0.0f};
     		GX_InitSpecularDir(&MyLight0, l0dir.x,l0dir.y,l0dir.z);
 
