@@ -25,7 +25,7 @@ THE SOFTWARE.
 #include <grrlib.h>
 
 // User should not directly modify these
-static  Mtx       _GRR_view;
+Mtx       _GRR_view;  // Should be static as soon as all light functions needing this var will be in this file ;)
 static  guVector  _GRR_cam  = {0.0F, 0.0F, 0.0F},
                   _GRR_up   = {0.0F, 1.0F, 0.0F},
                   _GRR_look = {0.0F, 0.0F, -100.0F};
@@ -132,6 +132,13 @@ void GRRLIB_2dMode() {
     GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_CLR0, GX_CLR_RGBA, GX_RGBA8, 0);
     GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_TEX0, GX_TEX_ST, GX_F32, 0);
 
+    GX_SetNumTexGens(1);  // One texture exists
+    GX_SetTevOp(GX_TEVSTAGE0, GX_PASSCLR);
+    GX_SetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, GX_TEXMAP0, GX_COLOR0A0);
+    GX_SetTexCoordGen(GX_TEXCOORD0, GX_TG_MTX2x4, GX_TG_TEX0, GX_IDENTITY);
+
+    GX_SetNumTevStages(1);
+
     GX_SetTevOp  (GX_TEVSTAGE0, GX_PASSCLR);
 }
 
@@ -196,48 +203,6 @@ void GRRLIB_SetTexture(GRRLIB_texImg *tex, bool rep) {
     GX_LoadTexObj(&texObj,      GX_TEXMAP0);
     GX_SetTevOp  (GX_TEVSTAGE0, GX_MODULATE);
     GX_SetVtxDesc(GX_VA_TEX0,   GX_DIRECT);
-}
-
-/**
- * Initialise a diffuse light.
- * @param id A light ID in libogc style : GX_LIGHT0,..., GX_LIGHT7.
- * @param lpos A guVector x,y,z position of the light.
- * @param lcol Color of the light.
-*/
-void GRRLIB_InitLight(u8 id, guVector lpos, u32 lcol) {
-    GXLightObj MyLight;
-    guVecMultiply(_GRR_view, &lpos, &lpos);
-    GX_InitLightPos(&MyLight, lpos.x, lpos.y, lpos.z);
-    GX_InitLightColor(&MyLight, (GXColor) { R(lcol), G(lcol), B(lcol), A(lcol) });
-    GX_InitLightAttn(&MyLight, 1.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F);
-    GX_LoadLightObj(&MyLight, id);
-}
-
-/**
- * All light off, colors come from the Vertex.
-*/
-void GRRLIB_LightOff(void) {
-    GX_SetNumChans(1);
-    GX_SetChanCtrl(GX_COLOR0A0, GX_DISABLE, GX_SRC_VTX, GX_SRC_VTX, 0, GX_DF_NONE, GX_AF_NONE);
-    GX_SetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, GX_TEXMAP0, GX_COLOR0A0);
-}
-
-/**
- * Define what light to turn on and some other param.
- * @param id Light IDs of the desired switched ON lights (ORed) (ie GX_LIGHT0|GX_LIGHT7).
- * @param ambcol Ambiant color u32 formated
- * @param matcol Material color u32 formated.
- * @param colsrc Material color sources comes from the Vertex ???? (True/False)
-*/
-void GRRLIB_LightSwitch(u8 id, u32 ambcol, u32 matcol, u8 colsrc) {
-    u8 src;
-    if(colsrc==0) src = GX_SRC_REG;
-    else src = GX_SRC_VTX;
-
-    GX_SetNumChans(1);
-    GX_SetChanCtrl(GX_COLOR0A0, GX_ENABLE, GX_SRC_REG, src, id, GX_DF_CLAMP, GX_AF_SPOT);
-    GX_SetChanAmbColor(GX_COLOR0A0, (GXColor) {  R(ambcol),  G(ambcol), B(ambcol), A(ambcol)});
-    GX_SetChanMatColor(GX_COLOR0A0, (GXColor) {  R(matcol),  G(matcol), B(matcol), A(matcol)});
 }
 
 /**

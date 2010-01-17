@@ -1,0 +1,178 @@
+/*===========================================
+    NoNameNo
+    Simple Flat 3D cube
+============================================*/
+#include <grrlib.h>
+
+#include <stdlib.h>
+#include <math.h>
+#include <malloc.h>
+#include <wiiuse/wpad.h>
+
+#include "gfx/font.h"
+
+extern Mtx _GRR_view;
+
+int main() {
+    float a=0;
+    u32 col[3] = {0xFF0000FF, 0x00FF00FF, 0x0000FFFF};
+    GXLightObj MyLight;
+    u8 Amb=0;
+    f32 zlight=6.0f;
+
+    GRRLIB_Init();
+    WPAD_Init();
+
+    GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(font);
+    GRRLIB_InitTileSet(tex_font, 16, 16, 32);
+
+    GRRLIB_Settings.antialias = true;
+
+    GRRLIB_SetBackgroundColour(0x00, 0x00, 0x00, 0xFF);
+    GRRLIB_Camera3dSettings(0.0f,0.0f,6.0f, 0,1,0, 0,0,0);
+
+    while(1) {
+        GRRLIB_2dMode();
+        WPAD_ScanPads();
+        if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) exit(0);
+        if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_PLUS){if(Amb<255) Amb++; }
+        if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_MINUS){if(Amb>0) Amb--; }
+        if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_A){zlight++; }
+        if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_B){zlight--; }
+
+
+        GRRLIB_3dMode(0.1,1000,45,1,0,0);
+
+	 GX_ClearVtxDesc();
+	 GX_SetVtxDesc(GX_VA_POS, GX_DIRECT);
+         GX_SetVtxDesc(GX_VA_NRM, GX_DIRECT);
+         GX_SetVtxDesc(GX_VA_CLR0, GX_DIRECT);
+
+         GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_POS_XYZ, GX_F32, 0);
+         GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_NRM, GX_NRM_XYZ, GX_F32, 0);
+         GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_CLR0, GX_CLR_RGBA, GX_RGBA8, 0);
+
+   	 GX_SetTevOp(GX_TEVSTAGE0, GX_PASSCLR);
+
+////////////////////////////////////////
+        guVector lpos ={0.0f,0.0f,zlight};
+        guVecMultiply(_GRR_view, &lpos, &lpos);
+        GX_InitLightPos(&MyLight, lpos.x, lpos.y, lpos.z);
+        GX_InitLightColor(&MyLight, (GXColor) { 255, 255, 255, 255 });
+        GX_InitLightAttn(&MyLight, 1.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F );
+        GX_LoadLightObj(&MyLight, GX_LIGHT0);
+
+        GX_SetNumChans(1);
+        GX_SetChanCtrl(GX_COLOR0A0, GX_ENABLE, GX_SRC_REG, GX_SRC_VTX, GX_LIGHT0, GX_DF_CLAMP, GX_AF_SPOT);
+        GX_SetChanAmbColor(GX_COLOR0A0, (GXColor) {  Amb,  Amb, Amb,  255 });
+////////////////////////////////////////
+        GRRLIB_ObjectView(0,0,0, a,a*2,a*3);
+        GX_Begin(GX_QUADS, GX_VTXFMT0, 24);
+            GX_Position3f32(-1.0f,1.0f,1.0f);
+              GX_Normal3f32(0.0f,0.0f,1.0f);
+             GX_Color1u32(col[0]);
+            GX_Position3f32(1.0f,1.0f,1.0f);
+              GX_Normal3f32(0.0f,0.0f,1.0f);
+             GX_Color1u32(col[0]);
+            GX_Position3f32(1.0f,-1.0f,1.0f);
+              GX_Normal3f32(0.0f,0.0f,1.0f);
+             GX_Color1u32(col[0]);
+            GX_Position3f32(-1.0f,-1.0f,1.0f);
+              GX_Normal3f32(0.0f,0.0f,1.0f);
+             GX_Color1u32(col[0]);
+
+            GX_Position3f32(-1.0f,1.0f,-1.0f);
+              GX_Normal3f32(0.0f,0.0f,-1.0f);
+             GX_Color1u32(col[0]);
+            GX_Position3f32(1.0f,1.0f,-1.0f);
+              GX_Normal3f32(0.0f,0.0f,-1.0f);
+             GX_Color1u32(col[0]);
+            GX_Position3f32(1.0f,-1.0f,-1.0f);
+              GX_Normal3f32(0.0f,0.0f,-1.0f);
+             GX_Color1u32(col[0]);
+            GX_Position3f32(-1.0f,-1.0f,-1.0f);
+              GX_Normal3f32(0.0f,0.0f,-1.0f);
+             GX_Color1u32(col[0]);
+
+            GX_Position3f32(-1.0f,1.0f,-1.0f);
+              GX_Normal3f32(0.0f,1.0f,0.0f);
+             GX_Color1u32(col[1]);
+            GX_Position3f32(1.0f,1.0f,-1.0f);
+              GX_Normal3f32(0.0f,1.0f,0.0f);
+             GX_Color1u32(col[1]);
+            GX_Position3f32(1.0f,1.0f,1.0f);
+              GX_Normal3f32(0.0f,1.0f,0.0f);
+             GX_Color1u32(col[1]);
+            GX_Position3f32(-1.0f,1.0f,1.0f);
+              GX_Normal3f32(0.0f,1.0f,0.0f);
+             GX_Color1u32(col[1]);
+
+            GX_Position3f32(-1.0f,-1.0f,-1.0f);
+              GX_Normal3f32(0.0f,-1.0f,0.0f);
+             GX_Color1u32(col[1]);
+            GX_Position3f32(1.0f,-1.0f,-1.0f);
+              GX_Normal3f32(0.0f,-1.0f,0.0f);
+             GX_Color1u32(col[1]);
+            GX_Position3f32(1.0f,-1.0f,1.0f);
+              GX_Normal3f32(0.0f,-1.0f,0.0f);
+             GX_Color1u32(col[1]);
+            GX_Position3f32(-1.0f,-1.0f,1.0f);
+              GX_Normal3f32(0.0f,-1.0f,0.0f);
+             GX_Color1u32(col[1]);
+
+            GX_Position3f32(-1.0f,1.0f,-1.0f);
+              GX_Normal3f32(-1.0f,0.0f,0.0f);
+             GX_Color1u32(col[2]);
+            GX_Position3f32(-1.0f,1.0f,1.0f);
+              GX_Normal3f32(-1.0f,0.0f,0.0f);
+             GX_Color1u32(col[2]);
+            GX_Position3f32(-1.0f,-1.0f,1.0f);
+              GX_Normal3f32(-1.0f,0.0f,0.0f);
+             GX_Color1u32(col[2]);
+            GX_Position3f32(-1.0f,-1.0f,-1.0f);
+              GX_Normal3f32(-1.0f,0.0f,0.0f);
+             GX_Color1u32(col[2]);
+
+            GX_Position3f32(1.0f,1.0f,-1.0f);
+              GX_Normal3f32(1.0f,0.0f,0.0f);
+             GX_Color1u32(col[2]);
+            GX_Position3f32(1.0f,1.0f,1.0f);
+              GX_Normal3f32(1.0f,0.0f,0.0f);
+             GX_Color1u32(col[2]);
+            GX_Position3f32(1.0f,-1.0f,1.0f);
+              GX_Normal3f32(1.0f,0.0f,0.0f);
+             GX_Color1u32(col[2]);
+            GX_Position3f32(1.0f,-1.0f,-1.0f);
+              GX_Normal3f32(1.0f,0.0f,0.0f);
+             GX_Color1u32(col[2]);
+
+        GX_End();
+        a+=0.5f;
+
+///////////////// DISABLE LIGHT/////////////////////////////
+    GX_SetNumChans(1);
+    GX_SetChanCtrl(
+        GX_COLOR0A0,
+        GX_DISABLE,  // disable channel
+        GX_SRC_VTX,  // amb source
+        GX_SRC_VTX,  // mat source
+        0,           // light mask
+        GX_DF_NONE,  // diffuse function
+        GX_AF_NONE);
+    GX_SetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, GX_TEXMAP0, GX_COLOR0A0);
+///////////////////////////////////////////////////////////////
+
+        // Switch To 2D Mode to display text
+        GRRLIB_2dMode();
+        GRRLIB_Printf((640-(16*40))/2, 20, tex_font, 0xFFFFFFFF, 1, "PRESS PLUS OR MINUS TO PLAY WITH AMBIENT");
+        GRRLIB_Printf((640-(16*15))/2, 36, tex_font, 0xFFFFFFFF, 1, "AMBIENT = 0X%02X%02X%02XFF",Amb,Amb,Amb,Amb);
+        GRRLIB_Printf((640-(16*15))/2, 52, tex_font, 0xFFFFFFFF, 1, "ZLIGHT = %f",zlight);
+
+        GRRLIB_Render();
+    }
+    GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
+    GRRLIB_FreeTexture(tex_font);
+
+    exit(0);
+}
+

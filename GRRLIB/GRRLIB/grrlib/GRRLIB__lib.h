@@ -147,9 +147,6 @@ void GRRLIB_3dMode(f32 minDist, f32 maxDist, f32 fov, bool colormode, bool textu
 void GRRLIB_2dMode();
 void GRRLIB_ObjectView(f32 posx, f32 posy, f32 posz, f32 angx, f32 angy, f32 angz,  f32 scalx, f32 scaly, f32 scalz);
 void GRRLIB_SetTexture(GRRLIB_texImg *tex, bool rep);
-void GRRLIB_InitLight(u8 id, guVector lpos, u32 lcol);
-void GRRLIB_LightOff(void);
-void GRRLIB_LightSwitch(u8 id, u32 ambcol, u32 matcol, u8 colsrc);
 void GRRLIB_DrawTorus(f32 r, f32 R, int nsides, int rings, bool filled);
 void GRRLIB_DrawSphere(f32 r, int lats, int longs, bool filled);
 void GRRLIB_DrawCube(f32 size, bool filled);
