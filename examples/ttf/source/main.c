@@ -12,6 +12,7 @@
 
 // Prototype
 static u8 CalculateFrameRate();
+static bool ScreenShot();
 
 int main(int argc, char **argv) {
     char FPS[255] = "";
@@ -77,12 +78,12 @@ int main(int argc, char **argv) {
         if (WPAD_ButtonsDown(0) & WPAD_BUTTON_A) {
             GRRLIB_Screen2Texture(0, 0, CopiedImg, false);
         }
-        if (WPAD_ButtonsDown(0) & WPAD_BUTTON_1) {
+        if (WPAD_ButtonsDown(0) & WPAD_BUTTON_B) {
             ShowFPS = !ShowFPS;
         }
         if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_1 && WPAD_ButtonsHeld(0) & WPAD_BUTTON_2) {
             WPAD_Rumble(0, true);  // Rumble on
-            GRRLIB_ScrShot("sd:/grrlib_ttf.png"); // Needs to be after GRRLIB_Render()
+            ScreenShot();    // Needs to be after GRRLIB_Render()
             WPAD_Rumble(0, false); // Rumble off
         }
     }
@@ -111,4 +112,17 @@ static u8 CalculateFrameRate() {
         frameCount = 0;
     }
     return FPS;
+}
+
+/**
+ * Create a PNG screenshot on the root of the SD card with a timestamp.
+ * @return bool true=everything worked, false=problems occurred.
+ */
+static bool ScreenShot() {
+    char path[255];
+    time_t now = time(NULL);
+    struct tm *ti = localtime(&now);
+    sprintf(path, "sd:/grrlib_ttf_%d%02d%02d%02d%02d%02d.png",
+        ti->tm_year + 1900, ti->tm_mon + 1, ti->tm_mday, ti->tm_hour, ti->tm_min, ti->tm_sec);
+    return GRRLIB_ScrShot(path);
 }
