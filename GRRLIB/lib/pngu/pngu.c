@@ -18,9 +18,9 @@ More info : http://frontier-dev.net
 #define PNGU_SOURCE_DEVICE			2
 
 #define _SHIFTL(v, s, w)	\
-    ((png_uint_32) (((png_uint_32)(v) & ((0x01 << (w)) - 1)) << (s)))
+    ((PNGU_u32) (((PNGU_u32)(v) & ((0x01 << (w)) - 1)) << (s)))
 #define _SHIFTR(v, s, w)	\
-    ((png_uint_32)(((png_uint_32)(v) >> (s)) & ((0x01 << (w)) - 1)))
+    ((PNGU_u32)(((PNGU_u32)(v) >> (s)) & ((0x01 << (w)) - 1)))
 
 // Prototypes of helper functions
 int pngu_info (IMGCTX ctx);
@@ -746,7 +746,7 @@ int PNGU_EncodeFromRGB (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffe
 	// Allocate memory to store the image in RGB format
 	rowbytes = width * 3;
 	if (rowbytes % 4)
-		rowbytes = ((rowbytes / 4) + 1) * 4; // Add extra padding so each row starts in a 4 byte boundary
+		rowbytes = ((rowbytes >>2) + 1) <<2; // Add extra padding so each row starts in a 4 byte boundary
 		
 	ctx->img_data = malloc(rowbytes * height);
 	memset(ctx->img_data, 0, rowbytes * height);
@@ -770,7 +770,7 @@ int PNGU_EncodeFromRGB (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffe
 		return PNGU_LIB_ERROR;
 	}
 
-	for (y = 0; y < height; y++)
+	for (y = 0; y < height; ++y)
 	{
 		ctx->row_pointers[y] = buffer + (y * rowbytes);
 	}
@@ -798,7 +798,9 @@ int PNGU_EncodeFromRGB (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffe
 // Coded by Tantric for libwiigui (http://code.google.com/p/libwiigui)
 int PNGU_EncodeFromGXTexture (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffer, PNGU_u32 stride)
 {
-	int x,y,res;
+	int res;
+	PNGU_u32 x,y, tmpy1, tmpy2, tmpyWid, tmpxy;
+
 	unsigned char * ptr = (unsigned char*)buffer;
 	unsigned char * tmpbuffer = (unsigned char *)malloc(width*height*3);
 	memset(tmpbuffer, 0, width*height*3);
@@ -806,13 +808,18 @@ int PNGU_EncodeFromGXTexture (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void 
 	
 	for(y=0; y < height; y++)
 	{
+		tmpy1 = y * 640*3;
+		tmpy2 = y%4 << 2;
+		tmpyWid = (((y >> 2)<<4)*width);
+
 		for(x=0; x < width; x++)
 		{
-			offset = (((y >> 2)<<4)*width) + ((x >> 2)<<6) + (((y%4 << 2) + x%4 ) << 1);
+			offset = tmpyWid + ((x >> 2)<<6) + ((tmpy2+ x%4 ) << 1);
+			tmpxy = x * 3 + tmpy1;
 
-			tmpbuffer[y*640*3+x*3] = ptr[offset+1]; // R
-			tmpbuffer[y*640*3+x*3+1] = ptr[offset+32]; // G
-			tmpbuffer[y*640*3+x*3+2] = ptr[offset+33]; // B
+			tmpbuffer[tmpxy  ] = ptr[offset+1]; // R
+			tmpbuffer[tmpxy+1] = ptr[offset+32]; // G
+			tmpbuffer[tmpxy+2] = ptr[offset+33]; // B
 		}
 	}
 	
@@ -824,21 +831,23 @@ int PNGU_EncodeFromGXTexture (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void 
 // Coded by Crayon for GRRLIB (http://code.google.com/p/grrlib)
 int PNGU_EncodeFromEFB (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, PNGU_u32 stride)
 {
-    png_uint_32 regval,val;
-    int x,y,res;
+    int res;
+    PNGU_u32 x,y, tmpy, tmpxy, regval, val;
     unsigned char * tmpbuffer = (unsigned char *)malloc(width*height*3);
     memset(tmpbuffer, 0, width*height*3);
 
     for(y=0; y < height; y++)
     {
+        tmpy = y * 640*3;
         for(x=0; x < width; x++)
         {
             regval = 0xc8000000|(_SHIFTL(x,2,10));
             regval = (regval&~0x3FF000)|(_SHIFTL(y,12,10));
-            val = *(png_uint_32*)regval;
-            tmpbuffer[y*640*3+x*3]   = _SHIFTR(val,16,8); // R
-            tmpbuffer[y*640*3+x*3+1] = _SHIFTR(val,8,8);  // G
-            tmpbuffer[y*640*3+x*3+2] = val&0xff;          // B
+            val = *(PNGU_u32*)regval;
+            tmpxy = x * 3 + tmpy;
+            tmpbuffer[tmpxy  ] = _SHIFTR(val,16,8); // R
+            tmpbuffer[tmpxy+1] = _SHIFTR(val,8,8);  // G
+            tmpbuffer[tmpxy+2] = val&0xff;          // B
         }
     }
 
