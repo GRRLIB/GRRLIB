@@ -68,7 +68,6 @@ int main(int argc, char **argv) {
             GRRLIB_PrintfTTF(500+1, 25+1, myFont, FPS, 12, 0x000000FF);
             GRRLIB_PrintfTTF(500, 25, myFont, FPS, 12, 0xFFFFFFFF);
         }
-        GRRLIB_Render();  // Render the frame buffer to the TV
 
         WPAD_ScanPads();  // Scan the Wii Remotes
 
@@ -86,6 +85,8 @@ int main(int argc, char **argv) {
             ScreenShot();    // Needs to be after GRRLIB_Render()
             WPAD_Rumble(0, false); // Rumble off
         }
+
+        GRRLIB_Render();  // Render the frame buffer to the TV
     }
 
     GRRLIB_FreeTexture(CopiedImg);

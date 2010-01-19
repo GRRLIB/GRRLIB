@@ -85,6 +85,7 @@ GRRLIB_texImg*  GRRLIB_LoadTextureFromFile(const char *filename) {
 
 /**
  * Make a PNG screenshot.
+ * It should be called after drawing stuff on the screen, but before GRRLIB_Render.
  * libfat is required to use the function.
  * @param filename Name of the file to write.
  * @return bool true=everything worked, false=problems occurred.

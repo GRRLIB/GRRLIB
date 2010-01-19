@@ -166,8 +166,6 @@ int main() {
                 GRRLIB_PrintBMF(left, top+420, bmf_Font2, "%s", bmf_Font2->name);
         }
         GRRLIB_Printf(500, 27, tex_BMfont5, GRRLIB_WHITE, 1, "Current FPS: %d", FPS);
-        GRRLIB_Render();
-        FPS = CalculateFrameRate();
 
         if(wpaddown & WPAD_BUTTON_HOME) {
             break;
@@ -217,6 +215,9 @@ int main() {
             GRRLIB_ScrShot("sd:/grrlib.png");
             WPAD_Rumble(WPAD_CHAN_0, 0); // Rumble off
         }
+
+        GRRLIB_Render();
+        FPS = CalculateFrameRate();
     }
     GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
     // Free some textures
@@ -235,7 +236,6 @@ int main() {
 
 /**
  * This function calculates the number of frames we render each second.
- * It must be called right after GRRLIB_Render.
  * @return The number of frames per second.
  */
 static u8 CalculateFrameRate() {

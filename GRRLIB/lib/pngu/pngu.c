@@ -9,7 +9,6 @@ More info : http://frontier-dev.net
 ********************************************************************************************/
 #include <stdio.h>
 #include <malloc.h>
-#include <ogc/gx.h>
 #include "pngu.h"
 #include "png.h"
 
@@ -18,6 +17,10 @@ More info : http://frontier-dev.net
 #define PNGU_SOURCE_BUFFER			1
 #define PNGU_SOURCE_DEVICE			2
 
+#define _SHIFTL(v, s, w)	\
+    ((png_uint_32) (((png_uint_32)(v) & ((0x01 << (w)) - 1)) << (s)))
+#define _SHIFTR(v, s, w)	\
+    ((png_uint_32)(((png_uint_32)(v) >> (s)) & ((0x01 << (w)) - 1)))
 
 // Prototypes of helper functions
 int pngu_info (IMGCTX ctx);
@@ -821,20 +824,21 @@ int PNGU_EncodeFromGXTexture (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void 
 // Coded by Crayon for GRRLIB (http://code.google.com/p/grrlib)
 int PNGU_EncodeFromEFB (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, PNGU_u32 stride)
 {
+    png_uint_32 regval,val;
     int x,y,res;
     unsigned char * tmpbuffer = (unsigned char *)malloc(width*height*3);
     memset(tmpbuffer, 0, width*height*3);
-    GXColor peekColor;
 
     for(y=0; y < height; y++)
     {
         for(x=0; x < width; x++)
         {
-            GX_PeekARGB(x, y, &peekColor);
-
-            tmpbuffer[y*640*3+x*3]   = peekColor.r; // R
-            tmpbuffer[y*640*3+x*3+1] = peekColor.g; // G
-            tmpbuffer[y*640*3+x*3+2] = peekColor.b; // B
+            regval = 0xc8000000|(_SHIFTL(x,2,10));
+            regval = (regval&~0x3FF000)|(_SHIFTL(y,12,10));
+            val = *(png_uint_32*)regval;
+            tmpbuffer[y*640*3+x*3]   = _SHIFTR(val,16,8); // R
+            tmpbuffer[y*640*3+x*3+1] = _SHIFTR(val,8,8);  // G
+            tmpbuffer[y*640*3+x*3+2] = val&0xff;          // B
         }
     }
 
