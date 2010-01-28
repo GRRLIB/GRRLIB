@@ -1,4 +1,4 @@
-# Quick'n'dirty makefile [BC]
+# Quick'n'dirty makefile [BC] v2
 
 ifeq ($(strip $(DEVKITPPC)),)
   $(error "Use   export DEVKITPPC=<path to>devkitPPC   and try again")
@@ -8,20 +8,32 @@ ifeq ($(strip $(DEVKITPRO)),)
   $(error "Use   export DEVKITPRO=<path to>devkitPRO   and try again")
 endif
 
-OGC := $(DEVKITPRO)/libogc
+PREFIX  := $(DEVKITPPC)/bin/powerpc-eabi-
+CC   := $(PREFIX)gcc
+AR   := $(PREFIX)ar
 
-HDR := $(shell ls include/*.h)
-ARC := $(shell ls lib/wii/*.a)
+INCD := $(DEVKITPRO)/libogc/include
+LIBD := $(DEVKITPRO)/libogc/lib/wii
 
-.PHONY : all install
+MACHDEP := -DGEKKO -mrvl -mcpu=750 -meabi -mhard-float
+CFLAGS  := -O2 -Wall $(MACHDEP) -I $(INCD)
 
-all :
-	@echo -e "\nWe must track down the svn repo for the source"
-	@echo "  and add it as an SVN Vendor Branch"
-	@echo "    http://svnbook.red-bean.com/en/1.1/ch07s05.html"
-	@echo "...For now, all you get is precompiled libraries"
+LIB := jpeg
+SRC := $(shell ls *.c)
+OBJ := $(patsubst %.c,%.o,$(SRC))
+ARC := lib$(LIB).a
+HDR := jpeglib.h jconfig.h jmorecfg.h
+
+all : $(OBJ)
+	$(AR) -r $(ARC) $(OBJ)
+
+clean :
+	rm -f $(OBJ) $(ARC)
 
 install :
-	mkdir -p  $(OGC)/lib/wii/  $(OGC)/include/
-	cp -rf  $(ARC)  $(OGC)/lib/wii/
-	cp -rf  $(HDR)  $(OGC)/include/
+	mkdir -p  $(LIBD)  $(INCD)
+	cp -f $(ARC) $(LIBD)/
+	cp -f $(HDR) $(INCD)/
+
+%.o : %.c
+	$(CC) $(CFLAGS) -c $< -o $@

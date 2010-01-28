@@ -20,10 +20,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ------------------------------------------------------------------------------*/
 
-#include <jpeglib.h>
 #include <malloc.h>
 #include <pngu.h>
 #include <stdio.h>
+#include <jpeglib.h>
 #include <string.h>
 
 #include <grrlib.h>
@@ -316,7 +316,7 @@ GRRLIB_texImg*  GRRLIB_LoadTextureJPGEx (const u8 *my_jpg, const int my_size) {
     jpeg_create_decompress(&cinfo);
     cinfo.err = jpeg_std_error(&jerr);
     cinfo.progress = NULL;
-    jpeg_memory_src(&cinfo, my_jpg, my_size);
+    jpeg_mem_src(&cinfo, (unsigned char *)my_jpg, my_size);
     jpeg_read_header(&cinfo, TRUE);
     jpeg_start_decompress(&cinfo);
     unsigned char *tempBuffer = malloc(cinfo.output_width * cinfo.output_height * cinfo.num_components);

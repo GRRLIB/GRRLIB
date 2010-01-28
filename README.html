@@ -95,16 +95,12 @@ This guide is for Windows.  If you are using Linux, I am going to presume you
 are smart enough to convert these instructions.
 
 GRRLIB   is supplied as source code.
-libjpeg  is supplied as a precompiled library *1
+libjpeg  is supplied as source code
 libpngu  is supplied as source code
 libpng   is supplied as source code
 libz     is supplied with devkitpro (Ie. preinstalled)
 libfat   is supplied with devkitpro (Ie. preinstalled)
 libfreetype is supplied as a precompiled library
-
-*1 The version of libjpeg supplied with GRRLIB v4.2.0 contains bug fixes not
-   available in the official release.  If you can track down the original
-   author, please tell him about these fixes.
 
 Because of the way dependencies work, the libraries must be installed in reverse
 order.
@@ -121,10 +117,10 @@ Next up the list is libpngu *2
   cd \grr\trunk\GRRLIB\lib\pngu
   make clean all install
 
-Next up the list is libjpeg *2 *3
+Next up the list is libjpeg *2
   c:
   cd \grr\trunk\GRRLIB\lib\jpeg
-  make install
+  make clean all install
 
 Next up the list is libfreetype *2
   c:
@@ -137,9 +133,6 @@ Next up the list is libfreetype *2
      c:
      cd \grr\trunk\GRRLIB\lib
      install     &lt;- If you are using Linux, type `./install.sh` instead
-
-*3 The version of libjpeg supplied with GRRLIB v4.2.0 contains bug fixes not
-   available in the official release.
 
 After all three image processing libraries are installed, we can now install
 libgrrlib:

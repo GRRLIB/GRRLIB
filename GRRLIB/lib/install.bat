@@ -5,6 +5,17 @@ Rem -- Quick'n'dirty library installation util [BC]
 Rem -- JPEG library
 echo.
 echo ---------------------------------------------------------------------------
+echo Building JPEG Library...
+echo.
+cd jpeg
+  make clean -s
+  if errorlevel 1 goto error
+  make all
+  if errorlevel 1 goto error
+cd ..
+
+echo.
+echo ---------------------------------------------------------------------------
 echo Installing JPEG Library...
 echo.
 cd jpeg
@@ -15,7 +26,7 @@ cd ..
 Rem -- PNG & PNGU libraries
 echo.
 echo ---------------------------------------------------------------------------
-echo Building PNGU Library...
+echo Building PNG Library...
 echo.
 cd png
   make clean -s

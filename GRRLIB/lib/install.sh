@@ -6,6 +6,13 @@ set -x
 
 # JPEG library
 echo -e "\n--------------------------------------------------------------------"
+echo -e "Building JPEG Library...\n"
+cd jpeg
+  make clean
+  make all
+cd ..
+
+echo -e "\n--------------------------------------------------------------------"
 echo -e "Installing JPEG Library...\n"
 pushd jpeg
   make install
