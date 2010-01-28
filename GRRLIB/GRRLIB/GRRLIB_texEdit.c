@@ -41,35 +41,34 @@ void  RawTo4x4RGBA (const u8 *src, void *dst,
                     const uint width, const uint height) {
     uint  block;
     uint  i;
-    uint  c;
-    uint  ar;
-    uint  gb;
+    u8    c;
+    u8    argb;
 
     u8    *p = (u8*)dst;
 
     for (block = 0; block < height; block += 4) {
         for (i = 0; i < width; i += 4) {
-            /* Alpha and Red */
+            // Alpha and Red
             for (c = 0; c < 4; ++c) {
-                for (ar = 0; ar < 4; ++ar) {
-                    /* Alpha pixels */
+                for (argb = 0; argb < 4; ++argb) {
+                    // Alpha pixels
                     *p++ = 255;
-                    /* Red pixels */
-                    *p++ = src[((i + ar) + ((block + c) * width)) * 3];
+                    // Red pixels
+                    *p++ = src[((i + argb) + ((block + c) * width)) * 3];
                 }
             }
 
-            /* Green and Blue */
+            // Green and Blue
             for (c = 0; c < 4; ++c) {
-                for (gb = 0; gb < 4; ++gb) {
-                    /* Green pixels */
-                    *p++ = src[(((i + gb) + ((block + c) * width)) * 3) + 1];
-                    /* Blue pixels */
-                    *p++ = src[(((i + gb) + ((block + c) * width)) * 3) + 2];
+                for (argb = 0; argb < 4; ++argb) {
+                    // Green pixels
+                    *p++ = src[(((i + argb) + ((block + c) * width)) * 3) + 1];
+                    // Blue pixels
+                    *p++ = src[(((i + argb) + ((block + c) * width)) * 3) + 2];
                 }
             }
-        } /* i */
-    } /* block */
+        }
+    }
 }
 
 /**
