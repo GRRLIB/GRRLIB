@@ -317,14 +317,17 @@ GRRLIB_texImg*  GRRLIB_LoadTextureJPGEx (const u8 *my_jpg, const int my_size) {
     cinfo.progress = NULL;
     jpeg_mem_src(&cinfo, (unsigned char *)my_jpg, my_size);
     jpeg_read_header(&cinfo, TRUE);
+    if(cinfo.jpeg_color_space == JCS_GRAYSCALE) {
+        cinfo.out_color_space = JCS_RGB;
+    }
     jpeg_start_decompress(&cinfo);
-    unsigned char *tempBuffer = malloc(cinfo.output_width * cinfo.output_height * cinfo.num_components);
+    unsigned char *tempBuffer = malloc(cinfo.output_width * cinfo.output_height * cinfo.output_components);
     JSAMPROW row_pointer[1];
-    row_pointer[0] = malloc(cinfo.output_width * cinfo.num_components);
+    row_pointer[0] = malloc(cinfo.output_width * cinfo.output_components);
     size_t location = 0;
     while (cinfo.output_scanline < cinfo.output_height) {
         jpeg_read_scanlines(&cinfo, row_pointer, 1);
-        for (i = 0; i < cinfo.image_width * cinfo.num_components; i++) {
+        for (i = 0; i < cinfo.image_width * cinfo.output_components; i++) {
             /* Put the decoded scanline into the tempBuffer */
             tempBuffer[ location++ ] = row_pointer[0][i];
         }
