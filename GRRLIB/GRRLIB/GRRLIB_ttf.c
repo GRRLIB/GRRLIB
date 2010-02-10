@@ -27,7 +27,7 @@ THE SOFTWARE.
 static FT_Library ftLibrary;        /**< A handle to a FreeType library instance. */
 
 // Static function prototypes
-static void DrawBitmap(FT_Bitmap *bitmap, int offset, int top, const u32 color);
+static void DrawBitmap(FT_Bitmap *bitmap, int offset, int top, const u8 cR, const u8 cG, const u8 cB);
 
 
 /**
@@ -124,6 +124,7 @@ void GRRLIB_PrintfTTFW(int x, int y, GRRLIB_ttfFont *myFont, const wchar_t *utf3
     FT_GlyphSlot slot = myFont->face->glyph;
     FT_UInt glyphIndex = 0;
     FT_UInt previousGlyph = 0;
+    u8 cR = R(color), cG = G(color), cB = B(color);
 
     if (FT_Set_Pixel_Sizes(myFont->face, 0, fontSize)) {
         FT_Set_Pixel_Sizes(myFont->face, 0, 12);
@@ -148,7 +149,7 @@ void GRRLIB_PrintfTTFW(int x, int y, GRRLIB_ttfFont *myFont, const wchar_t *utf3
         DrawBitmap(&slot->bitmap,
                    penX + slot->bitmap_left + x,
                    penY - slot->bitmap_top + y,
-                   color);
+                   cR, cG, cB);
         penX += slot->advance.x >> 6;
         previousGlyph = glyphIndex;
     }
@@ -161,11 +162,10 @@ void GRRLIB_PrintfTTFW(int x, int y, GRRLIB_ttfFont *myFont, const wchar_t *utf3
  * @param top y-coordinate.
  * @param color character color in RGBA format.
  */
-static void DrawBitmap(FT_Bitmap *bitmap, int offset, int top, const u32 color) {
+static void DrawBitmap(FT_Bitmap *bitmap, int offset, int top, const u8 cR, const u8 cG, const u8 cB) {
     FT_Int i, j, p, q;
     FT_Int x_max = offset + bitmap->width;
     FT_Int y_max = top + bitmap->rows;
-    u8 cR = R(color), cG = G(color), cB = B(color);
 
     for ( i = offset, p = 0; i < x_max; i++, p++ ) {
         for ( j = top, q = 0; j < y_max; j++, q++ ) {
