@@ -16,7 +16,7 @@ INCD := $(DEVKITPRO)/libogc/include
 LIBD := $(DEVKITPRO)/libogc/lib/wii
 
 MACHDEP := -DGEKKO -mrvl -mcpu=750 -meabi -mhard-float
-CFLAGS  := -O2 $(MACHDEP) -I $(INCD)
+CFLAGS  := -O2 $(MACHDEP)
 
 LIB := jpeg
 SRC := $(shell ls *.c)
