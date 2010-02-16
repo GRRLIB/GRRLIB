@@ -1,11 +1,8 @@
 #
-# FreeType 2 generic pseudo ANSI compiler
+# FreeType 2 devkitPPC compiler
 #
 
 
-# Copyright 1996-2000, 2003, 2006 by
-# David Turner, Robert Wilhelm, and Werner Lemberg.
-#
 # This file is part of the FreeType project, and may only be used, modified,
 # and distributed under the terms of the FreeType project license,
 # LICENSE.TXT.  By continuing to use, modify, or distribute this file you
@@ -63,7 +60,7 @@ T := -o$(space)
 #   ANSI compliance.
 #
 MACHDEP := -DGEKKO -mrvl -mcpu=750 -meabi -mhard-float
-CFLAGS ?= -c -O2 $(MACHDEP) -I./include -I/include/freetype/config
+CFLAGS ?= -c -O2 $(MACHDEP) -I$(TOP_DIR)/include
 
 # ANSIFLAGS: Put there the flags used to make your compiler ANSI-compliant.
 #
@@ -75,6 +72,7 @@ ANSIFLAGS :=
 # Library linking
 #
 CLEAN_LIBRARY ?= $(DELETE) $(subst /,$(SEP),$(PROJECT_LIBRARY))
+AR            := $(DEVKITPPC)/bin/powerpc-eabi-ar
 LINK_LIBRARY   = $(AR) -r $@ $(subst /,$(COMPILER_SEP),$(OBJECTS_LIST))
 
 

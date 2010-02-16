@@ -1,12 +1,3 @@
-# FreeType Makefile
-
-PROJECT       := freetype
-PROJECT_TITLE := FreeType
-TOP_DIR ?= .
-OBJ_DIR ?= $(TOP_DIR)
-include $(TOP_DIR)/builds/toplevel.mk
-
-
 # Quick'n'dirty makefile [BC]
 
 ifeq ($(strip $(DEVKITPPC)),)
@@ -17,15 +8,19 @@ ifeq ($(strip $(DEVKITPRO)),)
   $(error "Use   export DEVKITPRO=<path to>devkitPRO   and try again")
 endif
 
-PREFIX  := $(DEVKITPPC)/bin/powerpc-eabi-
-CC   := $(PREFIX)gcc
-AR   := $(PREFIX)ar
+# FreeType Makefile
+PROJECT       := freetype
+PROJECT_TITLE := FreeType
+TOP_DIR ?= .
+OBJ_DIR ?= $(TOP_DIR)
+include $(TOP_DIR)/builds/toplevel.mk
+
 
 INCD := $(DEVKITPRO)/libogc/include
 LIBD := $(DEVKITPRO)/libogc/lib/wii
 
-MACHDEP := -DGEKKO -mrvl -mcpu=750 -meabi -mhard-float
-CFLAGS  := -c -O2 $(MACHDEP) -I./include -I/include/freetype/config
+clean :
+	rm -f lib$(PROJECT).a ftmodule.h
 
 install :
 	mkdir -p  $(LIBD)  $(INCD)/freetype/config/
