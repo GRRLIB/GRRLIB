@@ -60,7 +60,7 @@ T := -o$(space)
 #   ANSI compliance.
 #
 MACHDEP := -DGEKKO -mrvl -mcpu=750 -meabi -mhard-float
-CFLAGS ?= -c -O2 $(MACHDEP) -I$(TOP_DIR)/include
+CFLAGS ?= -c -O2 -Wall $(MACHDEP) -I$(TOP_DIR)/include
 
 # ANSIFLAGS: Put there the flags used to make your compiler ANSI-compliant.
 #
