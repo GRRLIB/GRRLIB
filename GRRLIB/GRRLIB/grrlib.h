@@ -101,16 +101,16 @@ typedef  struct GRRLIB_drawSettings {
  * Structure to hold the texture information.
  */
 typedef  struct GRRLIB_texImg {
-    uint   w;           /**< Texture width.    */
-    uint   h;           /**< Texture height.   */
+    uint   w;           /**< The width of the texture in pixels.  */
+    uint   h;           /**< The height of the texture in pixels. */
     int    handlex;     /**< Texture handle x. */
     int    handley;     /**< Texture handle y. */
     int    offsetx;     /**< Texture offset x. */
     int    offsety;     /**< Texture offset y. */
 
     bool   tiledtex;    /**< Texture is tiled if set to true.   */
-    uint   tilew;       /**< Width of one tile.                 */
-    uint   tileh;       /**< Height of one tile.                */
+    uint   tilew;       /**< The width of one tile in pixels.   */
+    uint   tileh;       /**< The height of one tile in pixels.  */
     uint   nbtilew;     /**< Number of tiles for the x axis.    */
     uint   nbtileh;     /**< Number of tiles for the y axis.    */
     uint   tilestart;   /**< Offset to tile starting position.  */

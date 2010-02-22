@@ -40,7 +40,7 @@ static void  *gp_fifo = NULL;
 static bool  is_setup = false;  // To control entry and exit
 
 /**
- * Initialize GRRLIB. Call this at the beginning your code.
+ * Initialize GRRLIB. Call this once at the beginning your code.
  * @return int 0=OK; -1=NoMemory; -2=NoFilingSystem
  * @see GRRLIB_Exit
  */

@@ -26,7 +26,8 @@ THE SOFTWARE.
  */
 
 /**
- * Set a texture's X and Y handles. e.g. for rotation.
+ * Set a texture's X and Y handles.
+ * For example, it could be used for the rotation of a texture.
  * @param tex The texture to set the handle on.
  * @param x The x-coordinate of the handle.
  * @param y The y-coordinate of the handle.
@@ -43,7 +44,8 @@ void  GRRLIB_SetHandle (GRRLIB_texImg *tex, const int x, const int y) {
 }
 
 /**
- * Center a texture's handles. e.g. for rotation.
+ * Center a texture's handles.
+ * For example, it could be used for the rotation of a texture.
  * @param tex The texture to center.
  * @param enabled
  */
