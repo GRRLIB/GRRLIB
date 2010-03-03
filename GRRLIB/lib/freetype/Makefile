@@ -23,6 +23,9 @@ all :
 	@echo "    http://svnbook.red-bean.com/en/1.1/ch07s05.html"
 	@echo "...For now, all you get is precompiled libraries"
 
+clean:
+	@echo -e "Nothing to clean"
+
 install :
 	mkdir -p  $(OGC)/lib/wii/  $(OGC)/include/freetype/config/
 	cp -rf  $(HDR)  $(OGC)/include/

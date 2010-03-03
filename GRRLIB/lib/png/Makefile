@@ -8,32 +8,32 @@ ifeq ($(strip $(DEVKITPRO)),)
   $(error "Use   export DEVKITPRO=<path to>devkitPRO   and try again")
 endif
 
-PREFIX  := $(DEVKITPPC)/bin/powerpc-eabi-
-CC   := $(PREFIX)gcc
-AR   := $(PREFIX)ar
+PREFIX	:= $(DEVKITPPC)/bin/powerpc-eabi-
+CC		:=	$(PREFIX)gcc
+AR		:=	$(PREFIX)ar
 
-INCD := $(DEVKITPRO)/libogc/include
-LIBD := $(DEVKITPRO)/libogc/lib/wii
+LIBOGC_INC	:=	$(DEVKITPRO)/libogc/include
+LIBOGC_LIB	:=	$(DEVKITPRO)/libogc/lib/wii
 
 MACHDEP := -DGEKKO -mrvl -mcpu=750 -meabi -mhard-float
-CFLAGS  := -O2 -Wall $(MACHDEP) -I $(INCD)
+CFLAGS  := -O2 -Wall $(MACHDEP) -I $(LIBOGC_INC)
 
-LIB := png
-SRC := $(shell ls *.c)
-OBJ := $(patsubst %.c,%.o,$(SRC))
-ARC := lib$(LIB).a
-HDR := $(LIB).h $(LIB)conf.h
+LIB 	:= png
+CFILES	:= $(wildcard *.c)
+OFILES	:= $(CFILES:.c=.o)
+ARC 	:= lib$(LIB).a
+HDR 	:= $(LIB).h $(LIB)conf.h
 
-all : $(OBJ)
-	$(AR) -r $(ARC) $(OBJ)
+all : $(OFILES)
+	$(AR) -r $(ARC) $(OFILES)
 
 clean :
-	rm -f $(OBJ) $(ARC)
+	rm -f $(OFILES) $(ARC)
 
 install :
-	mkdir -p  $(LIBD)  $(INCD)
-	cp -f $(ARC) $(LIBD)/
-	cp -f $(HDR) $(INCD)/
+	mkdir -p  $(LIBOGC_LIB)  $(LIBOGC_INC)
+	cp -f $(ARC) $(LIBOGC_LIB)/
+	cp -f $(HDR) $(LIBOGC_INC)/
 
 %.o : %.c
 	$(CC) $(CFLAGS) -c $< -o $@

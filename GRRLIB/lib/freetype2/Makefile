@@ -16,15 +16,15 @@ OBJ_DIR ?= $(TOP_DIR)
 include $(TOP_DIR)/builds/toplevel.mk
 
 
-INCD := $(DEVKITPRO)/libogc/include
-LIBD := $(DEVKITPRO)/libogc/lib/wii
+LIBOGC_INC	:=	$(DEVKITPRO)/libogc/include
+LIBOGC_LIB	:=	$(DEVKITPRO)/libogc/lib/wii
 
 clean :
 	rm -f lib$(PROJECT).a ftmodule.h
 
 install :
-	mkdir -p  $(LIBD)  $(INCD)/freetype/config/
-	cp -rf  $(shell ls include/*.h)                     $(INCD)/
-	cp -rf  $(shell ls include/freetype/*.h)            $(INCD)/freetype/
-	cp -rf  $(shell ls include/freetype/config/*.h)     $(INCD)/freetype/config/
-	cp -rf  lib$(PROJECT).a                             $(LIBD)/
+	mkdir -p  $(LIBOGC_LIB)  $(LIBOGC_INC)/freetype/config/
+	cp -rf  $(shell ls include/*.h)                     $(LIBOGC_INC)/
+	cp -rf  $(shell ls include/freetype/*.h)            $(LIBOGC_INC)/freetype/
+	cp -rf  $(shell ls include/freetype/config/*.h)     $(LIBOGC_INC)/freetype/config/
+	cp -rf  lib$(PROJECT).a                             $(LIBOGC_LIB)/

@@ -11,34 +11,34 @@ endif
 NULLSTR :=
 PWD     := $(subst $(NULLSTR) ,\ ,$(shell pwd))
 
-PREFIX  := $(DEVKITPPC)/bin/powerpc-eabi-
-CC   := $(PREFIX)gcc
-AR   := $(PREFIX)ar
+PREFIX	:= $(DEVKITPPC)/bin/powerpc-eabi-
+CC		:=	$(PREFIX)gcc
+AR		:=	$(PREFIX)ar
 
-INCD := $(DEVKITPRO)/libogc/include
-LIBD := $(DEVKITPRO)/libogc/lib/wii
+LIBOGC_INC	:=	$(DEVKITPRO)/libogc/include
+LIBOGC_LIB	:=	$(DEVKITPRO)/libogc/lib/wii
 
 MACHDEP := -DGEKKO -mrvl -mcpu=750 -meabi -mhard-float
-CFLAGS  := -O2 -Wall $(MACHDEP) -I$(PWD) -I$(INCD)
+CFLAGS  := -O2 -Wall $(MACHDEP) -I$(PWD) -I$(LIBOGC_INC)
 
-LIB := grrlib
-SRC := $(wildcard *.c)
-OBJ := $(patsubst %.c,%.o,$(SRC))
-ARC := lib$(LIB).a
-HDR := $(LIB).h
-INL := $(wildcard $(LIB)/*.h)
+LIB		:= grrlib
+CFILES	:= $(wildcard *.c)
+OFILES	:= $(CFILES:.c=.o)
+ARC		:= lib$(LIB).a
+HDR		:= $(LIB).h
+INL		:= $(wildcard $(LIB)/*.h)
 
-all : $(OBJ)
-	$(AR) -r $(ARC) $(OBJ)
+all : $(OFILES)
+	$(AR) -r $(ARC) $(OFILES)
 
 clean :
-	rm -f $(OBJ) $(ARC)
+	rm -f $(OFILES) $(ARC)
 
 install :
-	mkdir -p  $(LIBD)  $(INCD)  $(INCD)/grrlib
-	cp -f $(ARC) $(LIBD)/
-	cp -f $(HDR) $(INCD)/
-	cp -f $(INL) $(INCD)/grrlib
+	mkdir -p  $(LIBOGC_LIB)  $(LIBOGC_INC)  $(LIBOGC_INC)/grrlib
+	cp -f $(ARC) $(LIBOGC_LIB)/
+	cp -f $(HDR) $(LIBOGC_INC)/
+	cp -f $(INL) $(LIBOGC_INC)/grrlib
 
 %.o : %.c
 	$(CC) $(CFLAGS) -c $< -o $@
