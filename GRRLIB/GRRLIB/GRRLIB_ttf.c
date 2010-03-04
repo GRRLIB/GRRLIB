@@ -160,7 +160,9 @@ void GRRLIB_PrintfTTFW(int x, int y, GRRLIB_ttfFont *myFont, const wchar_t *utf3
  * @param bitmap Bitmap to draw.
  * @param offset x-coordinate offset.
  * @param top y-coordinate.
- * @param color character color in RGBA format.
+ * @param cR Red component of the colour.
+ * @param cG Green component of the colour.
+ * @param cB Blue component of the colour.
  */
 static void DrawBitmap(FT_Bitmap *bitmap, int offset, int top, const u8 cR, const u8 cG, const u8 cB) {
     FT_Int i, j, p, q;
