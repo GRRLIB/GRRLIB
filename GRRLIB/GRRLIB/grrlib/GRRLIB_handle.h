@@ -21,7 +21,6 @@ THE SOFTWARE.
 ------------------------------------------------------------------------------*/
 
 /**
- * @file GRRLIB_handle.h
  * Inline functions for manipulating texture handles.
  */
 

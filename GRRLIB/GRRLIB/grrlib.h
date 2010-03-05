@@ -24,6 +24,12 @@ THE SOFTWARE.
  * @file GRRLIB.h
  * GRRLIB user include file
  */
+/**
+ * @defgroup AllFunc Everything in GRRLIB
+ * This is the complete list of funtions, structures, defines, typedefs and enumerations you may want to used to make your homebrew with GRRLIB.
+ * You simply need to include grrlib.h in your project to have access to all of these.
+ * @{
+ */
 
 #ifndef __GRRLIB_H__
 #define __GRRLIB_H__
@@ -198,11 +204,12 @@ GRR_EXTERN  u32         fb       GRR_INIT(0);
 #endif /* __cplusplus */
 
 #endif // __GRRLIB_H__
-
+/** @} */ // end of group
 /**
  * @mainpage GRRLIB Documentation
  * @image html grrlib_logo.png
  * Welcome to the GRRLIB documentation.
+ * A complete list of functions is available from this \ref AllFunc "page".
  *
  * @section Introduction
  * GRRLIB is a C/C++ 2D/3D graphics library for Wii application developers.

@@ -21,7 +21,6 @@ THE SOFTWARE.
 ------------------------------------------------------------------------------*/
 
 /**
- * @file GRRLIB_fbSimple.h
  * Inline functions for primitive point and line drawing.
  */
 

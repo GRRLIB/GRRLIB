@@ -21,7 +21,6 @@ THE SOFTWARE.
 ------------------------------------------------------------------------------*/
 
 /**
- * @file GRRLIB_collision.h
  * Inline functions for collision detection.
  */
 

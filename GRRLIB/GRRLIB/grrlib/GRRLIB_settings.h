@@ -21,7 +21,6 @@ THE SOFTWARE.
 ------------------------------------------------------------------------------*/
 
 /**
- * @file GRRLIB_settings.h
  * Inline functions for configuring the GRRLIB settings.
  */
 

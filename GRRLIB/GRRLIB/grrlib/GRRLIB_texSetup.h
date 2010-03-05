@@ -21,7 +21,6 @@ THE SOFTWARE.
 ------------------------------------------------------------------------------*/
 
 /**
- * @file GRRLIB_texSetup.h
  * Inline functions for the basic manipulation of textures.
  */
 

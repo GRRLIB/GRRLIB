@@ -21,7 +21,6 @@ THE SOFTWARE.
 ------------------------------------------------------------------------------*/
 
 /**
- * @file GRRLIB_pixel.h
  * Inline functions for manipulating pixels in textures.
  */
 

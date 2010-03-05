@@ -23,6 +23,11 @@ THE SOFTWARE.
 /**
  * @file GRRLIB__lib.h
  * GRRLIB library function prototypes.
+ * Do not include GRRLIB__lib.h directly, include only GRRLIB.h.
+ */
+/**
+ * @addtogroup AllFunc
+ * @{
  */
 
 #ifndef __GRRLIB_H__
@@ -162,3 +167,4 @@ unsigned int GRRLIB_WidthTTF(GRRLIB_ttfFont *myFont, const char *, unsigned int)
 unsigned int GRRLIB_WidthTTFW(GRRLIB_ttfFont *myFont, const wchar_t *, unsigned int);
 
 #endif // __GRRLIB_FNLIB_H__
+/** @} */ // end of group
