@@ -8,6 +8,7 @@
 #include <grrlib.h>
 
 #include <stdlib.h>
+#include <math.h>
 #include <wiiuse/wpad.h>
 
 #include "gfx/tile1.h"
