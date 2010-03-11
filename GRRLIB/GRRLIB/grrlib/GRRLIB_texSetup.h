@@ -20,7 +20,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ------------------------------------------------------------------------------*/
 
-/**
+/*
+ * @file GRRLIB_texSetup.h
  * Inline functions for the basic manipulation of textures.
  */
 

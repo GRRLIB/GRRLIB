@@ -22,11 +22,11 @@ THE SOFTWARE.
 
 /**
  * @file GRRLIB.h
- * GRRLIB user include file
+ * GRRLIB user include file.
  */
 /**
  * @defgroup AllFunc Everything in GRRLIB
- * This is the complete list of funtions, structures, defines, typedefs and enumerations you may want to used to make your homebrew with GRRLIB.
+ * This is the complete list of funtions, structures, defines, typedefs, enumerations and variables you may want to used to make your homebrew with GRRLIB.
  * You simply need to include grrlib.h in your project to have access to all of these.
  * @{
  */

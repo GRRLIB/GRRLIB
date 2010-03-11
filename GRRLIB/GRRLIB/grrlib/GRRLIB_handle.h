@@ -20,7 +20,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ------------------------------------------------------------------------------*/
 
-/**
+/*
+ * @file GRRLIB_handle.h
  * Inline functions for manipulating texture handles.
  */
 
