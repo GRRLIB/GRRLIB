@@ -2,6 +2,27 @@
 
 Rem -- Quick'n'dirty library installation util [BC]
 
+Rem -- zlib library
+echo.
+echo ---------------------------------------------------------------------------
+echo Building zlib Library...
+echo.
+cd zlib
+  make clean -s
+  if errorlevel 1 goto error
+  make all
+  if errorlevel 1 goto error
+cd ..
+
+echo.
+echo ---------------------------------------------------------------------------
+echo Installing zlib Library...
+echo.
+cd zlib
+  make install
+  if errorlevel 1 goto error
+cd ..
+
 Rem -- JPEG library
 echo.
 echo ---------------------------------------------------------------------------

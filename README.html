@@ -86,10 +86,6 @@ version" to a directory called  C:\grr\trunk
 Installing GRRLIB
 -----------------
 
-Note: Discussion is underway for 'libpng' and 'libjpeg' to be included with
-      devkitPro - this means that the "precompiled" libraries will /not/ require
-      installation [03-Sept-2009]
-
 This guide is for Windows.  If you are using Linux, I am going to presume you
 are smart enough to convert these instructions.
 
@@ -97,14 +93,17 @@ GRRLIB   is supplied as source code.
 libjpeg  is supplied as source code
 libpngu  is supplied as source code
 libpng   is supplied as source code
-libz     is supplied with devkitpro (Ie. preinstalled)
+libz     is supplied as source code
 libfat   is supplied with devkitpro (Ie. preinstalled)
 libfreetype is supplied as a precompiled library
 
 Because of the way dependencies work, the libraries must be installed in reverse
 order.
 
-libz comes preinstalled with devkitPro, so we can move directly to libpng...
+To install libz *2
+  c:
+  cd \grr\trunk\GRRLIB\lib\zlib
+  make clean all install
 
 To install libpng *2
   c:
@@ -127,13 +126,13 @@ Next up the list is libfreetype *2
   make install
 
 *2 A Windows batch-file and a Linux shell-script are included which will
-   install the libpng, libpngu, libjpeg and libfreetype libraries in a single
-   command:
+   install the libz, libpng, libpngu, libjpeg and libfreetype libraries in a
+   single command:
      c:
      cd \grr\trunk\GRRLIB\lib
      install     &lt;- If you are using Linux, type `./install.sh` instead
 
-After all three image processing libraries are installed, we can now install
+After all five image processing libraries are installed, we can now install
 libgrrlib:
   c:
   cd \grr\trunk\GRRLIB\GRRLIB

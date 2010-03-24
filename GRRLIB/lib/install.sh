@@ -4,6 +4,20 @@ set -x
 
 # Quick'n'dirty library installation util [BC]
 
+# zlib library
+echo -e "\n--------------------------------------------------------------------"
+echo -e "Building zlib Library...\n"
+cd zlib
+  make clean
+  make all
+cd ..
+
+echo -e "\n--------------------------------------------------------------------"
+echo -e "Installing zlib Library...\n"
+pushd zlib
+  make install
+popd
+
 # JPEG library
 echo -e "\n--------------------------------------------------------------------"
 echo -e "Building JPEG Library...\n"
