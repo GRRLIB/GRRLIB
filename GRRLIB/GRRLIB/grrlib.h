@@ -43,8 +43,6 @@ THE SOFTWARE.
 // Includes
 //==============================================================================
 #include <gccore.h>
-#include <ft2build.h>
-#include FT_FREETYPE_H
 //==============================================================================
 
 //==============================================================================
@@ -159,8 +157,8 @@ typedef  struct GRRLIB_bytemapFont {
  * Structure to hold the TTF information.
  */
 typedef  struct GRRLIB_Font {
-    FT_Face face;       /**< A TTF face object. */
-    FT_Bool kerning;    /**< true whenever a face object contains kerning data that can be accessed with FT_Get_Kerning. */
+    void *face;     /**< A TTF face object. */
+    bool kerning;   /**< true whenever a face object contains kerning data that can be accessed with FT_Get_Kerning. */
 } GRRLIB_ttfFont;
 
 //==============================================================================

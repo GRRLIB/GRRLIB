@@ -20,9 +20,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ------------------------------------------------------------------------------*/
 
-#include <grrlib.h>
 #include "grrlib/GRRLIB_ttf.h"
+#include <grrlib.h>
 #include <wchar.h>
+#include <ft2build.h>
+#include FT_FREETYPE_H
 
 static FT_Library ftLibrary;        /**< A handle to a FreeType library instance. */
 
@@ -56,14 +58,16 @@ void GRRLIB_ExitTTF (void) {
  * @see GRRLIB_FreeTTF
  */
 GRRLIB_ttfFont* GRRLIB_LoadTTF (const u8* file_base, s32 file_size) {
+    FT_Face Face;
     GRRLIB_ttfFont* myFont = (GRRLIB_ttfFont*)malloc(sizeof(GRRLIB_ttfFont));
-    FT_New_Memory_Face(ftLibrary, file_base, file_size, 0, &myFont->face);
-    myFont->kerning = FT_HAS_KERNING(myFont->face);
+    FT_New_Memory_Face(ftLibrary, file_base, file_size, 0, &Face);
+    myFont->kerning = FT_HAS_KERNING(Face);
 /*
-    if (FT_Set_Pixel_Sizes(myFont->face, 0, fontSize)) {
-        FT_Set_Pixel_Sizes(myFont->face, 0, 12);
+    if (FT_Set_Pixel_Sizes(Face, 0, fontSize)) {
+        FT_Set_Pixel_Sizes(Face, 0, 12);
     }
 */
+    myFont->face = Face;
     return myFont;
 }
 
@@ -118,16 +122,17 @@ void GRRLIB_PrintfTTFW(int x, int y, GRRLIB_ttfFont *myFont, const wchar_t *utf3
     if(myFont == NULL || utf32 == NULL)
         return;
 
+    FT_Face Face = (FT_Face)myFont->face;
     unsigned int loop;
     int penX = 0;
     int penY = fontSize;
-    FT_GlyphSlot slot = myFont->face->glyph;
+    FT_GlyphSlot slot = Face->glyph;
     FT_UInt glyphIndex = 0;
     FT_UInt previousGlyph = 0;
     u8 cR = R(color), cG = G(color), cB = B(color);
 
-    if (FT_Set_Pixel_Sizes(myFont->face, 0, fontSize)) {
-        FT_Set_Pixel_Sizes(myFont->face, 0, 12);
+    if (FT_Set_Pixel_Sizes(Face, 0, fontSize)) {
+        FT_Set_Pixel_Sizes(Face, 0, 12);
     }
 
     size_t length = wcslen(utf32);
@@ -216,6 +221,7 @@ unsigned int GRRLIB_WidthTTFW(GRRLIB_ttfFont *myFont, const wchar_t *utf32, unsi
         return 0;
     }
 
+    FT_Face Face = (FT_Face)myFont->face;
     unsigned int loop;
     unsigned int penX = 0;
     FT_UInt glyphIndex;
@@ -233,14 +239,14 @@ unsigned int GRRLIB_WidthTTFW(GRRLIB_ttfFont *myFont, const wchar_t *utf32, unsi
 
         if(myFont->kerning && previousGlyph && glyphIndex) {
             FT_Vector delta;
-            FT_Get_Kerning(myFont->face, previousGlyph, glyphIndex, FT_KERNING_DEFAULT, &delta);
+            FT_Get_Kerning(Face, previousGlyph, glyphIndex, FT_KERNING_DEFAULT, &delta);
             penX += delta.x >> 6;
         }
-        if(FT_Load_Glyph(myFont->face, glyphIndex, FT_LOAD_RENDER)) {
+        if(FT_Load_Glyph(Face, glyphIndex, FT_LOAD_RENDER)) {
             continue;
         }
 
-        penX += myFont->face->glyph->advance.x >> 6;
+        penX += Face->glyph->advance.x >> 6;
         previousGlyph = glyphIndex;
     }
 
