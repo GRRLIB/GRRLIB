@@ -61,6 +61,13 @@ cd ..
 
 # FreeType library
 echo -e "\n--------------------------------------------------------------------"
+echo -e "Building FreeType Library...\n"
+cd freetype
+  make clean
+  make all
+cd ..
+
+echo -e "\n--------------------------------------------------------------------"
 echo -e "Installing FreeType Library...\n"
 cd freetype
   make install

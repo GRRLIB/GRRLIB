@@ -88,6 +88,17 @@ cd ..
 Rem -- FreeType library
 echo.
 echo ---------------------------------------------------------------------------
+echo Building FreeType Library...
+echo.
+cd freetype
+  make clean -s
+  if errorlevel 1 goto error
+  make all
+  if errorlevel 1 goto error
+cd ..
+
+echo.
+echo ---------------------------------------------------------------------------
 echo Installing FreeType Library...
 echo.
 cd freetype
