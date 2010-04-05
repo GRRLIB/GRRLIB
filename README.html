@@ -89,13 +89,13 @@ Installing GRRLIB
 This guide is for Windows.  If you are using Linux, I am going to presume you
 are smart enough to convert these instructions.
 
-GRRLIB   is supplied as source code.
-libjpeg  is supplied as source code
-libpngu  is supplied as source code
-libpng   is supplied as source code
-libz     is supplied as source code
-libfat   is supplied with devkitpro (Ie. preinstalled)
-libfreetype is supplied as a precompiled library
+GRRLIB      is supplied as source code.
+libjpeg     is supplied as source code
+libpngu     is supplied as source code
+libpng      is supplied as source code
+libz        is supplied as source code
+libfreetype is supplied as source code
+libfat      is supplied with devkitpro (Ie. preinstalled)
 
 Because of the way dependencies work, the libraries must be installed in reverse
 order.
@@ -123,7 +123,7 @@ Next up the list is libjpeg *2
 Next up the list is libfreetype *2
   c:
   cd \grr\trunk\GRRLIB\lib\freetype
-  make install
+  make clean all install
 
 *2 A Windows batch-file and a Linux shell-script are included which will
    install the libz, libpng, libpngu, libjpeg and libfreetype libraries in a
