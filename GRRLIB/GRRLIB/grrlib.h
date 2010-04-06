@@ -98,6 +98,7 @@ typedef  enum GRRLIB_blendMode {
 typedef  struct GRRLIB_drawSettings {
     bool              antialias;    /**< AntiAlias is enabled when set to true. */
     GRRLIB_blendMode  blend;        /**< Blending Mode.                         */
+    int               lights;        /**< active lights                          */
 } GRRLIB_drawSettings;
 
 //------------------------------------------------------------------------------

@@ -50,7 +50,7 @@ GXTexObj  texObj;
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_PLUS) if(demo<5) demo++;
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_MINUS) if(demo>0) demo--;
 
-        GRRLIB_3dMode(0.1,1000,45,0,0,1);
+        GRRLIB_3dMode(0.1,1000,45,0,1);
 
 	if(demo==0){
 		/////////////////// DEFINE A  DIFUSE LIGHT /////////////////////////////////////////////
@@ -70,7 +70,7 @@ GXTexObj  texObj;
 	        GRRLIB_ObjectView(0,0,0, a,a*2,a*3, 1.0f,1.0f,1.0f);
 	    	GX_SetChanAmbColor(GX_COLOR0A0, (GXColor) { 0x33, 0x33, 0x33, 0xFF});
 	    	GX_SetChanMatColor(GX_COLOR0A0, (GXColor) { 0xFF, 0xFF, 0xFF, 0xFF});
-	        GRRLIB_DrawTorus(0.6f, 2.0f, 60, 60,true);
+	        GRRLIB_DrawTorus(0.6f, 2.0f, 60, 60,true,0xFFFFFFFF);
 		a+=0.8f;
 
 		//////////////////////////// Turn light off and Write demo name
@@ -107,7 +107,7 @@ GXTexObj  texObj;
 	        GRRLIB_ObjectView(0,0,0, a,a*2,a*3, 1.0f,1.0f,1.0f);
 	    	GX_SetChanAmbColor(GX_COLOR0A0, (GXColor) { 0x33, 0x33, 0x33, 0xFF});
 	    	GX_SetChanMatColor(GX_COLOR0A0, (GXColor) { 0xFF, 0xFF, 0xFF, 0xFF});
-	        GRRLIB_DrawTorus(0.6f, 2.0f, 60, 60,true);
+	        GRRLIB_DrawTorus(0.6f, 2.0f, 60, 60,true, 0xFFFFFFFF);
 		a+=0.8f;
 
 		//////////////////////////// Turn light off and Write demo name
@@ -147,7 +147,7 @@ GXTexObj  texObj;
     		GX_SetChanMatColor(GX_COLOR0, (GXColor) {  0x00,  0x00, 0x00, 0xFF});
     		GX_SetChanAmbColor(GX_COLOR1, (GXColor){0x00,0x00,0x00,0x00});
     		GX_SetChanMatColor(GX_COLOR1, (GXColor){0xFF,0xFF,0xFF,0xFF});
-	        GRRLIB_DrawTorus(0.6f, 2.0f, 60, 60,true);
+	        GRRLIB_DrawTorus(0.6f, 2.0f, 60, 60,true, 0xFFFFFFFF);
 		a+=0.8f;
 
 		//////////////////////////// Turn light off and Write demo name
@@ -187,7 +187,7 @@ GXTexObj  texObj;
     		GX_SetChanMatColor(GX_COLOR0, (GXColor) {  0x00,  0x00, 0x00, 0xFF});
     		GX_SetChanAmbColor(GX_COLOR1, (GXColor){0x00,0x00,0x00,0x00});
     		GX_SetChanMatColor(GX_COLOR1, (GXColor){0xFF,0xFF,0xFF,0xFF});
-	        GRRLIB_DrawTorus(0.6f, 2.0f, 60, 60,true);
+	        GRRLIB_DrawTorus(0.6f, 2.0f, 60, 60,true, 0xFFFFFFFF);
 		a+=0.8f;
 
 		//////////////////////////// Turn light off and Write demo name
@@ -213,7 +213,7 @@ GXTexObj  texObj;
         	GX_LoadTexObj(&texObj, GX_TEXMAP0);
 
 	        GRRLIB_ObjectView(0,0,0, a,a*2,a*3, 1.0f,1.0f,1.0f);
-	        GRRLIB_DrawTorus(0.6f, 2.0f, 60, 60,true);
+	        GRRLIB_DrawTorus(0.6f, 2.0f, 60, 60,true, 0xFFFFFFFF);
 		a+=0.8f;
 
         	GRRLIB_2dMode();
@@ -241,7 +241,7 @@ GXTexObj  texObj;
         	GX_LoadTexObj(&texObj, GX_TEXMAP0);
 
 	        GRRLIB_ObjectView(0,0,0, a,a*2,a*3, 1.0f,1.0f,1.0f);
-	        GRRLIB_DrawTorus(0.6f, 2.0f, 60, 60,true);
+	        GRRLIB_DrawTorus(0.6f, 2.0f, 60, 60,true, 0xFFFFFFFF);
 		a+=0.8f;
 
         	GRRLIB_2dMode();

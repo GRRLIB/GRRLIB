@@ -158,6 +158,7 @@ int  GRRLIB_Init (void) {
     // Default settings
     GRRLIB_Settings.antialias = true;
     GRRLIB_Settings.blend     = GRRLIB_BLEND_ALPHA;
+    GRRLIB_Settings.lights    = 0;
 
     // Schedule cleanup for when program exits
     is_setup = true;

@@ -78,11 +78,10 @@ void GRRLIB_Camera3dSettings(f32 posx, f32 posy, f32 posz,
  * @param minDist Minimal distance for the camera.
  * @param maxDist Maximal distance for the camera.
  * @param fov Field of view for the camera.
- * @param colormode False, GX won't need vertex colors, True, GX will need vertex colors.
  * @param texturemode False, GX won't need texture coordinate, True, GX will need texture coordinate.
  * @param normalmode False, GX won't need normal coordinate, True, GX will need normal coordinate.
  */
-void GRRLIB_3dMode(f32 minDist, f32 maxDist, f32 fov, bool colormode, bool texturemode, bool normalmode) {
+void GRRLIB_3dMode(f32 minDist, f32 maxDist, f32 fov, bool texturemode, bool normalmode) {
     Mtx m;
 
     guLookAt(_GRR_view, &_GRR_cam, &_GRR_up, &_GRR_look);
@@ -95,12 +94,12 @@ void GRRLIB_3dMode(f32 minDist, f32 maxDist, f32 fov, bool colormode, bool textu
     GX_ClearVtxDesc();
     GX_SetVtxDesc(GX_VA_POS, GX_DIRECT);
     if(normalmode)   GX_SetVtxDesc(GX_VA_NRM, GX_DIRECT);
-    if(colormode)    GX_SetVtxDesc(GX_VA_CLR0, GX_DIRECT);
+    GX_SetVtxDesc(GX_VA_CLR0, GX_DIRECT);
     if(texturemode)  GX_SetVtxDesc(GX_VA_TEX0, GX_DIRECT);
 
     GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_POS_XYZ, GX_F32, 0);
     if(normalmode)   GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_NRM, GX_NRM_XYZ, GX_F32, 0);
-    if(colormode)    GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_CLR0, GX_CLR_RGBA, GX_RGBA8, 0);
+    GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_CLR0, GX_CLR_RGBA, GX_RGBA8, 0);
     if(texturemode)  GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_TEX0, GX_TEX_ST, GX_F32, 0);
 
     if(texturemode)  GX_SetTevOp(GX_TEVSTAGE0, GX_MODULATE);
@@ -140,6 +139,13 @@ void GRRLIB_2dMode() {
     GX_SetNumTevStages(1);
 
     GX_SetTevOp  (GX_TEVSTAGE0, GX_PASSCLR);
+
+    GX_SetNumChans(1);
+    GX_SetChanCtrl(GX_COLOR0A0, GX_DISABLE, GX_SRC_VTX, GX_SRC_VTX, 0, GX_DF_NONE, GX_AF_NONE);
+    GX_SetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, GX_TEXMAP0, GX_COLOR0A0);
+
+    GRRLIB_Settings.lights  = 0;
+
 }
 
 /**
@@ -213,7 +219,7 @@ void GRRLIB_SetTexture(GRRLIB_texImg *tex, bool rep) {
  * @param rings Number of rings.
  * @param filled Wired or not.
 */
-void GRRLIB_DrawTorus(f32 r, f32 R, int nsides, int rings, bool filled) {
+void GRRLIB_DrawTorus(f32 r, f32 R, int nsides, int rings, bool filled, u32 col) {
     int i, j;
     f32 theta, phi, theta1;
     f32 cosTheta, sinTheta;
@@ -242,8 +248,10 @@ void GRRLIB_DrawTorus(f32 r, f32 R, int nsides, int rings, bool filled) {
 
             GX_Position3f32(cosTheta1 * dist, -sinTheta1 * dist, r * sinPhi);
             GX_Normal3f32(cosTheta1 * cosPhi, -sinTheta1 * cosPhi, sinPhi);
+	    GX_Color1u32(col);
             GX_Position3f32(cosTheta * dist, -sinTheta * dist,  r * sinPhi);
             GX_Normal3f32(cosTheta * cosPhi, -sinTheta * cosPhi, sinPhi);
+	    GX_Color1u32(col);
         }
         GX_End();
         theta = theta1;
@@ -259,7 +267,7 @@ void GRRLIB_DrawTorus(f32 r, f32 R, int nsides, int rings, bool filled) {
  * @param longs Number of longitutes.
  * @param filled Wired or not.
 */
-void GRRLIB_DrawSphere(f32 r, int lats, int longs, bool filled) {
+void GRRLIB_DrawSphere(f32 r, int lats, int longs, bool filled, u32 col) {
     int i, j;
     f32 lat0, z0, zr0,
         lat1, z1, zr1,
@@ -282,8 +290,10 @@ void GRRLIB_DrawSphere(f32 r, int lats, int longs, bool filled) {
 
             GX_Position3f32(x * zr0 * r, y * zr0 * r, z0 * r);
             GX_Normal3f32(x * zr0 * r, y * zr0 * r, z0 * r);
+	    GX_Color1u32(col);
             GX_Position3f32(x * zr1 * r, y * zr1 * r, z1 * r);
             GX_Normal3f32(x * zr1 * r, y * zr1 * r, z1 * r);
+	    GX_Color1u32(col);
         }
         GX_End();
     }
@@ -294,7 +304,7 @@ void GRRLIB_DrawSphere(f32 r, int lats, int longs, bool filled) {
  * @param size Size of the cube edge.
  * @param filled Wired or not.
 */
-void GRRLIB_DrawCube(f32 size, bool filled) {
+void GRRLIB_DrawCube(f32 size, bool filled, u32 col) {
     static f32 n[6][3] =
     {
         {-1.0, 0.0, 0.0},
@@ -328,15 +338,20 @@ void GRRLIB_DrawCube(f32 size, bool filled) {
         else       GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 5);
         GX_Position3f32(v[faces[i][0]][0], v[faces[i][0]][1], v[faces[i][0]][2] );
         GX_Normal3f32(n[i][0], n[i][1], n[i][2]);
+        GX_Color1u32(col);
         GX_Position3f32(v[faces[i][1]][0], v[faces[i][1]][1], v[faces[i][1]][2]);
         GX_Normal3f32(n[i][0], n[i][1], n[i][2]);
+        GX_Color1u32(col);
         GX_Position3f32(v[faces[i][2]][0], v[faces[i][2]][1], v[faces[i][2]][2]);
         GX_Normal3f32(n[i][0], n[i][1], n[i][2]);
+        GX_Color1u32(col);
         GX_Position3f32(v[faces[i][3]][0], v[faces[i][3]][1], v[faces[i][3]][2]);
         GX_Normal3f32(n[i][0], n[i][1], n[i][2]);
+        GX_Color1u32(col);
         if(!filled) {
             GX_Position3f32(v[faces[i][0]][0], v[faces[i][0]][1], v[faces[i][0]][2]);
             GX_Normal3f32(n[i][0], n[i][1], n[i][2]);
+            GX_Color1u32(col);
         }
         GX_End();
     }
@@ -349,7 +364,7 @@ void GRRLIB_DrawCube(f32 size, bool filled) {
  * @param d Dencity of slice.
  * @param filled Wired or not.
 */
-void GRRLIB_DrawCylinder(f32 r, f32 h, int d, bool filled) {
+void GRRLIB_DrawCylinder(f32 r, f32 h, int d, bool filled, u32 col) {
     int i;
     f32 dx, dy;
 
@@ -360,8 +375,10 @@ void GRRLIB_DrawCylinder(f32 r, f32 h, int d, bool filled) {
         dy = sinf( M_PI * 2.0f * i / d );
         GX_Position3f32( r * dx, -0.5f * h, r * dy );
         GX_Normal3f32( dx, 0.0f, dy );
+        GX_Color1u32(col);
         GX_Position3f32( r * dx, 0.5f * h, r * dy );
         GX_Normal3f32( dx, 0.0f, dy );
+        GX_Color1u32(col);
     }
     GX_End();
 
@@ -369,9 +386,11 @@ void GRRLIB_DrawCylinder(f32 r, f32 h, int d, bool filled) {
     else       GX_Begin(GX_LINESTRIP, GX_VTXFMT0, d+2);
     GX_Position3f32(0.0f, -0.5f * h, 0.0f);
     GX_Normal3f32(0.0f, -1.0f, 0.0f);
+    GX_Color1u32(col);
     for(i = 0 ; i <= d ; i++) {
         GX_Position3f32( r * cosf( M_PI * 2.0f * i / d ), -0.5f * h, r * sinf( M_PI * 2.0f * i / d ) );
         GX_Normal3f32(0.0f, -1.0f, 0.0f);
+        GX_Color1u32(col);
     }
     GX_End();
 
@@ -379,9 +398,62 @@ void GRRLIB_DrawCylinder(f32 r, f32 h, int d, bool filled) {
     else       GX_Begin(GX_LINESTRIP, GX_VTXFMT0, d+2);
     GX_Position3f32(0.0f, 0.5f * h, 0.0f);
     GX_Normal3f32(0.0f, 1.0f, 0.0f);
+    GX_Color1u32(col);
     for(i = 0 ; i <= d ; i++) {
         GX_Position3f32( r * cosf( M_PI * 2.0f * i / d ), 0.5f * h, r * sinf( M_PI * 2.0f * i / d ) );
         GX_Normal3f32(0.0f, 1.0f, 0.0f);
+        GX_Color1u32(col);
     }
     GX_End();
 }
+
+/**
+ * Set Ambiant Color
+*/
+void GRRLIB_SetLightAmbiant(u32 ambiantcolor){
+        GX_SetChanAmbColor(GX_COLOR0A0, (GXColor) { R(ambiantcolor), G(ambiantcolor), B(ambiantcolor), 0xFF});
+}
+
+/**
+ * Set Diffuse Light Parameters
+ * @param num number of the light
+ * @param pos position of the diffuse light (x/y/z)
+ * @param distattn distance attenuation
+ * @param brightness Brightness of the light
+ * @param lightcolor color of the light
+ * @param ambiant anbiant color.
+*/
+void GRRLIB_SetLightDiff(int num, guVector pos, float distattn, float brightness , u32 lightcolor){
+GXLightObj MyLight;
+guVector lpos={pos.x,pos.y,pos.z};
+
+        GRRLIB_Settings.lights |= (1<<num);
+
+        guVecMultiply(_GRR_view, &lpos, &lpos);
+        GX_InitLightPos(&MyLight, lpos.x, lpos.y, lpos.z);
+        GX_InitLightColor(&MyLight, (GXColor) { R(lightcolor), G(lightcolor), B(lightcolor), 0xFF });
+        GX_InitLightSpot(&MyLight, 0.0f, GX_SP_OFF);
+        GX_InitLightDistAttn(&MyLight, distattn, brightness, GX_DA_MEDIUM); // DistAttn = 20.0  &  Brightness=1.0f (full)
+        GX_LoadLightObj(&MyLight, (1<<num));
+
+        /////////////////////// Turn light ON ////////////////////////////////////////////////
+        GX_SetNumChans(1);
+        GX_SetChanCtrl(GX_COLOR0A0, GX_ENABLE, GX_SRC_REG, GX_SRC_VTX, GRRLIB_Settings.lights, GX_DF_CLAMP,GX_AF_SPOT); //4th param is where come from the material color (REG(with setChanMatColor or VTX (vertex)) same for ambiant ($
+}
+
+/**
+ * Set all Lights Off (like at init);
+*/
+void GRRLIB_SetLightOff(void){
+    GX_SetNumTevStages(1);
+
+    GX_SetTevOp  (GX_TEVSTAGE0, GX_PASSCLR);
+
+    GX_SetNumChans(1);
+    GX_SetChanCtrl(GX_COLOR0A0, GX_DISABLE, GX_SRC_VTX, GX_SRC_VTX, 0, GX_DF_NONE, GX_AF_NONE);
+    GX_SetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, GX_TEXMAP0, GX_COLOR0A0);
+
+    GRRLIB_Settings.lights  = 0;
+
+}
+

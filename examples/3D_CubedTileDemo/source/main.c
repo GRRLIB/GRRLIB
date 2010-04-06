@@ -277,44 +277,60 @@ int main() {
 
 
         GRRLIB_Camera3dSettings(0.0f,0.0f,camZ, 0,1,0, 0,0,0);
-        GRRLIB_3dMode(0.1,3000,45,0,1,0);
+        GRRLIB_3dMode(0.1,3000,45,1,0);
         GRRLIB_SetTexture(tex_screen,0);
         GRRLIB_ObjectView(0,0,0, a,a*2,a*3,1,1,1);
         GX_Begin(GX_QUADS, GX_VTXFMT0, 16);
             GX_Position3f32(-rmode->fbWidth/2,rmode->efbHeight/2,rmode->fbWidth/2);
+	    GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(0.0f,0.0f);
             GX_Position3f32(rmode->fbWidth/2,rmode->efbHeight/2,rmode->fbWidth/2);
+	    GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(1.0f,0.0f);
             GX_Position3f32(rmode->fbWidth/2,-rmode->efbHeight/2,rmode->fbWidth/2);
+	    GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(1.0f,1.0f);
             GX_Position3f32(-rmode->fbWidth/2,-rmode->efbHeight/2,rmode->fbWidth/2);
+	    GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(0.0f,1.0f);
 
             GX_Position3f32(rmode->fbWidth/2,rmode->efbHeight/2,-rmode->fbWidth/2);
+	    GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(0.0f,0.0f);
             GX_Position3f32(-rmode->fbWidth/2,rmode->efbHeight/2,-rmode->fbWidth/2);
+	    GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(1.0f,0.0f);
             GX_Position3f32(-rmode->fbWidth/2,-rmode->efbHeight/2,-rmode->fbWidth/2);
+	    GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(1.0f,1.0f);
             GX_Position3f32(rmode->fbWidth/2,-rmode->efbHeight/2,-rmode->fbWidth/2);
+	    GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(0.0f,1.0f);
 
             GX_Position3f32(rmode->fbWidth/2,rmode->efbHeight/2,rmode->fbWidth/2);
+	    GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(0.0f,0.0f);
             GX_Position3f32(rmode->fbWidth/2,rmode->efbHeight/2,-rmode->fbWidth/2);
+	    GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(1.0f,0.0f);
             GX_Position3f32(rmode->fbWidth/2,-rmode->efbHeight/2,-rmode->fbWidth/2);
+	    GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(1.0f,1.0f);
             GX_Position3f32(rmode->fbWidth/2,-rmode->efbHeight/2,rmode->fbWidth/2);
+	    GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(0.0f,1.0f);
 
             GX_Position3f32(-rmode->fbWidth/2,rmode->efbHeight/2,-rmode->fbWidth/2);
+	    GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(0.0f,0.0f);
             GX_Position3f32(-rmode->fbWidth/2,rmode->efbHeight/2,rmode->fbWidth/2);
+	    GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(1.0f,0.0f);
             GX_Position3f32(-rmode->fbWidth/2,-rmode->efbHeight/2,rmode->fbWidth/2);
+	    GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(1.0f,1.0f);
             GX_Position3f32(-rmode->fbWidth/2,-rmode->efbHeight/2,-rmode->fbWidth/2);
+	    GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(0.0f,1.0f);
         GX_End();
 
