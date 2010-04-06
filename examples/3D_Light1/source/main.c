@@ -42,6 +42,7 @@ float l1=0,l2=0;
 	GRRLIB_SetLightAmbiant(0x333333FF);
 
 	if(WPAD_ButtonsHeld(0) &  WPAD_BUTTON_A){
+	 	// Set all light off to get the spere no  light sourced (only get the vertex color)
 		GRRLIB_SetLightOff();
 		GRRLIB_3dMode(0.1,1000,45,0,1);
 		GRRLIB_ObjectView(sin(l1)*4.0f,0.0f,cos(l1)*4.0f, 0,0,0,1,1,1);
@@ -49,12 +50,16 @@ float l1=0,l2=0;
 	}
 
 	if(WPAD_ButtonsHeld(0) &  WPAD_BUTTON_B){
+	 	// Set all light off to get the spere no  light sourced (only get the vertex color)
 		GRRLIB_SetLightOff();
 		GRRLIB_3dMode(0.1,1000,45,0,1);
 		GRRLIB_ObjectView(0.0f,sin(l2)*4.0f,cos(l2)*4.0f, 0,0,0,1,1,1);
 		GRRLIB_DrawSphere(0.2f,20,20,true,0x00FF00FF);
 	}
 
+
+	// SET a dummy black light to get the ambiant one when no light is selected
+	GRRLIB_SetLightDiff(0,(guVector){sin(l1)*4,0.0f,cos(l1)*4.0f},20.0f,1.0f,0x000000FF);
 
 	if(WPAD_ButtonsHeld(0) &  WPAD_BUTTON_A){
 		GRRLIB_SetLightDiff(0,(guVector){sin(l1)*4,0.0f,cos(l1)*4.0f},20.0f,1.0f,0xFF0000FF);
@@ -77,7 +82,7 @@ float l1=0,l2=0;
 	l2+=0.03f;
         // Switch To 2D Mode to display text
         GRRLIB_2dMode();
-        GRRLIB_Printf((640-(16*29))/2, 20, tex_font, 0xFFFFFFFF, 1, "PRESS A OR B TO ZOOM THE CUBE");
+        GRRLIB_Printf((640-(16*29))/2, 20, tex_font, 0xFFFFFFFF, 1, "PRESS + OR - TO ZOOM");
         GRRLIB_Printf((640-(16*29))/2, 40, tex_font, 0xFFFFFFFF, 1, "HOLD A - RED / B - GREEN");
 
         GRRLIB_Render();
