@@ -40,37 +40,34 @@ int main() {
         GRRLIB_Camera3dSettings(0.0f,0.0f,camZ, 0,1,0, 0,0,0);
         GRRLIB_SetLightAmbient(0x333333FF);
 
+		GRRLIB_3dMode(0.1, 1000, 45, 0, 1);
+
         if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_A) {
-            // Set all light off to get the spere no light sourced (only get the vertex color)
+            // Set all light off to get the sphere no light sourced (only get the vertex color)
             GRRLIB_SetLightOff();
-            GRRLIB_3dMode(0.1,1000,45,0,1);
             GRRLIB_ObjectView(sin(l1)*4.0f,0.0f,cos(l1)*4.0f, 0,0,0,1,1,1);
             GRRLIB_DrawSphere(0.2f, 20, 20, true, 0xFF0000FF);
+        }
+
+        if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_B) {
+            // Set all light off to get the sphere no light sourced (only get the vertex color)
+            GRRLIB_SetLightOff();
+            GRRLIB_ObjectView(0.0f,sin(l2)*4.0f,cos(l2)*4.0f, 0,0,0,1,1,1);
+            GRRLIB_DrawSphere(0.2f, 20, 20, true, 0x00FF00FF);
+        }
+
+        // Set a dummy black light to get the ambient one when no light is selected
+        GRRLIB_SetLightDiff(0,(guVector){0.0f,0.0f,0.0f},20.0f,1.0f,0x000000FF);
+
+        if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_A) {
+            GRRLIB_SetLightDiff(0,(guVector){sin(l1)*4.0f,0.0f,cos(l1)*4.0f},20.0f,1.0f,0xFF0000FF);
             l1+=0.03f;
         }
 
         if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_B) {
-            // Set all light off to get the spere no light sourced (only get the vertex color)
-            GRRLIB_SetLightOff();
-            GRRLIB_3dMode(0.1,1000,45,0,1);
-            GRRLIB_ObjectView(0.0f,sin(l2)*4.0f,cos(l2)*4.0f, 0,0,0,1,1,1);
-            GRRLIB_DrawSphere(0.2f, 20, 20, true, 0x00FF00FF);
+            GRRLIB_SetLightDiff(1,(guVector){0.0f,sin(l2)*4.0f,cos(l2)*4.0f},20.0f,1.0f,0x00FF00FF);
             l2+=0.05f;
         }
-
-        // Set a dummy black light to get the ambiant one when no light is selected
-        GRRLIB_SetLightDiff(0,(guVector){sin(l1)*4.0f,0.0f,cos(l1)*4.0f},20.0f,1.0f,0x000000FF);
-
-        if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_A) {
-            GRRLIB_SetLightDiff(0,(guVector){sin(l1)*4.0f,0.0f,cos(l1)*4.0f},20.0f,1.0f,0xFF0000FF);
-        }
-
-        if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_B) {
-            GRRLIB_SetLightDiff(1,(guVector){0.0f,sin(l2)*4.0f,cos(l2)*4.0f},20.0f,1.0f,0x00FF00FF);
-        }
-
-
-        GRRLIB_3dMode(0.1,1000,45,0,1);
 
         GRRLIB_ObjectView(0,0,0, a,a*2,a*3,1,1,1);
         GRRLIB_DrawTorus(1, 2, 60, 60, true, 0xFFFFFFFF);
