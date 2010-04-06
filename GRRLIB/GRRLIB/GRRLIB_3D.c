@@ -145,7 +145,6 @@ void GRRLIB_2dMode() {
     GX_SetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, GX_TEXMAP0, GX_COLOR0A0);
 
     GRRLIB_Settings.lights  = 0;
-
 }
 
 /**
@@ -218,6 +217,7 @@ void GRRLIB_SetTexture(GRRLIB_texImg *tex, bool rep) {
  * @param nsides Number of faces per ring.
  * @param rings Number of rings.
  * @param filled Wired or not.
+ * @param col Color of the torus.
 */
 void GRRLIB_DrawTorus(f32 r, f32 R, int nsides, int rings, bool filled, u32 col) {
     int i, j;
@@ -248,10 +248,10 @@ void GRRLIB_DrawTorus(f32 r, f32 R, int nsides, int rings, bool filled, u32 col)
 
             GX_Position3f32(cosTheta1 * dist, -sinTheta1 * dist, r * sinPhi);
             GX_Normal3f32(cosTheta1 * cosPhi, -sinTheta1 * cosPhi, sinPhi);
-	    GX_Color1u32(col);
+            GX_Color1u32(col);
             GX_Position3f32(cosTheta * dist, -sinTheta * dist,  r * sinPhi);
             GX_Normal3f32(cosTheta * cosPhi, -sinTheta * cosPhi, sinPhi);
-	    GX_Color1u32(col);
+            GX_Color1u32(col);
         }
         GX_End();
         theta = theta1;
@@ -266,6 +266,7 @@ void GRRLIB_DrawTorus(f32 r, f32 R, int nsides, int rings, bool filled, u32 col)
  * @param lats Number of lattitudes.
  * @param longs Number of longitutes.
  * @param filled Wired or not.
+ * @param col Color of the sphere.
 */
 void GRRLIB_DrawSphere(f32 r, int lats, int longs, bool filled, u32 col) {
     int i, j;
@@ -290,10 +291,10 @@ void GRRLIB_DrawSphere(f32 r, int lats, int longs, bool filled, u32 col) {
 
             GX_Position3f32(x * zr0 * r, y * zr0 * r, z0 * r);
             GX_Normal3f32(x * zr0 * r, y * zr0 * r, z0 * r);
-	    GX_Color1u32(col);
+            GX_Color1u32(col);
             GX_Position3f32(x * zr1 * r, y * zr1 * r, z1 * r);
             GX_Normal3f32(x * zr1 * r, y * zr1 * r, z1 * r);
-	    GX_Color1u32(col);
+            GX_Color1u32(col);
         }
         GX_End();
     }
@@ -303,6 +304,7 @@ void GRRLIB_DrawSphere(f32 r, int lats, int longs, bool filled, u32 col) {
  * Draw a cube (with normal).
  * @param size Size of the cube edge.
  * @param filled Wired or not.
+ * @param col Color of the cube.
 */
 void GRRLIB_DrawCube(f32 size, bool filled, u32 col) {
     static f32 n[6][3] =
@@ -363,6 +365,7 @@ void GRRLIB_DrawCube(f32 size, bool filled, u32 col) {
  * @param h High of the cylinder.
  * @param d Dencity of slice.
  * @param filled Wired or not.
+ * @param col Color of the cylinder.
 */
 void GRRLIB_DrawCylinder(f32 r, f32 h, int d, bool filled, u32 col) {
     int i;
@@ -408,43 +411,44 @@ void GRRLIB_DrawCylinder(f32 r, f32 h, int d, bool filled, u32 col) {
 }
 
 /**
- * Set Ambiant Color
+ * Set ambient color.
+ * When no diffuse ligth is shinig on a object, the color is equal to ambient color.
+ * @param ambientcolor Ambient color in RGBA format.
 */
-void GRRLIB_SetLightAmbiant(u32 ambiantcolor){
-        GX_SetChanAmbColor(GX_COLOR0A0, (GXColor) { R(ambiantcolor), G(ambiantcolor), B(ambiantcolor), 0xFF});
+void GRRLIB_SetLightAmbient(u32 ambientcolor) {
+    GX_SetChanAmbColor(GX_COLOR0A0, (GXColor) { R(ambientcolor), G(ambientcolor), B(ambientcolor), 0xFF});
 }
 
 /**
- * Set Diffuse Light Parameters
- * @param num number of the light
- * @param pos position of the diffuse light (x/y/z)
- * @param distattn distance attenuation
- * @param brightness Brightness of the light
- * @param lightcolor color of the light
- * @param ambiant anbiant color.
+ * Set diffuse light parameters.
+ * @param num Number of the light. It's a number from 0 to 7.
+ * @param pos Position of the diffuse light (x/y/z).
+ * @param distattn Distance attenuation.
+ * @param brightness Brightness of the light. The value should be between 0 and 1.
+ * @param lightcolor Color of the light in RGBA format.
 */
-void GRRLIB_SetLightDiff(int num, guVector pos, float distattn, float brightness , u32 lightcolor){
-GXLightObj MyLight;
-guVector lpos={pos.x,pos.y,pos.z};
+void GRRLIB_SetLightDiff(u8 num, guVector pos, f32 distattn, f32 brightness, u32 lightcolor) {
+    GXLightObj MyLight;
+    guVector lpos = {pos.x, pos.y, pos.z};
 
-        GRRLIB_Settings.lights |= (1<<num);
+    GRRLIB_Settings.lights |= (1<<num);
 
-        guVecMultiply(_GRR_view, &lpos, &lpos);
-        GX_InitLightPos(&MyLight, lpos.x, lpos.y, lpos.z);
-        GX_InitLightColor(&MyLight, (GXColor) { R(lightcolor), G(lightcolor), B(lightcolor), 0xFF });
-        GX_InitLightSpot(&MyLight, 0.0f, GX_SP_OFF);
-        GX_InitLightDistAttn(&MyLight, distattn, brightness, GX_DA_MEDIUM); // DistAttn = 20.0  &  Brightness=1.0f (full)
-        GX_LoadLightObj(&MyLight, (1<<num));
+    guVecMultiply(_GRR_view, &lpos, &lpos);
+    GX_InitLightPos(&MyLight, lpos.x, lpos.y, lpos.z);
+    GX_InitLightColor(&MyLight, (GXColor) { R(lightcolor), G(lightcolor), B(lightcolor), 0xFF });
+    GX_InitLightSpot(&MyLight, 0.0f, GX_SP_OFF);
+    GX_InitLightDistAttn(&MyLight, distattn, brightness, GX_DA_MEDIUM); // DistAttn = 20.0  &  Brightness=1.0f (full)
+    GX_LoadLightObj(&MyLight, (1<<num));
 
-        /////////////////////// Turn light ON ////////////////////////////////////////////////
-        GX_SetNumChans(1);
-        GX_SetChanCtrl(GX_COLOR0A0, GX_ENABLE, GX_SRC_REG, GX_SRC_VTX, GRRLIB_Settings.lights, GX_DF_CLAMP,GX_AF_SPOT); //4th param is where come from the material color (REG(with setChanMatColor or VTX (vertex)) same for ambiant ($
+    // Turn light ON
+    GX_SetNumChans(1);
+    GX_SetChanCtrl(GX_COLOR0A0, GX_ENABLE, GX_SRC_REG, GX_SRC_VTX, GRRLIB_Settings.lights, GX_DF_CLAMP, GX_AF_SPOT);
 }
 
 /**
- * Set all Lights Off (like at init);
+ * Set all lights off, like at init.
 */
-void GRRLIB_SetLightOff(void){
+void GRRLIB_SetLightOff(void) {
     GX_SetNumTevStages(1);
 
     GX_SetTevOp  (GX_TEVSTAGE0, GX_PASSCLR);
@@ -454,6 +458,4 @@ void GRRLIB_SetLightOff(void){
     GX_SetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, GX_TEXMAP0, GX_COLOR0A0);
 
     GRRLIB_Settings.lights  = 0;
-
 }
-
