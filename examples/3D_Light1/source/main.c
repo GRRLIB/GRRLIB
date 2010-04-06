@@ -47,6 +47,7 @@ float l1=0,l2=0;
 		GRRLIB_3dMode(0.1,1000,45,0,1);
 		GRRLIB_ObjectView(sin(l1)*4.0f,0.0f,cos(l1)*4.0f, 0,0,0,1,1,1);
 		GRRLIB_DrawSphere(0.2f,20,20,true,0xFF0000FF);
+		l1+=0.03f;
 	}
 
 	if(WPAD_ButtonsHeld(0) &  WPAD_BUTTON_B){
@@ -55,6 +56,7 @@ float l1=0,l2=0;
 		GRRLIB_3dMode(0.1,1000,45,0,1);
 		GRRLIB_ObjectView(0.0f,sin(l2)*4.0f,cos(l2)*4.0f, 0,0,0,1,1,1);
 		GRRLIB_DrawSphere(0.2f,20,20,true,0x00FF00FF);
+		l2+=0.05f;
 	}
 
 
@@ -78,8 +80,6 @@ float l1=0,l2=0;
 
         a+=0.5f;
 
-	l1+=0.05f;
-	l2+=0.03f;
         // Switch To 2D Mode to display text
         GRRLIB_2dMode();
         GRRLIB_Printf((640-(16*29))/2, 20, tex_font, 0xFFFFFFFF, 1, "PRESS + OR - TO ZOOM");
