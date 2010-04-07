@@ -9,7 +9,7 @@
 #include <wiiuse/wpad.h>
 
 
-#include "gfx/font.h"
+#include "gfx/Letter_Gothic_Std_14_Bold.h"
 
 extern Mtx _GRR_view;
 
@@ -22,8 +22,8 @@ int main() {
     WPAD_Init();
 
 
-    GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(font);
-    GRRLIB_InitTileSet(tex_font, 16, 16, 32);
+    GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(Letter_Gothic_Std_14_Bold);
+    GRRLIB_InitTileSet(tex_font, 11, 24, 32);
 
 
     GRRLIB_Settings.antialias = true;
