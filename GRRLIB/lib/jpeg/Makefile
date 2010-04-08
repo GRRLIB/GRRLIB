@@ -15,8 +15,9 @@ AR		:=	$(PREFIX)ar
 LIBOGC_INC	:=	$(DEVKITPRO)/libogc/include
 LIBOGC_LIB	:=	$(DEVKITPRO)/libogc/lib/wii
 
+INCLUDE	:= 
 MACHDEP := -DGEKKO -mrvl -mcpu=750 -meabi -mhard-float
-CFLAGS  := -O2 $(MACHDEP)
+CFLAGS  := -O2 $(MACHDEP) $(INCLUDE)
 
 LIB 	:= jpeg
 CFILES	:= $(wildcard *.c)
