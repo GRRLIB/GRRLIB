@@ -18,7 +18,7 @@ AR		:=	$(PREFIX)ar
 LIBOGC_INC	:=	$(DEVKITPRO)/libogc/include
 LIBOGC_LIB	:=	$(DEVKITPRO)/libogc/lib/wii
 
-INCLUDE	:= -I$(PWD) -I$(LIBOGC_INC)
+INCLUDE	:= -I../lib/jpeg -I../lib/pngu -I../lib/freetype/include -I$(PWD) -I$(LIBOGC_INC)
 MACHDEP := -DGEKKO -mrvl -mcpu=750 -meabi -mhard-float
 CFLAGS  := -O2 -Wall $(MACHDEP) $(INCLUDE)
 

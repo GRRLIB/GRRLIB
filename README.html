@@ -97,43 +97,51 @@ libz        is supplied as source code
 libfreetype is supplied as source code
 libfat      is supplied with devkitpro (Ie. preinstalled)
 
-Because of the way dependencies work, the libraries must be installed in reverse
-order.
+The easy way is to install GRRLIB and all the required libraries in a single
+command:
+  c:
+  cd \grr\trunk\GRRLIB
+  make clean all install
 
-To install libz *2
+This process may take some time depending on the speed of your PC.
+
+If you used the method above the following steps are not required, GRRLIB is
+installed and you are ready to start developing Wii homebrew games.
+
+If you want, you could install the libz, libpng, libpngu, libjpeg and
+libfreetype libraries in a single command:
+  c:
+  cd \grr\trunk\GRRLIB\lib 
+  make clean all install
+
+Each library could also be installed individually:
+
+To install libz
   c:
   cd \grr\trunk\GRRLIB\lib\zlib
   make clean all install
 
-To install libpng *2
+To install libpng
   c:
   cd \grr\trunk\GRRLIB\lib\png
   make clean all install
 
-Next up the list is libpngu *2
+To install libpngu
   c:
   cd \grr\trunk\GRRLIB\lib\pngu
   make clean all install
 
-Next up the list is libjpeg *2
+To install libjpeg
   c:
   cd \grr\trunk\GRRLIB\lib\jpeg
   make clean all install
 
-Next up the list is libfreetype *2
+To install libfreetype
   c:
   cd \grr\trunk\GRRLIB\lib\freetype
   make clean all install
 
-*2 A Windows batch-file and a Linux shell-script are included which will
-   install the libz, libpng, libpngu, libjpeg and libfreetype libraries in a
-   single command:
-     c:
-     cd \grr\trunk\GRRLIB\lib
-     install     &lt;- If you are using Linux, type `./install.sh` instead
-
-After all five image processing libraries are installed, we can now install
-libgrrlib:
+To install libgrrlib:
   c:
   cd \grr\trunk\GRRLIB\GRRLIB
   make clean all install
