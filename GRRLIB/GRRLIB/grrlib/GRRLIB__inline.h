@@ -104,9 +104,8 @@ INLINE  u32   GRRLIB_GetPixelFromtexImg (const int x, const int y,
 INLINE  void  GRRLIB_SetPixelTotexImg   (const int x, const int y,
                                          GRRLIB_texImg *tex, const u32 color);
 
-INLINE  void  GRRLIB_GetPixelFromFB (int x, int y,
-                                     u8 *R1,  u8 *G1,  u8 *B1,
-                                     u8 *R2,  u8 *G2,  u8 *B2);
+INLINE u32 GRRLIB_GetPixelFromFB (int x, int y);
+INLINE void GRRLIB_SetPixelToFB (int x, int y, u32 pokeColor);
 
 //------------------------------------------------------------------------------
 // GRRLIB_settings.h - Rendering functions
