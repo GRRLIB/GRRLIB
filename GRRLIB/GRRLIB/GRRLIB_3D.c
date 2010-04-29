@@ -32,7 +32,7 @@ static  guVector  _GRR_cam  = {0.0F, 0.0F, 0.0F},
 static  guVector  _GRRaxisx = (guVector){1, 0, 0}; // DO NOT MODIFY!!!
 static  guVector  _GRRaxisy = (guVector){0, 1, 0}; // Even at runtime
 static  guVector  _GRRaxisz = (guVector){0, 0, 1}; // NOT ever!
-
+static  Mtx 	  _ObjTransformationMtx;
 /**
  * Set the background parameter when screen is cleared.
  * @param r Red component.
@@ -146,6 +146,76 @@ void GRRLIB_2dMode() {
 
     GRRLIB_Settings.lights  = 0;
 }
+
+/**
+ * Init the object matrix to draw object.
+ */
+void GRRLIB_ObjectViewBegin(void){
+	guMtxIdentity(_ObjTransformationMtx);
+}
+
+/**
+ * Scale the object matrix to draw object.
+ * @param scalx x scale of the object.
+ * @param scaly y scale of the object.
+ * @param scalz z scale of the object.
+ */
+void GRRLIB_ObjectViewScale(f32 scalx, f32 scaly, f32 scalz) {
+   Mtx m;
+	guMtxIdentity(m);
+        guMtxScaleApply(m, m, scalx, scaly, scalz);
+
+        guMtxConcat(m, _ObjTransformationMtx, _ObjTransformationMtx);
+}
+
+/**
+ * Rotate the object matrix to draw object .
+ * @param angx x rotation angle of the object.
+ * @param angy y rotation angle of the object.
+ * @param angz z rotation angle of the object.
+ */
+void GRRLIB_ObjectViewRotate(f32 angx, f32 angy, f32 angz) {
+   Mtx m, rx,ry,rz;
+
+	guMtxIdentity(m);
+        guMtxRotAxisDeg(rx, &_GRRaxisx, angx);
+        guMtxRotAxisDeg(ry, &_GRRaxisy, angy);
+        guMtxRotAxisDeg(rz, &_GRRaxisz, angz);
+        guMtxConcat(ry, rx, m);
+        guMtxConcat(m, rz, m);
+
+        guMtxConcat(m, _ObjTransformationMtx, _ObjTransformationMtx);
+}
+
+/**
+ * Translate the object matrix to draw object.
+ * @param posx x position of the object.
+ * @param posy y position of the object.
+ * @param posz z position of the object.
+ */
+void GRRLIB_ObjectViewTrans(f32 posx, f32 posy, f32 posz){
+   Mtx m;
+
+	guMtxIdentity(m);
+        guMtxTransApply(m, m, posx, posy, posz);
+
+        guMtxConcat(m, _ObjTransformationMtx, _ObjTransformationMtx);
+}
+
+/**
+ * Concat the object and the view matrix and calculate the inverse normal matrix.
+ */
+void GRRLIB_ObjectViewEnd(void){
+   Mtx mv, mvi;
+
+	guMtxConcat(_GRR_view, _ObjTransformationMtx, mv);
+	GX_LoadPosMtxImm(mv, GX_PNMTX0);
+
+	guMtxInverse(mv, mvi);
+	guMtxTranspose(mvi, mv);
+	GX_LoadNrmMtxImm(mv, GX_PNMTX0);
+}
+
 
 /**
  * Set the view matrix to draw object (in this order scale, rotate AND trans).
