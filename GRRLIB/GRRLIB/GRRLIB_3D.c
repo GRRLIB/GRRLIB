@@ -160,45 +160,44 @@ void GRRLIB_2dMode() {
  * @param scalz z scale of the object.
  */
 void GRRLIB_ObjectView(f32 posx, f32 posy, f32 posz, f32 angx, f32 angy, f32 angz, f32 scalx, f32 scaly, f32 scalz) {
-Mtx ObjTransformationMtx;
-Mtx m, rx,ry,rz;
-Mtx mv, mvi;
+    Mtx ObjTransformationMtx;
+    Mtx m, rx,ry,rz;
+    Mtx mv, mvi;
 
-        guMtxIdentity(ObjTransformationMtx);
+    guMtxIdentity(ObjTransformationMtx);
 
-        if((scalx !=1.0f) || (scaly !=1.0f) || (scalz !=1.0f)){
-                guMtxIdentity(m);
-                guMtxScaleApply(m, m, scalx, scaly, scalz);
+    if((scalx !=1.0f) || (scaly !=1.0f) || (scalz !=1.0f)) {
+        guMtxIdentity(m);
+        guMtxScaleApply(m, m, scalx, scaly, scalz);
 
-                guMtxConcat(m, ObjTransformationMtx, ObjTransformationMtx);
-        }
+        guMtxConcat(m, ObjTransformationMtx, ObjTransformationMtx);
+    }
 
-        if((angx !=0.0f) || (angy !=0.0f) || (angz !=0.0f)){
-                guMtxIdentity(m);
-                guMtxRotAxisDeg(rx, &_GRRaxisx, angx);
-                guMtxRotAxisDeg(ry, &_GRRaxisy, angy);
-                guMtxRotAxisDeg(rz, &_GRRaxisz, angz);
-                guMtxConcat(ry, rx, m);
-                guMtxConcat(m, rz, m);
+    if((angx !=0.0f) || (angy !=0.0f) || (angz !=0.0f)) {
+        guMtxIdentity(m);
+        guMtxRotAxisDeg(rx, &_GRRaxisx, angx);
+        guMtxRotAxisDeg(ry, &_GRRaxisy, angy);
+        guMtxRotAxisDeg(rz, &_GRRaxisz, angz);
+        guMtxConcat(ry, rx, m);
+        guMtxConcat(m, rz, m);
 
-                guMtxConcat(m, ObjTransformationMtx, ObjTransformationMtx);
-        }
+        guMtxConcat(m, ObjTransformationMtx, ObjTransformationMtx);
+    }
 
-        if((posx !=0.0f) || (posy !=0.0f) || (posz !=0.0f)){
-                guMtxIdentity(m);
-                guMtxTransApply(m, m, posx, posy, posz);
+    if((posx !=0.0f) || (posy !=0.0f) || (posz !=0.0f)) {
+        guMtxIdentity(m);
+        guMtxTransApply(m, m, posx, posy, posz);
 
-                guMtxConcat(m, ObjTransformationMtx, ObjTransformationMtx);
-        }
+        guMtxConcat(m, ObjTransformationMtx, ObjTransformationMtx);
+    }
 
-        guMtxConcat(_GRR_view, ObjTransformationMtx, mv);
-        GX_LoadPosMtxImm(mv, GX_PNMTX0);
+    guMtxConcat(_GRR_view, ObjTransformationMtx, mv);
+    GX_LoadPosMtxImm(mv, GX_PNMTX0);
 
-        guMtxInverse(mv, mvi);
-        guMtxTranspose(mvi, mv);
-        GX_LoadNrmMtxImm(mv, GX_PNMTX0);
+    guMtxInverse(mv, mvi);
+    guMtxTranspose(mvi, mv);
+    GX_LoadNrmMtxImm(mv, GX_PNMTX0);
 }
-
 
 /**
  * Set the view matrix to draw object (in this order scale, trans AND rotate).
@@ -213,44 +212,43 @@ Mtx mv, mvi;
  * @param scalz z scale of the object.
  */
 void GRRLIB_ObjectViewInv(f32 posx, f32 posy, f32 posz, f32 angx, f32 angy, f32 angz, f32 scalx, f32 scaly, f32 scalz) {
-Mtx ObjTransformationMtx;
-Mtx m, rx,ry,rz;
-Mtx mv, mvi;
+    Mtx ObjTransformationMtx;
+    Mtx m, rx,ry,rz;
+    Mtx mv, mvi;
 
-        guMtxIdentity(ObjTransformationMtx);
+    guMtxIdentity(ObjTransformationMtx);
 
-        if((scalx !=1.0f) || (scaly !=1.0f) || (scalz !=1.0f)){
-                guMtxIdentity(m);
-                guMtxScaleApply(m, m, scalx, scaly, scalz);
+    if((scalx !=1.0f) || (scaly !=1.0f) || (scalz !=1.0f)) {
+        guMtxIdentity(m);
+        guMtxScaleApply(m, m, scalx, scaly, scalz);
+    
+        guMtxConcat(m, ObjTransformationMtx, ObjTransformationMtx);
+    }
 
-                guMtxConcat(m, ObjTransformationMtx, ObjTransformationMtx);
-        }
+    if((posx !=0.0f) || (posy !=0.0f) || (posz !=0.0f)) {
+        guMtxIdentity(m);
+        guMtxTransApply(m, m, posx, posy, posz);
 
-        if((posx !=0.0f) || (posy !=0.0f) || (posz !=0.0f)){
-                guMtxIdentity(m);
-                guMtxTransApply(m, m, posx, posy, posz);
+        guMtxConcat(m, ObjTransformationMtx, ObjTransformationMtx);
+    }
 
-                guMtxConcat(m, ObjTransformationMtx, ObjTransformationMtx);
-        }
+    if((angx !=0.0f) || (angy !=0.0f) || (angz !=0.0f)) {
+        guMtxIdentity(m);
+        guMtxRotAxisDeg(rx, &_GRRaxisx, angx);
+        guMtxRotAxisDeg(ry, &_GRRaxisy, angy);
+        guMtxRotAxisDeg(rz, &_GRRaxisz, angz);
+        guMtxConcat(ry, rx, m);
+        guMtxConcat(m, rz, m);
 
-        if((angx !=0.0f) || (angy !=0.0f) || (angz !=0.0f)){
-                guMtxIdentity(m);
-                guMtxRotAxisDeg(rx, &_GRRaxisx, angx);
-                guMtxRotAxisDeg(ry, &_GRRaxisy, angy);
-                guMtxRotAxisDeg(rz, &_GRRaxisz, angz);
-                guMtxConcat(ry, rx, m);
-                guMtxConcat(m, rz, m);
+        guMtxConcat(m, ObjTransformationMtx, ObjTransformationMtx);
+    }
 
-                guMtxConcat(m, ObjTransformationMtx, ObjTransformationMtx);
-        }
+    guMtxConcat(_GRR_view, ObjTransformationMtx, mv);
+    GX_LoadPosMtxImm(mv, GX_PNMTX0);
 
-
-        guMtxConcat(_GRR_view, ObjTransformationMtx, mv);
-        GX_LoadPosMtxImm(mv, GX_PNMTX0);
-
-        guMtxInverse(mv, mvi);
-        guMtxTranspose(mvi, mv);
-        GX_LoadNrmMtxImm(mv, GX_PNMTX0);
+    guMtxInverse(mv, mvi);
+    guMtxTranspose(mvi, mv);
+    GX_LoadNrmMtxImm(mv, GX_PNMTX0);
 }
 
 /**

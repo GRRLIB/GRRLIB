@@ -25,6 +25,11 @@ THE SOFTWARE.
  * Inline functions for manipulating pixels in textures.
  */
 
+#define _SHIFTL(v, s, w)	\
+    ((u32) (((u32)(v) & ((0x01 << (w)) - 1)) << (s)))
+#define _SHIFTR(v, s, w)	\
+    ((u32)(((u32)(v) >> (s)) & ((0x01 << (w)) - 1)))
+
 /**
  * Return the color value of a pixel from a GRRLIB_texImg.
  * @param x Specifies the x-coordinate of the pixel in the texture.
@@ -69,31 +74,30 @@ void  GRRLIB_SetPixelTotexImg (const int x, const int y,
  * Reads a pixel directly from the FrontBuffer.
  * @param x The x-coordinate within the FB.
  * @param y The y-coordinate within the FB.
+ * @return The color of a pixel in RGBA format.
  */
 INLINE
 u32 GRRLIB_GetPixelFromFB (int x, int y) {
-    GXColor peekColor;
-    u32 MyColor;
+	u32 regval,val;
 
-    GX_PeekARGB(x, y, &peekColor);
-    MyColor = RGBA(peekColor.r,peekColor.g,peekColor.b,peekColor.a);
+	regval = 0xc8000000|(_SHIFTL(x,2,10));
+	regval = (regval&~0x3FF000)|(_SHIFTL(y,12,10));
+	val = *(u32*)regval;
 
-    return (MyColor);
+    return RGBA(_SHIFTR(val,16,8), _SHIFTR(val,8,8), val&0xff, _SHIFTR(val,24,8));
 }
 
 /**
  * Writes a pixel directly from the FrontBuffer.
  * @param x The x-coordinate within the FB.
  * @param y The y-coordinate within the FB.
+ * @param pokeColor The color of the pixel in RGBA format.
  */
 INLINE
 void GRRLIB_SetPixelToFB (int x, int y, u32 pokeColor) {
-    GXColor MyColor;
+	u32 regval;
 
-    MyColor.r=R(pokeColor);
-    MyColor.g=G(pokeColor);
-    MyColor.b=B(pokeColor);
-    MyColor.a=A(pokeColor);
-
-    GX_PokeARGB(x, y, MyColor);
+	regval = 0xc8000000|(_SHIFTL(x,2,10));
+	regval = (regval&~0x3FF000)|(_SHIFTL(y,12,10));
+	*(u32*)regval = _SHIFTL(A(pokeColor),24,8) | _SHIFTL(R(pokeColor),16,8) | _SHIFTL(G(pokeColor),8,8) | (B(pokeColor)&0xff);
 }

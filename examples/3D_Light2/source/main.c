@@ -39,35 +39,35 @@ int main() {
 
         GRRLIB_Camera3dSettings(0.0f, 0.0f,13.0f, 0,1,0, 0,0,0);
 
-	GRRLIB_SetLightAmbient(0x333333FF);
-	GRRLIB_SetLightDiff(0,(guVector){0.0f,0.0f,0.0f},20.0f,1.0f,0x00FFFFFF);
-	GRRLIB_SetLightDiff(1,(guVector){0.0f,13.0f,3.0f},20.0f,1.0f,0xFF00FFFF);
-	GRRLIB_SetLightDiff(2,(guVector){0.0f,-13.0f,3.0f},20.0f,1.0f,0xFFFF00FF);
-	GRRLIB_SetLightDiff(3,(guVector){13.0f,0.0f,3.0f},20.0f,1.0f,0xFF0000FF);
-	GRRLIB_SetLightDiff(4,(guVector){-13.0f,0.0f,3.0f},20.0f,1.0f,0x00FF00FF);
+        GRRLIB_SetLightAmbient(0x333333FF);
+        GRRLIB_SetLightDiff(0,(guVector){0.0f,0.0f,0.0f},20.0f,1.0f,0x00FFFFFF);
+        GRRLIB_SetLightDiff(1,(guVector){0.0f,13.0f,3.0f},20.0f,1.0f,0xFF00FFFF);
+        GRRLIB_SetLightDiff(2,(guVector){0.0f,-13.0f,3.0f},20.0f,1.0f,0xFFFF00FF);
+        GRRLIB_SetLightDiff(3,(guVector){13.0f,0.0f,3.0f},20.0f,1.0f,0xFF0000FF);
+        GRRLIB_SetLightDiff(4,(guVector){-13.0f,0.0f,3.0f},20.0f,1.0f,0x00FF00FF);
 
         GRRLIB_3dMode(0.1,1000,45,0,1);
 
-	GRRLIB_ObjectViewInv(1.0f, -1.0f, 1.0f, a, a*2, a*3, 1.0f, 1.0f, 1.0f);
-	GRRLIB_DrawSphere(objscal,objqual,objqual,true,0xFFFFFFFF);
-	GRRLIB_ObjectViewInv(-1.0f, -1.0f, 1.0f, a, a*2, a*3, 1.0f, 1.0f, 1.0f);
-	GRRLIB_DrawSphere(objscal,objqual,objqual,true,0xFFFFFFFF);
-	GRRLIB_ObjectViewInv(1.0f, 1.0f, 1.0f, a, a*2, a*3, 1.0f, 1.0f, 1.0f);
-	GRRLIB_DrawSphere(objscal,objqual,objqual,true,0xFFFFFFFF);
-	GRRLIB_ObjectViewInv(-1.0f, 1.0f, 1.0f, a, a*2, a*3, 1.0f, 1.0f, 1.0f);
-	GRRLIB_DrawSphere(objscal,objqual,objqual,true,0xFFFFFFFF);
+        GRRLIB_ObjectViewInv(1.0f, -1.0f, 1.0f, a, a*2, a*3, 1.0f, 1.0f, 1.0f);
+        GRRLIB_DrawSphere(objscal,objqual,objqual,true,0xFFFFFFFF);
+        GRRLIB_ObjectViewInv(-1.0f, -1.0f, 1.0f, a, a*2, a*3, 1.0f, 1.0f, 1.0f);
+        GRRLIB_DrawSphere(objscal,objqual,objqual,true,0xFFFFFFFF);
+        GRRLIB_ObjectViewInv(1.0f, 1.0f, 1.0f, a, a*2, a*3, 1.0f, 1.0f, 1.0f);
+        GRRLIB_DrawSphere(objscal,objqual,objqual,true,0xFFFFFFFF);
+        GRRLIB_ObjectViewInv(-1.0f, 1.0f, 1.0f, a, a*2, a*3, 1.0f, 1.0f, 1.0f);
+        GRRLIB_DrawSphere(objscal,objqual,objqual,true,0xFFFFFFFF);
 
-	GRRLIB_ObjectViewInv(1.0f, -1.0f, -1.0f, a, a*2, a*3, 1.0f, 1.0f, 1.0f);
-	GRRLIB_DrawSphere(objscal,objqual,objqual,true,0xFFFFFFFF);
-	GRRLIB_ObjectViewInv(-1.0f, -1.0f, -1.0f, a, a*2, a*3, 1.0f, 1.0f, 1.0f);
-	GRRLIB_DrawSphere(objscal,objqual,objqual,true,0xFFFFFFFF);
-	GRRLIB_ObjectViewInv(1.0f, 1.0f, -1.0f, a, a*2, a*3, 1.0f, 1.0f, 1.0f);
-	GRRLIB_DrawSphere(objscal,objqual,objqual,true,0xFFFFFFFF);
-	GRRLIB_ObjectViewInv(-1.0f, 1.0f, -1.0f, a, a*2, a*3, 1.0f, 1.0f, 1.0f);
-	GRRLIB_DrawSphere(objscal,objqual,objqual,true,0xFFFFFFFF);
+        GRRLIB_ObjectViewInv(1.0f, -1.0f, -1.0f, a, a*2, a*3, 1.0f, 1.0f, 1.0f);
+        GRRLIB_DrawSphere(objscal,objqual,objqual,true,0xFFFFFFFF);
+        GRRLIB_ObjectViewInv(-1.0f, -1.0f, -1.0f, a, a*2, a*3, 1.0f, 1.0f, 1.0f);
+        GRRLIB_DrawSphere(objscal,objqual,objqual,true,0xFFFFFFFF);
+        GRRLIB_ObjectViewInv(1.0f, 1.0f, -1.0f, a, a*2, a*3, 1.0f, 1.0f, 1.0f);
+        GRRLIB_DrawSphere(objscal,objqual,objqual,true,0xFFFFFFFF);
+        GRRLIB_ObjectViewInv(-1.0f, 1.0f, -1.0f, a, a*2, a*3, 1.0f, 1.0f, 1.0f);
+        GRRLIB_DrawSphere(objscal,objqual,objqual,true,0xFFFFFFFF);
 
-	GRRLIB_ObjectView(0.0f, 0.0f, -1.0f, a, a*2, a*3, 1.0f, 1.0f, 1.0f);
-	GRRLIB_DrawCube(3.0,true,0xFFFFFF44);
+        GRRLIB_ObjectView(0.0f, 0.0f, -1.0f, a, a*2, a*3, 1.0f, 1.0f, 1.0f);
+        GRRLIB_DrawCube(3.0, true, 0xFFFFFF44);
 
         a+=0.6f;
 
