@@ -12,9 +12,9 @@
 #include "gfx/font.h"
 
 int main(void){
-f32 a=0;
-f32 offset = 1.5f;
-f32 rotpas=60.0f;
+    f32 a = 0;
+    f32 offset = 1.5f;
+    f32 rotpas = 60.0f;
 
     GRRLIB_Init();
     WPAD_Init();
@@ -35,63 +35,62 @@ f32 rotpas=60.0f;
 
 
         GRRLIB_3dMode(0.1,1000,45,0,1);
-	GRRLIB_SetLightAmbient(0x111111FF);
-	GRRLIB_SetLightDiff(0,(guVector){0.0f,3.0f,3.0f},20.0f,1.0f,0xFFFFFFFF);
+        GRRLIB_SetLightAmbient(0x111111FF);
+        GRRLIB_SetLightDiff(0,(guVector){0.0f,3.0f,3.0f},20.0f,1.0f,0xFFFFFFFF);
 
 
         GRRLIB_ObjectViewBegin();
-	  GRRLIB_ObjectViewRotate(0,a*3,0);
-	  GRRLIB_ObjectViewTrans(0,offset,0);
-	  GRRLIB_ObjectViewRotate(a,a*3,a*2+0*rotpas);
-	GRRLIB_ObjectViewEnd();
-	GRRLIB_DrawCube(0.8f,1,0xFFFFFFFF);
+        GRRLIB_ObjectViewRotate(0,a*3,0);
+        GRRLIB_ObjectViewTrans(0,offset,0);
+        GRRLIB_ObjectViewRotate(a,a*3,a*2+0*rotpas);
+        GRRLIB_ObjectViewEnd();
+        GRRLIB_DrawCube(0.8f,1,0xFFFFFFFF);
 
         GRRLIB_ObjectViewBegin();
-	  GRRLIB_ObjectViewRotate(0,a*3,0);
-	  GRRLIB_ObjectViewTrans(0,offset,0);
-	  GRRLIB_ObjectViewRotate(a,a*3,a*2+1*rotpas);
-	GRRLIB_ObjectViewEnd();
-	GRRLIB_DrawCube(0.8f,1,0xFFFFFFFF);
+        GRRLIB_ObjectViewRotate(0,a*3,0);
+        GRRLIB_ObjectViewTrans(0,offset,0);
+        GRRLIB_ObjectViewRotate(a,a*3,a*2+1*rotpas);
+        GRRLIB_ObjectViewEnd();
+        GRRLIB_DrawCube(0.8f,1,0xFFFFFFFF);
 
 
         GRRLIB_ObjectViewBegin();
-	  GRRLIB_ObjectViewRotate(0,a*3,0);
-	  GRRLIB_ObjectViewTrans(0,offset,0);
-	  GRRLIB_ObjectViewRotate(a,a*3,a*2+2*rotpas);
-	GRRLIB_ObjectViewEnd();
-	GRRLIB_DrawCube(0.8f,1,0xFFFFFFFF);
+        GRRLIB_ObjectViewRotate(0,a*3,0);
+        GRRLIB_ObjectViewTrans(0,offset,0);
+        GRRLIB_ObjectViewRotate(a,a*3,a*2+2*rotpas);
+        GRRLIB_ObjectViewEnd();
+        GRRLIB_DrawCube(0.8f,1,0xFFFFFFFF);
 
         GRRLIB_ObjectViewBegin();
-	  GRRLIB_ObjectViewRotate(0,a*3,0);
-	  GRRLIB_ObjectViewTrans(0,offset,0);
-	  GRRLIB_ObjectViewRotate(a,a*3,a*2+3*rotpas);
-	GRRLIB_ObjectViewEnd();
-	GRRLIB_DrawCube(0.8f,1,0xFFFFFFFF);
+        GRRLIB_ObjectViewRotate(0,a*3,0);
+        GRRLIB_ObjectViewTrans(0,offset,0);
+        GRRLIB_ObjectViewRotate(a,a*3,a*2+3*rotpas);
+        GRRLIB_ObjectViewEnd();
+        GRRLIB_DrawCube(0.8f,1,0xFFFFFFFF);
 
         GRRLIB_ObjectViewBegin();
-	  GRRLIB_ObjectViewRotate(0,a*3,0);
-	  GRRLIB_ObjectViewTrans(0,offset,0);
-	  GRRLIB_ObjectViewRotate(a,a*3,a*2+4*rotpas);
-	GRRLIB_ObjectViewEnd();
-	GRRLIB_DrawCube(0.8f,1,0xFFFFFFFF);
+        GRRLIB_ObjectViewRotate(0,a*3,0);
+        GRRLIB_ObjectViewTrans(0,offset,0);
+        GRRLIB_ObjectViewRotate(a,a*3,a*2+4*rotpas);
+        GRRLIB_ObjectViewEnd();
+        GRRLIB_DrawCube(0.8f,1,0xFFFFFFFF);
 
         GRRLIB_ObjectViewBegin();
-	  GRRLIB_ObjectViewRotate(0,a*3,0);
-	  GRRLIB_ObjectViewTrans(0,offset,0);
-	  GRRLIB_ObjectViewRotate(a,a*3,a*2+5*rotpas);
-	GRRLIB_ObjectViewEnd();
-	GRRLIB_DrawCube(0.8f,1,0xFFFFFFFF);
+        GRRLIB_ObjectViewRotate(0,a*3,0);
+        GRRLIB_ObjectViewTrans(0,offset,0);
+        GRRLIB_ObjectViewRotate(a,a*3,a*2+5*rotpas);
+        GRRLIB_ObjectViewEnd();
+        GRRLIB_DrawCube(0.8f,1,0xFFFFFFFF);
 
         GRRLIB_ObjectViewBegin();
-	  GRRLIB_ObjectViewRotate(0,a*3,0);
-	  GRRLIB_ObjectViewTrans(0,offset,0);
-	  GRRLIB_ObjectViewRotate(a,a*3,a*2+6*rotpas);
-	GRRLIB_ObjectViewEnd();
-	GRRLIB_DrawCube(0.8f,1,0xFFFFFFFF);
+        GRRLIB_ObjectViewRotate(0,a*3,0);
+        GRRLIB_ObjectViewTrans(0,offset,0);
+        GRRLIB_ObjectViewRotate(a,a*3,a*2+6*rotpas);
+        GRRLIB_ObjectViewEnd();
+        GRRLIB_DrawCube(0.8f,1,0xFFFFFFFF);
 
-	a+=0.8;
-	GRRLIB_2dMode();
-
+        a+=0.8;
+        GRRLIB_2dMode();
 
         // Switch To 2D Mode to display text
         GRRLIB_2dMode();

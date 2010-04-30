@@ -9,22 +9,21 @@
 #include <malloc.h>
 #include <wiiuse/wpad.h>
 
-#include "gfx/font.h"
+#include "gfx/Rockwell_Condensed_12_Bold.h"
 
 extern Mtx _GRR_view;
 
 
 int main() {
-    float a=0;
-    float objscal=0.5f;
+    float a = 0;
+    float objscal = 0.5f;
     int objqual = 20;
 
     GRRLIB_Init();
     WPAD_Init();
 
-    GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(font);
-    GRRLIB_InitTileSet(tex_font, 16, 16, 32);
-
+    GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(Rockwell_Condensed_12_Bold);
+    GRRLIB_InitTileSet(tex_font, 12, 19, 32);
 
 
     GRRLIB_Settings.antialias = true;
