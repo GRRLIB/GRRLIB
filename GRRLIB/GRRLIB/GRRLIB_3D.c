@@ -502,6 +502,8 @@ void GRRLIB_DrawCube(f32 size, bool filled, u32 col) {
  * @param r Radius of the cylinder.
  * @param h High of the cylinder.
  * @param d Dencity of slice.
+ * @param cap1 Draw the upper Cap.
+ * @param cap2 Draw the under Cap.
  * @param filled Wired or not.
  * @param col Color of the cylinder.
 */
@@ -531,6 +533,46 @@ void GRRLIB_DrawCylinder(f32 r, f32 h, int d, bool filled, u32 col) {
     for(i = 0 ; i <= d ; i++) {
         GX_Position3f32( r * cosf( M_PI * 2.0f * i / d ), -0.5f * h, r * sinf( M_PI * 2.0f * i / d ) );
         GX_Normal3f32(0.0f, -1.0f, 0.0f);
+        GX_Color1u32(col);
+    }
+    GX_End();
+
+    if(filled) GX_Begin(GX_TRIANGLEFAN, GX_VTXFMT0, d+2);
+    else       GX_Begin(GX_LINESTRIP, GX_VTXFMT0, d+2);
+    GX_Position3f32(0.0f, 0.5f * h, 0.0f);
+    GX_Normal3f32(0.0f, 1.0f, 0.0f);
+    GX_Color1u32(col);
+    for(i = 0 ; i <= d ; i++) {
+        GX_Position3f32( r * cosf( M_PI * 2.0f * i / d ), 0.5f * h, r * sinf( M_PI * 2.0f * i / d ) );
+        GX_Normal3f32(0.0f, 1.0f, 0.0f);
+        GX_Color1u32(col);
+    }
+    GX_End();
+}
+
+/**
+ * Draw a cone (with normal).
+ * @param r Radius of the cone.
+ * @param h High of the cone.
+ * @param d Dencity of slice.
+ * @param cap Draw the under cap or not.
+ * @param filled Wired or not.
+ * @param col Color of the cone.
+*/
+void GRRLIB_DrawCone(f32 r, f32 h, int d, bool filled, u32 col) {
+    int i;
+    f32 dx, dy;
+
+    if(filled) GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 2 * (d+1));
+    else       GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 2 * (d+1));
+    for(i = 0 ; i <= d ; i++) {
+        dx = cosf( M_PI * 2.0f * i / d );
+        dy = sinf( M_PI * 2.0f * i / d );
+        GX_Position3f32( 0, -0.5f * h,0);
+        GX_Normal3f32( dx, 0.0f, dy );
+        GX_Color1u32(col);
+        GX_Position3f32( r * dx, 0.5f * h, r * dy );
+        GX_Normal3f32( dx, 0.0f, dy );
         GX_Color1u32(col);
     }
     GX_End();
@@ -594,7 +636,7 @@ void GRRLIB_SetLightDiff(u8 num, guVector pos, f32 distattn, f32 brightness, u32
 void GRRLIB_SetLightSpec(u8 num, guVector dir, f32 shy, u32 lightcolor, u32 speccolor) {
     Mtx mr,mv;
     GXLightObj MyLight;
-    guVector ldir = {ldir.x, ldir.y, ldir.z};
+    guVector ldir = {dir.x, dir.y, dir.z};
 
     GRRLIB_Settings.lights |= (1<<num);
 
