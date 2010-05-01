@@ -584,6 +584,51 @@ void GRRLIB_SetLightDiff(u8 num, guVector pos, f32 distattn, f32 brightness, u32
 }
 
 /**
+ * Set specular light parameters.
+ * @param num Number of the light. It's a number from 0 to 7.
+ * @param dir Direction of the specular ray (x/y/z).
+ * @param shy Shyniness of the specular. ( between 4 and 254)
+ * @param lightcolor Color of the light in RGBA format.
+ * @param speccolor Specular color in RGBA format..
+*/
+void GRRLIB_SetLightSpec(u8 num, guVector dir, f32 shy, u32 lightcolor, u32 speccolor) {
+    Mtx mr,mv;
+    GXLightObj MyLight;
+    guVector ldir = {ldir.x, ldir.y, ldir.z};
+
+    GRRLIB_Settings.lights |= (1<<num);
+
+    guMtxInverse(_GRR_view,mr);
+    guMtxTranspose(mr,mv);
+    guVecMultiplySR(mv, &ldir,&ldir);
+    GX_InitSpecularDirv(&MyLight, &ldir);
+
+    GX_InitLightShininess(&MyLight, shy);  // entre 4 et 255 !!!
+    GX_InitLightColor(&MyLight, (GXColor) { R(lightcolor), G(lightcolor), B(lightcolor), 0xFF });
+    GX_LoadLightObj(&MyLight, (1<<num));
+
+    /////////////////////// Turn light ON ////////////////////////////////////////////////
+    GX_SetNumChans(2);    // use two color channels
+    GX_SetChanCtrl(GX_COLOR0, GX_ENABLE, GX_SRC_REG, GX_SRC_VTX, GX_LIGHT0, GX_DF_CLAMP, GX_AF_NONE);
+    GX_SetChanCtrl(GX_COLOR1, GX_ENABLE, GX_SRC_REG, GX_SRC_REG, GX_LIGHT0, GX_DF_NONE, GX_AF_SPEC);
+    GX_SetChanCtrl(GX_ALPHA0, GX_DISABLE, GX_SRC_REG, GX_SRC_REG, GX_LIGHTNULL, GX_DF_NONE, GX_AF_NONE);
+    GX_SetChanCtrl(GX_ALPHA1, GX_DISABLE, GX_SRC_REG, GX_SRC_REG, GX_LIGHTNULL, GX_DF_NONE, GX_AF_NONE);
+
+
+    GX_SetNumTevStages(2);
+    GX_SetTevOrder(GX_TEVSTAGE0, GX_TEXCOORDNULL, GX_TEXMAP_NULL, GX_COLOR0A0 );
+    GX_SetTevOrder(GX_TEVSTAGE1, GX_TEXCOORDNULL, GX_TEXMAP_NULL, GX_COLOR1A1 );
+    GX_SetTevOp(GX_TEVSTAGE0, GX_PASSCLR);
+    GX_SetTevColorOp(GX_TEVSTAGE1, GX_TEV_ADD, GX_TB_ZERO, GX_CS_SCALE_1, GX_ENABLE, GX_TEVPREV );
+    GX_SetTevColorIn(GX_TEVSTAGE1, GX_CC_ZERO, GX_CC_RASC, GX_CC_ONE, GX_CC_CPREV );
+
+    /////////////////////// Define MAterial and Ambiant color and draw object /////////////////////////////////////
+    GX_SetChanAmbColor(GX_COLOR1, (GXColor){0x00,0x00,0x00,0xFF});  // specualr ambient forced to black
+    GX_SetChanMatColor(GX_COLOR1, (GXColor) { R(speccolor), G(speccolor), B(speccolor), 0xFF }); // couleur du reflet specular
+}
+
+
+/**
  * Set all lights off, like at init.
 */
 void GRRLIB_SetLightOff(void) {
