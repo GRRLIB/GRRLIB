@@ -45,9 +45,53 @@ float shy=10.0f;
         // we are waiting for a fix from libogc devs
 	GRRLIB_SetLightAmbient(0x404040FF);
 	GRRLIB_SetLightSpec(0, (guVector){0.0f,0.0f,0.0f}, shy, 0xFFFFFFFF, 0xFFFFFFFF);
-        GRRLIB_ObjectView(0,0,0, rot,rot*2,rot*3, 1.0f,1.0f,1.0f);
-        GRRLIB_DrawTorus(0.6f, 2.6f, 60, 60,true, 0x502010FF);
-        GRRLIB_DrawCube(1.8f, true, 0x202050FF);
+
+	GRRLIB_ObjectViewBegin();
+	  GRRLIB_ObjectViewTrans(0.0f,1.3f,0.0f);
+	  GRRLIB_ObjectViewRotate(rot,rot*2,rot*3);
+	GRRLIB_ObjectViewEnd();
+        GRRLIB_DrawCone(0.6f, 2.6f, 60,true, 0x502010FF);
+
+	GRRLIB_ObjectViewBegin();
+	  GRRLIB_ObjectViewRotate(0.0f,0.0f,90.0f);
+	  GRRLIB_ObjectViewTrans(-1.3f,0.0f,0.0f);
+	  GRRLIB_ObjectViewRotate(rot,rot*2,rot*3);
+	GRRLIB_ObjectViewEnd();
+        GRRLIB_DrawCone(0.6f, 2.6f, 60,true, 0x502010FF);
+
+	GRRLIB_ObjectViewBegin();
+	  GRRLIB_ObjectViewRotate(0.0f,0.0f,180.0f);
+	  GRRLIB_ObjectViewTrans(0.0f,-1.3f,0.0f);
+	  GRRLIB_ObjectViewRotate(rot,rot*2,rot*3);
+	GRRLIB_ObjectViewEnd();
+        GRRLIB_DrawCone(0.6f, 2.6f, 60,true, 0x502010FF);
+
+	GRRLIB_ObjectViewBegin();
+	  GRRLIB_ObjectViewRotate(0.0f,0.0f,-90.0f);
+	  GRRLIB_ObjectViewTrans(1.3f,0.0f,0.0f);
+	  GRRLIB_ObjectViewRotate(rot,rot*2,rot*3);
+	GRRLIB_ObjectViewEnd();
+        GRRLIB_DrawCone(0.6f, 2.6f, 60,true, 0x502010FF);
+
+	GRRLIB_ObjectViewBegin();
+	  GRRLIB_ObjectViewRotate(-90.0f,0.0f,0.0f);
+	  GRRLIB_ObjectViewTrans(0.0f,0.0f,-1.3f);
+	  GRRLIB_ObjectViewRotate(rot,rot*2,rot*3);
+	GRRLIB_ObjectViewEnd();
+        GRRLIB_DrawCone(0.6f, 2.6f, 60,true, 0x502010FF);
+
+	GRRLIB_ObjectViewBegin();
+	  GRRLIB_ObjectViewRotate(90.0f,0.0f,0.0f);
+	  GRRLIB_ObjectViewTrans(0.0f,0.0f,1.3f);
+	  GRRLIB_ObjectViewRotate(rot,rot*2,rot*3);
+	GRRLIB_ObjectViewEnd();
+        GRRLIB_DrawCone(0.6f, 2.6f, 60,true, 0x502010FF);
+
+	GRRLIB_ObjectViewBegin();
+	  GRRLIB_ObjectViewRotate(rot,rot*2,rot*3);
+	GRRLIB_ObjectViewEnd();
+        GRRLIB_DrawCube( 0.6f, true, 0x102050FF);
+
 
         rot+=0.8f;
 
