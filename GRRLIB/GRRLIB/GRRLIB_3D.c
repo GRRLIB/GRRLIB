@@ -502,8 +502,6 @@ void GRRLIB_DrawCube(f32 size, bool filled, u32 col) {
  * @param r Radius of the cylinder.
  * @param h High of the cylinder.
  * @param d Dencity of slice.
- * @param cap1 Draw the upper Cap.
- * @param cap2 Draw the under Cap.
  * @param filled Wired or not.
  * @param col Color of the cylinder.
 */
@@ -555,7 +553,6 @@ void GRRLIB_DrawCylinder(f32 r, f32 h, int d, bool filled, u32 col) {
  * @param r Radius of the cone.
  * @param h High of the cone.
  * @param d Dencity of slice.
- * @param cap Draw the under cap or not.
  * @param filled Wired or not.
  * @param col Color of the cone.
 */
@@ -645,7 +642,7 @@ void GRRLIB_SetLightSpec(u8 num, guVector dir, f32 shy, u32 lightcolor, u32 spec
     guVecMultiplySR(mv, &ldir,&ldir);
     GX_InitSpecularDirv(&MyLight, &ldir);
 
-    GX_InitLightShininess(&MyLight, shy);  // entre 4 et 255 !!!
+    GX_InitLightShininess(&MyLight, shy);  // between 4 and 255 !!!
     GX_InitLightColor(&MyLight, (GXColor) { R(lightcolor), G(lightcolor), B(lightcolor), 0xFF });
     GX_LoadLightObj(&MyLight, (1<<num));
 
@@ -664,7 +661,7 @@ void GRRLIB_SetLightSpec(u8 num, guVector dir, f32 shy, u32 lightcolor, u32 spec
     GX_SetTevColorOp(GX_TEVSTAGE1, GX_TEV_ADD, GX_TB_ZERO, GX_CS_SCALE_1, GX_ENABLE, GX_TEVPREV );
     GX_SetTevColorIn(GX_TEVSTAGE1, GX_CC_ZERO, GX_CC_RASC, GX_CC_ONE, GX_CC_CPREV );
 
-    /////////////////////// Define MAterial and Ambiant color and draw object /////////////////////////////////////
+    /////////////////////// Define Material and Ambiant color and draw object /////////////////////////////////////
     GX_SetChanAmbColor(GX_COLOR1, (GXColor){0x00,0x00,0x00,0xFF});  // specualr ambient forced to black
     GX_SetChanMatColor(GX_COLOR1, (GXColor) { R(speccolor), G(speccolor), B(speccolor), 0xFF }); // couleur du reflet specular
 }
