@@ -588,6 +588,40 @@ void GRRLIB_DrawCone(f32 r, f32 h, int d, bool filled, u32 col) {
 }
 
 /**
+ * Draw a Tesselated pannel (with normal).
+ * @param w Width of the panel.
+ * @param wstep Size of width slices.
+ * @param h Height of the pannel.
+ * @param hstep Size the de height slices.
+ * @param filled Wired or not.
+ * @param col Color of the cone.
+*/
+void GRRLIB_DrawTessPanel(f32 w, f32 wstep, f32 h, f32 hstep, bool filled, u32 col) {
+ f32 x,y,tmpx, tmpy;
+ int tmp;
+ tmpy = h/2.0f;
+ tmpx = w/2.0f;
+ tmp = ((w/wstep)*2)+2;
+    for ( y = -tmpy ; y <= tmpy ; y+=hstep )
+    {
+        if(filled) GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, tmp);
+        else       GX_Begin(GX_LINESTRIP, GX_VTXFMT0, tmp);
+            for ( x = -tmpx ; x <= tmpx ; x+=wstep )
+            {
+                GX_Position3f32( x, y, 0.0f );
+                GX_Normal3f32( 0.0f, 0.0f, 1.0f);
+                GX_Color1u32(col);
+                GX_Position3f32( x, y+hstep, 0.0f );
+                GX_Normal3f32( 0.0f, 0.0f, 1.0f);
+                GX_Color1u32(col);
+            }
+        GX_End();
+    }
+}
+
+
+
+/**
  * Set ambient color.
  * When no diffuse ligth is shinig on a object, the color is equal to ambient color.
  * @param ambientcolor Ambient color in RGBA format.

@@ -163,6 +163,7 @@ void GRRLIB_DrawSphere(f32 r, int lats, int longs, bool filled, u32 col);
 void GRRLIB_DrawCube(f32 size, bool filled, u32 col);
 void GRRLIB_DrawCylinder(f32 r, f32 h, int d, bool filled, u32 col);
 void GRRLIB_DrawCone(f32 r, f32 h, int d, bool filled, u32 col);
+void GRRLIB_DrawTessPanel(f32 w, f32 wstep, f32 h, f32 hstep, bool filled, u32 col);
 void GRRLIB_SetLightAmbient(u32 ambientcolor);
 void GRRLIB_SetLightDiff(u8 num, guVector pos, f32 distattn, f32 brightness, u32 lightcolor);
 void GRRLIB_SetLightSpec(u8 num, guVector dir, f32 shy, u32 lightcolor, u32 speccolor);
