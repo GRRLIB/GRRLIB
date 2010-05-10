@@ -700,6 +700,45 @@ void GRRLIB_SetLightSpec(u8 num, guVector dir, f32 shy, u32 lightcolor, u32 spec
     GX_SetChanMatColor(GX_COLOR1, (GXColor) { R(speccolor), G(speccolor), B(speccolor), 0xFF }); // couleur du reflet specular
 }
 
+/**
+ * Set Spot light parameters.
+ * @param num Number of the light. It's a number from 0 to 7.
+ * @param pos Position of the spot light (x/y/z).
+ * @param lookat Where spot light look at (x/y/z).
+ * @param angAttn0 cone attenuation factor 0.
+ * @param angAttn1 cone attenuation factor 1.
+ * @param angAttn2 cone attenuation factor 2.
+ * @param distAttn0 Distance attenuation factor 0.
+ * @param distAttn1 Distance attenuation factor 1.
+ * @param distAttn2 Distance attenuation factor 2.
+ * @param lightcolor Color of the light in RGBA format.
+*/
+void GRRLIB_SetLightSpot(u8 num, guVector pos, guVector lookat, f32 angAttn0, f32 angAttn1, f32 angAttn2, f32 distAttn0, f32 distAttn1, f32 distAttn2, u32 lightcolor) {
+	GXLightObj lobj;
+        guVector lpos = (guVector){ pos.x, pos.y, pos.z };
+        guVector ldir = (guVector){ lookat.x-pos.x, lookat.y-pos.y, lookat.z-pos.z };
+	guVecNormalize(&ldir);
+
+        GRRLIB_Settings.lights |= (1<<num);
+
+        guVecMultiplySR(_GRR_view, &ldir,&ldir);
+        guVecMultiply(_GRR_view, &lpos, &lpos);
+
+        GX_InitLightDirv(&lobj, &ldir);
+        GX_InitLightPosv(&lobj, &lpos);
+        GX_InitLightColor(&lobj, (GXColor) { R(lightcolor), G(lightcolor), B(lightcolor), 0xFF });
+
+	//this is just for code readers, wanting to know how to use direct cut off
+        //GX_InitLightSpot(&lobj, 0<angle<90, GX_SP_FLAT);
+
+        GX_InitLightAttn(&lobj, angAttn0, angAttn1, angAttn2, distAttn0, distAttn1, distAttn2);
+
+        GX_LoadLightObj(&lobj, (1<<num));
+
+	// Turn light ON
+    	GX_SetNumChans(1);
+    	GX_SetChanCtrl(GX_COLOR0A0, GX_ENABLE, GX_SRC_REG, GX_SRC_VTX, GRRLIB_Settings.lights, GX_DF_CLAMP, GX_AF_SPOT);
+}
 
 /**
  * Set all lights off, like at init.
