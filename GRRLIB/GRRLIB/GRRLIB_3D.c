@@ -325,7 +325,7 @@ void GRRLIB_ObjectViewInv(f32 posx, f32 posy, f32 posz, f32 angx, f32 angy, f32 
  * Set the texture to an object (contributed by chris_c aka DaShAmAn).
  * @param tex poiter to an image texture (GRRLIB_texImg format).
  * @param rep Texture Repeat Mode, True will repeat it, False won't.
-*/
+ */
 void GRRLIB_SetTexture(GRRLIB_texImg *tex, bool rep) {
     GXTexObj  texObj;
 
@@ -356,7 +356,7 @@ void GRRLIB_SetTexture(GRRLIB_texImg *tex, bool rep) {
  * @param rings Number of rings.
  * @param filled Wired or not.
  * @param col Color of the torus.
-*/
+ */
 void GRRLIB_DrawTorus(f32 r, f32 R, int nsides, int rings, bool filled, u32 col) {
     int i, j;
     f32 theta, phi, theta1;
@@ -405,7 +405,7 @@ void GRRLIB_DrawTorus(f32 r, f32 R, int nsides, int rings, bool filled, u32 col)
  * @param longs Number of longitutes.
  * @param filled Wired or not.
  * @param col Color of the sphere.
-*/
+ */
 void GRRLIB_DrawSphere(f32 r, int lats, int longs, bool filled, u32 col) {
     int i, j;
     f32 lat0, z0, zr0,
@@ -443,7 +443,7 @@ void GRRLIB_DrawSphere(f32 r, int lats, int longs, bool filled, u32 col) {
  * @param size Size of the cube edge.
  * @param filled Wired or not.
  * @param col Color of the cube.
-*/
+ */
 void GRRLIB_DrawCube(f32 size, bool filled, u32 col) {
     static f32 n[6][3] =
     {
@@ -504,7 +504,7 @@ void GRRLIB_DrawCube(f32 size, bool filled, u32 col) {
  * @param d Dencity of slice.
  * @param filled Wired or not.
  * @param col Color of the cylinder.
-*/
+ */
 void GRRLIB_DrawCylinder(f32 r, f32 h, int d, bool filled, u32 col) {
     int i;
     f32 dx, dy;
@@ -555,7 +555,7 @@ void GRRLIB_DrawCylinder(f32 r, f32 h, int d, bool filled, u32 col) {
  * @param d Dencity of slice.
  * @param filled Wired or not.
  * @param col Color of the cone.
-*/
+ */
 void GRRLIB_DrawCone(f32 r, f32 h, int d, bool filled, u32 col) {
     int i;
     f32 dx, dy;
@@ -594,8 +594,8 @@ void GRRLIB_DrawCone(f32 r, f32 h, int d, bool filled, u32 col) {
  * @param h Height of the pannel.
  * @param hstep Size the de height slices.
  * @param filled Wired or not.
- * @param col Color of the cone.
-*/
+ * @param col Color in RGBA format.
+ */
 void GRRLIB_DrawTessPanel(f32 w, f32 wstep, f32 h, f32 hstep, bool filled, u32 col) {
  f32 x,y,tmpx, tmpy;
  int tmp;
@@ -619,13 +619,11 @@ void GRRLIB_DrawTessPanel(f32 w, f32 wstep, f32 h, f32 hstep, bool filled, u32 c
     }
 }
 
-
-
 /**
  * Set ambient color.
  * When no diffuse ligth is shinig on a object, the color is equal to ambient color.
  * @param ambientcolor Ambient color in RGBA format.
-*/
+ */
 void GRRLIB_SetLightAmbient(u32 ambientcolor) {
     GX_SetChanAmbColor(GX_COLOR0A0, (GXColor) { R(ambientcolor), G(ambientcolor), B(ambientcolor), 0xFF});
 }
@@ -637,7 +635,7 @@ void GRRLIB_SetLightAmbient(u32 ambientcolor) {
  * @param distattn Distance attenuation.
  * @param brightness Brightness of the light. The value should be between 0 and 1.
  * @param lightcolor Color of the light in RGBA format.
-*/
+ */
 void GRRLIB_SetLightDiff(u8 num, guVector pos, f32 distattn, f32 brightness, u32 lightcolor) {
     GXLightObj MyLight;
     guVector lpos = {pos.x, pos.y, pos.z};
@@ -663,7 +661,7 @@ void GRRLIB_SetLightDiff(u8 num, guVector pos, f32 distattn, f32 brightness, u32
  * @param shy Shyniness of the specular. ( between 4 and 254)
  * @param lightcolor Color of the light in RGBA format.
  * @param speccolor Specular color in RGBA format..
-*/
+ */
 void GRRLIB_SetLightSpec(u8 num, guVector dir, f32 shy, u32 lightcolor, u32 speccolor) {
     Mtx mr,mv;
     GXLightObj MyLight;
@@ -712,37 +710,37 @@ void GRRLIB_SetLightSpec(u8 num, guVector dir, f32 shy, u32 lightcolor, u32 spec
  * @param distAttn1 Distance attenuation factor 1.
  * @param distAttn2 Distance attenuation factor 2.
  * @param lightcolor Color of the light in RGBA format.
-*/
+ */
 void GRRLIB_SetLightSpot(u8 num, guVector pos, guVector lookat, f32 angAttn0, f32 angAttn1, f32 angAttn2, f32 distAttn0, f32 distAttn1, f32 distAttn2, u32 lightcolor) {
-	GXLightObj lobj;
-        guVector lpos = (guVector){ pos.x, pos.y, pos.z };
-        guVector ldir = (guVector){ lookat.x-pos.x, lookat.y-pos.y, lookat.z-pos.z };
-	guVecNormalize(&ldir);
+    GXLightObj lobj;
+    guVector lpos = (guVector){ pos.x, pos.y, pos.z };
+    guVector ldir = (guVector){ lookat.x-pos.x, lookat.y-pos.y, lookat.z-pos.z };
+    guVecNormalize(&ldir);
 
-        GRRLIB_Settings.lights |= (1<<num);
+    GRRLIB_Settings.lights |= (1<<num);
 
-        guVecMultiplySR(_GRR_view, &ldir,&ldir);
-        guVecMultiply(_GRR_view, &lpos, &lpos);
+    guVecMultiplySR(_GRR_view, &ldir,&ldir);
+    guVecMultiply(_GRR_view, &lpos, &lpos);
 
-        GX_InitLightDirv(&lobj, &ldir);
-        GX_InitLightPosv(&lobj, &lpos);
-        GX_InitLightColor(&lobj, (GXColor) { R(lightcolor), G(lightcolor), B(lightcolor), 0xFF });
+    GX_InitLightDirv(&lobj, &ldir);
+    GX_InitLightPosv(&lobj, &lpos);
+    GX_InitLightColor(&lobj, (GXColor) { R(lightcolor), G(lightcolor), B(lightcolor), 0xFF });
 
-	//this is just for code readers, wanting to know how to use direct cut off
-        //GX_InitLightSpot(&lobj, 0<angle<90, GX_SP_FLAT);
+    //this is just for code readers, wanting to know how to use direct cut off
+    //GX_InitLightSpot(&lobj, 0<angle<90, GX_SP_FLAT);
 
-        GX_InitLightAttn(&lobj, angAttn0, angAttn1, angAttn2, distAttn0, distAttn1, distAttn2);
+    GX_InitLightAttn(&lobj, angAttn0, angAttn1, angAttn2, distAttn0, distAttn1, distAttn2);
 
-        GX_LoadLightObj(&lobj, (1<<num));
+    GX_LoadLightObj(&lobj, (1<<num));
 
-	// Turn light ON
-    	GX_SetNumChans(1);
-    	GX_SetChanCtrl(GX_COLOR0A0, GX_ENABLE, GX_SRC_REG, GX_SRC_VTX, GRRLIB_Settings.lights, GX_DF_CLAMP, GX_AF_SPOT);
+    // Turn light ON
+    GX_SetNumChans(1);
+    GX_SetChanCtrl(GX_COLOR0A0, GX_ENABLE, GX_SRC_REG, GX_SRC_VTX, GRRLIB_Settings.lights, GX_DF_CLAMP, GX_AF_SPOT);
 }
 
 /**
  * Set all lights off, like at init.
-*/
+ */
 void GRRLIB_SetLightOff(void) {
     GX_SetNumTevStages(1);
 
