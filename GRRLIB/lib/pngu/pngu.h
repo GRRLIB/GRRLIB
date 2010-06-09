@@ -150,8 +150,8 @@ int PNGU_DecodeTo4x4RGB565 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *b
 int PNGU_DecodeTo4x4RGB5A3 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffer, PNGU_u8 default_alpha);
 
 // Expands selected image into a 4x4 tiled RGBA8 buffer. You need to specify context, image dimensions,
-// destination address and default alpha value, which is used if the source image doesn't have an alpha channel.
-int PNGU_DecodeTo4x4RGBA8 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffer, PNGU_u8 default_alpha);
+// destination address.
+PNGU_u8 * PNGU_DecodeTo4x4RGBA8 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, int * dstWidth, int * dstHeight, PNGU_u8 *dstPtr);
 
 // Encodes an YCbYCr image in PNG format and stores it in the selected device or memory buffer. You need to 
 // specify context, image dimensions, destination address and stride in pixels (stride = buffer width - image width).

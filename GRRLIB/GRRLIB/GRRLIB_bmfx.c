@@ -158,11 +158,12 @@ void  GRRLIB_BMFX_Blur (const GRRLIB_texImg *texsrc,
 
             for (k = x - factor; k <= x + factor; k++) {
                 for (l = y - factor; l <= y + factor; l++) {
-                    if (k < 0) { colours[tmp] = thiscol; }
-                    else if (k >= texsrc->w) { colours[tmp] = thiscol; }
-                    else if (l < 0) { colours[tmp] = thiscol; }
-                    else if (l >= texsrc->h) { colours[tmp] = thiscol; }
-                    else { colours[tmp] = GRRLIB_GetPixelFromtexImg(k, l, texsrc); }
+                    if (k < 0 || k >= texsrc->w || l < 0 || l >= texsrc->h) {
+                        colours[tmp] = thiscol;
+                    }
+                    else {
+                        colours[tmp] = GRRLIB_GetPixelFromtexImg(k, l, texsrc);
+                    }
                     tmp++;
                 }
             }

@@ -556,134 +556,118 @@ int PNGU_DecodeTo4x4RGB5A3 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *b
 	return PNGU_OK;
 }
 
-
-int PNGU_DecodeTo4x4RGBA8 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffer, PNGU_u8 default_alpha)
+// Coded by Tantric for WiiMC (http://www.wiimc.org)
+static inline PNGU_u32 coordsRGBA8(PNGU_u32 x, PNGU_u32 y, PNGU_u32 w)
 {
-	int result;
-	PNGU_u32 x, y, qwidth, qheight;
-	PNGU_u64 alphaMask;
+	return ((((y >> 2) * (w >> 2) + (x >> 2)) << 5) + ((y & 3) << 2) + (x & 3)) << 1;
+}
 
-	// width and height need to be divisible by four
-	if ((width % 4) || (height % 4))
-		return PNGU_INVALID_WIDTH_OR_HEIGHT;
+// Coded by Tantric for WiiMC (http://www.wiimc.org)
+PNGU_u8 * PNGU_DecodeTo4x4RGBA8 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, int * dstWidth, int * dstHeight, PNGU_u8 *dstPtr)
+{
+	PNGU_u8 default_alpha = 255;    // default alpha value, which is used if the source image doesn't have an alpha channel.
+	PNGU_u8 *dst;
+	int x, y, x2=0, y2=0, offset;
+	int xRatio = 0, yRatio = 0;
+	png_byte *pixel;
 
-	result = pngu_decode (ctx, width, height, 0);
-	if (result != PNGU_OK)
-		return result;
+	if (pngu_decode (ctx, width, height, 0) != PNGU_OK)
+		return NULL;
 
-	// Init some variables
-	qwidth = width / 4;
-	qheight = height / 4;
+	int newWidth = width;
+	int newHeight = height;
 
-	// Check is source image has an alpha channel
-	if ( (ctx->prop.imgColorType == PNGU_COLOR_TYPE_GRAY_ALPHA) || (ctx->prop.imgColorType == PNGU_COLOR_TYPE_RGB_ALPHA) )
+	if(width > 1024 || height > 1024)
 	{
-		// Alpha channel present, copy image to the output buffer
-		for (y = 0; y < qheight; y++)
-			for (x = 0; x < qwidth; x++)
-			{
-				int blockbase = (y * qwidth + x) * 8;
+		float ratio = (float)width/(float)height;
 
-				PNGU_u64 fieldA = *((PNGU_u64 *)(ctx->row_pointers[y*4]+x*16));
-				PNGU_u64 fieldB = *((PNGU_u64 *)(ctx->row_pointers[y*4]+x*16+8));
-				((PNGU_u64 *) buffer)[blockbase] = 
-					((fieldA & 0xFF00000000ULL) << 24) | ((fieldA & 0xFF00000000000000ULL) >> 8) | 
-					((fieldA & 0xFFULL) << 40) | ((fieldA & 0xFF000000ULL) << 8) | 
-					((fieldB & 0xFF00000000ULL) >> 8) | ((fieldB & 0xFF00000000000000ULL) >> 40) | 
-					((fieldB & 0xFFULL) << 8) | ((fieldB & 0xFF000000ULL) >> 24);
-				((PNGU_u64 *) buffer)[blockbase+4] =
-					((fieldA & 0xFFFF0000000000ULL) << 8) | ((fieldA & 0xFFFF00ULL) << 24) |
-					((fieldB & 0xFFFF0000000000ULL) >> 24) | ((fieldB & 0xFFFF00ULL) >> 8);
-
-				fieldA = *((PNGU_u64 *)(ctx->row_pointers[y*4+1]+x*16));
-				fieldB = *((PNGU_u64 *)(ctx->row_pointers[y*4+1]+x*16+8));
-				((PNGU_u64 *) buffer)[blockbase+1] = 
-					((fieldA & 0xFF00000000ULL) << 24) | ((fieldA & 0xFF00000000000000ULL) >> 8) | 
-					((fieldA & 0xFFULL) << 40) | ((fieldA & 0xFF000000ULL) << 8) | 
-					((fieldB & 0xFF00000000ULL) >> 8) | ((fieldB & 0xFF00000000000000ULL) >> 40) | 
-					((fieldB & 0xFFULL) << 8) | ((fieldB & 0xFF000000ULL) >> 24);
-				((PNGU_u64 *) buffer)[blockbase+5] =
-					((fieldA & 0xFFFF0000000000ULL) << 8) | ((fieldA & 0xFFFF00ULL) << 24) |
-					((fieldB & 0xFFFF0000000000ULL) >> 24) | ((fieldB & 0xFFFF00ULL) >> 8);
-
-				fieldA = *((PNGU_u64 *)(ctx->row_pointers[y*4+2]+x*16));
-				fieldB = *((PNGU_u64 *)(ctx->row_pointers[y*4+2]+x*16+8));
-				((PNGU_u64 *) buffer)[blockbase+2] = 
-					((fieldA & 0xFF00000000ULL) << 24) | ((fieldA & 0xFF00000000000000ULL) >> 8) | 
-					((fieldA & 0xFFULL) << 40) | ((fieldA & 0xFF000000ULL) << 8) | 
-					((fieldB & 0xFF00000000ULL) >> 8) | ((fieldB & 0xFF00000000000000ULL) >> 40) | 
-					((fieldB & 0xFFULL) << 8) | ((fieldB & 0xFF000000ULL) >> 24);
-				((PNGU_u64 *) buffer)[blockbase+6] =
-					((fieldA & 0xFFFF0000000000ULL) << 8) | ((fieldA & 0xFFFF00ULL) << 24) |
-					((fieldB & 0xFFFF0000000000ULL) >> 24) | ((fieldB & 0xFFFF00ULL) >> 8);
-
-				fieldA = *((PNGU_u64 *)(ctx->row_pointers[y*4+3]+x*16));
-				fieldB = *((PNGU_u64 *)(ctx->row_pointers[y*4+3]+x*16+8));
-				((PNGU_u64 *) buffer)[blockbase+3] = 
-					((fieldA & 0xFF00000000ULL) << 24) | ((fieldA & 0xFF00000000000000ULL) >> 8) | 
-					((fieldA & 0xFFULL) << 40) | ((fieldA & 0xFF000000ULL) << 8) | 
-					((fieldB & 0xFF00000000ULL) >> 8) | ((fieldB & 0xFF00000000000000ULL) >> 40) | 
-					((fieldB & 0xFFULL) << 8) | ((fieldB & 0xFF000000ULL) >> 24);
-				((PNGU_u64 *) buffer)[blockbase+7] =
-					((fieldA & 0xFFFF0000000000ULL) << 8) | ((fieldA & 0xFFFF00ULL) << 24) |
-					((fieldB & 0xFFFF0000000000ULL) >> 24) | ((fieldB & 0xFFFF00ULL) >> 8);
-			}
+		if(ratio > 1)
+		{
+			newWidth = 1024;
+			newHeight = 1024/ratio;
+		}
+		else
+		{
+			newWidth = 1024*ratio;
+			newHeight = 1024;
+		}
+		xRatio = (int)((width<<16)/newWidth)+1;
+		yRatio = (int)((height<<16)/newHeight)+1;
 	}
+
+	int padWidth = newWidth;
+	int padHeight = newHeight;
+	if(padWidth%4) padWidth += (4-padWidth%4);
+	if(padHeight%4) padHeight += (4-padHeight%4);
+
+	int len = (padWidth * padHeight) << 2;
+	if(len%32) len += (32-len%32);
+
+	if(dstPtr)
+		dst = dstPtr; // use existing allocation
 	else
+		dst = memalign (32, len);
+
+	if(!dst)
+		return NULL;
+
+	for (y = 0; y < padHeight; y++)
 	{
-		// No alpha channel present, copy image to the output buffer
-		alphaMask = (((PNGU_u64)default_alpha) << 56) | (((PNGU_u64)default_alpha) << 40) |
-					(((PNGU_u64)default_alpha) << 24) | (((PNGU_u64)default_alpha) << 8);
+		for (x = 0; x < padWidth; x++)
+		{
+			offset = coordsRGBA8(x, y, padWidth);
 
-		for (y = 0; y < qheight; y++)
-			for (x = 0; x < qwidth; x++)
+			if(y >= newHeight || x >= newWidth)
 			{
-				int blockbase = (y * qwidth + x) * 8;
-
-				PNGU_u64 field64 = *((PNGU_u64 *)(ctx->row_pointers[y*4]+x*12));
-				PNGU_u64 field32 = (PNGU_u64) *((PNGU_u32 *)(ctx->row_pointers[y*4]+x*12+8));
-				((PNGU_u64 *) buffer)[blockbase] = 
-					(((field64 & 0xFF00000000000000ULL) >> 8) | (field64 & 0xFF00000000ULL) | 
-					((field64 & 0xFF00ULL) << 8) | ((field32 & 0xFF0000ULL) >> 16) | alphaMask);
-				((PNGU_u64 *) buffer)[blockbase+4] =
-					(((field64 & 0xFFFF0000000000ULL) << 8) | ((field64 & 0xFFFF0000ULL) << 16) |
-					((field64 & 0xFFULL) << 24) | ((field32 & 0xFF000000ULL) >> 8) | (field32 & 0xFFFFULL));
-
-				field64 = *((PNGU_u64 *)(ctx->row_pointers[y*4+1]+x*12));
-				field32 = (PNGU_u64) *((PNGU_u32 *)(ctx->row_pointers[y*4+1]+x*12+8));
-				((PNGU_u64 *) buffer)[blockbase+1] = 
-					(((field64 & 0xFF00000000000000ULL) >> 8) | (field64 & 0xFF00000000ULL) | 
-					((field64 & 0xFF00ULL) << 8) | ((field32 & 0xFF0000ULL) >> 16) | alphaMask);
-				((PNGU_u64 *) buffer)[blockbase+5] =
-					(((field64 & 0xFFFF0000000000ULL) << 8) | ((field64 & 0xFFFF0000ULL) << 16) |
-					((field64 & 0xFFULL) << 24) | ((field32 & 0xFF000000ULL) >> 8) | (field32 & 0xFFFFULL));
-
-				field64 = *((PNGU_u64 *)(ctx->row_pointers[y*4+2]+x*12));
-				field32 = (PNGU_u64) *((PNGU_u32 *)(ctx->row_pointers[y*4+2]+x*12+8));
-				((PNGU_u64 *) buffer)[blockbase+2] = 
-					(((field64 & 0xFF00000000000000ULL) >> 8) | (field64 & 0xFF00000000ULL) | 
-					((field64 & 0xFF00ULL) << 8) | ((field32 & 0xFF0000ULL) >> 16) | alphaMask);
-				((PNGU_u64 *) buffer)[blockbase+6] =
-					(((field64 & 0xFFFF0000000000ULL) << 8) | ((field64 & 0xFFFF0000ULL) << 16) |
-					((field64 & 0xFFULL) << 24) | ((field32 & 0xFF000000ULL) >> 8) | (field32 & 0xFFFFULL));
-
-				field64 = *((PNGU_u64 *)(ctx->row_pointers[y*4+3]+x*12));
-				field32 = (PNGU_u64) *((PNGU_u32 *)(ctx->row_pointers[y*4+3]+x*12+8));
-				((PNGU_u64 *) buffer)[blockbase+3] = 
-					(((field64 & 0xFF00000000000000ULL) >> 8) | (field64 & 0xFF00000000ULL) | 
-					((field64 & 0xFF00ULL) << 8) | ((field32 & 0xFF0000ULL) >> 16) | alphaMask);
-				((PNGU_u64 *) buffer)[blockbase+7] =
-					(((field64 & 0xFFFF0000000000ULL) << 8) | ((field64 & 0xFFFF0000ULL) << 16) |
-					((field64 & 0xFFULL) << 24) | ((field32 & 0xFF000000ULL) >> 8) | (field32 & 0xFFFFULL));
+				dst[offset] = 0;
+				dst[offset+1] = 255;
+				dst[offset+32] = 255;
+				dst[offset+33] = 255;
 			}
+			else
+			{
+				if(xRatio > 0)
+				{
+					x2 = ((x*xRatio)>>16);
+					y2 = ((y*yRatio)>>16);
+				}
+
+				if (ctx->prop.imgColorType == PNGU_COLOR_TYPE_GRAY_ALPHA || 
+					ctx->prop.imgColorType == PNGU_COLOR_TYPE_RGB_ALPHA)
+				{
+					if(xRatio > 0)
+						pixel = &(ctx->row_pointers[y2][x2*4]);
+					else
+						pixel = &(ctx->row_pointers[y][x*4]);
+
+					dst[offset] = pixel[3]; // Alpha
+					dst[offset+1] = pixel[0]; // Red
+					dst[offset+32] = pixel[1]; // Green
+					dst[offset+33] = pixel[2]; // Blue
+				}
+				else
+				{
+					if(xRatio > 0)
+						pixel = &(ctx->row_pointers[y2][x2*3]);
+					else
+						pixel = &(ctx->row_pointers[y][x*3]);
+
+					dst[offset] = default_alpha; // Alpha
+					dst[offset+1] = pixel[0]; // Red
+					dst[offset+32] = pixel[1]; // Green
+					dst[offset+33] = pixel[2]; // Blue
+				}
+			}
+		}
 	}
-	
+
 	// Free resources
 	free (ctx->img_data);
 	free (ctx->row_pointers);
 
-	// Success
-	return PNGU_OK;
+	*dstWidth = padWidth;
+	*dstHeight = padHeight;
+	return dst;
 }
 
 // Coded by Tantric for libwiigui (http://code.google.com/p/libwiigui)

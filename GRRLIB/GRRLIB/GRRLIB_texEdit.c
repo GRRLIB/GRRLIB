@@ -127,8 +127,10 @@ GRRLIB_texImg*  GRRLIB_LoadTexture (const u8 *my_img) {
  * Load a texture from a buffer.
  * @param my_png the PNG buffer to load.
  * @return A GRRLIB_texImg structure filled with image information.
+ *         If image size is not correct, the texture will be completely transparent.
  */
 GRRLIB_texImg*  GRRLIB_LoadTexturePNG (const u8 *my_png) {
+    int width = 0, height = 0;
     PNGUPROP imgProp;
     IMGCTX ctx;
     GRRLIB_texImg *my_texture = calloc(1, sizeof(GRRLIB_texImg));
@@ -136,19 +138,16 @@ GRRLIB_texImg*  GRRLIB_LoadTexturePNG (const u8 *my_png) {
     if(my_texture != NULL) {
         ctx = PNGU_SelectImageFromBuffer(my_png);
         PNGU_GetImageProperties(ctx, &imgProp);
-        my_texture->data = memalign(32, imgProp.imgWidth * imgProp.imgHeight * 4);
+        my_texture->data = PNGU_DecodeTo4x4RGBA8(ctx, imgProp.imgWidth, imgProp.imgHeight, &width, &height, NULL);
         if(my_texture->data != NULL) {
-            if(PNGU_DecodeTo4x4RGBA8(ctx, imgProp.imgWidth, imgProp.imgHeight, my_texture->data, 255) == PNGU_OK) {
-                my_texture->w = imgProp.imgWidth;
-                my_texture->h = imgProp.imgHeight;
-                GRRLIB_SetHandle( my_texture, 0, 0 );
-                GRRLIB_FlushTex( my_texture );
+            my_texture->w = width;
+            my_texture->h = height;
+            GRRLIB_SetHandle( my_texture, 0, 0 );
+            if(imgProp.imgWidth != width || imgProp.imgHeight != height) {
+                // PGNU has resized the texture
+                memset(my_texture->data, 0, (my_texture->h * my_texture->w) << 2);
             }
-            else
-            {
-                free(my_texture->data);
-                my_texture->data = NULL;
-            }
+            GRRLIB_FlushTex( my_texture );
         }
         PNGU_ReleaseImageContext(ctx);
     }
