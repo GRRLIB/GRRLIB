@@ -41,7 +41,9 @@ int  GRRLIB_LoadFile(const char* filename, unsigned char* *data) {
     FILE  *fd;
 
     // Open the file
-    if ( !(fd = fopen(filename, "rb")) )  return -1;
+    if ( !(fd = fopen(filename, "rb")) ) {
+        return -1;
+    }
 
     // Get file length
     fseek(fd, 0, SEEK_END);
@@ -71,6 +73,7 @@ int  GRRLIB_LoadFile(const char* filename, unsigned char* *data) {
  * Load a texture from a file.
  * @param filename The JPEG, PNG or Bitmap filename to load.
  * @return A GRRLIB_texImg structure filled with image information.
+ *         If an error occurs NULL will be returned.
  */
 GRRLIB_texImg*  GRRLIB_LoadTextureFromFile(const char *filename) {
     GRRLIB_texImg  *tex;
