@@ -52,7 +52,7 @@ void GRRLIB_ExitTTF (void) {
 
 /**
  * Load a TTF from a buffer.
- * @param file_base Buffer with TTF data.
+ * @param file_base Buffer with TTF data. You must not deallocate the memory before calling GRRLIB_FreeTTF.
  * @param file_size Size of the TTF buffer.
  * @return A handle to a given TTF font object.
  * @see GRRLIB_FreeTTF

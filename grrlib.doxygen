@@ -1,4 +1,4 @@
-# Doxyfile 1.7.0
+# Doxyfile 1.7.1
 
 # This file describes the settings to be used by the documentation system
 # doxygen (www.doxygen.org) for a project
@@ -1057,6 +1057,14 @@ EXT_LINKS_IN_WINDOW    = NO
 # to force them to be regenerated.
 
 FORMULA_FONTSIZE       = 10
+
+# Use the FORMULA_TRANPARENT tag to determine whether or not the images 
+# generated for formulas are transparent PNGs. Transparent PNGs are 
+# not supported properly for IE 6.0, but are supported on all modern browsers. 
+# Note that when changing this option you need to delete any form_*.png files 
+# in the HTML output before the changes have effect.
+
+FORMULA_TRANSPARENT    = YES
 
 # When the SEARCHENGINE tag is enabled doxygen will generate a search box 
 # for the HTML output. The underlying search engine uses javascript 
