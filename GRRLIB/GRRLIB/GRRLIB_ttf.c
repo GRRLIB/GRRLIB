@@ -123,7 +123,6 @@ void GRRLIB_PrintfTTFW(int x, int y, GRRLIB_ttfFont *myFont, const wchar_t *utf3
         return;
 
     FT_Face Face = (FT_Face)myFont->face;
-    unsigned int loop;
     int penX = 0;
     int penY = fontSize;
     FT_GlyphSlot slot = Face->glyph;
@@ -135,12 +134,10 @@ void GRRLIB_PrintfTTFW(int x, int y, GRRLIB_ttfFont *myFont, const wchar_t *utf3
         FT_Set_Pixel_Sizes(Face, 0, 12);
     }
 
-    size_t length = wcslen(utf32);
-
     /* Loop over each character, until the
      * end of the string is reached, or until the pixel width is too wide */
-    for (loop = 0; loop < length; ++loop) {
-        glyphIndex = FT_Get_Char_Index(myFont->face, utf32[ loop ]);
+    while(*utf32) {
+        glyphIndex = FT_Get_Char_Index(myFont->face, *utf32++);
 
         if (myFont->kerning && previousGlyph && glyphIndex) {
             FT_Vector delta;
@@ -222,20 +219,16 @@ unsigned int GRRLIB_WidthTTFW(GRRLIB_ttfFont *myFont, const wchar_t *utf32, unsi
     }
 
     FT_Face Face = (FT_Face)myFont->face;
-    unsigned int loop;
     unsigned int penX = 0;
     FT_UInt glyphIndex;
     FT_UInt previousGlyph = 0;
-    size_t length;
 
     if(FT_Set_Pixel_Sizes(myFont->face, 0, fontSize)) {
          FT_Set_Pixel_Sizes(myFont->face, 0, 12);
     }
 
-    length = wcslen(utf32);
-
-    for(loop = 0; loop < length; ++loop) {
-        glyphIndex = FT_Get_Char_Index(myFont->face, utf32[ loop ]);
+    while(*utf32) {
+        glyphIndex = FT_Get_Char_Index(myFont->face, *utf32++);
 
         if(myFont->kerning && previousGlyph && glyphIndex) {
             FT_Vector delta;
