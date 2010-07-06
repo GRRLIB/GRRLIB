@@ -27,6 +27,7 @@ THE SOFTWARE.
 
 /**
  * Load a ByteMap font structure from a buffer.
+ * File format version 1.1 is used, more information could be found at http://bmf.wz.cz/bmf-format.htm
  * @param my_bmf The ByteMap font buffer to load.
  * @return A GRRLIB_bytemapFont structure filled with BMF information.
  * @see GRRLIB_FreeBMF
@@ -34,7 +35,7 @@ THE SOFTWARE.
 GRRLIB_bytemapFont*  GRRLIB_LoadBMF (const u8 my_bmf[] ) {
     GRRLIB_bytemapFont *fontArray = (struct GRRLIB_bytemapFont *)malloc(sizeof(GRRLIB_bytemapFont));
     u32 i, j = 1;
-    u8 lineheight, usedcolors, highestcolor, nbPalette;
+    u8 lineheight, usedcolors, highestcolor, nbPalette, c;
     short int sizeover, sizeunder, sizeinner, numcolpal;
     u16 nbPixels;
 
@@ -58,19 +59,18 @@ GRRLIB_bytemapFont*  GRRLIB_LoadBMF (const u8 my_bmf[] ) {
         memcpy(fontArray->name, &my_bmf[18 + numcolpal], j);
         j = 18 + numcolpal + j;
         fontArray->nbChar = (my_bmf[j] | my_bmf[j+1]<<8);
-        fontArray->charDef = (GRRLIB_bytemapChar *)calloc(fontArray->nbChar, sizeof(GRRLIB_bytemapChar));
         j++;
         for (i=0; i < fontArray->nbChar; i++) {
-            fontArray->charDef[i].character = my_bmf[++j];
-            fontArray->charDef[i].width = my_bmf[++j];
-            fontArray->charDef[i].height = my_bmf[++j];
-            fontArray->charDef[i].relx = my_bmf[++j];
-            fontArray->charDef[i].rely = my_bmf[++j];
-            fontArray->charDef[i].kerning = my_bmf[++j];
-            nbPixels = fontArray->charDef[i].width * fontArray->charDef[i].height;
-            fontArray->charDef[i].data = (u8 *)malloc(nbPixels);
-            if (nbPixels && fontArray->charDef[i].data) {
-                memcpy(fontArray->charDef[i].data, &my_bmf[++j], nbPixels);
+            c = my_bmf[++j];
+            fontArray->charDef[c].width = my_bmf[++j];
+            fontArray->charDef[c].height = my_bmf[++j];
+            fontArray->charDef[c].relx = my_bmf[++j];
+            fontArray->charDef[c].rely = my_bmf[++j];
+            fontArray->charDef[c].kerning = my_bmf[++j];
+            nbPixels = fontArray->charDef[c].width * fontArray->charDef[c].height;
+            fontArray->charDef[c].data = (u8 *)malloc(nbPixels);
+            if (nbPixels && fontArray->charDef[c].data) {
+                memcpy(fontArray->charDef[c].data, &my_bmf[++j], nbPixels);
                 j += (nbPixels - 1);
             }
         }
@@ -88,7 +88,6 @@ void  GRRLIB_FreeBMF (const GRRLIB_bytemapFont *bmf) {
     for (i=0; i<bmf->nbChar; i++) {
         free(bmf->charDef[i].data);
     }
-    free(bmf->charDef);
     free(bmf->palette);
     free(bmf->name);
 }

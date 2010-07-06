@@ -130,7 +130,6 @@ typedef  struct GRRLIB_texImg {
  * Structure to hold the bytemap character information.
  */
 typedef  struct GRRLIB_bytemapChar {
-    u8  character;      /**< Character identity. */
     u8  width;          /**< Character width.    */
     u8  height;         /**< Character height.   */
     s8  relx;           /**< Horizontal offset relative to cursor (-128 to 127).            */
@@ -150,7 +149,7 @@ typedef  struct GRRLIB_bytemapFont {
     u8    version;              /**< Version.                        */
     s8    tracking;             /**< Tracking (Add-space after each char) (-128 to 127). */
 
-    GRRLIB_bytemapChar  *charDef;   /**< Array of bitmap characters. */
+    GRRLIB_bytemapChar charDef[256];   /**< Array of bitmap characters. */
 } GRRLIB_bytemapFont;
 
 //------------------------------------------------------------------------------
