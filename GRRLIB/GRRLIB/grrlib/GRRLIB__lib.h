@@ -44,7 +44,7 @@ THE SOFTWARE.
 //------------------------------------------------------------------------------
 // GRRLIB_bmf.c - BitMapFont functions
 GRRLIB_bytemapFont*  GRRLIB_LoadBMF (const u8 my_bmf[] );
-void                 GRRLIB_FreeBMF (const GRRLIB_bytemapFont *bmf);
+void                 GRRLIB_FreeBMF (GRRLIB_bytemapFont *bmf);
 
 void  GRRLIB_InitTileSet  (GRRLIB_texImg *tex,
                            const uint tilew, const uint tileh,

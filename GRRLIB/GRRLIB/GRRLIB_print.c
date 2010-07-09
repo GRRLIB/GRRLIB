@@ -86,11 +86,12 @@ void  GRRLIB_PrintBMF (const f32 xpos, const f32 ypos,
         pdata = pchar->data;
         for (y=0; y<pchar->height; y++) {
             for (x=0; x<pchar->width; x++) {
-                if (*pdata++) {
+                if (*pdata) {
                     GRRLIB_Plot(xoff + x + pchar->relx,
                                 ypos + y + pchar->rely,
                                 bmf->palette[*pdata]);
                 }
+                pdata++;
             }
         }
         xoff += pchar->kerning + bmf->tracking;

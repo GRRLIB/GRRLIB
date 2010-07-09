@@ -59,6 +59,7 @@ GRRLIB_bytemapFont*  GRRLIB_LoadBMF (const u8 my_bmf[] ) {
         memcpy(fontArray->name, &my_bmf[18 + numcolpal], j);
         j = 18 + numcolpal + j;
         fontArray->nbChar = (my_bmf[j] | my_bmf[j+1]<<8);
+        memset(fontArray->charDef, 0, 256 * sizeof(GRRLIB_bytemapChar));
         j++;
         for (i=0; i < fontArray->nbChar; i++) {
             c = my_bmf[++j];
@@ -82,14 +83,18 @@ GRRLIB_bytemapFont*  GRRLIB_LoadBMF (const u8 my_bmf[] ) {
  * Free memory allocated by ByteMap fonts.
  * @param bmf A GRRLIB_bytemapFont structure.
  */
-void  GRRLIB_FreeBMF (const GRRLIB_bytemapFont *bmf) {
+void  GRRLIB_FreeBMF (GRRLIB_bytemapFont *bmf) {
     u16 i;
 
-    for (i=0; i<bmf->nbChar; i++) {
-        free(bmf->charDef[i].data);
+    for (i=0; i<256; i++) {
+        if(bmf->charDef[i].data) {
+            free(bmf->charDef[i].data);
+        }
     }
     free(bmf->palette);
     free(bmf->name);
+    free(bmf);
+    bmf = NULL;
 }
 
 /**
