@@ -25,6 +25,15 @@ THE SOFTWARE.
  * Inline functions for configuring the GRRLIB settings.
  */
 
+#ifndef GX_BM_SUBTRACT
+    /**
+     * Blending type.
+     * libogc revision 4170 fixed a typo. GX_BM_SUBSTRACT was renamed GX_BM_SUBTRACT.
+     * But for previous versions this define is needed.
+     */
+    #define GX_BM_SUBTRACT      GX_BM_SUBSTRACT
+#endif
+
 extern  GRRLIB_drawSettings  GRRLIB_Settings;
 
 /**
@@ -45,7 +54,7 @@ void  GRRLIB_SetBlend (const GRRLIB_blendMode blendmode) {
             GX_SetBlendMode(GX_BM_BLEND, GX_BL_SRCCLR, GX_BL_DSTALPHA, GX_LO_CLEAR);
             break;
         case GRRLIB_BLEND_MULTI:
-            GX_SetBlendMode(GX_BM_SUBSTRACT, GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_CLEAR);
+            GX_SetBlendMode(GX_BM_SUBTRACT, GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_CLEAR);
             break;
         case GRRLIB_BLEND_INV:
             GX_SetBlendMode(GX_BM_BLEND, GX_BL_INVSRCCLR, GX_BL_INVSRCCLR, GX_LO_CLEAR);
