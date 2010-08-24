@@ -167,11 +167,11 @@ void  GRRLIB_DrawImgQuad (const guVector pos[4], GRRLIB_texImg *tex, const u32 c
  * @param xpos Specifies the x-coordinate of the upper-left corner.
  * @param ypos Specifies the y-coordinate of the upper-left corner.
  * @param tex The texture containing the tile to draw.
- * @param frame Specifies the frame to draw.
  * @param degrees Angle of rotation.
  * @param scaleX Specifies the x-coordinate scale. -1 could be used for flipping the texture horizontally.
  * @param scaleY Specifies the y-coordinate scale. -1 could be used for flipping the texture vertically.
  * @param color Color in RGBA format.
+ * @param frame Specifies the frame to draw.
  */
 void  GRRLIB_DrawTile (const f32 xpos, const f32 ypos, const GRRLIB_texImg *tex, const f32 degrees, const f32 scaleX, const f32 scaleY, const u32 color, const int frame) {
     GXTexObj  texObj;

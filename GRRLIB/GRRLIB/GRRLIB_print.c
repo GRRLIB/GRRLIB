@@ -45,15 +45,16 @@ void  GRRLIB_Printf (const f32 xpos, const f32 ypos,
 
     int i, size;
     char tmp[1024];
+    f32 offset = tex->tilew * zoom;
 
     va_list argp;
     va_start(argp, text);
-    size = vsprintf(tmp, text, argp);
+    size = vsnprintf(tmp, sizeof(tmp), text, argp);
     va_end(argp);
 
     for (i = 0; i < size; i++) {
-        u8 c = tmp[i]-tex->tilestart;
-        GRRLIB_DrawTile(xpos+i*tex->tilew*zoom, ypos, tex, 0, zoom, zoom, color, c);
+        GRRLIB_DrawTile(xpos+i*offset, ypos, tex, 0, zoom, zoom, color,
+            tmp[i] - tex->tilestart);
     }
 }
 
