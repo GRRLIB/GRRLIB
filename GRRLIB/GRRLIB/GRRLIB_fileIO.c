@@ -48,6 +48,7 @@ int  GRRLIB_LoadFile(const char* filename, unsigned char* *data) {
     // Get file length
     fseek(fd, 0, SEEK_END);
     if ( !(len = ftell(fd)) ) {
+        fclose(fd);
         *data = NULL;
         return 0;
     }
