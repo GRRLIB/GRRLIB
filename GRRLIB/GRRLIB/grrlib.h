@@ -55,7 +55,7 @@ THE SOFTWARE.
 //==============================================================================
 // Extra standard declarations
 //==============================================================================
-typedef  unsigned int  uint;
+typedef  unsigned int  uint;/**< The uint keyword signifies an integral type. */
 
 //==============================================================================
 // Primitive colour macros
@@ -67,6 +67,10 @@ typedef  unsigned int  uint;
 
 /**
  * Build an RGB pixel from components.
+ * @param r Red component.
+ * @param g Green component.
+ * @param b Blue component.
+ * @param a Alpha component.
  */
 #define RGBA(r,g,b,a) ( (u32)( ( ((u32)(r))        <<24) |  \
                                ((((u32)(g)) &0xFF) <<16) |  \
