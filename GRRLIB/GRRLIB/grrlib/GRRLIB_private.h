@@ -20,5 +20,31 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ------------------------------------------------------------------------------*/
 
+/*
+ * @file GRRLIB_private.h
+ * The symbols declared in this file are PRIVATE.
+ * They are not part of the GRRLIB public
+ * interface, and are not recommended for use by regular applications.
+ * Some of them may become public in the future; others may stay private,
+ * change in an incompatible way, or even disappear.
+ */
+
+#ifndef __GRRLIB_PRIVATE_H__
+#define __GRRLIB_PRIVATE_H__
+
+#include <ogc/libversion.h>
+
+/**
+ * Used for version checking.
+ * @param a Major version number.
+ * @param b Minor version number.
+ * @param c Revision version number.
+ */
+#define GRRLIB_VERSION(a,b,c) ((a)*65536+(b)*256+(c))
+
+//------------------------------------------------------------------------------
+// GRRLIB_ttf.c - FreeType function for GRRLIB
 int GRRLIB_InitTTF();
 void GRRLIB_ExitTTF();
+
+#endif // __GRRLIB_PRIVATE_H__

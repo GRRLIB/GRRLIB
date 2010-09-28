@@ -28,7 +28,7 @@ THE SOFTWARE.
 
 #define __GRRLIB_CORE__
 #include <grrlib.h>
-#include "grrlib/GRRLIB_ttf.h"
+#include "grrlib/GRRLIB_private.h"
 
 #define DEFAULT_FIFO_SIZE (256 * 1024) /**< GX fifo buffer size. */
 
