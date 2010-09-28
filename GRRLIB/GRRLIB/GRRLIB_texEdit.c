@@ -144,7 +144,7 @@ GRRLIB_texImg*  GRRLIB_LoadTexturePNG (const u8 *my_png) {
             my_texture->h = height;
             GRRLIB_SetHandle( my_texture, 0, 0 );
             if(imgProp.imgWidth != width || imgProp.imgHeight != height) {
-                // PGNU has resized the texture
+                // PNGU has resized the texture
                 memset(my_texture->data, 0, (my_texture->h * my_texture->w) << 2);
             }
             GRRLIB_FlushTex( my_texture );
