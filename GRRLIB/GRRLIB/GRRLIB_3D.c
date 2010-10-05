@@ -323,7 +323,7 @@ void GRRLIB_ObjectViewInv(f32 posx, f32 posy, f32 posz, f32 angx, f32 angy, f32 
 
 /**
  * Set the texture to an object (contributed by chris_c aka DaShAmAn).
- * @param tex poiter to an image texture (GRRLIB_texImg format).
+ * @param tex Pointer to an image texture (GRRLIB_texImg format).
  * @param rep Texture Repeat Mode, True will repeat it, False won't.
  */
 void GRRLIB_SetTexture(GRRLIB_texImg *tex, bool rep) {
