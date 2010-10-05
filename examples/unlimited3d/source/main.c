@@ -14,8 +14,6 @@
 #include "gfx/logo.h"
 #include "gfx/font.h"
 
-#define PI    3.14159265358979323846F
-
 extern GXRModeObj *rmode;
 
 
@@ -84,81 +82,81 @@ int main() {
         GRRLIB_SetTexture(tex_girl, 0);
         GX_Begin(GX_QUADS, GX_VTXFMT0, 24);
             GX_Position3f32(-1.0f,1.0f,1.0f);
-	    GX_Color1u32(0xFFFFFFFF);
+            GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(0.0f,0.0f);
             GX_Position3f32(1.0f,1.0f,1.0f);
-	    GX_Color1u32(0xFFFFFFFF);
+            GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(1.0f,0.0f);
             GX_Position3f32(1.0f,-1.0f,1.0f);
-	    GX_Color1u32(0xFFFFFFFF);
+            GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(1.0f,1.0f);
             GX_Position3f32(-1.0f,-1.0f,1.0f);
-	    GX_Color1u32(0xFFFFFFFF);
+            GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(0.0f,1.0f);
 
             GX_Position3f32(1.0f,1.0f,-1.0f);
-	    GX_Color1u32(0xFFFFFFFF);
+            GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(0.0f,0.0f);
             GX_Position3f32(-1.0f,1.0f,-1.0f);
-	    GX_Color1u32(0xFFFFFFFF);
+            GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(1.0f,0.0f);
             GX_Position3f32(-1.0f,-1.0f,-1.0f);
-	    GX_Color1u32(0xFFFFFFFF);
+            GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(1.0f,1.0f);
             GX_Position3f32(1.0f,-1.0f,-1.0f);
-	    GX_Color1u32(0xFFFFFFFF);
+            GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(0.0f,1.0f);
 
             GX_Position3f32(1.0f,1.0f,1.0f);
-	    GX_Color1u32(0xFFFFFFFF);
+            GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(0.0f,0.0f);
             GX_Position3f32(1.0f,1.0f,-1.0f);
-	    GX_Color1u32(0xFFFFFFFF);
+            GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(1.0f,0.0f);
             GX_Position3f32(1.0f,-1.0f,-1.0f);
-	    GX_Color1u32(0xFFFFFFFF);
+            GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(1.0f,1.0f);
             GX_Position3f32(1.0f,-1.0f,1.0f);
-	    GX_Color1u32(0xFFFFFFFF);
+            GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(0.0f,1.0f);
 
             GX_Position3f32(-1.0f,1.0f,-1.0f);
-	    GX_Color1u32(0xFFFFFFFF);
+            GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(0.0f,0.0f);
             GX_Position3f32(-1.0f,1.0f,1.0f);
-	    GX_Color1u32(0xFFFFFFFF);
+            GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(1.0f,0.0f);
             GX_Position3f32(-1.0f,-1.0f,1.0f);
-	    GX_Color1u32(0xFFFFFFFF);
+            GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(1.0f,1.0f);
             GX_Position3f32(-1.0f,-1.0f,-1.0f);
-	    GX_Color1u32(0xFFFFFFFF);
+            GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(0.0f,1.0f);
 
             GX_Position3f32(-1.0f,1.0f,-1.0f);
-	    GX_Color1u32(0xFFFFFFFF);
+            GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(0.0f,0.0f);
             GX_Position3f32(1.0f,1.0f,-1.0f);
-	    GX_Color1u32(0xFFFFFFFF);
+            GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(1.0f,0.0f);
             GX_Position3f32(1.0f,1.0f,1.0f);
-	    GX_Color1u32(0xFFFFFFFF);
+            GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(1.0f,1.0f);
             GX_Position3f32(-1.0f,1.0f,1.0f);
-	    GX_Color1u32(0xFFFFFFFF);
+            GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(0.0f,1.0f);
 
             GX_Position3f32(1.0f,-1.0f,-1.0f);
-	    GX_Color1u32(0xFFFFFFFF);
+            GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(0.0f,0.0f);
             GX_Position3f32(-1.0f,-1.0f,-1.0f);
-	    GX_Color1u32(0xFFFFFFFF);
+            GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(1.0f,0.0f);
             GX_Position3f32(-1.0f,-1.0f,1.0f);
-	    GX_Color1u32(0xFFFFFFFF);
+            GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(1.0f,1.0f);
             GX_Position3f32(1.0f,-1.0f,1.0f);
-	    GX_Color1u32(0xFFFFFFFF);
+            GX_Color1u32(0xFFFFFFFF);
             GX_TexCoord2f32(0.0f,1.0f);
         GX_End();
 
@@ -175,12 +173,12 @@ int main() {
         spr+=0.1f;
         t+=0.01f;
 
-        if(t>n*2*PI) {
+        if(t>n*2*M_PI) {
             n++;
             f+=0.01f;
         }
 
-        if(f>2*PI) {
+        if(f>2*M_PI) {
             f=0;
             ff+=0.02f;
         }

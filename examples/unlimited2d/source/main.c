@@ -14,8 +14,6 @@
 #include "gfx/font.h"
 #include "gfx/ball.h"
 
-#define PI    3.14159265358979323846F
-
 extern GXRModeObj *rmode;
 
 int main() {
@@ -77,12 +75,12 @@ int main() {
         spr+=0.1f;
         t+=0.01f;
 
-        if(t>n*2*PI) {
+        if(t>n*2*M_PI) {
             n++;
             f+=0.01f;
         }
 
-        if(f>2*PI) {
+        if(f>2*M_PI) {
             f=0;
             ff+=0.02f;
         }
