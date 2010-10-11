@@ -38,7 +38,7 @@ LIBS	:= -lgrrlib
 LIBS	+= -lfreetype
 LIBS	+= -lpngu -lpng -ljpeg -lz -lfat
 LIBS	+= -lwiiuse
-#LIBS	+= -lmodplay -lasnd
+#LIBS	+= -lmodplay -laesnd
 LIBS	+= -lbte -logc -lm
 
 #---------------------------------------------------------------------------------
