@@ -54,6 +54,7 @@ static void createEffect( u8 id, int _x, int _y );
 static void createParticle( u8 _id, int _x, int _y, float _scale, float _alpha, u8 _red, u8 _green, u8 _blue );
 static bool updateParticle( Particle *part );
 static u8 CalculateFrameRate();
+static u8 ClampVar8 (f32 Value);
 
 // Initialize general variables
 extern GXRModeObj *rmode;
@@ -131,7 +132,7 @@ int main() {
         // Update and draw all particles
         for (vector<Particle *>::iterator PartIter = ParticleList.begin(); PartIter != ParticleList.end();) {
             if (updateParticle((*PartIter)) == true) {
-                GRRLIB_DrawImg( (*PartIter)->x, (*PartIter)->y, (*PartIter)->tex, (*PartIter)->rot, (*PartIter)->scale, (*PartIter)->scale, RGBA( (*PartIter)->red, (*PartIter)->green, (*PartIter)->blue, GRRLIB_ClampVar8((*PartIter)->alpha*255) ) );
+                GRRLIB_DrawImg( (*PartIter)->x, (*PartIter)->y, (*PartIter)->tex, (*PartIter)->rot, (*PartIter)->scale, (*PartIter)->scale, RGBA( (*PartIter)->red, (*PartIter)->green, (*PartIter)->blue, ClampVar8((*PartIter)->alpha*255) ) );
             } else {
                 free( (*PartIter) );
                 ParticleList.erase(PartIter);
@@ -284,4 +285,18 @@ static u8 CalculateFrameRate() {
         frameCount = 0;
     }
     return FPS;
+}
+
+/**
+ * A helper function for the YCbCr -> RGB conversion.
+ * Clamps the given value into a range of 0 - 255 and thus preventing an overflow.
+ * @param Value The value to clamp. Using float to increase the precision. This makes a full spectrum (0 - 255) possible.
+ * @return Returns a clean, clamped unsigned char.
+ */
+static u8 ClampVar8 (f32 Value) {
+    Value = roundf(Value);
+    if      (Value < 0)    Value = 0;
+    else if (Value > 255)  Value = 255;
+
+    return (u8)Value;
 }

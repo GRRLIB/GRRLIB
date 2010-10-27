@@ -42,10 +42,6 @@ THE SOFTWARE.
 //==============================================================================
 
 //------------------------------------------------------------------------------
-// GRRLIB_cExtn.h - C extensions (helper functions)
-INLINE  u8    GRRLIB_ClampVar8 (f32 Value);
-
-//------------------------------------------------------------------------------
 // GRRLIB_clipping.h - Clipping control
 INLINE  void  GRRLIB_ClipReset   (void);
 INLINE  void  GRRLIB_ClipDrawing (const int x, const int y,
@@ -89,7 +85,7 @@ INLINE  void  GRRLIB_Line       (const f32 x1, const f32 y1,
                                  const f32 x2, const f32 y2, const u32 color);
 INLINE  void  GRRLIB_Rectangle  (const f32 x,      const f32 y,
                                  const f32 width,  const f32 height,
-                                 const u32 color, const u8 filled);
+                                 const u32 color, const bool filled);
 
 //------------------------------------------------------------------------------
 // GRRLIB_handle.h - Texture handle manipulation
@@ -124,7 +120,6 @@ INLINE  void            GRRLIB_FreeTexture        (GRRLIB_texImg *tex);
 //==============================================================================
 // Definitions of inlined functions
 //==============================================================================
-#include <grrlib/GRRLIB_cExtn.h>      // C extensions (helper functions)
 #include <grrlib/GRRLIB_clipping.h>   // Clipping control
 #include <grrlib/GRRLIB_collision.h>  // Collision detection
 #include <grrlib/GRRLIB_fbComplex.h>  // Render to framebuffer: Complex primitives

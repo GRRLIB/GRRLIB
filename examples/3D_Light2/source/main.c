@@ -11,8 +11,6 @@
 
 #include "gfx/Rockwell_Condensed_12_Bold.h"
 
-extern Mtx _GRR_view;
-
 
 int main() {
     float a = 0;

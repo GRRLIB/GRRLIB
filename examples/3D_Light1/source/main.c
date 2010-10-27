@@ -11,8 +11,6 @@
 
 #include "gfx/Letter_Gothic_Std_14_Bold.h"
 
-extern Mtx _GRR_view;
-
 int main() {
     float l1=0, l2=0;
     float a=0;

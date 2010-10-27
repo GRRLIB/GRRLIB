@@ -5,11 +5,10 @@
 #include <grrlib.h>
 
 #include <stdlib.h>
+#include <math.h>
 #include <wiiuse/wpad.h>
 
 #include "Snap_ITC_12.h"
-
-extern Mtx _GRR_view;
 
 int main(int argc, char **argv) {
     f32 lightx=0.0f;

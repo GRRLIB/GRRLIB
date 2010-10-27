@@ -10,8 +10,6 @@
 
 #include "gfx/font9x12.h"
 
-extern Mtx _GRR_view;
-
 
 int main() {
     f32 rot = 0.0f;
