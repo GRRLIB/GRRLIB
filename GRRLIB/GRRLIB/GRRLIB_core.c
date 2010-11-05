@@ -41,7 +41,7 @@ static bool  is_setup = false;  // To control entry and exit
 
 /**
  * Initialize GRRLIB. Call this once at the beginning your code.
- * @return A integer representating a code:
+ * @return A integer representing a code:
  *         -     0 : The operation completed successfully.
  *         -    -1 : Not enough memory is available to initialize GRRLIB.
  *         -    -2 : Failed to add the fat device driver to the devoptab.

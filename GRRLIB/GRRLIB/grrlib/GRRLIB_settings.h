@@ -28,7 +28,7 @@ THE SOFTWARE.
 #ifndef GX_BM_SUBTRACT
     /**
      * Blending type.
-     * libogc revision 4170 fixed a typo. GX_BM_SUBSTRACT was renamed GX_BM_SUBTRACT.
+     * libogc revision 4170 fixed a typographical error. GX_BM_SUBSTRACT was renamed GX_BM_SUBTRACT.
      * But for previous versions this define is needed.
      */
     #define GX_BM_SUBTRACT      GX_BM_SUBSTRACT

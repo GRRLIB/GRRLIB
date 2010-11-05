@@ -26,7 +26,7 @@ THE SOFTWARE.
  */
 /**
  * @defgroup AllFunc Everything in GRRLIB
- * This is the complete list of funtions, structures, defines, typedefs, enumerations and variables you may want to used to make your homebrew with GRRLIB.
+ * This is the complete list of functions, structures, defines, typedefs, enumerations and variables you may want to used to make your homebrew with GRRLIB.
  * You simply need to include grrlib.h in your project to have access to all of these.
  * @{
  */
@@ -60,10 +60,10 @@ typedef  unsigned int  uint;/**< The uint keyword signifies an integral type. */
 //==============================================================================
 // Primitive colour macros
 //==============================================================================
-#define R(c)  (((c) >>24) &0xFF)  /**< Exract Red   component of colour. */
-#define G(c)  (((c) >>16) &0xFF)  /**< Exract Green component of colour. */
-#define B(c)  (((c) >> 8) &0xFF)  /**< Exract Blue  component of colour. */
-#define A(c)  ( (c)       &0xFF)  /**< Exract Alpha component of colour. */
+#define R(c)  (((c) >>24) &0xFF)  /**< Extract Red   component of colour. */
+#define G(c)  (((c) >>16) &0xFF)  /**< Extract Green component of colour. */
+#define B(c)  (((c) >> 8) &0xFF)  /**< Extract Blue  component of colour. */
+#define A(c)  ( (c)       &0xFF)  /**< Extract Alpha component of colour. */
 
 /**
  * Build an RGB pixel from components.

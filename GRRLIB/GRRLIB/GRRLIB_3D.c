@@ -401,8 +401,8 @@ void GRRLIB_DrawTorus(f32 r, f32 R, int nsides, int rings, bool filled, u32 col)
 /**
  * Draw a sphere (with normal).
  * @param r Radius of the sphere.
- * @param lats Number of lattitudes.
- * @param longs Number of longitutes.
+ * @param lats Number of latitude.
+ * @param longs Number of longitudes.
  * @param filled Wired or not.
  * @param col Color of the sphere.
  */
@@ -501,7 +501,7 @@ void GRRLIB_DrawCube(f32 size, bool filled, u32 col) {
  * Draw a cylinder (with normal).
  * @param r Radius of the cylinder.
  * @param h High of the cylinder.
- * @param d Dencity of slice.
+ * @param d Density of slice.
  * @param filled Wired or not.
  * @param col Color of the cylinder.
  */
@@ -552,7 +552,7 @@ void GRRLIB_DrawCylinder(f32 r, f32 h, int d, bool filled, u32 col) {
  * Draw a cone (with normal).
  * @param r Radius of the cone.
  * @param h High of the cone.
- * @param d Dencity of slice.
+ * @param d Density of slice.
  * @param filled Wired or not.
  * @param col Color of the cone.
  */
@@ -588,10 +588,10 @@ void GRRLIB_DrawCone(f32 r, f32 h, int d, bool filled, u32 col) {
 }
 
 /**
- * Draw a Tesselated pannel (with normal).
+ * Draw a Tesselated panel (with normal).
  * @param w Width of the panel.
  * @param wstep Size of width slices.
- * @param h Height of the pannel.
+ * @param h Height of the panel.
  * @param hstep Size the de height slices.
  * @param filled Wired or not.
  * @param col Color in RGBA format.
@@ -621,7 +621,7 @@ void GRRLIB_DrawTessPanel(f32 w, f32 wstep, f32 h, f32 hstep, bool filled, u32 c
 
 /**
  * Set ambient color.
- * When no diffuse ligth is shinig on a object, the color is equal to ambient color.
+ * When no diffuse light is shining on a object, the color is equal to ambient color.
  * @param ambientcolor Ambient color in RGBA format.
  */
 void GRRLIB_SetLightAmbient(u32 ambientcolor) {

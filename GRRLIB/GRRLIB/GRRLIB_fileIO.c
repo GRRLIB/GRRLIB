@@ -29,7 +29,7 @@ THE SOFTWARE.
  * @param data Pointer-to-your-pointer.
  * Ie. { u8 *data; GRRLIB_LoadFile("file", &data); }.
  * It is your responsibility to free the memory allocated by this function.
- * @return A integer representating a code:
+ * @return A integer representing a code:
  *         -     0 : EmptyFile.
  *         -    -1 : FileNotFound.
  *         -    -2 : OutOfMemory.
