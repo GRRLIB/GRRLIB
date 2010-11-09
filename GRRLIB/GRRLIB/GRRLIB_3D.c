@@ -144,7 +144,7 @@ void GRRLIB_2dMode() {
     GX_SetChanCtrl(GX_COLOR0A0, GX_DISABLE, GX_SRC_VTX, GX_SRC_VTX, 0, GX_DF_NONE, GX_AF_NONE);
     GX_SetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, GX_TEXMAP0, GX_COLOR0A0);
 
-    GRRLIB_Settings.lights  = 0;
+    GRRLIB_Settings.lights = 0;
 }
 
 /**
@@ -401,7 +401,7 @@ void GRRLIB_DrawTorus(f32 r, f32 R, int nsides, int rings, bool filled, u32 col)
 /**
  * Draw a sphere (with normal).
  * @param r Radius of the sphere.
- * @param lats Number of latitude.
+ * @param lats Number of latitudes.
  * @param longs Number of longitudes.
  * @param filled Wired or not.
  * @param col Color of the sphere.
@@ -750,5 +750,5 @@ void GRRLIB_SetLightOff(void) {
     GX_SetChanCtrl(GX_COLOR0A0, GX_DISABLE, GX_SRC_VTX, GX_SRC_VTX, 0, GX_DF_NONE, GX_AF_NONE);
     GX_SetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, GX_TEXMAP0, GX_COLOR0A0);
 
-    GRRLIB_Settings.lights  = 0;
+    GRRLIB_Settings.lights = 0;
 }

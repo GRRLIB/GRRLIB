@@ -48,19 +48,19 @@ int main() {
     GRRLIB_texImg *tex_flipv    = GRRLIB_CreateEmptyTexture(tex_pirate->w, tex_pirate->h);
     GRRLIB_texImg *tex_fliphv   = GRRLIB_CreateEmptyTexture(tex_pirate->w, tex_pirate->h);
 
-    // Let's precalculte the grayscale texture
+    // Let's precalculate the grayscale texture
     GRRLIB_BMFX_Grayscale(tex_pirate, tex_gray);
     GRRLIB_FlushTex(tex_gray);
 
-    // Let's precalculte the sepia texture
+    // Let's precalculate the sepia texture
     GRRLIB_BMFX_Sepia(tex_pirate, tex_sepia);
     GRRLIB_FlushTex(tex_sepia);
 
-    // Let's precalculte the inverted color texture
+    // Let's precalculate the inverted color texture
     GRRLIB_BMFX_Invert(tex_pirate, tex_invert);
     GRRLIB_FlushTex(tex_invert);
 
-    // Let's precalculte 6 differents blur texture with 6 differents blur factor
+    // Let's precalculate 6 differents blur texture with 6 differents blur factor
     GRRLIB_BMFX_Blur(tex_pirate, tex_blur1, 1);
     GRRLIB_FlushTex(tex_blur1);
     GRRLIB_BMFX_Blur(tex_pirate, tex_blur2, 2);
@@ -74,7 +74,7 @@ int main() {
     GRRLIB_BMFX_Blur(tex_pirate, tex_blur6, 6);
     GRRLIB_FlushTex(tex_blur6);
 
-    // Let's precalculte 6 differents pixelate texture with 6 differents pixelate factor
+    // Let's precalculate 6 differents pixelate texture with 6 differents pixelate factor
     GRRLIB_BMFX_Pixelate(tex_pirate, tex_pixel1, 1);
     GRRLIB_FlushTex(tex_pixel1);
     GRRLIB_BMFX_Pixelate(tex_pirate, tex_pixel2, 2);
@@ -88,7 +88,7 @@ int main() {
     GRRLIB_BMFX_Pixelate(tex_pirate, tex_pixel6, 6);
     GRRLIB_FlushTex(tex_pixel6);
 
-    // Let's precalculte 6 differents pixelate texture with 6 differents pixelate factor
+    // Let's precalculate 6 differents pixelate texture with 6 differents pixelate factor
     GRRLIB_BMFX_Scatter(tex_pirate, tex_scatter1, 2);
     GRRLIB_FlushTex(tex_pixel1);
     GRRLIB_BMFX_Scatter(tex_pirate, tex_scatter2, 4);
@@ -102,7 +102,7 @@ int main() {
     GRRLIB_BMFX_Scatter(tex_pirate, tex_scatter6, 12);
     GRRLIB_FlushTex(tex_pixel6);
 
-    // Let's precalculte for flipping the texture
+    // Let's precalculate for flipping the texture
     GRRLIB_BMFX_FlipH(tex_pirate, tex_fliph);
     GRRLIB_FlushTex(tex_fliph);
     GRRLIB_BMFX_FlipV(tex_pirate, tex_flipv);

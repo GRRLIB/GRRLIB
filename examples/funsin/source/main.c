@@ -67,7 +67,7 @@ int main() {
 
     while(1) {
         GRRLIB_FillScreen(0x000000FF);
-        WPAD_ScanPads();  // Scan the wiimotes
+        WPAD_ScanPads();  // Scan the Wiimotes
         if (WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME)  break;
         old1=siny1; old2=siny2; old3=siny3; old4=siny4;
 

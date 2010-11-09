@@ -118,14 +118,14 @@ int main() {
                     WPAD_Rumble(WPAD_CHAN_0, 1);
                 }
                 if(direction_new != direction) {
-                    // Direction has changed, modify frame immidiately
+                    // Direction has changed, modify frame immediately
                     direction = direction_new;
                     frame = direction;
                     wait = 0;
                 }
                 wait++;
                 if(wait > TILE_DELAY) {
-                    // wait is needed for the number of frame per second to be ok
+                    // wait is needed for the number of frame per second to be OK
                     wait = 0;
                     if(wpadheld & WPAD_BUTTON_LEFT || wpadheld & WPAD_BUTTON_RIGHT ||
                         wpadheld & WPAD_BUTTON_UP || wpadheld & WPAD_BUTTON_DOWN) {
@@ -147,7 +147,7 @@ int main() {
                 GRRLIB_Rectangle(left + 150, top + 150, 200, 200, 0x0000FFC8, 1); // Blue with alpha
                 GRRLIB_Circle(left + 300, top + 300, 50, GRRLIB_OLIVE, 1);
 
-                // Draw a yellow four pixel dot where the wiimote is pointing
+                // Draw a yellow four pixel dot where the Wii Remote is pointing
                 GRRLIB_Plot(ir1.sx, ir1.sy, GRRLIB_YELLOW);
                 GRRLIB_Plot(ir1.sx + 1, ir1.sy, GRRLIB_YELLOW);
                 GRRLIB_Plot(ir1.sx, ir1.sy + 1, GRRLIB_YELLOW);
