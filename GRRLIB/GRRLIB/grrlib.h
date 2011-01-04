@@ -37,7 +37,7 @@ THE SOFTWARE.
 /**
  * Version information for GRRLIB.
  */
-#define GRRLIB_VER_STRING "4.3.2 alpha"
+#define GRRLIB_VER_STRING "4.3.2 beta"
 
 //==============================================================================
 // Includes
@@ -220,7 +220,7 @@ GRR_EXTERN  u32         fb       GRR_INIT(0);
  * @section Links
  * Forum: http://grrlib.santo.fr/forum\n
  * Code: http://code.google.com/p/grrlib\n
- * IRC: <a href="irc://irc.efnet.net/grrlib">##GRRLIB</a> on EFnet
+ * IRC: <a href="irc://irc.efnet.net/grrlib">#GRRLIB</a> on EFnet
  *
  * @section Credits
  * Project Leader : NoNameNo\n
