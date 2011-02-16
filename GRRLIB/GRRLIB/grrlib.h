@@ -60,10 +60,10 @@ typedef  unsigned int  uint;/**< The uint keyword signifies an integral type. */
 //==============================================================================
 // Primitive colour macros
 //==============================================================================
-#define R(c)  (((c) >>24) &0xFF)  /**< Extract Red   component of colour. */
-#define G(c)  (((c) >>16) &0xFF)  /**< Extract Green component of colour. */
-#define B(c)  (((c) >> 8) &0xFF)  /**< Extract Blue  component of colour. */
-#define A(c)  ( (c)       &0xFF)  /**< Extract Alpha component of colour. */
+#define R(c)  (((c) >>24) &0xFF)  /**< Extract red component of colour. */
+#define G(c)  (((c) >>16) &0xFF)  /**< Extract green component of colour. */
+#define B(c)  (((c) >> 8) &0xFF)  /**< Extract blue component of colour. */
+#define A(c)  ( (c)       &0xFF)  /**< Extract alpha component of colour. */
 
 /**
  * Build an RGB pixel from components.

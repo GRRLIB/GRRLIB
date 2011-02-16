@@ -32,7 +32,8 @@ static  guVector  _GRR_cam  = {0.0F, 0.0F, 0.0F},
 static  guVector  _GRRaxisx = (guVector){1, 0, 0}; // DO NOT MODIFY!!!
 static  guVector  _GRRaxisy = (guVector){0, 1, 0}; // Even at runtime
 static  guVector  _GRRaxisz = (guVector){0, 0, 1}; // NOT ever!
-static  Mtx 	  _ObjTransformationMtx;
+static  Mtx       _ObjTransformationMtx;
+
 /**
  * Set the background parameter when screen is cleared.
  * @param r Red component.
@@ -597,24 +598,25 @@ void GRRLIB_DrawCone(f32 r, f32 h, int d, bool filled, u32 col) {
  * @param col Color in RGBA format.
  */
 void GRRLIB_DrawTessPanel(f32 w, f32 wstep, f32 h, f32 hstep, bool filled, u32 col) {
- f32 x,y,tmpx, tmpy;
- int tmp;
- tmpy = h/2.0f;
- tmpx = w/2.0f;
- tmp = ((w/wstep)*2)+2;
+    f32 x, y, tmpx, tmpy;
+    int tmp;
+
+    tmpy = h/2.0f;
+    tmpx = w/2.0f;
+    tmp = ((w/wstep)*2)+2;
     for ( y = -tmpy ; y <= tmpy ; y+=hstep )
     {
         if(filled) GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, tmp);
         else       GX_Begin(GX_LINESTRIP, GX_VTXFMT0, tmp);
-            for ( x = -tmpx ; x <= tmpx ; x+=wstep )
-            {
-                GX_Position3f32( x, y, 0.0f );
-                GX_Normal3f32( 0.0f, 0.0f, 1.0f);
-                GX_Color1u32(col);
-                GX_Position3f32( x, y+hstep, 0.0f );
-                GX_Normal3f32( 0.0f, 0.0f, 1.0f);
-                GX_Color1u32(col);
-            }
+        for ( x = -tmpx ; x <= tmpx ; x+=wstep )
+        {
+            GX_Position3f32( x, y, 0.0f );
+            GX_Normal3f32( 0.0f, 0.0f, 1.0f);
+            GX_Color1u32(col);
+            GX_Position3f32( x, y+hstep, 0.0f );
+            GX_Normal3f32( 0.0f, 0.0f, 1.0f);
+            GX_Color1u32(col);
+        }
         GX_End();
     }
 }
@@ -693,8 +695,8 @@ void GRRLIB_SetLightSpec(u8 num, guVector dir, f32 shy, u32 lightcolor, u32 spec
     GX_SetTevColorOp(GX_TEVSTAGE1, GX_TEV_ADD, GX_TB_ZERO, GX_CS_SCALE_1, GX_ENABLE, GX_TEVPREV );
     GX_SetTevColorIn(GX_TEVSTAGE1, GX_CC_ZERO, GX_CC_RASC, GX_CC_ONE, GX_CC_CPREV );
 
-    /////////////////////// Define Material and Ambiant color and draw object /////////////////////////////////////
-    GX_SetChanAmbColor(GX_COLOR1, (GXColor){0x00,0x00,0x00,0xFF});  // specualr ambient forced to black
+    /////////////////////// Define Material and Ambient color and draw object /////////////////////////////////////
+    GX_SetChanAmbColor(GX_COLOR1, (GXColor){0x00,0x00,0x00,0xFF});  // specular ambient forced to black
     GX_SetChanMatColor(GX_COLOR1, (GXColor) { R(speccolor), G(speccolor), B(speccolor), 0xFF }); // couleur du reflet specular
 }
 
