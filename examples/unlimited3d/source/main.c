@@ -186,13 +186,13 @@ int main() {
 
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) exit(0);
     }
-    GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
     GRRLIB_FreeTexture(tex_logo);
     GRRLIB_FreeTexture(tex_girl);
     GRRLIB_FreeTexture(tex_font);
     for(i=0; i<9; i++) {
         GRRLIB_FreeTexture(tex_screen[i]);
     }
+    GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
 
     return 0;
 }

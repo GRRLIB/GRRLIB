@@ -97,8 +97,8 @@ int main(void){
         GRRLIB_Printf((640-(16*29))/2, 20, tex_font, 0xFFFFFFFF, 1, "JUST ANOTHER 3D SAMPLE");
         GRRLIB_Render();
     }
-    GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
     GRRLIB_FreeTexture(tex_font);
+    GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
 
     exit(0);
 }

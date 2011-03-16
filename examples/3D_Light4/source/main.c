@@ -47,6 +47,7 @@ int main(int argc, char **argv) {
         GRRLIB_Render();
     }
 
+    GRRLIB_FreeTexture(tex_font);
     GRRLIB_Exit();
 
     exit(0);

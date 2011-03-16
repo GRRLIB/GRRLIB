@@ -125,15 +125,15 @@ int main() {
 }
 
 static void ExitGame() {
-    // Deinitialize GRRLIB & Video
-    GRRLIB_Exit();
-
     // Free all memory used by textures.
     GRRLIB_FreeTexture(GFX_Background);
     GRRLIB_FreeTexture(GFX_Blob[0]);
     GRRLIB_FreeTexture(GFX_Blob[1]);
     GRRLIB_FreeTexture(GFX_Blob[2]);
     GRRLIB_FreeTexture(GFX_Font);
+
+    // Deinitialize GRRLIB & Video
+    GRRLIB_Exit();
 
     // Exit application
     exit(0);

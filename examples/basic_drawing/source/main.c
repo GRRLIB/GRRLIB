@@ -219,7 +219,6 @@ int main() {
         GRRLIB_Render();
         FPS = CalculateFrameRate();
     }
-    GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
     // Free some textures
     GRRLIB_FreeTexture(tex_test_jpg);
     GRRLIB_FreeTexture(tex_test_bmp);
@@ -231,6 +230,7 @@ int main() {
     GRRLIB_FreeTexture(tex_BMfont5);
     GRRLIB_FreeBMF(bmf_Font1);
     GRRLIB_FreeBMF(bmf_Font2);
+    GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
     return 0;
 }
 

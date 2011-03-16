@@ -263,12 +263,12 @@ int main() {
     }
 
 
-    GRRLIB_Exit();
     // Free some textures
     GRRLIB_FreeTexture(tex_tile1);
     GRRLIB_FreeTexture(tex_perso);
     GRRLIB_FreeTexture(tex_bg);
     GRRLIB_FreeTexture(tex_nonameno);
+    GRRLIB_Exit();
 
     exit(0);
 }

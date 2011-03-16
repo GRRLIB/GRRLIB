@@ -96,8 +96,8 @@ int main() {
         GRRLIB_Printf(50, 60, tex_font, 0xFFFFFFFF, 1, "Use ( A / B ) to change the shyniness value : %d ",(int)shy);
         GRRLIB_Render();
     }
-    GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
     GRRLIB_FreeTexture(tex_font);
+    GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
 
     exit(0);
 }

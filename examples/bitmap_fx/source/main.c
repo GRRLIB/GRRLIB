@@ -202,7 +202,6 @@ int main() {
             if(page > 7) page = 0;
         }
     }
-    GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
     GRRLIB_FreeTexture(tex_pirate);
     GRRLIB_FreeTexture(tex_gray);
     GRRLIB_FreeTexture(tex_sepia);
@@ -228,5 +227,6 @@ int main() {
     GRRLIB_FreeTexture(tex_scatter4);
     GRRLIB_FreeTexture(tex_scatter5);
     GRRLIB_FreeTexture(tex_scatter6);
+    GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
     return 0;
 }

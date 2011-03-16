@@ -258,15 +258,15 @@ static bool updateParticle( Particle *part ) {
 
 
 static void ExitGame() {
-    // Deinitialize GRRLIB & Video
-    GRRLIB_Exit();
-
     // Free all memory used by textures.
     for (vector<GRRLIB_texImg *>::iterator TexIter = TextureList.begin(); TexIter != TextureList.end(); TexIter++) {
         free((*TexIter)->data);
         free((*TexIter));
     }
     TextureList.clear();
+
+    // Deinitialize GRRLIB & Video
+    GRRLIB_Exit();
 
     // Exit application
     exit(0);

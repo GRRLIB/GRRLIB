@@ -128,9 +128,9 @@ int main() {
 
         GRRLIB_Render();
     }
-    GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
     GRRLIB_FreeTexture(tex_girl);
     GRRLIB_FreeTexture(tex_font);
+    GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
 
     exit(0);
 }

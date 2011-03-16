@@ -339,12 +339,12 @@ int main() {
         GRRLIB_Render();
     }
 
-    GRRLIB_Exit();
     GRRLIB_FreeTexture(tex_tile1);
     GRRLIB_FreeTexture(tex_perso);
     GRRLIB_FreeTexture(tex_bg);
     GRRLIB_FreeTexture(tex_nonameno);
     GRRLIB_FreeTexture(tex_screen);
+    GRRLIB_Exit();
     exit(0);
 }
 
