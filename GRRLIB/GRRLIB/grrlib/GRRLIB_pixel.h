@@ -25,9 +25,9 @@ THE SOFTWARE.
  * Inline functions for manipulating pixels in textures.
  */
 
-#define _SHIFTL(v, s, w)	\
+#define _SHIFTL(v, s, w)    \
     ((u32) (((u32)(v) & ((0x01 << (w)) - 1)) << (s)))
-#define _SHIFTR(v, s, w)	\
+#define _SHIFTR(v, s, w)    \
     ((u32)(((u32)(v) >> (s)) & ((0x01 << (w)) - 1)))
 
 /**
@@ -78,11 +78,11 @@ void  GRRLIB_SetPixelTotexImg (const int x, const int y,
  */
 INLINE
 u32 GRRLIB_GetPixelFromFB (int x, int y) {
-	u32 regval,val;
+    u32 regval,val;
 
-	regval = 0xc8000000|(_SHIFTL(x,2,10));
-	regval = (regval&~0x3FF000)|(_SHIFTL(y,12,10));
-	val = *(u32*)regval;
+    regval = 0xc8000000|(_SHIFTL(x,2,10));
+    regval = (regval&~0x3FF000)|(_SHIFTL(y,12,10));
+    val = *(u32*)regval;
 
     return RGBA(_SHIFTR(val,16,8), _SHIFTR(val,8,8), val&0xff, _SHIFTR(val,24,8));
 }
@@ -95,9 +95,9 @@ u32 GRRLIB_GetPixelFromFB (int x, int y) {
  */
 INLINE
 void GRRLIB_SetPixelToFB (int x, int y, u32 pokeColor) {
-	u32 regval;
+    u32 regval;
 
-	regval = 0xc8000000|(_SHIFTL(x,2,10));
-	regval = (regval&~0x3FF000)|(_SHIFTL(y,12,10));
-	*(u32*)regval = _SHIFTL(A(pokeColor),24,8) | _SHIFTL(R(pokeColor),16,8) | _SHIFTL(G(pokeColor),8,8) | (B(pokeColor)&0xff);
+    regval = 0xc8000000|(_SHIFTL(x,2,10));
+    regval = (regval&~0x3FF000)|(_SHIFTL(y,12,10));
+    *(u32*)regval = _SHIFTL(A(pokeColor),24,8) | _SHIFTL(R(pokeColor),16,8) | _SHIFTL(G(pokeColor),8,8) | (B(pokeColor)&0xff);
 }
