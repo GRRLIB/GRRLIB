@@ -35,19 +35,19 @@ THE SOFTWARE.
 GRRLIB_bytemapFont*  GRRLIB_LoadBMF (const u8 my_bmf[] ) {
     GRRLIB_bytemapFont *fontArray = (struct GRRLIB_bytemapFont *)malloc(sizeof(GRRLIB_bytemapFont));
     u32 i, j = 1;
-    u8 lineheight, usedcolors, highestcolor, nbPalette, c;
-    short int sizeover, sizeunder, sizeinner, numcolpal;
+    u8 nbPalette, c/*, lineheight, usedcolors, highestcolor*/;
+    short int numcolpal/*, sizeover, sizeunder, sizeinner*/;
     u16 nbPixels;
 
     if (fontArray != NULL && my_bmf[0]==0xE1 && my_bmf[1]==0xE6 && my_bmf[2]==0xD5 && my_bmf[3]==0x1A) {
         fontArray->version = my_bmf[4];
-        lineheight = my_bmf[5];
-        sizeover = my_bmf[6];
-        sizeunder = my_bmf[7];
+        //lineheight = my_bmf[5];
+        //sizeover = my_bmf[6];
+        //sizeunder = my_bmf[7];
         fontArray->tracking = my_bmf[8];
-        sizeinner = my_bmf[9];
-        usedcolors = my_bmf[10];
-        highestcolor = my_bmf[11];
+        //sizeinner = my_bmf[9];
+        //usedcolors = my_bmf[10];
+        //highestcolor = my_bmf[11];
         nbPalette = my_bmf[16];
         numcolpal = 3 * nbPalette;
         fontArray->palette = (u32 *)calloc(nbPalette + 1, sizeof(u32));
