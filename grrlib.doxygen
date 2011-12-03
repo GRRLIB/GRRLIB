@@ -1,4 +1,4 @@
-# Doxyfile 1.7.5.1
+# Doxyfile 1.7.6
 
 # This file describes the settings to be used by the documentation system
 # doxygen (www.doxygen.org) for a project
@@ -204,6 +204,13 @@ TAB_SIZE               = 8
 # You can put \n's in the value part of an alias to insert newlines.
 
 ALIASES                = 
+
+# This tag can be used to specify a number of word-keyword mappings (TCL only). 
+# A mapping has the form "name=value". For example adding 
+# "class=itcl::class" will allow you to use the command class in the 
+# itcl::class meaning.
+
+TCL_SUBST              = 
 
 # Set the OPTIMIZE_OUTPUT_FOR_C tag to YES if your project consists of C 
 # sources only. Doxygen will then generate output that is more tailored for C. 
@@ -574,7 +581,8 @@ LAYOUT_FILE            =
 # .bib extension is automatically appended if omitted. Using this command 
 # requires the bibtex tool to be installed. See also 
 # http://en.wikipedia.org/wiki/BibTeX for more info. For LaTeX the style 
-# of the bibliography can be controlled using LATEX_BIB_STYLE.
+# of the bibliography can be controlled using LATEX_BIB_STYLE. To use this
+# feature you need bibtex and perl available in the search path.
 
 CITE_BIB_FILES         = 
 
@@ -667,14 +675,15 @@ FILE_PATTERNS          = *.c \
 
 RECURSIVE              = NO
 
-# The EXCLUDE tag can be used to specify files and/or directories that should 
+# The EXCLUDE tag can be used to specify files and/or directories that should be 
 # excluded from the INPUT source files. This way you can easily exclude a 
 # subdirectory from a directory tree whose root is specified with the INPUT tag. 
-# Note that relative paths are relative to directory from which doxygen is run.
+# Note that relative paths are relative to the directory from which doxygen is 
+# run.
 
 EXCLUDE                = 
 
-# The EXCLUDE_SYMLINKS tag can be used select whether or not files or 
+# The EXCLUDE_SYMLINKS tag can be used to select whether or not files or 
 # directories that are symbolic links (a Unix file system feature) are excluded 
 # from the input.
 
@@ -859,7 +868,7 @@ HTML_FILE_EXTENSION    = .html
 # standard header. Note that when using a custom header you are responsible  
 # for the proper inclusion of any scripts and style sheets that doxygen 
 # needs, which is dependent on the configuration options used. 
-# It is adviced to generate a default header using "doxygen -w html 
+# It is advised to generate a default header using "doxygen -w html 
 # header.html footer.html stylesheet.css YourConfigFile" and then modify 
 # that header. Note that the header is subject to change so you typically 
 # have to redo this when upgrading to a newer version of doxygen or when 
@@ -878,7 +887,7 @@ HTML_FOOTER            =
 # fine-tune the look of the HTML output. If the tag is left blank doxygen 
 # will generate a default style sheet. Note that doxygen will try to copy 
 # the style sheet file to the HTML output directory, so don't put your own 
-# stylesheet in the HTML output directory as well, or it will be erased!
+# style sheet in the HTML output directory as well, or it will be erased!
 
 HTML_STYLESHEET        = 
 
@@ -892,7 +901,7 @@ HTML_STYLESHEET        =
 HTML_EXTRA_FILES       = 
 
 # The HTML_COLORSTYLE_HUE tag controls the color of the HTML output. 
-# Doxygen will adjust the colors in the stylesheet and background images 
+# Doxygen will adjust the colors in the style sheet and background images 
 # according to this color. Hue is specified as an angle on a colorwheel, 
 # see http://en.wikipedia.org/wiki/Hue for more information. 
 # For instance the value 0 represents red, 60 is yellow, 120 is green, 
@@ -1087,18 +1096,13 @@ GENERATE_ECLIPSEHELP   = NO
 
 ECLIPSE_DOC_ID         = org.doxygen.Project
 
-# The DISABLE_INDEX tag can be used to turn on/off the condensed index at 
-# top of each HTML page. The value NO (the default) enables the index and 
-# the value YES disables it.
+# The DISABLE_INDEX tag can be used to turn on/off the condensed index (tabs) 
+# at top of each HTML page. The value NO (the default) enables the index and 
+# the value YES disables it. Since the tabs have the same information as the 
+# navigation tree you can set this option to NO if you already set 
+# GENERATE_TREEVIEW to YES.
 
 DISABLE_INDEX          = NO
-
-# The ENUM_VALUES_PER_LINE tag can be used to set the number of enum values 
-# (range [0,1..20]) that doxygen will group on one line in the generated HTML 
-# documentation. Note that a value of 0 will completely suppress the enum 
-# values from appearing in the overview section.
-
-ENUM_VALUES_PER_LINE   = 4
 
 # The GENERATE_TREEVIEW tag is used to specify whether a tree-like index 
 # structure should be generated to display hierarchical information. 
@@ -1106,9 +1110,18 @@ ENUM_VALUES_PER_LINE   = 4
 # containing a tree-like index structure (just like the one that 
 # is generated for HTML Help). For this to work a browser that supports 
 # JavaScript, DHTML, CSS and frames is required (i.e. any modern browser). 
-# Windows users are probably better off using the HTML help feature.
+# Windows users are probably better off using the HTML help feature. 
+# Since the tree basically has the same information as the tab index you 
+# could consider to set DISABLE_INDEX to NO when enabling this option.
 
 GENERATE_TREEVIEW      = NO
+
+# The ENUM_VALUES_PER_LINE tag can be used to set the number of enum values 
+# (range [0,1..20]) that doxygen will group on one line in the generated HTML 
+# documentation. Note that a value of 0 will completely suppress the enum 
+# values from appearing in the overview section.
+
+ENUM_VALUES_PER_LINE   = 4
 
 # By enabling USE_INLINE_TREES, doxygen will generate the Groups, Directories, 
 # and Class Hierarchy pages using a tree view instead of an ordered list.
@@ -1317,7 +1330,7 @@ COMPACT_RTF            = NO
 
 RTF_HYPERLINKS         = NO
 
-# Load stylesheet definitions from file. Syntax is similar to doxygen's 
+# Load style sheet definitions from file. Syntax is similar to doxygen's 
 # config file, i.e. a series of assignments. You only have to provide 
 # replacements, missing definitions are set to their default value.
 
@@ -1610,7 +1623,7 @@ DOT_FONTPATH           =
 # If the CLASS_GRAPH and HAVE_DOT tags are set to YES then doxygen 
 # will generate a graph for each documented class showing the direct and 
 # indirect inheritance relations. Setting this tag to YES will force the 
-# the CLASS_DIAGRAMS tag to NO.
+# CLASS_DIAGRAMS tag to NO.
 
 CLASS_GRAPH            = YES
 
