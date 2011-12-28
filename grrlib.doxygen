@@ -1,4 +1,4 @@
-# Doxyfile 1.7.6
+# Doxyfile 1.7.6.1
 
 # This file describes the settings to be used by the documentation system
 # doxygen (www.doxygen.org) for a project
@@ -332,9 +332,20 @@ TYPEDEF_HIDES_STRUCT   = NO
 # a logarithmic scale so increasing the size by one will roughly double the 
 # memory usage. The cache size is given by this formula: 
 # 2^(16+SYMBOL_CACHE_SIZE). The valid range is 0..9, the default is 0, 
-# corresponding to a cache size of 2^16 = 65536 symbols
+# corresponding to a cache size of 2^16 = 65536 symbols.
 
 SYMBOL_CACHE_SIZE      = 0
+
+# Similar to the SYMBOL_CACHE_SIZE the size of the symbol lookup cache can be 
+# set using LOOKUP_CACHE_SIZE. This cache is used to resolve symbols given 
+# their name and scope. Since this can be an expensive process and often the 
+# same symbol appear multiple times in the code, doxygen keeps a cache of 
+# pre-resolved symbols. If the cache is too small doxygen will become slower. 
+# If the cache is too large, memory is wasted. The cache size is given by this 
+# formula: 2^(16+LOOKUP_CACHE_SIZE). The valid range is 0..9, the default is 0, 
+# corresponding to a cache size of 2^16 = 65536 symbols.
+
+LOOKUP_CACHE_SIZE      = 0
 
 #---------------------------------------------------------------------------
 # Build related configuration options
@@ -581,7 +592,7 @@ LAYOUT_FILE            =
 # .bib extension is automatically appended if omitted. Using this command 
 # requires the bibtex tool to be installed. See also 
 # http://en.wikipedia.org/wiki/BibTeX for more info. For LaTeX the style 
-# of the bibliography can be controlled using LATEX_BIB_STYLE. To use this
+# of the bibliography can be controlled using LATEX_BIB_STYLE. To use this 
 # feature you need bibtex and perl available in the search path.
 
 CITE_BIB_FILES         = 
