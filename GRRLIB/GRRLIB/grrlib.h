@@ -84,10 +84,10 @@ typedef  unsigned int  uint;/**< The uint keyword signifies an integral type. */
  * GRRLIB Blending Modes.
  */
 typedef  enum GRRLIB_blendMode {
-    GRRLIB_BLEND_ALPHA  = 0,    /**< Alpha Blending.        */
-    GRRLIB_BLEND_ADD    = 1,    /**< Additive Blending.     */
-    GRRLIB_BLEND_SCREEN = 2,    /**< Alpha Light Blending.  */
-    GRRLIB_BLEND_MULTI  = 3,    /**< Multiply Blending.     */
+    GRRLIB_BLEND_ALPHA  = 0,    /**< Alpha Blending. */
+    GRRLIB_BLEND_ADD    = 1,    /**< Additive Blending. */
+    GRRLIB_BLEND_SCREEN = 2,    /**< Alpha Light Blending. */
+    GRRLIB_BLEND_MULTI  = 3,    /**< Multiply Blending. */
     GRRLIB_BLEND_INV    = 4,    /**< Invert Color Blending. */
 } GRRLIB_blendMode;
 
