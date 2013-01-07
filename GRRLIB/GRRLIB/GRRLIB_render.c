@@ -419,5 +419,7 @@ void  GRRLIB_Render (void) {
     VIDEO_Flush();                      // Flush video buffer to screen
     VIDEO_WaitVSync();                  // Wait for screen to update
     // Interlaced screens require two frames to update
-    if (rmode->viTVMode &VI_NON_INTERLACE)  VIDEO_WaitVSync();
+    if (rmode->viTVMode &VI_NON_INTERLACE) {
+        VIDEO_WaitVSync();
+    }
 }

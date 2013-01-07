@@ -61,17 +61,17 @@ void GRRLIB_Camera3dSettings(f32 posx, f32 posy, f32 posz,
     f32 upx, f32 upy, f32 upz,
     f32 lookx, f32 looky, f32 lookz) {
 
-   _GRR_cam.x=posx;
-   _GRR_cam.y=posy;
-   _GRR_cam.z=posz;
+   _GRR_cam.x = posx;
+   _GRR_cam.y = posy;
+   _GRR_cam.z = posz;
 
-   _GRR_up.x=upx;
-   _GRR_up.y=upy;
-   _GRR_up.z=upz;
+   _GRR_up.x = upx;
+   _GRR_up.y = upy;
+   _GRR_up.z = upz;
 
-   _GRR_look.x=lookx;
-   _GRR_look.y=looky;
-   _GRR_look.z=lookz;
+   _GRR_look.x = lookx;
+   _GRR_look.y = looky;
+   _GRR_look.z = lookz;
 }
 
 /**
@@ -94,17 +94,29 @@ void GRRLIB_3dMode(f32 minDist, f32 maxDist, f32 fov, bool texturemode, bool nor
 
     GX_ClearVtxDesc();
     GX_SetVtxDesc(GX_VA_POS, GX_DIRECT);
-    if(normalmode)   GX_SetVtxDesc(GX_VA_NRM, GX_DIRECT);
+    if(normalmode) {
+        GX_SetVtxDesc(GX_VA_NRM, GX_DIRECT);
+    }
     GX_SetVtxDesc(GX_VA_CLR0, GX_DIRECT);
-    if(texturemode)  GX_SetVtxDesc(GX_VA_TEX0, GX_DIRECT);
+    if(texturemode) {
+        GX_SetVtxDesc(GX_VA_TEX0, GX_DIRECT);
+    }
 
     GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_POS_XYZ, GX_F32, 0);
-    if(normalmode)   GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_NRM, GX_NRM_XYZ, GX_F32, 0);
+    if(normalmode) {
+        GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_NRM, GX_NRM_XYZ, GX_F32, 0);
+    }
     GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_CLR0, GX_CLR_RGBA, GX_RGBA8, 0);
-    if(texturemode)  GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_TEX0, GX_TEX_ST, GX_F32, 0);
+    if(texturemode) {
+        GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_TEX0, GX_TEX_ST, GX_F32, 0);
+    }
 
-    if(texturemode)  GX_SetTevOp(GX_TEVSTAGE0, GX_MODULATE);
-    else             GX_SetTevOp(GX_TEVSTAGE0, GX_PASSCLR);
+    if(texturemode) {
+        GX_SetTevOp(GX_TEVSTAGE0, GX_MODULATE);
+    }
+    else {
+        GX_SetTevOp(GX_TEVSTAGE0, GX_PASSCLR);
+    }
 }
 
 /**
@@ -376,8 +388,12 @@ void GRRLIB_DrawTorus(f32 r, f32 R, int nsides, int rings, bool filled, u32 col)
         theta1 = theta + ringDelta;
         cosTheta1 = cos(theta1);
         sinTheta1 = sin(theta1);
-        if(filled) GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 2*(nsides+1));
-        else       GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 2*(nsides+1));
+        if(filled) {
+            GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 2*(nsides+1));
+        }
+        else {
+            GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 2*(nsides+1));
+        }
         phi = 0.0;
         for (j = nsides; j >= 0; j--) {
             phi += sideDelta;
@@ -421,8 +437,12 @@ void GRRLIB_DrawSphere(f32 r, int lats, int longs, bool filled, u32 col) {
         lat1 = M_PI * (-0.5F + (f32) i / lats);
         z1 = sin(lat1);
         zr1 = cos(lat1);
-        if(filled) GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 2*(longs+1));
-        else       GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 2*(longs+1));
+        if(filled) {
+            GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 2*(longs+1));
+        }
+        else {
+            GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 2*(longs+1));
+        }
         for(j = 0; j <= longs; j++) {
             lng = 2 * M_PI * (f32) (j - 1) / longs;
             x = cos(lng);
@@ -475,8 +495,12 @@ void GRRLIB_DrawCube(f32 size, bool filled, u32 col) {
     v[1][2] = v[2][2] = v[5][2] = v[6][2] = size / 2;
 
     for (i = 5; i >= 0; i--) {
-        if(filled) GX_Begin(GX_QUADS, GX_VTXFMT0, 4);
-        else       GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 5);
+        if(filled) {
+            GX_Begin(GX_QUADS, GX_VTXFMT0, 4);
+        }
+        else {
+            GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 5);
+        }
         GX_Position3f32(v[faces[i][0]][0], v[faces[i][0]][1], v[faces[i][0]][2] );
         GX_Normal3f32(n[i][0], n[i][1], n[i][2]);
         GX_Color1u32(col);
@@ -510,8 +534,12 @@ void GRRLIB_DrawCylinder(f32 r, f32 h, int d, bool filled, u32 col) {
     int i;
     f32 dx, dy;
 
-    if(filled) GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 2 * (d+1));
-    else       GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 2 * (d+1));
+    if(filled) {
+        GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 2 * (d+1));
+    }
+    else {
+        GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 2 * (d+1));
+    }
     for(i = 0 ; i <= d ; i++) {
         dx = cosf( M_PI * 2.0f * i / d );
         dy = sinf( M_PI * 2.0f * i / d );
@@ -524,8 +552,12 @@ void GRRLIB_DrawCylinder(f32 r, f32 h, int d, bool filled, u32 col) {
     }
     GX_End();
 
-    if(filled) GX_Begin(GX_TRIANGLEFAN, GX_VTXFMT0, d+2);
-    else       GX_Begin(GX_LINESTRIP, GX_VTXFMT0, d+2);
+    if(filled) {
+        GX_Begin(GX_TRIANGLEFAN, GX_VTXFMT0, d+2);
+    }
+    else {
+        GX_Begin(GX_LINESTRIP, GX_VTXFMT0, d+2);
+    }
     GX_Position3f32(0.0f, -0.5f * h, 0.0f);
     GX_Normal3f32(0.0f, -1.0f, 0.0f);
     GX_Color1u32(col);
@@ -536,8 +568,12 @@ void GRRLIB_DrawCylinder(f32 r, f32 h, int d, bool filled, u32 col) {
     }
     GX_End();
 
-    if(filled) GX_Begin(GX_TRIANGLEFAN, GX_VTXFMT0, d+2);
-    else       GX_Begin(GX_LINESTRIP, GX_VTXFMT0, d+2);
+    if(filled) {
+        GX_Begin(GX_TRIANGLEFAN, GX_VTXFMT0, d+2);
+    }
+    else {
+        GX_Begin(GX_LINESTRIP, GX_VTXFMT0, d+2);
+    }
     GX_Position3f32(0.0f, 0.5f * h, 0.0f);
     GX_Normal3f32(0.0f, 1.0f, 0.0f);
     GX_Color1u32(col);
@@ -561,8 +597,12 @@ void GRRLIB_DrawCone(f32 r, f32 h, int d, bool filled, u32 col) {
     int i;
     f32 dx, dy;
 
-    if(filled) GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 2 * (d+1));
-    else       GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 2 * (d+1));
+    if(filled) {
+        GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 2 * (d+1));
+    }
+    else {
+        GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 2 * (d+1));
+    }
     for(i = 0 ; i <= d ; i++) {
         dx = cosf( M_PI * 2.0f * i / d );
         dy = sinf( M_PI * 2.0f * i / d );
@@ -575,8 +615,12 @@ void GRRLIB_DrawCone(f32 r, f32 h, int d, bool filled, u32 col) {
     }
     GX_End();
 
-    if(filled) GX_Begin(GX_TRIANGLEFAN, GX_VTXFMT0, d+2);
-    else       GX_Begin(GX_LINESTRIP, GX_VTXFMT0, d+2);
+    if(filled) {
+        GX_Begin(GX_TRIANGLEFAN, GX_VTXFMT0, d+2);
+    }
+    else {
+        GX_Begin(GX_LINESTRIP, GX_VTXFMT0, d+2);
+    }
     GX_Position3f32(0.0f, 0.5f * h, 0.0f);
     GX_Normal3f32(0.0f, 1.0f, 0.0f);
     GX_Color1u32(col);
@@ -606,8 +650,12 @@ void GRRLIB_DrawTessPanel(f32 w, f32 wstep, f32 h, f32 hstep, bool filled, u32 c
     tmp = ((w/wstep)*2)+2;
     for ( y = -tmpy ; y <= tmpy ; y+=hstep )
     {
-        if(filled) GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, tmp);
-        else       GX_Begin(GX_LINESTRIP, GX_VTXFMT0, tmp);
+        if(filled) {
+            GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, tmp);
+        }
+        else {
+            GX_Begin(GX_LINESTRIP, GX_VTXFMT0, tmp);
+        }
         for ( x = -tmpx ; x <= tmpx ; x+=wstep )
         {
             GX_Position3f32( x, y, 0.0f );
