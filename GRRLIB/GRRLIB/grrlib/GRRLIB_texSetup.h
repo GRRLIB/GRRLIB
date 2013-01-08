@@ -30,31 +30,6 @@ THE SOFTWARE.
 #include <string.h>
 
 /**
- * Create an empty texture.
- * @param w Width of the new texture to create.
- * @param h Height of the new texture to create.
- * @return A GRRLIB_texImg structure newly created.
- */
-INLINE
-GRRLIB_texImg*  GRRLIB_CreateEmptyTexture (const uint w, const uint h)
-{
-    GRRLIB_texImg *my_texture = (struct GRRLIB_texImg *)calloc(1, sizeof(GRRLIB_texImg));
-
-    if(my_texture != NULL) {
-        my_texture->data = memalign(32, h * w * 4);
-        my_texture->w = w;
-        my_texture->h = h;
-
-        // Initialize the texture
-        memset(my_texture->data, '\0', (h * w) << 2);
-
-        GRRLIB_SetHandle(my_texture, 0, 0);
-        GRRLIB_FlushTex(my_texture);
-    }
-    return my_texture;
-}
-
-/**
  * Write the contents of a texture in the data cache down to main memory.
  * For performance the CPU holds a data cache where modifications are stored before they get written down to main memory.
  * @param tex The texture to flush.
@@ -71,7 +46,9 @@ void  GRRLIB_FlushTex (GRRLIB_texImg *tex) {
 INLINE
 void  GRRLIB_FreeTexture (GRRLIB_texImg *tex) {
     if(tex != NULL) {
-        if (tex->data != NULL)  free(tex->data);
+        if (tex->data != NULL) {
+            free(tex->data);
+        }
         free(tex);
         tex = NULL;
     }

@@ -110,6 +110,30 @@ void  RawTo4x4RGBA (const u8 *src, void *dst,
 }
 
 /**
+ * Create an empty texture.
+ * @param w Width of the new texture to create.
+ * @param h Height of the new texture to create.
+ * @return A GRRLIB_texImg structure newly created.
+ */
+GRRLIB_texImg*  GRRLIB_CreateEmptyTexture (const uint w, const uint h)
+{
+    GRRLIB_texImg *my_texture = (struct GRRLIB_texImg *)calloc(1, sizeof(GRRLIB_texImg));
+
+    if(my_texture != NULL) {
+        my_texture->data = memalign(32, h * w * 4);
+        my_texture->w = w;
+        my_texture->h = h;
+
+        // Initialize the texture
+        memset(my_texture->data, '\0', (h * w) << 2);
+
+        GRRLIB_SetHandle(my_texture, 0, 0);
+        GRRLIB_FlushTex(my_texture);
+    }
+    return my_texture;
+}
+
+/**
  * Load a texture from a buffer.
  * @param my_img The JPEG, PNG or Bitmap buffer to load.
  * @return A GRRLIB_texImg structure filled with image information.
