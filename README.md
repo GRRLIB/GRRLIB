@@ -1,37 +1,36 @@
-<html><head><title>GRRLIB</title></head><body bgcolor="#FFFFFF" text="#000000"><center><table><tr><td>
-<!-- --------------------- This file is this wide -------------------------- -->
-<center><img src="grrlib_logo.png" /></center>
-<pre><b>
+GRRLIB
+======
+
 
 Table of Contents
 -----------------
 
-Introduction
-...What is it?
+#####Introduction
+######...What is it?
 
-Developing for the Wii
-...How do I even start?
+#####Developing for the Wii
+######...How do I even start?
 
-Downloading GRRLIB
-...Where do I get it from?
+#####Downloading GRRLIB
+######...Where do I get it from?
 
-Installing GRRLIB
-...How do I get it to a useable state?
+#####Installing GRRLIB
+######...How do I get it to a useable state?
 
-Using GRRLIB
-...What essentials do I need to know to get going?
+#####Using GRRLIB
+######...What essentials do I need to know to get going?
 
-Upgrading to v4.1.0 From Previous Versions of GRRLIB
-...I upgraded and now my programs won't compile properly!?
+#####Upgrading to v4.1.0 From Previous Versions of GRRLIB
+######...I upgraded and now my programs won't compile properly!?
 
-Using SVN
-...What is this SVN thing that the L337 devs keep talking about?
+#####Using SVN
+######...What is this SVN thing that the L337 devs keep talking about?
 
-Credits
-...Who do I thank for all this free stuff?
+#####Credits
+######...Who do I thank for all this free stuff?
 
-Licence
-...When you say "free" do you actually mean something else?
+#####Licence
+######...When you say "free" do you actually mean something else?
 
 
 Introduction
@@ -52,13 +51,13 @@ to allow real-time loading and saving of graphical data, and thus requires
 'libfat'.  GRRLIB also has the possibility to use TrueType fonts, so
 'libfreetype' is also required.
 
-libgrrlib          &lt;- 2D/3D graphics library
-+-- libfat         &lt;- File I/O
-+-- libjpeg        &lt;- JPEG image processor
-+-- libpngu        &lt;- Wii wrapper for libpng
-    +-- libpng     &lt;- PNG image processor
-        +-- libz   &lt;- Zip (lossless) compression (for PNG compression)
-+-- libfreetype    &lt;- TrueType font processor
+    libgrrlib          <- 2D/3D graphics library
+    +-- libfat         <- File I/O
+    +-- libjpeg        <- JPEG image processor
+    +-- libpngu        <- Wii wrapper for libpng
+        +-- libpng     <- PNG image processor
+            +-- libz   <- Zip (lossless) compression (for PNG compression)
+    +-- libfreetype    <- TrueType font processor
 
 
 Developing for the Wii
@@ -110,52 +109,70 @@ installed and you are ready to start developing Wii homebrew games.
 
 If you want, you could install the libz, libpng, libpngu, libjpeg and
 libfreetype libraries in a single command:
+```
   c:
   cd \grr\trunk\GRRLIB\lib 
   make clean all install
+```
 
 Each library could also be installed individually:
 
 To install libz
+```
   c:
   cd \grr\trunk\GRRLIB\lib\zlib
   make clean all install
+```
 
 To install libpng
+```
   c:
   cd \grr\trunk\GRRLIB\lib\png
   make clean all install
+```
 
 To install libpngu
+```
   c:
   cd \grr\trunk\GRRLIB\lib\pngu
   make clean all install
+```
 
 To install libjpeg
+```
   c:
   cd \grr\trunk\GRRLIB\lib\jpeg
   make clean all install
+```
 
 To install libfreetype
+```
   c:
   cd \grr\trunk\GRRLIB\lib\freetype
   make clean all install
+```
 
 To install libgrrlib:
+```
   c:
   cd \grr\trunk\GRRLIB\GRRLIB
   make clean all install
+```
 
 
 Using GRRLIB
 ------------
 
 After everything is installed, simply put
-    #include &lt;grrlib.h>     <!-- #include <grrlib.h> -->
+```c
+    #include <grrlib.h>
+```
 at the top of your .c/.cpp file and use the functions as required
 
 You will also need to add
+```make
     -lgrrlib -lfreetype -lfat -ljpeg -lpngu -lpng -lz
+```
 to the libs line in your makefile
 ...Remember the order of the libraries is critical.  You may (need to) insert
 other libraries in the middle of the list, you may need to add others to the
@@ -172,10 +189,14 @@ Upgrading to v4.1.0 From Previous Versions of GRRLIB
 ----------------------------------------------------
 
 Older versions of GRRLIB, required a line such as:
+```c
   #include "../../../GRRLIB/GRRLIB/GRRLIB.h"
+```
 ...to be placed at the top of each C file which uses GRRLB.
 Because GRRLIB is now installed as a system library, this must be replaced with:
-  #include &lt;grrlib.h>     <!-- #include <grrlib.h> -->
+```c
+  #include <grrlib.h>
+```
 
 Older versions of GRRLIB required the 'GRRLIB.h' and 'GRRLIB.c" files to be
 present in every project which uses GRRLIB.
@@ -185,16 +206,22 @@ required and must be erased.
 
 Older versions of GRRLIB "passed 'structs'" and therefore Textured Images were
 defined with:
+```c
   GRRLIB_texImg  tex1, tex2;
+```
 Because GRRLIB now "passes 'pointers'" these definitions should be changed to:
+```c
   GRRLIB_texImg  *tex1, *tex2;
+```
 
 With older versions of GRRLIB if the programmer (you) required access to the
 mode and frame information, you were required to add one or more of the
 following three lines:
+```c
   extern GXRModeObj  *rmode;
   extern void        *xfb[2];
   extern u32         fb;
+```
 Because GRRLIB now does this for you automatically, these lines must be removed
 from your code.
 
@@ -224,29 +251,28 @@ GRRLIB conforms to this official guideline.
 To obtain the "cutting edge" codebase (ie. the latest in SVN) you need an SVN
 tool ...The same as: if you want to view a web page, you need a web browser
 
-For Windows you will choose: TortoiseSVN
-For Debian  you will choose: apt-get install subversion
-For others  you will need to do a bit of research (I only use Debian & Windows)
+ * For Windows you will choose: TortoiseSVN
+ * For Debian  you will choose: apt-get install subversion
+ * For others  you will need to do a bit of research (I only use Debian & Windows)
 
 Windows:
-  Create a directory to hold the code (Eg. C:\grr)
-  Right click it and choose "svn checkout"
-  Enter the URL of the SVN 'repository':  http://grrlib.googlecode.com/svn/
-  Click the [...] button and choose the trunk*
-  Leave advanced options alone (Ie. fully recursive, head)
-  Hit OK
+ 1. Create a directory to hold the code (Eg. C:\grr)
+ 2. Right click it and choose "svn checkout"
+ 3. Enter the URL of the SVN 'repository':  http://grrlib.googlecode.com/svn/
+ 4. Click the [...] button and choose the trunk*
+ 5. Leave advanced options alone (Ie. fully recursive, head)
+ 6. Hit OK
 
 Linux:
-  Create a directory to hold the code (Eg. `mkdir -p /home/user/src/grr`)
-  Change to that directory            (Eg. `cd /home/user/src/grr`)
-  type `svn checkout http://grrlib.googlecode.com/svn/trunk/ grrlib-read-only`*
+ 1. Create a directory to hold the code (Eg. `mkdir -p /home/user/src/grr`)
+ 2. Change to that directory            (Eg. `cd /home/user/src/grr`)
+ 3. Type `svn checkout http://grrlib.googlecode.com/svn/trunk/ grrlib-read-only`*
 
-* You may choose to check-out any part of the repository you wish, but if you
-  venture outide 'trunk' you are likely to get old or broken code.
+> You may choose to check-out any part of the repository you wish, but if you venture outide 'trunk' you are likely to get old or broken code.
 
 If you network connection dies half-way through the download
-  Windows: ...simply right-click the directory again and choose "SVN Update"
-  Linux:   ...Simply type `svn update`
+ * Windows: ...simply right-click the directory again and choose "SVN Update"
+ * Linux:   ...Simply type `svn update`
 
 You may also perform an "update" any time you like to get the latest & greatest
 code changes.  But be warned, if you have edited the GRRLIB source code things
@@ -257,11 +283,26 @@ here:  http://svnbook.red-bean.com/en/1.1/svn-book.html#svn-ch-3-sect-5.4
 Credits
 -------
 
-Project Leader : NoNameNo
-Documentation  : Crayon, BlueChip
-Lead Coder     : NoNameNo
-Support Coders : Crayon, Xane, DragonMinded, BlueChip, elisherer
-Advisors       : RedShade, Jespa
+#### Project Leader
+* NoNameNo
+
+#### Documentation
+* Crayon
+* BlueChip
+
+#### Lead Coder
+* NoNameNo
+
+#### Support Coders
+* Crayon
+* Xane
+* DragonMinded
+* BlueChip
+* elisherer
+
+#### Advisors
+* RedShade
+* Jespa
 
 
 Licence
@@ -280,8 +321,8 @@ and here:
 http://grrlib.santo.fr/wiki/images/logo.png
 
 This is the official license text
---------------------------------------------------------------------------------
-Copyright (c) 2014 The GRRLIB Team
+```
+Copyright (c) 2015 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -300,8 +341,4 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
---------------------------------------------------------------------------------
-
-[BlueChip]
-
-</b></pre></td></tr></table></center></body></html>
+```
