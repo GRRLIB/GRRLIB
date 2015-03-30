@@ -23,7 +23,7 @@ Table of Contents
 #####Upgrading to v4.1.0 From Previous Versions of GRRLIB
 ######...I upgraded and now my programs won't compile properly!?
 
-#####Using SVN
+#####Using GitHub
 ######...What is this SVN thing that the L337 devs keep talking about?
 
 #####Credits
@@ -73,14 +73,14 @@ reboot before you continue.
 Downloading GRRLIB
 ------------------
 
-You are invited to use "the latest SVN trunk version" of GRRLIB at all times.
+You are invited to use "the latest Git master version" of GRRLIB at all times.
 
-The SVN repository is located at:   http://grrlib.googlecode.com/svn/
+The Git repository is located at: https://github.com/GRRLIB/GRRLIB
 
-There is a simple guide to "Using SVN" later in this document.
+There is a simple guide to "Using GitHub" later in this document.
 
-This document will presume that you have downloaded "the latest SVN trunk
-version" to a directory called  C:\grr\trunk
+This document will presume that you have downloaded "the latest Git master
+version" to a directory called  C:\grr
 
 Installing GRRLIB
 -----------------
@@ -98,9 +98,11 @@ libfat      is supplied with devkitpro (Ie. preinstalled)
 
 The easy way is to install GRRLIB and all the required libraries in a single
 command:
+```
   c:
-  cd \grr\trunk\GRRLIB
+  cd \grr\GRRLIB
   make clean all install
+```
 
 This process may take some time depending on the speed of your PC.
 
@@ -111,7 +113,7 @@ If you want, you could install the libz, libpng, libpngu, libjpeg and
 libfreetype libraries in a single command:
 ```
   c:
-  cd \grr\trunk\GRRLIB\lib 
+  cd \grr\GRRLIB\lib 
   make clean all install
 ```
 
@@ -120,42 +122,42 @@ Each library could also be installed individually:
 To install libz
 ```
   c:
-  cd \grr\trunk\GRRLIB\lib\zlib
+  cd \grr\GRRLIB\lib\zlib
   make clean all install
 ```
 
 To install libpng
 ```
   c:
-  cd \grr\trunk\GRRLIB\lib\png
+  cd \grr\GRRLIB\lib\png
   make clean all install
 ```
 
 To install libpngu
 ```
   c:
-  cd \grr\trunk\GRRLIB\lib\pngu
+  cd \grr\GRRLIB\lib\pngu
   make clean all install
 ```
 
 To install libjpeg
 ```
   c:
-  cd \grr\trunk\GRRLIB\lib\jpeg
+  cd \grr\GRRLIB\lib\jpeg
   make clean all install
 ```
 
 To install libfreetype
 ```
   c:
-  cd \grr\trunk\GRRLIB\lib\freetype
+  cd \grr\GRRLIB\lib\freetype
   make clean all install
 ```
 
 To install libgrrlib:
 ```
   c:
-  cd \grr\trunk\GRRLIB\GRRLIB
+  cd \grr\GRRLIB\GRRLIB
   make clean all install
 ```
 
@@ -182,7 +184,7 @@ here.
 You do NOT need to place /anything/ in your application directory.
 
 If you would like to see a working example of this, you can look at the example
-found in: C:\grr\trunk\examples\template\source
+found in: C:\grr\examples\template\source
 
 
 Upgrading to v4.1.0 From Previous Versions of GRRLIB
@@ -226,58 +228,22 @@ Because GRRLIB now does this for you automatically, these lines must be removed
 from your code.
 
 
-Using SVN
----------
+Using GitHub
+------------
 
-SVN stands for "SubVersioN" ...No it doesn't mean much to me either.
-
-It allows the developers to submit changes to the code in such a way that
+GitHub allows the developers to submit changes to the code in such a way that
 these changes can be easily monitored, quickly merged together with other
 changes. and (if necessary) reverted.
 
 It also allows the power-users to gain access to the latest (often "in-test")
 features.
 
-SVN is classically divided in to three chunks:
-trunk    - The main development & release code.
-branches - Sometimes a developer may spend a week-or-more making their changes,
-           so (s)he will work in a copy of the code until the changes are
-           approved by the project leader ...then the changes are "merged" back
-           in to trunk.
-tags     - These are just copies of the code at critical points, such as
-           official releases.
-GRRLIB conforms to this official guideline.
+To obtain the "cutting edge" codebase go to https://github.com/GRRLIB/GRRLIB/tree/master
 
-To obtain the "cutting edge" codebase (ie. the latest in SVN) you need an SVN
-tool ...The same as: if you want to view a web page, you need a web browser
-
- * For Windows you will choose: TortoiseSVN
- * For Debian  you will choose: apt-get install subversion
- * For others  you will need to do a bit of research (I only use Debian & Windows)
-
-Windows:
  1. Create a directory to hold the code (Eg. C:\grr)
- 2. Right click it and choose "svn checkout"
- 3. Enter the URL of the SVN 'repository':  http://grrlib.googlecode.com/svn/
- 4. Click the [...] button and choose the trunk*
- 5. Leave advanced options alone (Ie. fully recursive, head)
- 6. Hit OK
+ 2. Click the *Download ZIP* button if you don't have the proper tools installed on your PC or Clone the following URL https://github.com/GRRLIB/GRRLIB.git
 
-Linux:
- 1. Create a directory to hold the code (Eg. `mkdir -p /home/user/src/grr`)
- 2. Change to that directory            (Eg. `cd /home/user/src/grr`)
- 3. Type `svn checkout http://grrlib.googlecode.com/svn/trunk/ grrlib-read-only`*
-
-> You may choose to check-out any part of the repository you wish, but if you venture outide 'trunk' you are likely to get old or broken code.
-
-If you network connection dies half-way through the download
- * Windows: ...simply right-click the directory again and choose "SVN Update"
- * Linux:   ...Simply type `svn update`
-
-You may also perform an "update" any time you like to get the latest & greatest
-code changes.  But be warned, if you have edited the GRRLIB source code things
-can (and often do) get messy.  The best help you can get about this is probably
-here:  http://svnbook.red-bean.com/en/1.1/svn-book.html#svn-ch-3-sect-5.4
+All official releases can be found here https://github.com/GRRLIB/GRRLIB/releases
 
 
 Credits
@@ -316,7 +282,7 @@ source code.
 We do +request+ that you tell others about us by naming our library (GRRLIB) in
 the credits of your game/application.  And, if you +choose+ to do that, we
 encourage you to use our logo to achieve it; You can find our logo here:
-C:\grr\trunk\grrlib_logo.png
+C:\grr\grrlib_logo.png
 and here:
 http://grrlib.santo.fr/wiki/images/logo.png
 
