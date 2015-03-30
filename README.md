@@ -24,7 +24,7 @@ Table of Contents
 ######...I upgraded and now my programs won't compile properly!?
 
 #####Using GitHub
-######...What is this SVN thing that the L337 devs keep talking about?
+######...What is this Git thing that the L337 devs keep talking about?
 
 #####Credits
 ######...Who do I thank for all this free stuff?
@@ -240,7 +240,7 @@ features.
 
 To obtain the "cutting edge" codebase go to https://github.com/GRRLIB/GRRLIB/tree/master
 
- 1. Create a directory to hold the code (Eg. C:\grr)
+ 1. Create a directory to hold the code (e.g. C:\grr)
  2. Click the *Download ZIP* button if you don't have the proper tools installed on your PC or Clone the following URL https://github.com/GRRLIB/GRRLIB.git
 
 All official releases can be found here https://github.com/GRRLIB/GRRLIB/releases
