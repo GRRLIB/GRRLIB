@@ -5,32 +5,24 @@ GRRLIB
 Table of Contents
 -----------------
 
-#####Introduction
-######...What is it?
-
-#####Developing for the Wii
-######...How do I even start?
-
-#####Downloading GRRLIB
-######...Where do I get it from?
-
-#####Installing GRRLIB
-######...How do I get it to a useable state?
-
-#####Using GRRLIB
-######...What essentials do I need to know to get going?
-
-#####Upgrading to v4.1.0 From Previous Versions of GRRLIB
-######...I upgraded and now my programs won't compile properly!?
-
-#####Using GitHub
-######...What is this Git thing that the L337 devs keep talking about?
-
-#####Credits
-######...Who do I thank for all this free stuff?
-
-#####Licence
-######...When you say "free" do you actually mean something else?
+- [Introduction](#introduction)
+ - ...What is it?
+- [Developing for the Wii](#developing-for-the-wii)
+ - ...How do I even start?
+- [Downloading GRRLIB](#downloading-grrlib)
+ - ...Where do I get it from?
+- [Installing GRRLIB](#installing-grrlib)
+ - ...How do I get it to a useable state?
+- [Using GRRLIB](#using-grrlib)
+ - ...What essentials do I need to know to get going?
+- [Upgrading to v4.1.0 From Previous Versions of GRRLIB](#upgrading-to-v410-from-previous-versions-of-grrlib)
+ - ...I upgraded and now my programs won't compile properly!?
+- [Using GitHub](#using-github)
+ - ...What is this Git thing that the L337 devs keep talking about?
+- [Credits](#credits)
+ - ...Who do I thank for all this free stuff?
+- [Licence](#licence)
+ - ...When you say "free" do you actually mean something else?
 
 
 Introduction
@@ -51,13 +43,15 @@ to allow real-time loading and saving of graphical data, and thus requires
 'libfat'.  GRRLIB also has the possibility to use TrueType fonts, so
 'libfreetype' is also required.
 
-    libgrrlib          <- 2D/3D graphics library
-    +-- libfat         <- File I/O
-    +-- libjpeg        <- JPEG image processor
-    +-- libpngu        <- Wii wrapper for libpng
-        +-- libpng     <- PNG image processor
-            +-- libz   <- Zip (lossless) compression (for PNG compression)
-    +-- libfreetype    <- TrueType font processor
+```
+libgrrlib          <- 2D/3D graphics library
++-- libfat         <- File I/O
++-- libjpeg        <- JPEG image processor
++-- libpngu        <- Wii wrapper for libpng
+    +-- libpng     <- PNG image processor
+        +-- libz   <- Zip (lossless) compression (for PNG compression)
++-- libfreetype    <- TrueType font processor
+```
 
 
 Developing for the Wii
@@ -173,9 +167,10 @@ at the top of your .c/.cpp file and use the functions as required
 
 You will also need to add
 ```make
-    -lgrrlib -lfreetype -lfat -ljpeg -lpngu -lpng -lz
+  -lgrrlib -lfreetype -lfat -ljpeg -lpngu -lpng -lz
 ```
 to the libs line in your makefile
+
 ...Remember the order of the libraries is critical.  You may (need to) insert
 other libraries in the middle of the list, you may need to add others to the
 start, or even the end - but do _not_ change the order of the libraries shown
@@ -274,9 +269,9 @@ Credits
 Licence
 -------
 
-GRRLIB is released under the MIT Licence.  If we had chosen the GPL licence you
-would be +forced+ (legally required) to release your source code.  But in the
-spirit of "free as in FREE" we have left you with the +option+ to release your
+GRRLIB is released under [the MIT Licence](https://github.com/GRRLIB/GRRLIB/blob/master/LICENCE.TXT).
+If we had chosen the GPL licence you would be +forced+ (legally required) to release your source code.
+But in the spirit of "free as in FREE" we have left you with the +option+ to release your
 source code.
 
 We do +request+ that you tell others about us by naming our library (GRRLIB) in
@@ -285,26 +280,3 @@ encourage you to use our logo to achieve it; You can find our logo here:
 C:\grr\grrlib_logo.png
 and here:
 http://grrlib.santo.fr/wiki/images/logo.png
-
-This is the official license text
-```
-Copyright (c) 2015 The GRRLIB Team
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-```

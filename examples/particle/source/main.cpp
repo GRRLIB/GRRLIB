@@ -70,7 +70,6 @@ GRRLIB_texImg *GFX_Smoke;
 GRRLIB_texImg *GFX_Font;
 
 
-
 int main() {
     u32 WPADKeyDown;
     u32 WPADKeyHeld;
@@ -255,7 +254,6 @@ static bool updateParticle( Particle *part ) {
     if ((part->scale < 0) || (part->alpha < 0)) { return false; }
     return true;
 }
-
 
 static void ExitGame() {
     // Free all memory used by textures.
