@@ -81,7 +81,9 @@ GRRLIB_texImg*  GRRLIB_LoadTextureFromFile(const char *filename) {
     unsigned char  *data;
 
     // return NULL it load fails
-    if (GRRLIB_LoadFile(filename, &data) <= 0)  return NULL;
+    if (GRRLIB_LoadFile(filename, &data) <= 0) {
+        return NULL;
+    }
 
     // Convert to texture
     tex = GRRLIB_LoadTexture(data);

@@ -119,7 +119,7 @@ GRRLIB_texImg*  GRRLIB_CreateEmptyTexture (const uint w, const uint h)
 {
     GRRLIB_texImg *my_texture = (struct GRRLIB_texImg *)calloc(1, sizeof(GRRLIB_texImg));
 
-    if(my_texture != NULL) {
+    if (my_texture != NULL) {
         my_texture->data = memalign(32, h * w * 4);
         my_texture->w = w;
         my_texture->h = h;
@@ -159,15 +159,15 @@ GRRLIB_texImg*  GRRLIB_LoadTexturePNG (const u8 *my_png) {
     IMGCTX ctx;
     GRRLIB_texImg *my_texture = calloc(1, sizeof(GRRLIB_texImg));
 
-    if(my_texture != NULL) {
+    if (my_texture != NULL) {
         ctx = PNGU_SelectImageFromBuffer(my_png);
         PNGU_GetImageProperties(ctx, &imgProp);
         my_texture->data = PNGU_DecodeTo4x4RGBA8(ctx, imgProp.imgWidth, imgProp.imgHeight, &width, &height, NULL);
-        if(my_texture->data != NULL) {
+        if (my_texture->data != NULL) {
             my_texture->w = width;
             my_texture->h = height;
             GRRLIB_SetHandle( my_texture, 0, 0 );
-            if(imgProp.imgWidth != width || imgProp.imgHeight != height) {
+            if (imgProp.imgWidth != width || imgProp.imgHeight != height) {
                 // PNGU has resized the texture
                 memset(my_texture->data, 0, (my_texture->h * my_texture->w) << 2);
             }
@@ -212,7 +212,7 @@ GRRLIB_texImg*  GRRLIB_LoadTextureBMP (const u8 *my_bmp) {
     s32 y, x, i;
     GRRLIB_texImg *my_texture = calloc(1, sizeof(GRRLIB_texImg));
 
-    if(my_texture != NULL) {
+    if (my_texture != NULL) {
         // Fill file header structure
         MyBitmapFileHeader.bfType      = (my_bmp[0]  | my_bmp[1]<<8);
         MyBitmapFileHeader.bfSize      = (my_bmp[2]  | my_bmp[3]<<8  | my_bmp[4]<<16 | my_bmp[5]<<24);
@@ -233,7 +233,7 @@ GRRLIB_texImg*  GRRLIB_LoadTextureBMP (const u8 *my_bmp) {
         MyBitmapHeader.biClrImportant  = (my_bmp[50] | my_bmp[51]<<8 | my_bmp[52]<<16 | my_bmp[53]<<24);
 
         my_texture->data = memalign(32, MyBitmapHeader.biWidth * MyBitmapHeader.biHeight * 4);
-        if(my_texture->data != NULL && MyBitmapFileHeader.bfType == 0x4D42) {
+        if (my_texture->data != NULL && MyBitmapFileHeader.bfType == 0x4D42) {
             my_texture->w = MyBitmapHeader.biWidth;
             my_texture->h = MyBitmapHeader.biHeight;
             switch(MyBitmapHeader.biBitCount) {
@@ -370,15 +370,16 @@ GRRLIB_texImg*  GRRLIB_LoadTextureJPGEx (const u8 *my_jpg, const int my_size) {
     GRRLIB_texImg *my_texture = calloc(1, sizeof(GRRLIB_texImg));
     unsigned int i;
 
-    if(my_texture == NULL)
+    if (my_texture == NULL) {
         return NULL;
+    }
 
     jpeg_create_decompress(&cinfo);
     cinfo.err = jpeg_std_error(&jerr);
     cinfo.progress = NULL;
     jpeg_mem_src(&cinfo, (unsigned char *)my_jpg, my_size);
     jpeg_read_header(&cinfo, TRUE);
-    if(cinfo.jpeg_color_space == JCS_GRAYSCALE) {
+    if (cinfo.jpeg_color_space == JCS_GRAYSCALE) {
         cinfo.out_color_space = JCS_RGB;
     }
     jpeg_start_decompress(&cinfo);

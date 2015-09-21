@@ -87,7 +87,7 @@ void  GRRLIB_FreeBMF (GRRLIB_bytemapFont *bmf) {
     u16 i;
 
     for (i=0; i<256; i++) {
-        if(bmf->charDef[i].data) {
+        if (bmf->charDef[i].data) {
             free(bmf->charDef[i].data);
         }
     }

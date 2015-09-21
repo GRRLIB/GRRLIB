@@ -116,7 +116,7 @@ int  GRRLIB_Init (void) {
 
     GX_SetDispCopyGamma(GX_GM_1_0);
 
-    if(rmode->fbWidth <= 0){ printf("GRRLIB " GRRLIB_VER_STRING); }
+    if (rmode->fbWidth <= 0) { printf("GRRLIB " GRRLIB_VER_STRING); }
 
     // Setup the vertex descriptor
     GX_ClearVtxDesc();      // clear all the vertex descriptors
