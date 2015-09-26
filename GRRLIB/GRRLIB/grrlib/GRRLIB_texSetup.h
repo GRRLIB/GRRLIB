@@ -60,6 +60,6 @@ void  GRRLIB_FreeTexture (GRRLIB_texImg *tex) {
  */
 INLINE
 void  GRRLIB_ClearTex(GRRLIB_texImg* tex) {
-    bzero(tex->data, (tex->h * tex->w) << 2);
+    memset(tex->data, 0, (tex->h * tex->w) << 2);
     GRRLIB_FlushTex(tex);
 }

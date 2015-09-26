@@ -72,7 +72,8 @@ int  GRRLIB_Init (void) {
             break;
     }
 
-    // 16:9 and 4:3 Screen Adjustment
+#if defined(HW_RVL)
+    // 16:9 and 4:3 Screen Adjustment for Wii
     if (CONF_GetAspectRatio() == CONF_ASPECT_16_9) {
         rmode->viWidth = 678;
         rmode->viXOrigin = (VI_MAX_WIDTH_NTSC - 678)/2;  // This probably needs to consider PAL
@@ -80,6 +81,11 @@ int  GRRLIB_Init (void) {
         rmode->viWidth = 672;
         rmode->viXOrigin = (VI_MAX_WIDTH_NTSC - 672)/2;
     }
+#else
+    // GameCube
+    rmode->viWidth = 672;
+    rmode->viXOrigin = (VI_MAX_WIDTH_NTSC - 672)/2;
+#endif
 
     // --
     VIDEO_Configure(rmode);
@@ -181,8 +187,12 @@ int  GRRLIB_Init (void) {
  */
 void  GRRLIB_Exit (void) {
     static  bool  done = false;
-    if (done || !is_setup)  return;
-    else                    done = true;
+    if (done || !is_setup) {
+        return;
+    }
+    else {
+        done = true;
+    }
 
     // Allow write access to the full screen
     GX_SetClipMode( GX_CLIP_DISABLE );
