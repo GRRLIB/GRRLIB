@@ -58,7 +58,7 @@ Developing for the Wii
 ----------------------
 
 Do not progress until you have installed and configured devkitPro.  Guides are
-and assistance are available at http://forums.devkitpro.org
+and assistance are available at http://devkitpro.org/index.php
 
 If you have just performed a clean (re)install on your Windows PC, be sure to
 reboot before you continue.
