@@ -1,0 +1,17 @@
+# Folder
+build
+
+# Compiler-generated binarie
+*.o
+*.d
+*.map
+
+# Executable file
+*.dol
+*.elf
+
+# Compiled static library
+*.a
+
+# Programmer's Notepad state file
+*.pnps
