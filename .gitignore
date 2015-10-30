@@ -15,3 +15,6 @@ build
 
 # Programmer's Notepad state file
 *.pnps
+
+# Generated doxygen HTML documentation
+/doc

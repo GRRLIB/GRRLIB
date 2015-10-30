@@ -1,0 +1,18 @@
+language: c
+
+os:
+  - linux
+
+env:
+  global:
+    - DEVKITPRO=$HOME/devkitPro
+    - DEVKITPPC=${DEVKITPRO}/devkitPPC
+
+before_install:
+  - wget http://sourceforge.net/projects/devkitpro/files/Automated%20Installer/devkitPPCupdate.pl
+
+install:
+  - sudo perl devkitPPCupdate.pl
+
+script:
+  - cd GRRLIB && sudo -E make all install && cd ..
