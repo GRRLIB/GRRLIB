@@ -15,4 +15,5 @@ install:
   - sudo perl devkitPPCupdate.pl
 
 script:
-  - cd GRRLIB && sudo -E make all install && cd ..
+  - cd GRRLIB && sudo -E make clean all install && cd ..
+  - cd examples && make && cd ..
