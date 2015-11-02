@@ -1,11 +1,13 @@
-# Quick'n'dirty makefile [BC]
+#---------------------------------------------------------------------------------
+.SUFFIXES:
+#---------------------------------------------------------------------------------
 
 ifeq ($(strip $(DEVKITPPC)),)
-  $(error "Use   export DEVKITPPC=<path to>devkitPPC   and try again")
+$(error "Please set DEVKITPPC in your environment. export DEVKITPPC=<path to>devkitPPC)
 endif
 
 ifeq ($(strip $(DEVKITPRO)),)
-  $(error "Use   export DEVKITPRO=<path to>devkitPRO   and try again")
+$(error "Please set DEVKITPRO in your environment. export DEVKITPRO=<path to>devkitPro)
 endif
 
 # FreeType Makefile

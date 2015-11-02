@@ -83,18 +83,19 @@ Installing GRRLIB
 
 This guide is for Windows.  If you are using Linux, I am going to presume you
 are smart enough to convert these instructions.
-
+```
 GRRLIB      is supplied as source code
 libjpeg     is supplied as source code
 libpngu     is supplied as source code
 libpng      is supplied as source code
 libz        is supplied as source code
 libfreetype is supplied as source code
-libfat      is supplied with devkitpro (Ie. preinstalled)
+libfat      is supplied with devkitpro (i.e. preinstalled)
+```
 
 The easy way is to install GRRLIB and all the required libraries in a single
 command:
-```
+```bash
   c:
   cd \grr\GRRLIB
   make clean all install
@@ -107,7 +108,7 @@ installed and you are ready to start developing Wii homebrew games.
 
 If you want, you could install the libz, libpng, libpngu, libjpeg and
 libfreetype libraries in a single command:
-```
+```bash
   c:
   cd \grr\GRRLIB\lib 
   make clean all install
@@ -116,42 +117,42 @@ libfreetype libraries in a single command:
 Each library could also be installed individually:
 
 To install libz
-```
+```bash
   c:
   cd \grr\GRRLIB\lib\zlib
   make clean all install
 ```
 
 To install libpng
-```
+```bash
   c:
   cd \grr\GRRLIB\lib\png
   make clean all install
 ```
 
 To install libpngu
-```
+```bash
   c:
   cd \grr\GRRLIB\lib\pngu
   make clean all install
 ```
 
 To install libjpeg
-```
+```bash
   c:
   cd \grr\GRRLIB\lib\jpeg
   make clean all install
 ```
 
 To install libfreetype
-```
+```bash
   c:
   cd \grr\GRRLIB\lib\freetype
   make clean all install
 ```
 
 To install libgrrlib:
-```
+```bash
   c:
   cd \grr\GRRLIB\GRRLIB
   make clean all install
