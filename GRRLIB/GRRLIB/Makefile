@@ -10,12 +10,10 @@ ifeq ($(strip $(DEVKITPRO)),)
 $(error "Please set DEVKITPRO in your environment. export DEVKITPRO=<path to>devkitPro)
 endif
 
+include $(DEVKITPPC)/base_rules
+
 NULLSTR :=
 PWD     := $(subst $(NULLSTR) ,\ ,$(shell pwd))
-
-PREFIX	:= $(DEVKITPPC)/bin/powerpc-eabi-
-CC		:=	$(PREFIX)gcc
-AR		:=	$(PREFIX)ar
 
 LIBOGC_INC	:=	$(DEVKITPRO)/libogc/include
 LIBOGC_LIB	:=	$(DEVKITPRO)/libogc/lib/wii
@@ -42,6 +40,3 @@ install :
 	cp -f $(ARC) $(LIBOGC_LIB)/
 	cp -f $(HDR) $(LIBOGC_INC)/
 	cp -f $(INL) $(LIBOGC_INC)/grrlib
-
-%.o : %.c
-	$(CC) $(CFLAGS) -c $< -o $@

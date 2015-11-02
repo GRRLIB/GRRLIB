@@ -9,10 +9,11 @@
 # indicate that you have read the license and understand and accept it
 # fully.
 
+# devkitPPC base rules
+include $(DEVKITPPC)/base_rules
 
 # Compiler command line name
 #
-CC           := $(DEVKITPPC)/bin/powerpc-eabi-gcc
 COMPILER_SEP := $(SEP)
 
 
@@ -72,7 +73,6 @@ ANSIFLAGS :=
 # Library linking
 #
 CLEAN_LIBRARY ?= $(DELETE) $(subst /,$(SEP),$(PROJECT_LIBRARY))
-AR            := $(DEVKITPPC)/bin/powerpc-eabi-ar
 LINK_LIBRARY   = $(AR) -r $@ $(subst /,$(COMPILER_SEP),$(OBJECTS_LIST))
 
 
