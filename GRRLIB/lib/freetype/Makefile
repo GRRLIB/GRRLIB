@@ -10,16 +10,18 @@ ifeq ($(strip $(DEVKITPRO)),)
 $(error "Please set DEVKITPRO in your environment. export DEVKITPRO=<path to>devkitPro)
 endif
 
+ifeq ($(PLATFORM),cube)
+include $(DEVKITPPC)/gamecube_rules
+else
+include $(DEVKITPPC)/wii_rules
+endif
+
 # FreeType Makefile
 PROJECT       := freetype
 PROJECT_TITLE := FreeType
 TOP_DIR ?= .
 OBJ_DIR ?= $(TOP_DIR)
 include $(TOP_DIR)/builds/toplevel.mk
-
-
-LIBOGC_INC	:=	$(DEVKITPRO)/libogc/include
-LIBOGC_LIB	:=	$(DEVKITPRO)/libogc/lib/wii
 
 clean :
 	rm -f lib$(PROJECT).a ftmodule.h

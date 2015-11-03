@@ -9,9 +9,6 @@
 # indicate that you have read the license and understand and accept it
 # fully.
 
-# devkitPPC base rules
-include $(DEVKITPPC)/base_rules
-
 # Compiler command line name
 #
 COMPILER_SEP := $(SEP)
@@ -60,7 +57,6 @@ T := -o$(space)
 #   Use the ANSIFLAGS variable to define the compiler flags used to enfore
 #   ANSI compliance.
 #
-MACHDEP := -DGEKKO -mrvl -mcpu=750 -meabi -mhard-float
 CFLAGS ?= -c -O2 -Wall $(MACHDEP) -I$(TOP_DIR)/include
 
 # ANSIFLAGS: Put there the flags used to make your compiler ANSI-compliant.

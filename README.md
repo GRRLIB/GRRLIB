@@ -90,7 +90,7 @@ libpngu     is supplied as source code
 libpng      is supplied as source code
 libz        is supplied as source code
 libfreetype is supplied as source code
-libfat      is supplied with devkitpro (i.e. preinstalled)
+libfat      is supplied with devkitPro (i.e. preinstalled)
 ```
 
 The easy way is to install GRRLIB and all the required libraries in a single

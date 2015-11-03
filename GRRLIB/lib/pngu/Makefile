@@ -10,13 +10,13 @@ ifeq ($(strip $(DEVKITPRO)),)
 $(error "Please set DEVKITPRO in your environment. export DEVKITPRO=<path to>devkitPro)
 endif
 
-include $(DEVKITPPC)/base_rules
-
-LIBOGC_INC	:=	$(DEVKITPRO)/libogc/include
-LIBOGC_LIB	:=	$(DEVKITPRO)/libogc/lib/wii
+ifeq ($(PLATFORM),cube)
+include $(DEVKITPPC)/gamecube_rules
+else
+include $(DEVKITPPC)/wii_rules
+endif
 
 INCLUDE	:= -I../zlib -I../png -I$(LIBOGC_INC)
-MACHDEP := -DGEKKO -mrvl -mcpu=750 -meabi -mhard-float
 CFLAGS  := -O2 -Wall $(MACHDEP) $(INCLUDE)
 
 LIB 	:= pngu

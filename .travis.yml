@@ -17,3 +17,4 @@ install:
 script:
   - cd GRRLIB && sudo -E make clean all install && cd ..
   - cd examples && make && cd ..
+  - cd GRRLIB && sudo -E make PLATFORM=cube clean all && cd ..
