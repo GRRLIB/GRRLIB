@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/GRRLIB/GRRLIB.svg?branch=master)](https://travis-ci.org/GRRLIB/GRRLIB)
+[![Join the chat at https://gitter.im/GRRLIB/GRRLIB](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/GRRLIB/GRRLIB?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 GRRLIB
 ======
