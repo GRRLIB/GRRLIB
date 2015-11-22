@@ -1,9 +1,8 @@
-[![Build Status](https://travis-ci.org/GRRLIB/GRRLIB.svg?branch=master)](https://travis-ci.org/GRRLIB/GRRLIB)
-[![Join the chat at https://gitter.im/GRRLIB/GRRLIB](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/GRRLIB/GRRLIB?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-GRRLIB
+﻿GRRLIB
 ======
 
+[![Build Status](https://travis-ci.org/GRRLIB/GRRLIB.svg?branch=master)](https://travis-ci.org/GRRLIB/GRRLIB)
+[![Join the chat at https://gitter.im/GRRLIB/GRRLIB](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/GRRLIB/GRRLIB?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Table of Contents
 -----------------
@@ -48,12 +47,12 @@ to allow real-time loading and saving of graphical data, and thus requires
 
 ```
 libgrrlib          <- 2D/3D graphics library
-+-- libfat         <- File I/O
-+-- libjpeg        <- JPEG image processor
-+-- libpngu        <- Wii wrapper for libpng
-    +-- libpng     <- PNG image processor
-        +-- libz   <- Zip (lossless) compression (for PNG compression)
-+-- libfreetype    <- TrueType font processor
+├── libfat         <- File I/O
+├── libjpeg        <- JPEG image processor
+├── libpngu        <- Wii wrapper for libpng
+│   └── libpng     <- PNG image processor
+│       └── libz   <- Zip (lossless) compression (for PNG compression)
+└── libfreetype    <- TrueType font processor
 ```
 
 
@@ -273,7 +272,7 @@ Credits
 Licence
 -------
 
-GRRLIB is released under [the MIT Licence](https://github.com/GRRLIB/GRRLIB/blob/master/LICENCE.TXT).
+GRRLIB is released under the [MIT Licence](https://github.com/GRRLIB/GRRLIB/blob/master/LICENCE.TXT).
 If we had chosen the GPL licence you would be +forced+ (legally required) to release your source code.
 But in the spirit of "free as in FREE" we have left you with the +option+ to release your
 source code.
@@ -283,4 +282,4 @@ the credits of your game/application.  And, if you +choose+ to do that, we
 encourage you to use our logo to achieve it; You can find our logo here:
 C:\grr\grrlib_logo.png
 and here:
-http://grrlib.santo.fr/wiki/images/logo.png
+https://raw.githubusercontent.com/GRRLIB/GRRLIB/master/grrlib_logo.png
