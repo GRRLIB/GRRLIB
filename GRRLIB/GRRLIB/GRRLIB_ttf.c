@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2015 The GRRLIB Team
+Copyright (c) 2009-2016 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,7 @@ THE SOFTWARE.
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
-static FT_Library ftLibrary;        /**< A handle to a FreeType library instance. */
+static FT_Library ftLibrary; /**< A handle to a FreeType library instance. */
 
 // Static function prototypes
 static void DrawBitmap(FT_Bitmap *bitmap, int offset, int top, const u8 cR, const u8 cG, const u8 cB);
