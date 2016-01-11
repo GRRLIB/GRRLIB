@@ -87,7 +87,7 @@ void  GRRLIB_FreeBMF (GRRLIB_bytemapFont *bmf) {
     u16 i;
 
     for (i=0; i<256; i++) {
-        if (bmf->charDef[i].data) {
+        if (bmf->charDef[i].data != NULL) {
             free(bmf->charDef[i].data);
         }
     }
@@ -109,10 +109,12 @@ void  GRRLIB_InitTileSet (GRRLIB_texImg *tex,
                           const uint tilestart) {
     tex->tilew = tilew;
     tex->tileh = tileh;
-    if (tilew) // Avoid division by zero
+    if (tilew != 0) { // Avoid division by zero
         tex->nbtilew = tex->w / tilew;
-    if (tileh) // Avoid division by zero
+    }
+    if (tileh != 0) { // Avoid division by zero
         tex->nbtileh = tex->h / tileh;
+    }
     tex->tilestart = tilestart;
     tex->tiledtex = true;
     tex->ofnormaltexx = 1.0F / tex->nbtilew;
