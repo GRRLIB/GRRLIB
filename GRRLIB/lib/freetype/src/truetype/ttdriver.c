@@ -4,7 +4,7 @@
 /*                                                                         */
 /*    TrueType font driver implementation (body).                          */
 /*                                                                         */
-/*  Copyright 1996-2012 by                                                 */
+/*  Copyright 1996-2013 by                                                 */
 /*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
 /*                                                                         */
 /*  This file is part of the FreeType project, and may only be used,       */
@@ -163,7 +163,7 @@
       }
     }
 
-    return TT_Err_Ok;
+    return FT_Err_Ok;
   }
 
   /*************************************************************************/
@@ -187,7 +187,7 @@
   {
     TT_Face   ttface = (TT_Face)size->face;
     TT_Size   ttsize = (TT_Size)size;
-    FT_Error  error  = TT_Err_Ok;
+    FT_Error  error  = FT_Err_Ok;
 
 
     ttsize->strike_index = strike_index;
@@ -221,7 +221,7 @@
                    FT_Size_Request  req )
   {
     TT_Size   ttsize = (TT_Size)size;
-    FT_Error  error  = TT_Err_Ok;
+    FT_Error  error  = FT_Err_Ok;
 
 
 #ifdef TT_CONFIG_OPTION_EMBEDDED_BITMAPS
@@ -294,13 +294,13 @@
 
 
     if ( !slot )
-      return TT_Err_Invalid_Slot_Handle;
+      return FT_THROW( Invalid_Slot_Handle );
 
     if ( !size )
-      return TT_Err_Invalid_Size_Handle;
+      return FT_THROW( Invalid_Size_Handle );
 
     if ( !face )
-      return TT_Err_Invalid_Argument;
+      return FT_THROW( Invalid_Argument );
 
 #ifdef FT_CONFIG_OPTION_INCREMENTAL
     if ( glyph_index >= (FT_UInt)face->num_glyphs &&
@@ -308,7 +308,7 @@
 #else
     if ( glyph_index >= (FT_UInt)face->num_glyphs )
 #endif
-      return TT_Err_Invalid_Argument;
+      return FT_THROW( Invalid_Argument );
 
     if ( load_flags & FT_LOAD_NO_HINTING )
     {
@@ -353,13 +353,13 @@
   /*************************************************************************/
 
 #ifdef TT_CONFIG_OPTION_GX_VAR_SUPPORT
-  FT_DEFINE_SERVICE_MULTIMASTERSREC(tt_service_gx_multi_masters,
+  FT_DEFINE_SERVICE_MULTIMASTERSREC(
+    tt_service_gx_multi_masters,
     (FT_Get_MM_Func)        NULL,
     (FT_Set_MM_Design_Func) NULL,
     (FT_Set_MM_Blend_Func)  TT_Set_MM_Blend,
     (FT_Get_MM_Var_Func)    TT_Get_MM_Var,
-    (FT_Set_Var_Design_Func)TT_Set_Var_Design
-  )
+    (FT_Set_Var_Design_Func)TT_Set_Var_Design )
 #endif
 
   static const FT_Service_TrueTypeEngineRec  tt_service_truetype_engine =
@@ -379,24 +379,25 @@
 #endif /* TT_USE_BYTECODE_INTERPRETER */
   };
 
-  FT_DEFINE_SERVICE_TTGLYFREC(tt_service_truetype_glyf,
-    (TT_Glyf_GetLocationFunc)tt_face_get_location
-  )
+  FT_DEFINE_SERVICE_TTGLYFREC(
+    tt_service_truetype_glyf,
+    (TT_Glyf_GetLocationFunc)tt_face_get_location )
 
 #ifdef TT_CONFIG_OPTION_GX_VAR_SUPPORT
-  FT_DEFINE_SERVICEDESCREC4(tt_services,
+  FT_DEFINE_SERVICEDESCREC4(
+    tt_services,
     FT_SERVICE_ID_XF86_NAME,       FT_XF86_FORMAT_TRUETYPE,
-    FT_SERVICE_ID_MULTI_MASTERS,   &FT_TT_SERVICE_GX_MULTI_MASTERS_GET,
+    FT_SERVICE_ID_MULTI_MASTERS,   &TT_SERVICE_GX_MULTI_MASTERS_GET,
     FT_SERVICE_ID_TRUETYPE_ENGINE, &tt_service_truetype_engine,
-    FT_SERVICE_ID_TT_GLYF,         &FT_TT_SERVICE_TRUETYPE_GLYF_GET
-  )
+    FT_SERVICE_ID_TT_GLYF,         &TT_SERVICE_TRUETYPE_GLYF_GET )
 #else
-  FT_DEFINE_SERVICEDESCREC3(tt_services,
+  FT_DEFINE_SERVICEDESCREC3(
+    tt_services,
     FT_SERVICE_ID_XF86_NAME,       FT_XF86_FORMAT_TRUETYPE,
     FT_SERVICE_ID_TRUETYPE_ENGINE, &tt_service_truetype_engine,
-    FT_SERVICE_ID_TT_GLYF,         &FT_TT_SERVICE_TRUETYPE_GLYF_GET
-  )
+    FT_SERVICE_ID_TT_GLYF,         &TT_SERVICE_TRUETYPE_GLYF_GET )
 #endif
+
 
   FT_CALLBACK_DEF( FT_Module_Interface )
   tt_get_interface( FT_Module    driver,    /* TT_Driver */
@@ -408,7 +409,7 @@
     SFNT_Service         sfnt;
 
 
-    /* FT_TT_SERVICES_GET derefers `library' in PIC mode */
+    /* TT_SERVICES_GET derefers `library' in PIC mode */
 #ifdef FT_CONFIG_OPTION_PIC
     if ( !driver )
       return NULL;
@@ -417,7 +418,7 @@
       return NULL;
 #endif
 
-    result = ft_service_list_lookup( FT_TT_SERVICES_GET, tt_interface );
+    result = ft_service_list_lookup( TT_SERVICES_GET, tt_interface );
     if ( result != NULL )
       return result;
 
@@ -445,15 +446,15 @@
   /* The FT_DriverInterface structure is defined in ftdriver.h. */
 
 #ifdef TT_USE_BYTECODE_INTERPRETER
-#define TT_HINTER_FLAG   FT_MODULE_DRIVER_HAS_HINTER
+#define TT_HINTER_FLAG  FT_MODULE_DRIVER_HAS_HINTER
 #else
-#define TT_HINTER_FLAG   0
+#define TT_HINTER_FLAG  0
 #endif
 
 #ifdef TT_CONFIG_OPTION_EMBEDDED_BITMAPS
-#define TT_SIZE_SELECT    tt_size_select
+#define TT_SIZE_SELECT  tt_size_select
 #else
-#define TT_SIZE_SELECT    0
+#define TT_SIZE_SELECT  0
 #endif
 
   FT_DEFINE_DRIVER( tt_driver_class,
