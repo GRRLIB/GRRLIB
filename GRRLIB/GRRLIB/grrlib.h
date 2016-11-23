@@ -21,7 +21,7 @@ THE SOFTWARE.
 ------------------------------------------------------------------------------*/
 
 /**
- * @file GRRLIB.h
+ * @file grrlib.h
  * GRRLIB user include file.
  */
 /**
