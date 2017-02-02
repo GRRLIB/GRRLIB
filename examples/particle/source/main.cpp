@@ -72,7 +72,6 @@ GRRLIB_texImg *GFX_Font;
 
 int main() {
     u32 WPADKeyDown;
-    u32 WPADKeyHeld;
 
     u8 FPS = 0;
     u32 ParticleCnt = 0;
@@ -105,7 +104,6 @@ int main() {
     while (true) {
         WPAD_ScanPads();
         WPADKeyDown = WPAD_ButtonsDown(WPAD_CHAN_0);
-        WPADKeyHeld = WPAD_ButtonsHeld(WPAD_CHAN_0);
         WPAD_SetVRes(WPAD_CHAN_0, WinW, WinH);
         WPAD_IR(WPAD_CHAN_0, &P1Mote);
 
