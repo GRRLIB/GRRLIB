@@ -26,7 +26,6 @@
 // Random Number (0 - 1) in float
 #define RANDOM   ((((float)(rand() % 12))/12)-0.5)
 
-using std::vector;
 Mtx GXmodelView2D;
 
 // Basic structure to hold particle data
@@ -44,9 +43,9 @@ typedef struct Particle {
 } Particle;
 
 // Vector used as a container to iterate through all members of GRRLIB_texImg
-static vector<GRRLIB_texImg *> TextureList;
-static vector<Particle *> ParticleList;
-static vector<Particle *> ParticleListTmp;
+static std::vector<GRRLIB_texImg *> TextureList;
+static std::vector<Particle *> ParticleList;
+static std::vector<Particle *> ParticleListTmp;
 
 // Declare static functions
 static void ExitGame();
@@ -58,10 +57,6 @@ static u8 ClampVar8 (f32 Value);
 
 // Initialize general variables
 extern GXRModeObj *rmode;
-ir_t P1Mote;
-short WinW;
-short WinH;
-int P1MX, P1MY;
 
 // Prepare Graphics
 GRRLIB_texImg *GFX_Background;
@@ -71,15 +66,14 @@ GRRLIB_texImg *GFX_Font;
 
 
 int main() {
-    u32 WPADKeyDown;
+    ir_t P1Mote;
 
     u8 FPS = 0;
-    u32 ParticleCnt = 0;
 
     // Init GRRLIB & WiiUse
     GRRLIB_Init();
-    WinW = rmode->fbWidth;
-    WinH = rmode->efbHeight;
+    short WinW = rmode->fbWidth;
+    short WinH = rmode->efbHeight;
     WPAD_Init();
     WPAD_SetIdleTimeout( 60*10 );
     WPAD_SetDataFormat( WPAD_CHAN_0, WPAD_FMT_BTNS_ACC_IR );
@@ -96,38 +90,31 @@ int main() {
     GRRLIB_SetMidHandle( GFX_Smoke, true );
 
     // Feed the vector with the textures
-    TextureList.push_back( GFX_Background );
-    TextureList.push_back( GFX_Crosshair );
-    TextureList.push_back( GFX_Smoke );
-    TextureList.push_back( GFX_Font );
+    TextureList = { GFX_Background, GFX_Crosshair, GFX_Smoke, GFX_Font };
 
     while (true) {
         WPAD_ScanPads();
-        WPADKeyDown = WPAD_ButtonsDown(WPAD_CHAN_0);
+        u32 WPADKeyDown = WPAD_ButtonsDown(WPAD_CHAN_0);
         WPAD_SetVRes(WPAD_CHAN_0, WinW, WinH);
         WPAD_IR(WPAD_CHAN_0, &P1Mote);
 
         // Resetting Vars
         GRRLIB_SetBlend( GRRLIB_BLEND_ALPHA );
-        ParticleCnt = 0;
+        u32 ParticleCnt = 0;
 
         // WiiMote IR Viewport correction
-        P1MX = P1Mote.sx - 150;
-        P1MY = P1Mote.sy - 150;
+        int P1MX = P1Mote.sx - 150;
+        int P1MY = P1Mote.sy - 150;
 
         // Drawing Background
         GRRLIB_DrawImg( 0, 0, GFX_Background, 0, 1, 1, RGBA(255, 255, 255, 255) );
 
         // Add any pending objects into the main container
-        if (ParticleListTmp.size()) {
-            for(u32 i = 0; i<ParticleListTmp.size();i++) {
-                ParticleList.push_back(ParticleListTmp[i]);
-            }
-            ParticleListTmp.clear();
-        }
+        ParticleList.insert(ParticleList.end(), ParticleListTmp.begin(), ParticleListTmp.end());
+        ParticleListTmp.clear();
 
         // Update and draw all particles
-        for (vector<Particle *>::iterator PartIter = ParticleList.begin(); PartIter != ParticleList.end();) {
+        for (auto PartIter = ParticleList.begin(); PartIter != ParticleList.end();) {
             if (updateParticle((*PartIter)) == true) {
                 GRRLIB_DrawImg( (*PartIter)->x, (*PartIter)->y, (*PartIter)->tex, (*PartIter)->rot, (*PartIter)->scale, (*PartIter)->scale, RGBA( (*PartIter)->red, (*PartIter)->green, (*PartIter)->blue, ClampVar8((*PartIter)->alpha*255) ) );
             } else {
@@ -135,7 +122,7 @@ int main() {
                 ParticleList.erase(PartIter);
                 continue;
             }
-            ParticleCnt += 1;
+            ParticleCnt++;
             PartIter++;
         }
 
@@ -255,9 +242,8 @@ static bool updateParticle( Particle *part ) {
 
 static void ExitGame() {
     // Free all memory used by textures.
-    for (vector<GRRLIB_texImg *>::iterator TexIter = TextureList.begin(); TexIter != TextureList.end(); TexIter++) {
-        free((*TexIter)->data);
-        free((*TexIter));
+    for (auto &TexIter : TextureList) {
+        GRRLIB_FreeTexture(TexIter);
     }
     TextureList.clear();
 
