@@ -14,10 +14,10 @@
 #include <vector>
 
 // Include Graphics
-#include "GFX/RGFX_Background.h"
-#include "GFX/RGFX_Crosshair.h"
-#include "GFX/RGFX_Smoke.h"
-#include "GFX/RGFX_Font.h"
+#include "RGFX_Background_jpg.h"
+#include "RGFX_Crosshair_png.h"
+#include "RGFX_Smoke_png.h"
+#include "RGFX_Font_png.h"
 
 
 // Define Effects
@@ -79,10 +79,10 @@ int main() {
     WPAD_SetDataFormat( WPAD_CHAN_0, WPAD_FMT_BTNS_ACC_IR );
 
     // Load textures
-    GFX_Background = GRRLIB_LoadTextureJPG(RGFX_Background);
-    GFX_Crosshair  = GRRLIB_LoadTexturePNG(RGFX_Crosshair);
-    GFX_Smoke      = GRRLIB_LoadTexturePNG(RGFX_Smoke);
-    GFX_Font       = GRRLIB_LoadTexturePNG(RGFX_Font);
+    GFX_Background = GRRLIB_LoadTextureJPG(RGFX_Background_jpg);
+    GFX_Crosshair  = GRRLIB_LoadTexturePNG(RGFX_Crosshair_png);
+    GFX_Smoke      = GRRLIB_LoadTexturePNG(RGFX_Smoke_png);
+    GFX_Font       = GRRLIB_LoadTexturePNG(RGFX_Font_png);
     GRRLIB_InitTileSet( GFX_Font, 8, 16, 32 );
 
     // Set handles
@@ -110,8 +110,10 @@ int main() {
         GRRLIB_DrawImg( 0, 0, GFX_Background, 0, 1, 1, RGBA(255, 255, 255, 255) );
 
         // Add any pending objects into the main container
-        ParticleList.insert(ParticleList.end(), ParticleListTmp.begin(), ParticleListTmp.end());
-        ParticleListTmp.clear();
+        if(ParticleListTmp.empty() == false) {
+            ParticleList.insert(ParticleList.end(), ParticleListTmp.begin(), ParticleListTmp.end());
+            ParticleListTmp.clear();
+        }
 
         // Update and draw all particles
         for (auto PartIter = ParticleList.begin(); PartIter != ParticleList.end();) {
@@ -254,6 +256,9 @@ static void ExitGame() {
     exit(0);
 }
 
+/**
+ * This function calculates the number of frames we render each second.
+ */
 static u8 CalculateFrameRate() {
     static u8 frameCount = 0;
     static u32 lastTime;
