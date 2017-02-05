@@ -26,8 +26,6 @@
 // Random Number (0 - 1) in float
 #define RANDOM   ((((float)(rand() % 12))/12)-0.5)
 
-Mtx GXmodelView2D;
-
 // Basic structure to hold particle data
 typedef struct Particle {
     u8 id;
@@ -54,9 +52,6 @@ static void createParticle( u8 _id, int _x, int _y, float _scale, float _alpha, 
 static bool updateParticle( Particle *part );
 static u8 CalculateFrameRate();
 static u8 ClampVar8 (f32 Value);
-
-// Initialize general variables
-extern GXRModeObj *rmode;
 
 // Prepare Graphics
 GRRLIB_texImg *GFX_Background;
