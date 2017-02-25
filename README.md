@@ -164,13 +164,13 @@ Using GRRLIB
 
 After everything is installed, simply put
 ```c
-    #include <grrlib.h>
+#include <grrlib.h>
 ```
 at the top of your .c/.cpp file and use the functions as required
 
 You will also need to add
 ```make
-  -lgrrlib -lfreetype -lfat -ljpeg -lpngu -lpng -lz
+-lgrrlib -lfreetype -lfat -ljpeg -lpngu -lpng -lz
 ```
 to the libs line in your makefile
 
@@ -190,12 +190,12 @@ Upgrading to v4.1.0 From Previous Versions of GRRLIB
 
 Older versions of GRRLIB, required a line such as:
 ```c
-  #include "../../../GRRLIB/GRRLIB/GRRLIB.h"
+#include "../../../GRRLIB/GRRLIB/GRRLIB.h"
 ```
 ...to be placed at the top of each C file which uses GRRLB.
 Because GRRLIB is now installed as a system library, this must be replaced with:
 ```c
-  #include <grrlib.h>
+#include <grrlib.h>
 ```
 
 Older versions of GRRLIB required the 'GRRLIB.h' and 'GRRLIB.c" files to be
@@ -272,7 +272,7 @@ Credits
 Licence
 -------
 
-GRRLIB is released under the [MIT Licence](https://github.com/GRRLIB/GRRLIB/blob/master/LICENCE.TXT).
+GRRLIB is released under the [MIT Licence](LICENCE.md).
 If we had chosen the GPL licence you would be +forced+ (legally required) to release your source code.
 But in the spirit of "free as in FREE" we have left you with the +option+ to release your
 source code.
