@@ -37,7 +37,7 @@ core.
 This document is written to be viewed with equal clarity in either a web browser
 or a text editor.
 
-As of v4.1.0, GRRLIB is supplied as a standard C/C++ library (aka. archive)
+GRRLIB is supplied as a standard C/C++ library (aka. archive)
 called 'libgrrlib'.  Because GRRLIB processes JPEG and PNG images, it requires
 the installation of the 'libjpeg' and 'libpngu' libraries.  'libpngu', in turn,
 requires 'libpng' and 'libpng' requires 'libz'.  GRRLIB has FileIO functions

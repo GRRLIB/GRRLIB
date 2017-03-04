@@ -101,7 +101,7 @@ void GRRLIB_PrintfTTF(int x, int y, GRRLIB_ttfFont *myFont, const char *string, 
 
     size_t length = strlen(string) + 1;
     wchar_t *utf32 = (wchar_t*)malloc(length * sizeof(wchar_t));
-    if (utf32) {
+    if (utf32 != NULL) {
         length = mbstowcs(utf32, string, length);
         if (length > 0) {
             utf32[length] = L'\0';
