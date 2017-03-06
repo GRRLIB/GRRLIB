@@ -10,6 +10,10 @@ env:
     - DEVKITPRO=$HOME/devkitPro
     - DEVKITPPC=${DEVKITPRO}/devkitPPC
 
+cache:
+  directories:
+    - ${DEVKITPRO}
+
 before_install:
   - wget https://sourceforge.net/projects/devkitpro/files/Automated%20Installer/devkitPPCupdate.pl
 
