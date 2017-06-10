@@ -71,7 +71,6 @@ void  GRRLIB_PrintBMF (const f32 xpos, const f32 ypos,
                        const GRRLIB_bytemapFont *bmf,
                        const char *text, ...) {
     uint  i, size;
-    u8    *pdata;
     u8    x, y;
     char  tmp[1024];
     f32   xoff = xpos;
@@ -84,7 +83,7 @@ void  GRRLIB_PrintBMF (const f32 xpos, const f32 ypos,
 
     for (i=0; i<size; i++) {
         pchar = &bmf->charDef[(u8)tmp[i]];
-        pdata = pchar->data;
+        u8 *pdata = pchar->data;
         for (y=0; y<pchar->height; y++) {
             for (x=0; x<pchar->width; x++) {
                 if (*pdata) {

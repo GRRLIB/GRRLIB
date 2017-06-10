@@ -206,7 +206,6 @@ static RGBQUAD*  GRRLIB_CreatePalette (const u8 *my_bmp, u32 Size) {
 GRRLIB_texImg*  GRRLIB_LoadTextureBMP (const u8 *my_bmp) {
     BITMAPFILEHEADER MyBitmapFileHeader;
     BITMAPINFOHEADER MyBitmapHeader;
-    RGBQUAD *Palette;
     u16 pal_ref;
     u32 BufferSize;
     s32 y, x, i;
@@ -234,6 +233,7 @@ GRRLIB_texImg*  GRRLIB_LoadTextureBMP (const u8 *my_bmp) {
 
         my_texture->data = memalign(32, MyBitmapHeader.biWidth * MyBitmapHeader.biHeight * 4);
         if (my_texture->data != NULL && MyBitmapFileHeader.bfType == 0x4D42) {
+            RGBQUAD *Palette;
             my_texture->w = MyBitmapHeader.biWidth;
             my_texture->h = MyBitmapHeader.biHeight;
             switch(MyBitmapHeader.biBitCount) {
