@@ -41,6 +41,8 @@ void  GRRLIB_FlushTex (GRRLIB_texImg *tex) {
 
 /**
  * Free memory allocated for texture.
+ * If \a tex is a null pointer, the function does nothing.
+ * @note This function does not change the value of \a tex itself, hence it still points to the same (now invalid) location.
  * @param tex A GRRLIB_texImg structure.
  */
 INLINE
@@ -50,7 +52,6 @@ void  GRRLIB_FreeTexture (GRRLIB_texImg *tex) {
             free(tex->data);
         }
         free(tex);
-        tex = NULL;
     }
 }
 

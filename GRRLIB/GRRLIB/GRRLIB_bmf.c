@@ -80,20 +80,21 @@ GRRLIB_bytemapFont*  GRRLIB_LoadBMF (const u8 my_bmf[] ) {
 
 /**
  * Free memory allocated by ByteMap fonts.
+ * If \a bmf is a null pointer, the function does nothing.
+ * @note This function does not change the value of \a bmf itself, hence it still points to the same (now invalid) location.
  * @param bmf A GRRLIB_bytemapFont structure.
  */
 void  GRRLIB_FreeBMF (GRRLIB_bytemapFont *bmf) {
-    u16 i;
-
-    for (i=0; i<256; i++) {
-        if (bmf->charDef[i].data != NULL) {
-            free(bmf->charDef[i].data);
+    if (bmf != NULL) {
+        for (u16 i=0; i<256; i++) {
+            if (bmf->charDef[i].data != NULL) {
+                free(bmf->charDef[i].data);
+            }
         }
+        free(bmf->palette);
+        free(bmf->name);
+        free(bmf);
     }
-    free(bmf->palette);
-    free(bmf->name);
-    free(bmf);
-    bmf = NULL;
 }
 
 /**

@@ -75,13 +75,14 @@ GRRLIB_ttfFont* GRRLIB_LoadTTF (const u8* file_base, s32 file_size) {
 
 /**
  * Free memory allocated by TTF fonts.
+ * If \a myFont is a null pointer, the function does nothing.
+ * @note This function does not change the value of \a myFont itself, hence it still points to the same (now invalid) location.
  * @param myFont A TTF.
  */
 void  GRRLIB_FreeTTF (GRRLIB_ttfFont *myFont) {
     if (myFont != NULL) {
         FT_Done_Face(myFont->face);
         free(myFont);
-        myFont = NULL;
     }
 }
 

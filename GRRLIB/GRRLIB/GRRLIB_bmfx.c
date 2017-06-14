@@ -67,19 +67,17 @@ void  GRRLIB_BMFX_FlipV (const GRRLIB_texImg *texsrc, GRRLIB_texImg *texdest) {
 void  GRRLIB_BMFX_Grayscale (const GRRLIB_texImg *texsrc,
                              GRRLIB_texImg *texdest) {
     unsigned int x, y;
-    u8 gray;
-    u32 color;
 
     for (y = 0; y < texsrc->h; y++) {
         for (x = 0; x < texsrc->w; x++) {
-            color = GRRLIB_GetPixelFromtexImg(x, y, texsrc);
+            u32 color = GRRLIB_GetPixelFromtexImg(x, y, texsrc);
 
-            gray = ((R(color)* 77 +
-                     G(color)*150 +
-                     B(color)* 28 ) / 255);
+            u8 gray = ((R(color)* 77 +
+                        G(color)*150 +
+                        B(color)* 28 ) / 255);
 
             GRRLIB_SetPixelTotexImg(x, y, texdest,
-                ((gray << 24) | (gray << 16) | (gray << 8) | A(color)));
+                (gray << 24) | (gray << 16) | (gray << 8) | (A(color)));
         }
     }
     GRRLIB_SetHandle(texdest, 0, 0);
