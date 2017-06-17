@@ -35,13 +35,12 @@ int main() {
     // Init Variables
     u32 WPADKeyDown;
     short WinW, WinH;
-    int P1MX, P1MY;
 
-    u8 Stage = 0, Blending = 0;
+    u8 Stage = 0;
+    u8 Blending = 0;
     u8 BlobType = 0;
     u8 Color = 255;
     u16 Step = 0;
-    float SX, SY;
 
 
     // Init GRRLIB & WiiUse
@@ -73,14 +72,14 @@ int main() {
         WPAD_IR(WPAD_CHAN_0, &P1Mote);
 
         // WiiMote IR Viewport Correction
-        P1MX = P1Mote.sx - 150;
-        P1MY = P1Mote.sy - 150;
+        int P1MX = P1Mote.sx - 150;
+        int P1MY = P1Mote.sy - 150;
 
         // Update Stage
         Step = Step + 1;
         if (Step == 720) { Step = 0; }
-        SX = 320 + (sin(DegToRad(Step  )) * 250);
-        SY = 240 + (cos(DegToRad(Step*3)) * 100);
+        float SX = 320 + (sin(DegToRad(Step  )) * 250);
+        float SY = 240 + (cos(DegToRad(Step*3)) * 100);
 
         // Draw Stage
         GRRLIB_DrawImg( 0, 0, GFX_Background, 0, 1, 1, RGBA(255, 255, 255, 255) );

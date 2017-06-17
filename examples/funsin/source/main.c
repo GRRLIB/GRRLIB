@@ -16,7 +16,6 @@ int main() {
     int amp1, amp2, amp3, amp4;
     int origine1, origine2, origine3, origine4;
     int adc1, adc2, adc3, adc4;
-    float old1, old2, old3, old4;
     float siny1, siny2, siny3, siny4;
     int x;
     float pas1, pas2, pas3, pas4;
@@ -65,14 +64,17 @@ int main() {
     siny4 = offset4*pas4;
 
 
-    while(1) {
+    while (1) {
         GRRLIB_FillScreen(0x000000FF);
         WPAD_ScanPads();  // Scan the Wiimotes
         if (WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME)  break;
-        old1=siny1; old2=siny2; old3=siny3; old4=siny4;
+        float old1=siny1;
+        float old2=siny2;
+        float old3=siny3;
+        float old4=siny4;
 
 
-        for(x=0;x<=640;x++) {
+        for (x=0; x<=640; x++) {
             siny1+=pas1;
             siny2+=pas2;
             siny3+=pas3;
