@@ -2,6 +2,7 @@
 ======
 
 [![Build Status](https://travis-ci.org/GRRLIB/GRRLIB.svg?branch=master)](https://travis-ci.org/GRRLIB/GRRLIB)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/5b2983faefbf443eaa5705e7cc6e5f68)](https://www.codacy.com/app/Crayon2000/GRRLIB?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=GRRLIB/GRRLIB&amp;utm_campaign=Badge_Grade)
 [![Join the chat at https://gitter.im/GRRLIB/GRRLIB](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/GRRLIB/GRRLIB?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Table of Contents

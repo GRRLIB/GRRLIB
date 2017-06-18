@@ -20,7 +20,7 @@ int main() {
     float a=0;
     int cubeZ=5;
     int i=0;
-    float sinx=0, oldsinx=0;
+    float sinx=0;
 
     GRRLIB_Init();
     WPAD_Init();
@@ -133,7 +133,7 @@ int main() {
 
         // Switch To 2D Mode to display text
         GRRLIB_2dMode();
-        oldsinx=sinx;
+        const float oldsinx=sinx;
         for(i=0; i<rmode->efbHeight; i++) {
             GRRLIB_DrawTile(0+sin(sinx)*60,i,tex_screen,0,1,1,0xFFFFFFFF,i);
             sinx+=0.02f;

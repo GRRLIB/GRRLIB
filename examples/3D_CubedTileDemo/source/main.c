@@ -137,7 +137,7 @@ int main() {
     int bgx=-32, bgy=-32;
     float idperso=0;
     int i=0;
-    float sinnonameno=0, oldsinnonameno=0;
+    float sinnonameno=0;
     float camZ=1400.0f;
     float a=0;
 
@@ -266,7 +266,7 @@ int main() {
         }
         GRRLIB_DrawTile(TileMap1Width*9,TileMap1Height*6,tex_perso,0,1,1,0xFFFFFFFF,(int)idperso);
 
-        oldsinnonameno=sinnonameno;
+        const float oldsinnonameno=sinnonameno;
         for(i=0; i<8; i++) {
             GRRLIB_DrawTile(TileMap1Width*(6+i),(TileMap1Height*10)+sin(sinnonameno)*64,tex_nonameno,0,1,1,0xFFFFFFFF,i);
             sinnonameno+=0.4F;
