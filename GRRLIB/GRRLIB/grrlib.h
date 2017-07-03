@@ -227,4 +227,9 @@ GRR_EXTERN  u32         fb       GRR_INIT(0);
  *
  * @section Licence
  * See the [LICENCE](LICENCE.md) file for licence rights and limitations (MIT).
+ *
+ * @example template/source/main.c
+ * This example shows the minimum code required to use GRRLIB.
+ * It could be used as a template to start a new project.
+ * More elaborate examples can be found inside the \e examples folder.
  */
