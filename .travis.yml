@@ -31,6 +31,9 @@ script:
   - (cd GRRLIB && sudo -E make PLATFORM=cube clean all)
   - doxygen grrlib.doxygen
 
+before_deploy:
+  touch $TRAVIS_BUILD_DIR/doc/.nojekyll
+
 deploy:
   provider: pages
   skip_cleanup: true

@@ -33,7 +33,7 @@ THE SOFTWARE.
  * @param color The color of the circle in RGBA format.
  * @param filled Set to true to fill the circle.
  */
-void  GRRLIB_Circle (const f32 x,  const f32 y,  const f32 radius,
+void  GRRLIB_Circle (const f32 x, const f32 y, const f32 radius,
                      const u32 color, const u8 filled) {
     guVector v[36];
     u32 ncolor[36];

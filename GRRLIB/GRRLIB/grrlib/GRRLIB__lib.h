@@ -83,7 +83,7 @@ void  GRRLIB_Exit (void);
 
 //------------------------------------------------------------------------------
 // GRRLIB_fbAdvanced.c - Render to framebuffer: Advanced primitives
-void  GRRLIB_Circle (const f32 x,  const f32 y,  const f32 radius,
+void  GRRLIB_Circle (const f32 x, const f32 y, const f32 radius,
                      const u32 color, const u8 filled);
 
 //------------------------------------------------------------------------------
@@ -156,8 +156,8 @@ void GRRLIB_ObjectViewScale(f32 scalx, f32 scaly, f32 scalz);
 void GRRLIB_ObjectViewRotate(f32 angx, f32 angy, f32 angz);
 void GRRLIB_ObjectViewTrans(f32 posx, f32 posy, f32 posz);
 void GRRLIB_ObjectViewEnd(void);
-void GRRLIB_ObjectView(f32 posx, f32 posy, f32 posz, f32 angx, f32 angy, f32 angz,  f32 scalx, f32 scaly, f32 scalz);
-void GRRLIB_ObjectViewInv(f32 posx, f32 posy, f32 posz, f32 angx, f32 angy, f32 angz,  f32 scalx, f32 scaly, f32 scalz);
+void GRRLIB_ObjectView(f32 posx, f32 posy, f32 posz, f32 angx, f32 angy, f32 angz, f32 scalx, f32 scaly, f32 scalz);
+void GRRLIB_ObjectViewInv(f32 posx, f32 posy, f32 posz, f32 angx, f32 angy, f32 angz, f32 scalx, f32 scaly, f32 scalz);
 void GRRLIB_SetTexture(GRRLIB_texImg *tex, bool rep);
 void GRRLIB_DrawTorus(f32 r, f32 R, int nsides, int rings, bool filled, u32 col);
 void GRRLIB_DrawSphere(f32 r, int lats, int longs, bool filled, u32 col);
