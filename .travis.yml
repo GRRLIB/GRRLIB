@@ -33,8 +33,8 @@ script:
   - (cd latex && make)
 
 before_deploy:
-  touch $TRAVIS_BUILD_DIR/doc/.nojekyll
-  mv $TRAVIS_BUILD_DIR/latex/refman.pdf $TRAVIS_BUILD_DIR/doc/PDF-documentation.pdf
+  touch doc/.nojekyll
+  mv latex/refman.pdf doc/PDF-documentation.pdf
 
 deploy:
   provider: pages
