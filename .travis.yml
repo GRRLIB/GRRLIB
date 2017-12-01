@@ -1,5 +1,4 @@
 language: c
-dist: trusty
 sudo: required
 
 os:
@@ -14,6 +13,7 @@ addons:
   apt:
     packages:
       - doxygen
+      - doxygen-latex
 
 cache:
   directories:
@@ -30,9 +30,11 @@ script:
   - (cd examples && make)
   - (cd GRRLIB && sudo -E make PLATFORM=cube clean all)
   - doxygen grrlib.doxygen
+  - (cd latex && make)
 
 before_deploy:
   touch $TRAVIS_BUILD_DIR/doc/.nojekyll
+  mv $TRAVIS_BUILD_DIR/latex/refman.pdf $TRAVIS_BUILD_DIR/doc/PDF-documentation.pdf
 
 deploy:
   provider: pages
