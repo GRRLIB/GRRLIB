@@ -16,5 +16,9 @@ build
 # Programmer's Notepad state file
 *.pnps
 
-# Generated doxygen HTML documentation
+# Generated doxygen documentation
 /doc
+/latex
+
+# Temporary file
+*.tmp

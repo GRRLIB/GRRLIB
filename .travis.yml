@@ -29,8 +29,8 @@ script:
   - (cd GRRLIB && sudo -E make clean all install)
   - (cd examples && make)
   - (cd GRRLIB && sudo -E make PLATFORM=cube clean all)
-  - doxygen grrlib.doxygen
-  - (cd latex && make)
+  - doxygen grrlib.doxygen >/dev/null
+  - make --directory=latex >/dev/null
 
 before_deploy:
   - touch doc/.nojekyll
