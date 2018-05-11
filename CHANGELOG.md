@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
-- libpng was updated to version 1.6.29
+- libpng was updated to version 1.6.34
 - zlib was updated to version 1.2.11
 - libjpeg was updated to version 9b (17-Jan-2016)
 - FreeType updated to version 2.4.12
