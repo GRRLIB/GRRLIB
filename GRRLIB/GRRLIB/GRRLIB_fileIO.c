@@ -62,7 +62,8 @@ int  GRRLIB_LoadFile(const char* filename, unsigned char* *data) {
 
     if ( fread(*data, 1, len, fd) != len) {
         fclose(fd);
-        free(*data);  *data = NULL;
+        free(*data);
+        *data = NULL;
         return -3;
     }
 

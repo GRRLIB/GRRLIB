@@ -14,12 +14,12 @@ All notable changes to this project will be documented in this file.
 - libjpeg was updated to version 8d
 - FreeType updated to version 2.4.10
 - GRRLIB_ClampVar8 was removed from GRRLIB
-- Removed warnings from GRRLIB_LoadBMF 
+- Removed warnings from GRRLIB_LoadBMF
 
 ## [4.3.1] - 2010-10-22
 - libpng was updated to version 1.4.4
 - FreeType updated to version 2.4.3
-- GRRLIB is compatible with libogc 1.8.4 
+- GRRLIB is compatible with libogc 1.8.4
 
 ## [4.3.0] - 2010-06-28
 - libpng was updated to version 1.4.2
@@ -35,7 +35,7 @@ All notable changes to this project will be documented in this file.
   - 3d_light3 -> A little Specular light sample code
   - 3d_light4 -> Spot Light Sample Code
   - 3D_sample5 -> Simple demo of rotation/translation/scaling 3d object.
-  - ttf -> TrueType Font demo 
+  - ttf -> TrueType Font demo
 
 ## [4.2.0] - 2009-12-16
 - First support to 3D functions
@@ -59,7 +59,7 @@ All notable changes to this project will be documented in this file.
   - template (Use this as a basis for your project)
   - TileDemo (This will show you how to use tiles/tileset and map)
   - unlimited2d (A faky technic for unlimited sprites)
-  - unlimited3d (Same as above but with 3D) 
+  - unlimited3d (Same as above but with 3D)
 
 ## [4.1.1] - 2009-11-24
 - Fully compatible with devkitPro release 18 and 19 (code and examples)
@@ -69,7 +69,7 @@ All notable changes to this project will be documented in this file.
 - Extra parameters to GRRLIB_Screen2Texture
 - Video is now initialized even without a SD card
 - Fixed a problem with scaling images
-- Documentation improvement 
+- Documentation improvement
 
 ## 4.1.0 - 2009-10-05
 - Completely new file structure with sub-folders
@@ -79,7 +79,7 @@ All notable changes to this project will be documented in this file.
 - Support for the recent changes to libogc
 - Alpha compositor function added
 - Correct use of pointers (no more struct passing)
-- Speed improvement, bug fixing and more... 
+- Speed improvement, bug fixing and more...
 
 ## 4.0.0 - 2009-03-05
 - Color format changed for ALL GRRLib functions (now its RGBA) to fit to GX_Color format and use GX_Color1u32
@@ -93,7 +93,7 @@ All notable changes to this project will be documented in this file.
 - GRRLIB_GetPixelFromtexImg and GRRLIB_SetPixelTotexImg (to directly read/write in texture)
 - GRRLIB_CreateEmptyTexture and GRRLIB_FlushTex
 - New Bitmap FX
-- Add GRRLIB_Exit to free the memory allocated by GRRLIB 
+- Add GRRLIB_Exit to free the memory allocated by GRRLIB
 
 [Unreleased]: https://github.com/GRRLIB/GRRLIB/compare/4.3.2...HEAD
 [4.3.2]: https://github.com/GRRLIB/GRRLIB/compare/4.3.1...4.3.2
