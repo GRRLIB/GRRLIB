@@ -1,22 +1,12 @@
-SUBDIRS:= `ls | egrep -v '^(\.svn)$$'`
-
-DATESTRING	:=	$(shell date +%Y)$(shell date +%m)$(shell date +%d)
+MAKEFILES := $(shell find . -mindepth 2 -maxdepth 2 -name Makefile)
 
 all:
-	@for i in $(SUBDIRS); do \
-	  if test -e $$i/Makefile ; then \
-	    echo "-----------------------------------------------------------";\
-	    $(MAKE) -C $$i || { exit 1;} \
-	  fi; \
+	@for i in $(MAKEFILES); do \
+		echo "-----------------------------------------------------------"; \
+		$(MAKE) -C `dirname $$i` || exit 1; \
 	done;
 
 clean:
-	@rm -f *.bz2
-	@for i in $(SUBDIRS); do \
-	  if test -e $$i/Makefile ; then \
-	    $(MAKE) -C $$i clean || { exit 1;} \
-	  fi; \
+	@for i in $(MAKEFILES); do \
+		$(MAKE) -C `dirname $$i` clean || exit 1; \
 	done;
-
-dist: clean
-	@tar --exclude=.svn -cvjf wii-examples-$(DATESTRING).tar.bz2 *
