@@ -41,7 +41,7 @@ or a text editor.
 GRRLIB is supplied as a standard C/C++ library (aka. archive)
 called 'libgrrlib'.  Because GRRLIB processes JPEG and PNG images, it requires
 the installation of the 'libjpeg' and 'libpngu' libraries.  'libpngu', in turn,
-requires 'libpng' and 'libpng' requires 'libz'.  GRRLIB has FileIO functions
+requires 'libpng'.  GRRLIB has FileIO functions
 to allow real-time loading and saving of graphical data, and thus requires
 'libfat'.  GRRLIB also has the possibility to use TrueType fonts, so
 'libfreetype' is also required.
@@ -52,7 +52,6 @@ libgrrlib          <- 2D/3D graphics library
 ├── libjpeg        <- JPEG image processor
 ├── libpngu        <- Wii wrapper for libpng
 │   └── libpng     <- PNG image processor
-│       └── libz   <- Zip (lossless) compression (for PNG compression)
 └── libfreetype    <- TrueType font processor
 ```
 
@@ -86,12 +85,11 @@ This guide is for Windows.  If you are using Linux, I am going to presume you
 are smart enough to convert these instructions.
 ```
 GRRLIB      is supplied as source code
-libjpeg     is supplied as source code
 libpngu     is supplied as source code
-libpng      is supplied as source code
-libz        is supplied as source code
-libfreetype is supplied as source code
-libfat      is supplied with devkitPro (i.e. preinstalled)
+libpng      is supplied via devkitPro pacman (ppc-libpng)
+libfreetype is supplied via devkitPro pacman (ppc-freetype)
+libjpeg     is supplied via devkitPro pacman (ppc-libjpeg-turbo)
+libfat      is supplied via devkitPro pacman (libfat)
 ```
 
 The easy way is to install GRRLIB and all the required libraries in a single
@@ -99,6 +97,7 @@ command:
 ```bash
   c:
   cd \grr\GRRLIB
+  pacman --sync --needed --noconfirm libfat ppc-libpng ppc-freetype ppc-libjpeg-turbo
   make clean all install
 ```
 
@@ -107,48 +106,18 @@ This process may take some time depending on the speed of your PC.
 If you used the method above the following steps are not required, GRRLIB is
 installed and you are ready to start developing Wii homebrew games.
 
-If you want, you could install the libz, libpng, libpngu, libjpeg and
-libfreetype libraries in a single command:
+If you want, you could install the libfat, libpng,
+libfreetype and libjpeg with there dependencies in a single command:
 ```bash
-  c:
-  cd \grr\GRRLIB\lib 
-  make clean all install
+  pacman --sync --needed --noconfirm libfat ppc-libpng ppc-freetype ppc-libjpeg-turbo
 ```
 
 Each library could also be installed individually:
-
-To install libz
-```bash
-  c:
-  cd \grr\GRRLIB\lib\zlib
-  make clean all install
-```
-
-To install libpng
-```bash
-  c:
-  cd \grr\GRRLIB\lib\png
-  make clean all install
-```
 
 To install libpngu
 ```bash
   c:
   cd \grr\GRRLIB\lib\pngu
-  make clean all install
-```
-
-To install libjpeg
-```bash
-  c:
-  cd \grr\GRRLIB\lib\jpeg
-  make clean all install
-```
-
-To install libfreetype
-```bash
-  c:
-  cd \grr\GRRLIB\lib\freetype
   make clean all install
 ```
 
@@ -169,9 +138,9 @@ After everything is installed, simply put
 ```
 at the top of your .c/.cpp file and use the functions as required
 
-You will also need to add
+You will need to add
 ```make
--lgrrlib -lfreetype -lfat -ljpeg -lpngu -lpng -lz
+-lgrrlib -lfreetype -lbz2 -lfat -ljpeg -lpngu -lpng -lz
 ```
 to the libs line in your makefile
 
@@ -179,6 +148,8 @@ to the libs line in your makefile
 other libraries in the middle of the list, you may need to add others to the
 start, or even the end - but do _not_ change the order of the libraries shown
 here.
+
+Also add $(PORTLIBS) to the LIBDIRS line in your makefile
 
 You do NOT need to place /anything/ in your application directory.
 

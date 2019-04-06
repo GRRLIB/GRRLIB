@@ -24,7 +24,7 @@ before_install:
 
 install:
   - sudo dpkg --install devkitpro-pacman.deb
-  - sudo dkp-pacman --sync --sysupgrade --refresh --needed --noconfirm wii-dev
+  - sudo dkp-pacman --sync --sysupgrade --refresh --needed --noconfirm wii-dev ppc-libpng ppc-freetype ppc-libjpeg-turbo
 
 script:
   - (cd GRRLIB && sudo -E make clean all install)

@@ -35,7 +35,7 @@ LDFLAGS	=	-g $(MACHDEP) -Wl,-Map,$(notdir $@).map
 # the order can-be/is critical
 #---------------------------------------------------------------------------------
 LIBS	:= -lgrrlib
-LIBS	+= -lfreetype
+LIBS	+= -lfreetype -lbz2
 LIBS	+= -lpngu -lpng -ljpeg -lz -lfat
 LIBS	+= -lwiiuse
 #LIBS	+= -lmodplay -laesnd
@@ -45,7 +45,7 @@ LIBS	+= -lbte -logc -lm
 # list of directories containing libraries, this must be the top level containing
 # include and lib
 #---------------------------------------------------------------------------------
-LIBDIRS	:=
+LIBDIRS	:= $(PORTLIBS)
 
 #---------------------------------------------------------------------------------
 # no real need to edit anything past this point unless you need to add additional

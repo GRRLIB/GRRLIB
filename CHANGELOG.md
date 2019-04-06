@@ -2,11 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
-- libpng was updated to version 1.6.34
-- zlib was updated to version 1.2.11
-- libjpeg was updated to version 9c
-- FreeType updated to version 2.4.12
-- Fully compatible with devkitPPC release 29
+- Fully compatible with devkitPPC release 35
 
 ## [4.3.2] - 2012-08-12
 - libpng was updated to version 1.5.12

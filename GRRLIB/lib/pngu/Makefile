@@ -16,7 +16,7 @@ else
 include $(DEVKITPPC)/wii_rules
 endif
 
-INCLUDE	:= -I../zlib -I../png -I$(LIBOGC_INC)
+INCLUDE	:= -I$(LIBOGC_INC) -I$(DEVKITPRO)/portlibs/ppc/include
 CFLAGS  := -O2 -Wall $(MACHDEP) $(INCLUDE)
 
 LIB 	:= pngu
