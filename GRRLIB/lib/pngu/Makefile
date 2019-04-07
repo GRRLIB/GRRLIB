@@ -16,6 +16,9 @@ else
 include $(DEVKITPPC)/wii_rules
 endif
 
+INSTALL_INC	:=	$(DEVKITPRO)/portlibs/ppc/include
+INSTALL_LIB	:=	$(DEVKITPRO)/portlibs/ppc/lib
+
 INCLUDE	:= -I$(LIBOGC_INC) -I$(DEVKITPRO)/portlibs/ppc/include
 CFLAGS  := -O2 -Wall $(MACHDEP) $(INCLUDE)
 
@@ -32,6 +35,6 @@ clean :
 	rm -f $(OFILES) $(ARC)
 
 install :
-	mkdir -p  $(LIBOGC_LIB)  $(LIBOGC_INC)
-	cp -f $(ARC) $(LIBOGC_LIB)/
-	cp -f $(HDR) $(LIBOGC_INC)/
+	mkdir -p  $(INSTALL_LIB)  $(INSTALL_INC)
+	cp -f $(ARC) $(INSTALL_LIB)/
+	cp -f $(HDR) $(INSTALL_INC)/

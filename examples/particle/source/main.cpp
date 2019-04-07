@@ -9,7 +9,7 @@
 
 #include <stdlib.h>
 #include <wiiuse/wpad.h>
-#include <math.h>
+#include <cmath>
 #include <ogc/lwp_watchdog.h>
 #include <vector>
 
@@ -276,7 +276,7 @@ static u8 CalculateFrameRate() {
  * @return Returns a clean, clamped unsigned char.
  */
 static u8 ClampVar8 (f32 Value) {
-    Value = roundf(Value);
+    Value = std::roundf(Value);
     if (Value < 0) {
         Value = 0;
     }
