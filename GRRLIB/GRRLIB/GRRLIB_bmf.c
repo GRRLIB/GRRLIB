@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2017 The GRRLIB Team
+Copyright (c) 2009-2019 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -105,8 +105,8 @@ void  GRRLIB_FreeBMF (GRRLIB_bytemapFont *bmf) {
  * @param tilestart Offset for starting position (Used in fonts).
  */
 void  GRRLIB_InitTileSet (GRRLIB_texImg *tex,
-                          const uint tilew, const uint tileh,
-                          const uint tilestart) {
+                          const u32 tilew, const u32 tileh,
+                          const u32 tilestart) {
     tex->tilew = tilew;
     tex->tileh = tileh;
     if (tilew != 0) { // Avoid division by zero

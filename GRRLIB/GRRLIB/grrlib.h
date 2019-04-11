@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2017 The GRRLIB Team
+Copyright (c) 2009-2019 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -51,11 +51,6 @@ THE SOFTWARE.
 #ifdef __cplusplus
    extern "C" {
 #endif /* __cplusplus */
-
-//==============================================================================
-// Extra standard declarations
-//==============================================================================
-typedef  unsigned int  uint;/**< The uint keyword signifies an integral type. */
 
 //==============================================================================
 // Primitive colour macros
@@ -110,19 +105,19 @@ typedef  struct GRRLIB_drawSettings {
  * Structure to hold the texture information.
  */
 typedef  struct GRRLIB_texImg {
-    uint   w;           /**< The width of the texture in pixels.  */
-    uint   h;           /**< The height of the texture in pixels. */
+    u32    w;           /**< The width of the texture in pixels.  */
+    u32    h;           /**< The height of the texture in pixels. */
     int    handlex;     /**< Texture handle x. */
     int    handley;     /**< Texture handle y. */
     int    offsetx;     /**< Texture offset x. */
     int    offsety;     /**< Texture offset y. */
 
     bool   tiledtex;    /**< Texture is tiled if set to true.   */
-    uint   tilew;       /**< The width of one tile in pixels.   */
-    uint   tileh;       /**< The height of one tile in pixels.  */
-    uint   nbtilew;     /**< Number of tiles for the x axis.    */
-    uint   nbtileh;     /**< Number of tiles for the y axis.    */
-    uint   tilestart;   /**< Offset to tile starting position.  */
+    u32    tilew;       /**< The width of one tile in pixels.   */
+    u32    tileh;       /**< The height of one tile in pixels.  */
+    u32    nbtilew;     /**< Number of tiles for the x axis.    */
+    u32    nbtileh;     /**< Number of tiles for the y axis.    */
+    u32    tilestart;   /**< Offset to tile starting position.  */
     f32    ofnormaltexx;/**< Offset of normalized texture on x. */
     f32    ofnormaltexy;/**< Offset of normalized texture on y. */
 

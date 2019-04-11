@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2017 The GRRLIB Team
+Copyright (c) 2009-2019 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -70,7 +70,7 @@ void  GRRLIB_Printf (const f32 xpos, const f32 ypos,
 void  GRRLIB_PrintBMF (const f32 xpos, const f32 ypos,
                        const GRRLIB_bytemapFont *bmf,
                        const char *text, ...) {
-    uint  i, size;
+    u32   i, size;
     u8    x, y;
     char  tmp[1024];
     f32   xoff = xpos;

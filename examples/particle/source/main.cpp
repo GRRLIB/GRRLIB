@@ -142,7 +142,7 @@ int main() {
             createEffect( EFFECT_SMOKEBOMB, P1MX, P1MY );
         }
         if (WPADKeyDown & WPAD_BUTTON_HOME) {
-            ExitGame();
+            break;
         }
     }
     ExitGame();
@@ -233,7 +233,9 @@ static bool updateParticle( Particle *part ) {
             part->blue  *= part->scolor;
             break;
     }
-    if ((part->scale < 0) || (part->alpha < 0)) { return false; }
+    if ((part->scale < 0) || (part->alpha < 0)) {
+        return false;
+    }
     return true;
 }
 

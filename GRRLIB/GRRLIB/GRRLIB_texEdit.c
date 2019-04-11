@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2017 The GRRLIB Team
+Copyright (c) 2009-2019 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -76,9 +76,9 @@ typedef  struct tagRGBQUAD {
 */
 static
 void  RawTo4x4RGBA (const u8 *src, void *dst,
-                    const uint width, const uint height) {
-    uint  block;
-    uint  i;
+                    const u32 width, const u32 height) {
+    u32   block;
+    u32   i;
     u8    c;
     u8    argb;
 
@@ -115,7 +115,7 @@ void  RawTo4x4RGBA (const u8 *src, void *dst,
  * @param h Height of the new texture to create.
  * @return A GRRLIB_texImg structure newly created.
  */
-GRRLIB_texImg*  GRRLIB_CreateEmptyTexture (const uint w, const uint h)
+GRRLIB_texImg*  GRRLIB_CreateEmptyTexture (const u32 w, const u32 h)
 {
     GRRLIB_texImg *my_texture = (struct GRRLIB_texImg *)calloc(1, sizeof(GRRLIB_texImg));
 

@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2017 The GRRLIB Team
+Copyright (c) 2009-2019 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -47,8 +47,8 @@ GRRLIB_bytemapFont*  GRRLIB_LoadBMF (const u8 my_bmf[] );
 void                 GRRLIB_FreeBMF (GRRLIB_bytemapFont *bmf);
 
 void  GRRLIB_InitTileSet  (GRRLIB_texImg *tex,
-                           const uint tilew, const uint tileh,
-                           const uint tilestart);
+                           const u32 tilew, const u32 tileh,
+                           const u32 tilestart);
 
 //------------------------------------------------------------------------------
 // GRRLIB_bmfx.c - Bitmap f/x
@@ -133,7 +133,7 @@ void  GRRLIB_CompoEnd(int posx, int posy, GRRLIB_texImg *tex);
 
 //------------------------------------------------------------------------------
 // GRRLIB_texEdit.c - Modifying the content of a texture
-GRRLIB_texImg*  GRRLIB_CreateEmptyTexture (const uint w, const uint h);
+GRRLIB_texImg*  GRRLIB_CreateEmptyTexture (const u32 w, const u32 h);
 GRRLIB_texImg*  GRRLIB_LoadTexture    (const u8 *my_img);
 GRRLIB_texImg*  GRRLIB_LoadTexturePNG (const u8 *my_png);
 GRRLIB_texImg*  GRRLIB_LoadTextureJPG (const u8 *my_jpg);

@@ -2,7 +2,9 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
-- Fully compatible with devkitPPC release 35
+- Removed libpng, zlib, libfreetype and libjpeg from project. These libraries should now be installed with pacman.
+- GRRLIB and pngu are now installed into the porlibs folder.
+- Removed uint declaration. u32 should be used instead.
 
 ## [4.3.2] - 2012-08-12
 - libpng was updated to version 1.5.12
