@@ -780,7 +780,7 @@ int PNGU_EncodeFromRGB (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffe
 	return ctx->cursor;
 }
 
-// Coded by Tantric for libwiigui (http://code.google.com/p/libwiigui)
+// Coded by Tantric for libwiigui (https://github.com/dborth/libwiigui)
 int PNGU_EncodeFromGXTexture (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffer, PNGU_u32 stride)
 {
 	int res;

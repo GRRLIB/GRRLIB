@@ -54,8 +54,8 @@
 static u8 CalculateFrameRate();
 
 int main() {
-    int left = 0, top = 0, page = 0, frame = TILE_DOWN + 1;
-    unsigned int wait = TILE_DELAY, direction = TILE_DOWN, direction_new = TILE_DOWN;
+    s32 left = 0, top = 0, page = 0, frame = TILE_DOWN + 1;
+    u32 wait = TILE_DELAY, direction = TILE_DOWN, direction_new = TILE_DOWN;
     u8 FPS = 0;
 
     ir_t ir1;
