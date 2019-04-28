@@ -15,7 +15,6 @@ static u8 CalculateFrameRate();
 static bool ScreenShot();
 
 int main(int argc, char **argv) {
-    char FPS[255] = "";
     bool ShowFPS = false;
 
     // Initialise the Graphics & Video subsystem
@@ -31,11 +30,14 @@ int main(int argc, char **argv) {
 
     // Fill a table with characters
     u32 i, n = 0;
-    wchar_t charTable[450];
+    wchar_t charTable[460];
     for(i=33; i<=126; i++) { // 0 to 93
         charTable[n++] = i;
     }
-    for(i=161; i<=516; i++) { // 94 to 449
+    for(i=161; i<=518; i++) { // 94 to 451
+        charTable[n++] = i;
+    }
+    for(i=9824; i<=9831; i++) { // 452 to 459
         charTable[n++] = i;
     }
 
@@ -54,7 +56,7 @@ int main(int argc, char **argv) {
     // Loop forever
     while(1) {
         GRRLIB_DrawImg(0, 0, CopiedImg, 0, 1, 1, 0xFFFFFFFF);
-        Letter[0] = charTable[rand() % 449];
+        Letter[0] = charTable[rand() % 459];
         GRRLIB_PrintfTTFW(rand() % rmode->fbWidth - 50,
                          rand() % rmode->efbHeight - 50,
                          myFont,
@@ -63,7 +65,8 @@ int main(int argc, char **argv) {
                          ((rand() % 0xFFFFFF) << 8) | 0xFF);
         GRRLIB_Screen2Texture(0, 0, CopiedImg, false);
 
-        if(ShowFPS) {
+        if(ShowFPS == true) {
+            char FPS[255];
             sprintf(FPS, "Current FPS: %d", CalculateFrameRate());
             GRRLIB_PrintfTTF(500+1, 25+1, myFont, FPS, 12, 0x000000FF);
             GRRLIB_PrintfTTF(500, 25, myFont, FPS, 12, 0xFFFFFFFF);
