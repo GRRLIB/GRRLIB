@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 - Removed libpng, zlib, libfreetype and libjpeg from project. These libraries should now be installed with pacman.
 - GRRLIB and pngu are now installed into the porlibs folder.
 - Removed uint declaration. u32 should be used instead.
+- The GRRLIB_CreateEmptyTexture function is not inline anymore
 
 ## [4.3.2] - 2012-08-12
 - libpng was updated to version 1.5.12

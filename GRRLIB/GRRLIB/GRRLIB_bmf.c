@@ -27,7 +27,7 @@ THE SOFTWARE.
 
 /**
  * Load a ByteMap font structure from a buffer.
- * File format version 1.1 is used, more information could be found at http://bmf.wz.cz/bmf-format.htm
+ * File format version 1.1 is used, more information could be found at https://bmf.php5.cz/?page=format
  * @param my_bmf The ByteMap font buffer to load.
  * @return A GRRLIB_bytemapFont structure filled with BMF information.
  * @see GRRLIB_FreeBMF

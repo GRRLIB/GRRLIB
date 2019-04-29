@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2017 The GRRLIB Team
+Copyright (c) 2009-2019 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -62,6 +62,10 @@ void GRRLIB_CompoStart (void) {
 void GRRLIB_CompoEnd(int posx, int posy, GRRLIB_texImg *tex) {
     GRRLIB_Screen2Texture(posx, posy, tex, GX_TRUE);
 
-    if (rmode->aa)  GX_SetPixelFmt(GX_PF_RGB565_Z16, GX_ZC_LINEAR);
-    else            GX_SetPixelFmt(GX_PF_RGB8_Z24  , GX_ZC_LINEAR);
+    if (rmode->aa) {
+        GX_SetPixelFmt(GX_PF_RGB565_Z16, GX_ZC_LINEAR);
+    }
+    else {
+        GX_SetPixelFmt(GX_PF_RGB8_Z24  , GX_ZC_LINEAR);
+    }
 }
