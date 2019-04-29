@@ -18,9 +18,9 @@
 #include "gfx/BMfont5.h"
 #include "gfx/test_jpg.h"
 #include "gfx/test_bmp.h"
-#include "gfx/ocean.h"
-#include "gfx/frontal.h"
 #include "gfx/sprite.h"
+#include "ocean_bmf.h"
+#include "frontal_bmf.h"
 
 // Tile stuff
 #define TILE_DELAY  10
@@ -71,8 +71,8 @@ int main() {
     GRRLIB_texImg *tex_test_jpg = GRRLIB_LoadTexture(test_jpg);
     GRRLIB_texImg *tex_test_bmp = GRRLIB_LoadTexture(test_bmp);
 
-    GRRLIB_bytemapFont *bmf_Font1 = GRRLIB_LoadBMF(ocean);
-    GRRLIB_bytemapFont *bmf_Font2 = GRRLIB_LoadBMF(frontal);
+    GRRLIB_bytemapFont *bmf_Font1 = GRRLIB_LoadBMF(ocean_bmf);
+    GRRLIB_bytemapFont *bmf_Font2 = GRRLIB_LoadBMF(frontal_bmf);
 
     GRRLIB_texImg *tex_sprite_png = GRRLIB_LoadTexture(sprite);
     GRRLIB_InitTileSet(tex_sprite_png, 24, 32, 0);
