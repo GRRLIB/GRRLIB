@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2017 The GRRLIB Team
+Copyright (c) 2009-2019 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -109,8 +109,12 @@ int  GRRLIB_Init (void) {
     // Clear the background to opaque black and clears the z-buffer
     GX_SetCopyClear((GXColor){ 0, 0, 0, 0 }, GX_MAX_Z24);
 
-    if (rmode->aa)  GX_SetPixelFmt(GX_PF_RGB565_Z16, GX_ZC_LINEAR);  // Set 16 bit RGB565
-    else            GX_SetPixelFmt(GX_PF_RGB8_Z24  , GX_ZC_LINEAR);  // Set 24 bit Z24
+    if (rmode->aa) {
+        GX_SetPixelFmt(GX_PF_RGB565_Z16, GX_ZC_LINEAR);  // Set 16 bit RGB565
+    }
+    else {
+        GX_SetPixelFmt(GX_PF_RGB8_Z24  , GX_ZC_LINEAR);  // Set 24 bit Z24
+    }
 
     // Other GX setup
     yscale    = GX_GetYScaleFactor(rmode->efbHeight, rmode->xfbHeight);
@@ -187,7 +191,7 @@ int  GRRLIB_Init (void) {
  */
 void  GRRLIB_Exit (void) {
     static  bool  done = false;
-    if (done || !is_setup) {
+    if (done == true || is_setup == false) {
         return;
     }
     else {

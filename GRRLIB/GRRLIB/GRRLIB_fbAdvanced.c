@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2017 The GRRLIB Team
+Copyright (c) 2009-2019 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -50,6 +50,10 @@ void  GRRLIB_Circle (const f32 x, const f32 y, const f32 radius,
         ncolor[a] = color;
     }
 
-    if (!filled)  GRRLIB_GXEngine(v, ncolor, 36, GX_LINESTRIP  );
-    else          GRRLIB_GXEngine(v, ncolor, 36, GX_TRIANGLEFAN);
+    if (filled == false) {
+        GRRLIB_GXEngine(v, ncolor, 36, GX_LINESTRIP  );
+    }
+    else {
+        GRRLIB_GXEngine(v, ncolor, 36, GX_TRIANGLEFAN);
+    }
 }

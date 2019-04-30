@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2017 The GRRLIB Team
+Copyright (c) 2009-2019 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -388,7 +388,7 @@ void GRRLIB_DrawTorus(f32 r, f32 R, int nsides, int rings, bool filled, u32 col)
         theta1 = theta + ringDelta;
         cosTheta1 = cos(theta1);
         sinTheta1 = sin(theta1);
-        if(filled) {
+        if(filled == true) {
             GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 2*(nsides+1));
         }
         else {
@@ -437,7 +437,7 @@ void GRRLIB_DrawSphere(f32 r, int lats, int longs, bool filled, u32 col) {
         lat1 = M_PI * (-0.5F + (f32) i / lats);
         z1 = sin(lat1);
         zr1 = cos(lat1);
-        if(filled) {
+        if(filled == true) {
             GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 2*(longs+1));
         }
         else {
@@ -495,7 +495,7 @@ void GRRLIB_DrawCube(f32 size, bool filled, u32 col) {
     v[1][2] = v[2][2] = v[5][2] = v[6][2] = size / 2;
 
     for (i = 5; i >= 0; i--) {
-        if(filled) {
+        if(filled == true) {
             GX_Begin(GX_QUADS, GX_VTXFMT0, 4);
         }
         else {
@@ -513,7 +513,7 @@ void GRRLIB_DrawCube(f32 size, bool filled, u32 col) {
         GX_Position3f32(v[faces[i][3]][0], v[faces[i][3]][1], v[faces[i][3]][2]);
         GX_Normal3f32(n[i][0], n[i][1], n[i][2]);
         GX_Color1u32(col);
-        if(!filled) {
+        if(filled == false) {
             GX_Position3f32(v[faces[i][0]][0], v[faces[i][0]][1], v[faces[i][0]][2]);
             GX_Normal3f32(n[i][0], n[i][1], n[i][2]);
             GX_Color1u32(col);
@@ -534,7 +534,7 @@ void GRRLIB_DrawCylinder(f32 r, f32 h, int d, bool filled, u32 col) {
     int i;
     f32 dx, dy;
 
-    if(filled) {
+    if(filled == true) {
         GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 2 * (d+1));
     }
     else {
@@ -552,7 +552,7 @@ void GRRLIB_DrawCylinder(f32 r, f32 h, int d, bool filled, u32 col) {
     }
     GX_End();
 
-    if(filled) {
+    if(filled == true) {
         GX_Begin(GX_TRIANGLEFAN, GX_VTXFMT0, d+2);
     }
     else {
@@ -568,7 +568,7 @@ void GRRLIB_DrawCylinder(f32 r, f32 h, int d, bool filled, u32 col) {
     }
     GX_End();
 
-    if(filled) {
+    if(filled == true) {
         GX_Begin(GX_TRIANGLEFAN, GX_VTXFMT0, d+2);
     }
     else {
@@ -597,7 +597,7 @@ void GRRLIB_DrawCone(f32 r, f32 h, int d, bool filled, u32 col) {
     int i;
     f32 dx, dy;
 
-    if(filled) {
+    if(filled == true) {
         GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 2 * (d+1));
     }
     else {
@@ -615,7 +615,7 @@ void GRRLIB_DrawCone(f32 r, f32 h, int d, bool filled, u32 col) {
     }
     GX_End();
 
-    if(filled) {
+    if(filled == true) {
         GX_Begin(GX_TRIANGLEFAN, GX_VTXFMT0, d+2);
     }
     else {
@@ -650,7 +650,7 @@ void GRRLIB_DrawTessPanel(f32 w, f32 wstep, f32 h, f32 hstep, bool filled, u32 c
     tmp = ((w/wstep)*2)+2;
     for ( y = -tmpy ; y <= tmpy ; y+=hstep )
     {
-        if(filled) {
+        if(filled == true) {
             GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, tmp);
         }
         else {

@@ -88,8 +88,7 @@ void  GRRLIB_Circle (const f32 x, const f32 y, const f32 radius,
 
 //------------------------------------------------------------------------------
 // GRRLIB_fileIO - File I/O (SD Card)
-int             GRRLIB_LoadFile            (const char* filename,
-                                            unsigned char* *data);
+int             GRRLIB_LoadFile            (const char* filename, u8* *data);
 GRRLIB_texImg*  GRRLIB_LoadTextureFromFile (const char* filename);
 bool            GRRLIB_ScrShot             (const char* filename);
 

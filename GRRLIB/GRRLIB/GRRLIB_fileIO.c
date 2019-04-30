@@ -36,7 +36,7 @@ THE SOFTWARE.
  *         -    -3 : FileReadError.
  *         -    >0 : FileLength.
  */
-int  GRRLIB_LoadFile(const char* filename, unsigned char* *data) {
+int  GRRLIB_LoadFile(const char* filename, u8* *data) {
     int   len;
     FILE  *fd;
 
@@ -79,7 +79,7 @@ int  GRRLIB_LoadFile(const char* filename, unsigned char* *data) {
  */
 GRRLIB_texImg*  GRRLIB_LoadTextureFromFile(const char *filename) {
     GRRLIB_texImg  *tex;
-    unsigned char  *data;
+    u8             *data;
 
     // return NULL it load fails
     if (GRRLIB_LoadFile(filename, &data) <= 0) {
