@@ -67,7 +67,7 @@ int main(int argc, char **argv) {
 
         if(ShowFPS == true) {
             char FPS[255];
-            sprintf(FPS, "Current FPS: %d", CalculateFrameRate());
+            snprintf(FPS, sizeof(FPS), "Current FPS: %d", CalculateFrameRate());
             GRRLIB_PrintfTTF(500+1, 25+1, myFont, FPS, 12, 0x000000FF);
             GRRLIB_PrintfTTF(500, 25, myFont, FPS, 12, 0xFFFFFFFF);
         }
@@ -126,7 +126,7 @@ static bool ScreenShot() {
     char path[255];
     time_t now = time(NULL);
     struct tm *ti = localtime(&now);
-    sprintf(path, "sd:/grrlib_ttf_%d%02d%02d%02d%02d%02d.png",
+    snprintf(path, sizeof(path), "sd:/grrlib_ttf_%d%02d%02d%02d%02d%02d.png",
         ti->tm_year + 1900, ti->tm_mon + 1, ti->tm_mday, ti->tm_hour, ti->tm_min, ti->tm_sec);
     return GRRLIB_ScrShot(path);
 }

@@ -89,7 +89,7 @@ libpngu     is supplied as source code
 libpng      is supplied via devkitPro pacman (ppc-libpng)
 libfreetype is supplied via devkitPro pacman (ppc-freetype)
 libjpeg     is supplied via devkitPro pacman (ppc-libjpeg-turbo)
-libfat      is supplied via devkitPro pacman (libfat)
+libfat      is supplied via devkitPro pacman (libfat-ogc)
 ```
 
 The easy way is to install GRRLIB and all the required libraries in a single
@@ -97,7 +97,7 @@ command:
 ```bash
   c:
   cd \grr\GRRLIB
-  pacman --sync --needed --noconfirm libfat ppc-libpng ppc-freetype ppc-libjpeg-turbo
+  pacman --sync --needed --noconfirm libfat-ogc ppc-libpng ppc-freetype ppc-libjpeg-turbo
   make clean all install
 ```
 
@@ -109,7 +109,7 @@ installed and you are ready to start developing Wii homebrew games.
 If you want, you could install the libfat, libpng,
 libfreetype and libjpeg with there dependencies in a single command:
 ```bash
-  pacman --sync --needed --noconfirm libfat ppc-libpng ppc-freetype ppc-libjpeg-turbo
+  pacman --sync --needed --noconfirm libfat-ogc ppc-libpng ppc-freetype ppc-libjpeg-turbo
 ```
 
 Each library could also be installed individually:
