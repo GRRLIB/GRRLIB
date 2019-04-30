@@ -78,7 +78,7 @@ void  GRRLIB_PrintBMF (const f32 xpos, const f32 ypos,
 
     va_list argp;
     va_start(argp, text);
-    size = vsprintf(tmp, text, argp);
+    size = vsnprintf(tmp, sizeof(tmp), text, argp);
     va_end(argp);
 
     for (i=0; i<size; i++) {

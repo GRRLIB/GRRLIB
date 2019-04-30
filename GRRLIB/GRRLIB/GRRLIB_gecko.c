@@ -57,7 +57,7 @@ void  GRRLIB_GeckoPrintf (const char *text, ...) {
 
     va_list argp;
     va_start(argp, text);
-    size = vsprintf(tmp, text, argp);
+    size = vsnprintf(tmp, sizeof(tmp), text, argp);
     va_end(argp);
 
     usb_sendbuffer_safe(1, tmp, size);
