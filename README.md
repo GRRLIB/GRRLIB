@@ -46,7 +46,7 @@ to allow real-time loading and saving of graphical data, and thus requires
 'libfat'.  GRRLIB also has the possibility to use TrueType fonts, so
 'libfreetype' is also required.
 
-```
+```text
 libgrrlib          <- 2D/3D graphics library
 ├── libfat         <- File I/O
 ├── libjpeg        <- JPEG image processor
@@ -83,7 +83,7 @@ Installing GRRLIB
 
 This guide is for Windows.  If you are using Linux, I am going to presume you
 are smart enough to convert these instructions.
-```
+```text
 GRRLIB      is supplied as source code
 libpngu     is supplied as source code
 libpng      is supplied via devkitPro pacman (ppc-libpng)
