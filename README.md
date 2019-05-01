@@ -60,7 +60,7 @@ Developing for the Wii
 ----------------------
 
 Do not progress until you have installed and configured devkitPro.  Guides are
-and assistance are available at https://devkitpro.org/index.php
+and assistance are available at <https://devkitpro.org/index.php>
 
 If you have just performed a clean (re)install on your Windows PC, be sure to
 reboot before you continue.
@@ -71,7 +71,7 @@ Downloading GRRLIB
 
 You are invited to use "the latest Git master version" of GRRLIB at all times.
 
-The Git repository is located at: https://github.com/GRRLIB/GRRLIB
+The Git repository is located at: <https://github.com/GRRLIB/GRRLIB>
 
 There is a simple guide to "Using GitHub" later in this document.
 
@@ -208,12 +208,12 @@ changes. and (if necessary) reverted.
 It also allows the power-users to gain access to the latest (often "in-test")
 features.
 
-To obtain the "cutting edge" codebase go to https://github.com/GRRLIB/GRRLIB/tree/master
+To obtain the "cutting edge" codebase go to <https://github.com/GRRLIB/GRRLIB/tree/master>
 
  1. Create a directory to hold the code (e.g. C:\grr)
- 2. Click the *Download ZIP* button if you don't have the proper tools installed on your PC or Clone the following URL https://github.com/GRRLIB/GRRLIB.git
+ 2. Click the *Download ZIP* button if you don't have the proper tools installed on your PC or Clone the following URL <https://github.com/GRRLIB/GRRLIB.git>
 
-All official releases can be found here https://github.com/GRRLIB/GRRLIB/releases
+All official releases can be found here <https://github.com/GRRLIB/GRRLIB/releases>
 
 
 Credits
