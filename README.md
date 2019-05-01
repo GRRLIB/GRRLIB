@@ -210,8 +210,8 @@ features.
 
 To obtain the "cutting edge" codebase go to <https://github.com/GRRLIB/GRRLIB/tree/master>
 
- 1. Create a directory to hold the code (e.g. C:\grr)
- 2. Click the *Download ZIP* button if you don't have the proper tools installed on your PC or Clone the following URL <https://github.com/GRRLIB/GRRLIB.git>
+1. Create a directory to hold the code (e.g. C:\grr)
+2. Click the *Download ZIP* button if you don't have the proper tools installed on your PC or Clone the following URL <https://github.com/GRRLIB/GRRLIB.git>
 
 All official releases can be found here <https://github.com/GRRLIB/GRRLIB/releases>
 
@@ -254,4 +254,4 @@ the credits of your game/application.  And, if you +choose+ to do that, we
 encourage you to use our logo to achieve it; You can find our logo here:
 C:\grr\grrlib_logo.png
 and here:
-https://raw.githubusercontent.com/GRRLIB/GRRLIB/master/grrlib_logo.png
+<https://raw.githubusercontent.com/GRRLIB/GRRLIB/master/grrlib_logo.png>
