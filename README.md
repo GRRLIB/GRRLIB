@@ -1,42 +1,36 @@
-﻿GRRLIB
-======
+﻿# GRRLIB
 
 [![Build Status](https://travis-ci.org/GRRLIB/GRRLIB.svg?branch=master)](https://travis-ci.org/GRRLIB/GRRLIB)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/5b2983faefbf443eaa5705e7cc6e5f68)](https://www.codacy.com/app/Crayon2000/GRRLIB?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=GRRLIB/GRRLIB&amp;utm_campaign=Badge_Grade)
 [![Join the chat at https://gitter.im/GRRLIB/GRRLIB](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/GRRLIB/GRRLIB?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Table of Contents
------------------
+## Table of Contents
 
 - [Introduction](#introduction)
- - ...What is it?
+  - ...What is it?
 - [Developing for the Wii](#developing-for-the-wii)
- - ...How do I even start?
+  - ...How do I even start?
 - [Downloading GRRLIB](#downloading-grrlib)
- - ...Where do I get it from?
+  - ...Where do I get it from?
 - [Installing GRRLIB](#installing-grrlib)
- - ...How do I get it to a useable state?
+  - ...How do I get it to a useable state?
 - [Using GRRLIB](#using-grrlib)
- - ...What essentials do I need to know to get going?
+  - ...What essentials do I need to know to get going?
 - [Upgrading to v4.1.0 From Previous Versions of GRRLIB](#upgrading-to-v410-from-previous-versions-of-grrlib)
- - ...I upgraded and now my programs won't compile properly!?
+  - ...I upgraded and now my programs won't compile properly!?
 - [Using GitHub](#using-github)
- - ...What is this Git thing that the L337 devs keep talking about?
+  - ...What is this Git thing that the L337 devs keep talking about?
 - [Credits](#credits)
- - ...Who do I thank for all this free stuff?
+  - ...Who do I thank for all this free stuff?
 - [Licence](#licence)
- - ...When you say "free" do you actually mean something else?
+  - ...When you say "free" do you actually mean something else?
 
 
-Introduction
-------------
+## Introduction
 
 GRRLIB is a C/C++ 2D/3D graphics library for Wii application developers.  It is
 essentially a wrapper which presents a friendly interface to the Nintendo GX
 core.
-
-This document is written to be viewed with equal clarity in either a web browser
-or a text editor.
 
 GRRLIB is supplied as a standard C/C++ library (aka. archive)
 called 'libgrrlib'.  Because GRRLIB processes JPEG and PNG images, it requires
@@ -56,8 +50,7 @@ libgrrlib          <- 2D/3D graphics library
 ```
 
 
-Developing for the Wii
-----------------------
+## Developing for the Wii
 
 Do not progress until you have installed and configured devkitPro.  Guides are
 and assistance are available at <https://devkitpro.org/index.php>
@@ -66,8 +59,7 @@ If you have just performed a clean (re)install on your Windows PC, be sure to
 reboot before you continue.
 
 
-Downloading GRRLIB
-------------------
+## Downloading GRRLIB
 
 You are invited to use "the latest Git master version" of GRRLIB at all times.
 
@@ -78,8 +70,7 @@ There is a simple guide to "Using GitHub" later in this document.
 This document will presume that you have downloaded "the latest Git master
 version" to a directory called  C:\grr
 
-Installing GRRLIB
------------------
+## Installing GRRLIB
 
 This guide is for Windows.  If you are using Linux, I am going to presume you
 are smart enough to convert these instructions.
@@ -129,8 +120,7 @@ To install libgrrlib:
 ```
 
 
-Using GRRLIB
-------------
+## Using GRRLIB
 
 After everything is installed, simply put
 ```c
@@ -157,8 +147,7 @@ If you would like to see a working example of this, you can look at the example
 found in: C:\grr\examples\template\source
 
 
-Upgrading to v4.1.0 From Previous Versions of GRRLIB
-----------------------------------------------------
+## Upgrading to v4.1.0 From Previous Versions of GRRLIB
 
 Older versions of GRRLIB, required a line such as:
 ```c
@@ -198,8 +187,7 @@ Because GRRLIB now does this for you automatically, these lines must be removed
 from your code.
 
 
-Using GitHub
-------------
+## Using GitHub
 
 GitHub allows the developers to submit changes to the code in such a way that
 these changes can be easily monitored, quickly merged together with other
@@ -216,33 +204,31 @@ To obtain the "cutting edge" codebase go to <https://github.com/GRRLIB/GRRLIB/tr
 All official releases can be found here <https://github.com/GRRLIB/GRRLIB/releases>
 
 
-Credits
--------
+## Credits
 
-#### Project Leader
+### Project Leader
 * NoNameNo
 
-#### Documentation
+### Documentation
 * Crayon
 * BlueChip
 
-#### Lead Coder
+### Lead Coder
 * NoNameNo
 
-#### Support Coders
+### Support Coders
 * Crayon
 * Xane
 * DragonMinded
 * BlueChip
 * elisherer
 
-#### Advisors
+### Advisors
 * RedShade
 * Jespa
 
 
-Licence
--------
+## Licence
 
 GRRLIB is released under the [MIT Licence](LICENCE.md).
 If we had chosen the GPL licence you would be +forced+ (legally required) to release your source code.
