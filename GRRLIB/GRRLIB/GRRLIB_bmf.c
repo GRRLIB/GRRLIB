@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2019 The GRRLIB Team
+Copyright (c) 2009-2020 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -35,8 +35,6 @@ THE SOFTWARE.
 GRRLIB_bytemapFont*  GRRLIB_LoadBMF (const u8 my_bmf[] ) {
     GRRLIB_bytemapFont *fontArray = (struct GRRLIB_bytemapFont *)malloc(sizeof(GRRLIB_bytemapFont));
     u32 i, j = 1;
-    u8 c;
-    u16 nbPixels;
 
     if (fontArray != NULL && my_bmf[0]==0xE1 && my_bmf[1]==0xE6 && my_bmf[2]==0xD5 && my_bmf[3]==0x1A) {
         fontArray->version = my_bmf[4];
@@ -61,15 +59,15 @@ GRRLIB_bytemapFont*  GRRLIB_LoadBMF (const u8 my_bmf[] ) {
         memset(fontArray->charDef, 0, 256 * sizeof(GRRLIB_bytemapChar));
         j++;
         for (i=0; i < fontArray->nbChar; i++) {
-            c = my_bmf[++j];
+            const u8 c = my_bmf[++j];
             fontArray->charDef[c].width = my_bmf[++j];
             fontArray->charDef[c].height = my_bmf[++j];
             fontArray->charDef[c].relx = my_bmf[++j];
             fontArray->charDef[c].rely = my_bmf[++j];
             fontArray->charDef[c].kerning = my_bmf[++j];
-            nbPixels = fontArray->charDef[c].width * fontArray->charDef[c].height;
+            const u16 nbPixels = fontArray->charDef[c].width * fontArray->charDef[c].height;
             fontArray->charDef[c].data = (u8 *)malloc(nbPixels);
-            if (nbPixels && fontArray->charDef[c].data) {
+            if (nbPixels > 0 && fontArray->charDef[c].data != NULL) {
                 memcpy(fontArray->charDef[c].data, &my_bmf[++j], nbPixels);
                 j += (nbPixels - 1);
             }

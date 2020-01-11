@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2017 The GRRLIB Team
+Copyright (c) 2009-2020 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -55,7 +55,7 @@ int  GRRLIB_LoadFile(const char* filename, u8* *data) {
     fseek(fd, 0, SEEK_SET);
 
     // Grab some memory in which to store the file
-    if ( !(*data = malloc(len)) ) {
+    if ( (*data = malloc(len)) == NULL ) {
         fclose(fd);
         return -2;
     }
@@ -103,10 +103,10 @@ GRRLIB_texImg*  GRRLIB_LoadTextureFromFile(const char *filename) {
  * @return bool true=everything worked, false=problems occurred.
  */
 bool  GRRLIB_ScrShot(const char* filename) {
-    IMGCTX  pngContext;
     int     ret = -1;
+    IMGCTX  pngContext = PNGU_SelectImageFromDevice(filename);
 
-    if ( (pngContext = PNGU_SelectImageFromDevice(filename)) ) {
+    if ( pngContext != NULL ) {
         ret = PNGU_EncodeFromEFB( pngContext,
                                   rmode->fbWidth, rmode->efbHeight,
                                   0 );
