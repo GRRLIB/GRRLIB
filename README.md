@@ -6,25 +6,24 @@
 
 ## Table of Contents
 
-- [Introduction](#introduction)
-  - ...What is it?
-- [Developing for the Wii](#developing-for-the-wii)
-  - ...How do I even start?
-- [Downloading GRRLIB](#downloading-grrlib)
-  - ...Where do I get it from?
-- [Installing GRRLIB](#installing-grrlib)
-  - ...How do I get it to a useable state?
-- [Using GRRLIB](#using-grrlib)
-  - ...What essentials do I need to know to get going?
-- [Upgrading to v4.1.0 From Previous Versions of GRRLIB](#upgrading-to-v410-from-previous-versions-of-grrlib)
-  - ...I upgraded and now my programs won't compile properly!?
-- [Using GitHub](#using-github)
-  - ...What is this Git thing that the L337 devs keep talking about?
-- [Credits](#credits)
-  - ...Who do I thank for all this free stuff?
-- [Licence](#licence)
-  - ...When you say "free" do you actually mean something else?
-
+* [Introduction](#introduction)
+  * ...What is it?
+* [Developing for the Wii](#developing-for-the-wii)
+  * ...How do I even start?
+* [Downloading GRRLIB](#downloading-grrlib)
+  * ...Where do I get it from?
+* [Installing GRRLIB](#installing-grrlib)
+  * ...How do I get it to a useable state?
+* [Using GRRLIB](#using-grrlib)
+  * ...What essentials do I need to know to get going?
+* [Upgrading to v4.4.0 From Previous Versions of GRRLIB](#upgrading-to-v440-from-previous-versions-of-grrlib)
+  * ...I upgraded and now my programs won't compile properly!?
+* [Using GitHub](#using-github)
+  * ...What is this Git thing that the L337 devs keep talking about?
+* [Credits](#credits)
+  * ...Who do I thank for all this free stuff?
+* [Licence](#licence)
+  * ...When you say "free" do you actually mean something else?
 
 ## Introduction
 
@@ -49,7 +48,6 @@ libgrrlib          <- 2D/3D graphics library
 └── libfreetype    <- TrueType font processor
 ```
 
-
 ## Developing for the Wii
 
 Do not progress until you have installed and configured devkitPro.  Guides are
@@ -57,7 +55,6 @@ and assistance are available at <https://devkitpro.org/index.php>
 
 If you have just performed a clean (re)install on your Windows PC, be sure to
 reboot before you continue.
-
 
 ## Downloading GRRLIB
 
@@ -119,7 +116,6 @@ To install libgrrlib:
   make clean all install
 ```
 
-
 ## Using GRRLIB
 
 After everything is installed, simply put
@@ -146,46 +142,38 @@ You do NOT need to place /anything/ in your application directory.
 If you would like to see a working example of this, you can look at the example
 found in: C:\grr\examples\template\source
 
+## Upgrading to v4.4.0 From Previous Versions of GRRLIB
 
-## Upgrading to v4.1.0 From Previous Versions of GRRLIB
+This version now uses the ported libraries for the Wii.
 
-Older versions of GRRLIB, required a line such as:
-```c
-#include "../../../GRRLIB/GRRLIB/GRRLIB.h"
-```
-...to be placed at the top of each C file which uses GRRLB.
-Because GRRLIB is now installed as a system library, this must be replaced with:
-```c
-#include <grrlib.h>
+To install them, use this command line:
+
+```bash
+  pacman --sync --needed --noconfirm libfat-ogc ppc-libpng ppc-freetype ppc-libjpeg-turbo
 ```
 
-Older versions of GRRLIB required the 'GRRLIB.h' and 'GRRLIB.c" files to be
-present in every project which uses GRRLIB.
-Because GRRLIB is now installed as a system library, these files are no longer
-required and must be erased.
-*WARNING* Be careful if you have edited (either of) these files.
+You will need to add $(PORTLIBS) to the LIBDIRS line in your makefile.
 
-Older versions of GRRLIB "passed 'structs'" and therefore Textured Images were
-defined with:
-```c
-  GRRLIB_texImg  tex1, tex2;
-```
-Because GRRLIB now "passes 'pointers'" these definitions should be changed to:
-```c
-  GRRLIB_texImg  *tex1, *tex2;
+Previously it could have looked like this:
+
+```make
+LIBDIRS	:=
 ```
 
-With older versions of GRRLIB if the programmer (you) required access to the
-mode and frame information, you were required to add one or more of the
-following three lines:
-```c
-  extern GXRModeObj  *rmode;
-  extern void        *xfb[2];
-  extern u32         fb;
-```
-Because GRRLIB now does this for you automatically, these lines must be removed
-from your code.
+Now it needs to be like this:
 
+```make
+LIBDIRS	:= $(PORTLIBS)
+```
+
+The FreeType library is now compiled with a dependency on bzip2,
+so lbz2 needs to be added after lfreetype in your makefile.
+
+For example:
+
+```make
+LIBS	:= -lgrrlib -lfreetype -lbz2 -lpngu -lpng -ljpeg -lz -lfat
+```
 
 ## Using GitHub
 
@@ -199,10 +187,9 @@ features.
 To obtain the "cutting edge" codebase go to <https://github.com/GRRLIB/GRRLIB/tree/master>
 
 1. Create a directory to hold the code (e.g. C:\grr)
-2. Click the *Download ZIP* button if you don't have the proper tools installed on your PC or Clone the following URL <https://github.com/GRRLIB/GRRLIB.git>
+2. Click the _Download ZIP_ button if you don't have the proper tools installed on your PC or Clone the following URL <https://github.com/GRRLIB/GRRLIB.git>
 
 All official releases can be found here <https://github.com/GRRLIB/GRRLIB/releases>
-
 
 ## Credits
 
@@ -226,7 +213,6 @@ All official releases can be found here <https://github.com/GRRLIB/GRRLIB/releas
 ### Advisors
 * RedShade
 * Jespa
-
 
 ## Licence
 
