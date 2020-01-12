@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [4.4.0] - 2020-01-12
 - Removed libpng, zlib, libfreetype and libjpeg from project. These libraries should now be installed with pacman.
 - GRRLIB and pngu are now installed into the porlibs folder.
 - Removed uint declaration. u32 should be used instead.
@@ -94,7 +94,7 @@ All notable changes to this project will be documented in this file.
 - New Bitmap FX
 - Add GRRLIB_Exit to free the memory allocated by GRRLIB
 
-[Unreleased]: https://github.com/GRRLIB/GRRLIB/compare/4.3.2...HEAD
+[4.4.0]: https://github.com/GRRLIB/GRRLIB/compare/4.3.2...4.4.0
 [4.3.2]: https://github.com/GRRLIB/GRRLIB/compare/4.3.1...4.3.2
 [4.3.1]: https://github.com/GRRLIB/GRRLIB/compare/4.3.0...4.3.1
 [4.3.0]: https://github.com/GRRLIB/GRRLIB/compare/4.2.0...4.3.0
