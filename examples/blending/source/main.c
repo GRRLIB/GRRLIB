@@ -22,7 +22,6 @@
 static void ExitGame();
 
 // General Variables
-extern GXRModeObj *rmode;
 ir_t P1Mote;
 
 // Prepare Graphics
@@ -34,21 +33,20 @@ GRRLIB_texImg *GFX_Font;
 int main() {
     // Init Variables
     u32 WPADKeyDown;
-    short WinW, WinH;
 
     u8 Stage = 0;
     u8 Blending = 0;
     u8 BlobType = 0;
-    u8 Color = 255;
+    u8 Color;
     u16 Step = 0;
 
 
     // Init GRRLIB & WiiUse
     GRRLIB_Init();
-    WinW = rmode->fbWidth;
-    WinH = rmode->efbHeight;
+    u16 WinW = rmode->fbWidth;
+    u16 WinH = rmode->efbHeight;
     WPAD_Init();
-    WPAD_SetIdleTimeout( 60*10 );
+    WPAD_SetIdleTimeout( 60 * 10 );
     WPAD_SetDataFormat( WPAD_CHAN_0, WPAD_FMT_BTNS_ACC_IR );
 
     // Load Textures
@@ -77,17 +75,20 @@ int main() {
 
         // Update Stage
         Step = Step + 1;
-        if (Step == 720) { Step = 0; }
+        if (Step == 720) {
+            Step = 0;
+        }
         float SX = 320 + (sin(DegToRad(Step  )) * 250);
         float SY = 240 + (cos(DegToRad(Step*3)) * 100);
 
         // Draw Stage
         GRRLIB_DrawImg( 0, 0, GFX_Background, 0, 1, 1, RGBA(255, 255, 255, 255) );
-        GRRLIB_SetBlend( (Blending+1) ); Color = 255;
+        GRRLIB_SetBlend( (Blending + 1) );
         switch (Stage) {
             case 2: Color = 160; break;
             case 3: Color = 128; break;
             case 4: Color = 64;  break;
+            default: Color = 255; break;
         }
         GRRLIB_DrawImg( SX, SY, GFX_Blob[BlobType], 0, 1, 1, RGBA(Color, Color, Color, 255) );
 
@@ -112,10 +113,25 @@ int main() {
         }
 
         GRRLIB_Render();
-        if (WPADKeyDown & WPAD_BUTTON_RIGHT) { if (Stage < 5) { Stage += 1; } }
-        if (WPADKeyDown & WPAD_BUTTON_LEFT ) { if (Stage > 0) { Stage -= 1; } }
-        if (WPADKeyDown & WPAD_BUTTON_A    ) { BlobType += 1; if (BlobType > 2) { BlobType = 0; } }
-        if (WPADKeyDown & WPAD_BUTTON_HOME ) { ExitGame(); }
+        if (WPADKeyDown & WPAD_BUTTON_RIGHT) {
+            if (Stage < 5) {
+                Stage += 1;
+            }
+        }
+        if (WPADKeyDown & WPAD_BUTTON_LEFT) {
+            if (Stage > 0) {
+                Stage -= 1;
+            }
+        }
+        if (WPADKeyDown & WPAD_BUTTON_A) {
+            BlobType += 1;
+            if (BlobType > 2) {
+                BlobType = 0;
+            }
+        }
+        if (WPADKeyDown & WPAD_BUTTON_HOME) {
+            break;
+        }
     }
     ExitGame();
     return 0;

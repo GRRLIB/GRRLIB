@@ -7,7 +7,6 @@
 #include <wiiuse/wpad.h>
 
 #include "gfx/font3d.h"
-extern GXRModeObj *rmode;
 
 
 int main() {

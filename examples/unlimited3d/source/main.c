@@ -14,9 +14,6 @@
 #include "gfx/logo.h"
 #include "gfx/font.h"
 
-extern GXRModeObj *rmode;
-
-
 
 int main() {
     int i;

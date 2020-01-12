@@ -14,7 +14,6 @@
 #include "gfx/font.h"
 #include "gfx/girl.h"
 
-extern GXRModeObj *rmode;
 
 int main() {
     float a=0;

@@ -14,7 +14,6 @@
 #include "gfx/font.h"
 #include "gfx/ball.h"
 
-extern GXRModeObj *rmode;
 
 int main() {
     int i;

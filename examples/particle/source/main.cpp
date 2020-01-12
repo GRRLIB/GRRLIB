@@ -67,10 +67,10 @@ int main() {
 
     // Init GRRLIB & WiiUse
     GRRLIB_Init();
-    short WinW = rmode->fbWidth;
-    short WinH = rmode->efbHeight;
+    u16 WinW = rmode->fbWidth;
+    u16 WinH = rmode->efbHeight;
     WPAD_Init();
-    WPAD_SetIdleTimeout( 60*10 );
+    WPAD_SetIdleTimeout( 60 * 10 );
     WPAD_SetDataFormat( WPAD_CHAN_0, WPAD_FMT_BTNS_ACC_IR );
 
     // Load textures
@@ -160,7 +160,7 @@ static void createEffect( u8 id, int _x, int _y ) {
                 createParticle( 3, (_x + (RANDOM * 50)), (_y + (RANDOM * 50)), 1.25f, 1.5f, 92, 92, 92 );
             }
             for (u8 i = 0; i < 5; i++) {
-                _ColorAdd = (RANDOM*75);
+                _ColorAdd = (RANDOM * 75);
                 createParticle( 2, (_x + (RANDOM * 40)), (_y + (RANDOM * 40)), (1.0f+(RANDOM*0.20)), 1.0f, 128+_ColorAdd, 128+_ColorAdd, 128+_ColorAdd );
             }
             break;
