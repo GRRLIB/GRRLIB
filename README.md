@@ -175,6 +175,9 @@ For example:
 LIBS	:= -lgrrlib -lfreetype -lbz2 -lpngu -lpng -ljpeg -lz -lfat
 ```
 
+Since GRRLIB and libpngu are now installed into the porlibs folder, make sure you don't have any leftovers from previous installations.
+You will need to manually delete unneeded libraries in _devkitPro\libogc\lib\wii_ as well as include files in _devkitPro\libogc\include_
+
 ## Using GitHub
 
 GitHub allows the developers to submit changes to the code in such a way that
