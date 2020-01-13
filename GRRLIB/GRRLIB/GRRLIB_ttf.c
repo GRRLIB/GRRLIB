@@ -131,7 +131,7 @@ void GRRLIB_PrintfTTFW(int x, int y, GRRLIB_ttfFont *myFont, const wchar_t *utf3
     int penX = 0;
     int penY = fontSize;
     FT_GlyphSlot slot = Face->glyph;
-    FT_UInt glyphIndex = 0;
+    FT_UInt glyphIndex;
     FT_UInt previousGlyph = 0;
     u8 cR = R(color), cG = G(color), cB = B(color);
 

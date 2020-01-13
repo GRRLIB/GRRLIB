@@ -129,12 +129,12 @@ signed int Map1Info[51][87] =
 
 int main() {
     int startx=0, starty=0;
-    int x=0, y=0;
+    int x, y;
     int dirx=0, diry=0;
     int cptx=0, cpty=0;
     int bgx=-32, bgy=-32;
     float idperso=0;
-    int i=0;
+    int i;
     float sinnonameno=0;
 
     GRRLIB_Init();
@@ -244,8 +244,8 @@ int main() {
         }
         GRRLIB_DrawImg(bgx, bgy, tex_bg, 0, 1, 1, 0xFFFFFFFF);
 
-        for(y=0; y<=(16); y++) {
-            for(x=0; x<=(21); x++) {
+        for(y=0; y<=16; y++) {
+            for(x=0; x<=21; x++) {
                 if(Map1Data[y+starty][x+startx] != 0) {
                     GRRLIB_DrawTile(x*TileMap1Width+cptx-TileMap1Width,y*TileMap1Height+cpty-TileMap1Height,tex_tile1,0,1,1,0xFFFFFFFF,Map1Data[y+starty][x+startx]-1);
                 }

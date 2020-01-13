@@ -131,12 +131,12 @@ signed int Map1Info[53][87] =
 
 int main() {
     int startx=0, starty=0;
-    int x=0, y=0;
+    int x, y;
     int dirx=0, diry=0;
     int cptx=0, cpty=0;
     int bgx=-32, bgy=-32;
     float idperso=0;
-    int i=0;
+    int i;
     float sinnonameno=0;
     float camZ=1400.0f;
     float a=0;
@@ -257,11 +257,11 @@ int main() {
         }
         GRRLIB_DrawImg(bgx, bgy, tex_bg, 0, 1, 1, 0xFFFFFFFF);
 
-        for(y=0;y<=(17);y++) {
-            for(x=0;x<=(21);x++) {
-            if(Map1Data[y+starty][x+startx] != 0) {
-                GRRLIB_DrawTile(x*TileMap1Width+cptx-TileMap1Width,y*TileMap1Height+cpty-TileMap1Height,tex_tile1,0,1,1,0xFFFFFFFF,Map1Data[y+starty][x+startx]-1);
-            }
+        for(y=0; y<=17; y++) {
+            for(x=0; x<=21; x++) {
+                if(Map1Data[y+starty][x+startx] != 0) {
+                    GRRLIB_DrawTile(x*TileMap1Width+cptx-TileMap1Width,y*TileMap1Height+cpty-TileMap1Height,tex_tile1,0,1,1,0xFFFFFFFF,Map1Data[y+starty][x+startx]-1);
+                }
             }
         }
         GRRLIB_DrawTile(TileMap1Width*9,TileMap1Height*6,tex_perso,0,1,1,0xFFFFFFFF,(int)idperso);

@@ -8,7 +8,7 @@ All notable changes to this project will be documented in this file.
 ## [4.4.0] - 2020-01-12
 
 - Removed libpng, zlib, libfreetype and libjpeg from the project. These libraries should now be installed in devkitPro with pacman.
-- GRRLIB and pngu are now installed into the porlibs folder.
+- GRRLIB and pngu are now installed into the _porlibs_ folder instead of the _libogc_ folder.
 - Removed `uint` declaration. The `u32` type should be used instead.
 - The `GRRLIB_CreateEmptyTexture()` function is not inline anymore.
 
@@ -93,7 +93,7 @@ All notable changes to this project will be documented in this file.
 
 ## 4.0.0 - 2009-03-05
 
-- Color format changed for ALL GRRLib functions (now its RGBA) to fit to GX_Color format and use `GX_Color1u32`
+- Color format changed to RGBA for ALL GRRLib functions to fit to GX_Color format and use `GX_Color1u32`
 - `GRRLIB_LoadTexture()` now auto detect PNG or JPEG
 - GRRLib introduce a new texture structure (easier to handle texture width, height, etc ...)
 - Add `GRRLIB_InitTileSet()` to initialize a tile set
@@ -106,8 +106,8 @@ All notable changes to this project will be documented in this file.
 - New Bitmap FX
 - Add `GRRLIB_Exit()` to free the memory allocated by GRRLIB
 
-[Unreleased]: https://github.com/GRRLIB/GRRLIB/compare/4.4.0...HEAD
-[4.4.0]: https://github.com/GRRLIB/GRRLIB/compare/4.3.2...4.4.0
+[Unreleased]: https://github.com/GRRLIB/GRRLIB/compare/v4.4.0...HEAD
+[4.4.0]: https://github.com/GRRLIB/GRRLIB/compare/4.3.2...v4.4.0
 [4.3.2]: https://github.com/GRRLIB/GRRLIB/compare/4.3.1...4.3.2
 [4.3.1]: https://github.com/GRRLIB/GRRLIB/compare/4.3.0...4.3.1
 [4.3.0]: https://github.com/GRRLIB/GRRLIB/compare/4.2.0...4.3.0

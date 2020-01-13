@@ -7,7 +7,7 @@
 ============================================*/
 #include <grrlib.h>
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <wiiuse/wpad.h>
 #include <cmath>
 #include <ogc/lwp_watchdog.h>
