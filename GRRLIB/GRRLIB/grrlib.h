@@ -211,7 +211,7 @@ GRR_EXTERN  u32         fb       GRR_INIT(0);
  * @section Links
  * Forum: http://grrlib.santo.fr/forum\n
  * Code: https://github.com/GRRLIB/GRRLIB\n
- * IRC: <a href="irc://irc.efnet.net/grrlib">\#GRRLIB</a> on EFnet
+ * Chat: <a href="irc://irc.efnet.net/grrlib">\#GRRLIB</a> on EFnet
  *
  * @section Credits
  * Project Leader : NoNameNo\n

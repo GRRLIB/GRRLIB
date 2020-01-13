@@ -18,7 +18,7 @@
 int main() {
     float a=0;
     int cubeZ=5;
-    int i=0;
+    int i;
     float sinx=0;
 
     GRRLIB_Init();

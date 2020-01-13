@@ -93,7 +93,7 @@ All notable changes to this project will be documented in this file.
 
 ## 4.0.0 - 2009-03-05
 
-- Color format changed to RGBA for ALL GRRLib functions to fit to GX_Color format and use `GX_Color1u32`
+- Color format changed to RGBA for ALL GRRLib functions to fit to `GXColor` format and use `GX_Color1u32`
 - `GRRLIB_LoadTexture()` now auto detect PNG or JPEG
 - GRRLib introduce a new texture structure (easier to handle texture width, height, etc ...)
 - Add `GRRLIB_InitTileSet()` to initialize a tile set

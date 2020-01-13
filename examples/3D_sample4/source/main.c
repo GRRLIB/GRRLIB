@@ -13,7 +13,7 @@
 #include "gfx/logo.h"
 
 int main() {
-    int i=0;
+    int i;
     float a=0;
     u32 col;
 

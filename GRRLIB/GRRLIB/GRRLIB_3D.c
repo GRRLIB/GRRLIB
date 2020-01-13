@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2019 The GRRLIB Team
+Copyright (c) 2009-2020 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -94,24 +94,24 @@ void GRRLIB_3dMode(f32 minDist, f32 maxDist, f32 fov, bool texturemode, bool nor
 
     GX_ClearVtxDesc();
     GX_SetVtxDesc(GX_VA_POS, GX_DIRECT);
-    if(normalmode) {
+    if(normalmode == true) {
         GX_SetVtxDesc(GX_VA_NRM, GX_DIRECT);
     }
     GX_SetVtxDesc(GX_VA_CLR0, GX_DIRECT);
-    if(texturemode) {
+    if(texturemode == true) {
         GX_SetVtxDesc(GX_VA_TEX0, GX_DIRECT);
     }
 
     GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_POS_XYZ, GX_F32, 0);
-    if(normalmode) {
+    if(normalmode == true) {
         GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_NRM, GX_NRM_XYZ, GX_F32, 0);
     }
     GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_CLR0, GX_CLR_RGBA, GX_RGBA8, 0);
-    if(texturemode) {
+    if(texturemode == true) {
         GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_TEX0, GX_TEX_ST, GX_F32, 0);
     }
 
-    if(texturemode) {
+    if(texturemode == true) {
         GX_SetTevOp(GX_TEVSTAGE0, GX_MODULATE);
     }
     else {
@@ -342,7 +342,7 @@ void GRRLIB_ObjectViewInv(f32 posx, f32 posy, f32 posz, f32 angx, f32 angy, f32 
 void GRRLIB_SetTexture(GRRLIB_texImg *tex, bool rep) {
     GXTexObj  texObj;
 
-    if (rep) {
+    if (rep == true) {
         GX_InitTexObj(&texObj, tex->data, tex->w, tex->h, GX_TF_RGBA8, GX_REPEAT, GX_REPEAT, GX_FALSE);
     }
     else {
@@ -540,7 +540,7 @@ void GRRLIB_DrawCylinder(f32 r, f32 h, int d, bool filled, u32 col) {
     else {
         GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 2 * (d+1));
     }
-    for(i = 0 ; i <= d ; i++) {
+    for(i = 0; i <= d; i++) {
         dx = cosf( M_PI * 2.0f * i / d );
         dy = sinf( M_PI * 2.0f * i / d );
         GX_Position3f32( r * dx, -0.5f * h, r * dy );
@@ -561,7 +561,7 @@ void GRRLIB_DrawCylinder(f32 r, f32 h, int d, bool filled, u32 col) {
     GX_Position3f32(0.0f, -0.5f * h, 0.0f);
     GX_Normal3f32(0.0f, -1.0f, 0.0f);
     GX_Color1u32(col);
-    for(i = 0 ; i <= d ; i++) {
+    for(i = 0; i <= d; i++) {
         GX_Position3f32( r * cosf( M_PI * 2.0f * i / d ), -0.5f * h, r * sinf( M_PI * 2.0f * i / d ) );
         GX_Normal3f32(0.0f, -1.0f, 0.0f);
         GX_Color1u32(col);
@@ -577,7 +577,7 @@ void GRRLIB_DrawCylinder(f32 r, f32 h, int d, bool filled, u32 col) {
     GX_Position3f32(0.0f, 0.5f * h, 0.0f);
     GX_Normal3f32(0.0f, 1.0f, 0.0f);
     GX_Color1u32(col);
-    for(i = 0 ; i <= d ; i++) {
+    for(i = 0; i <= d; i++) {
         GX_Position3f32( r * cosf( M_PI * 2.0f * i / d ), 0.5f * h, r * sinf( M_PI * 2.0f * i / d ) );
         GX_Normal3f32(0.0f, 1.0f, 0.0f);
         GX_Color1u32(col);
@@ -603,7 +603,7 @@ void GRRLIB_DrawCone(f32 r, f32 h, int d, bool filled, u32 col) {
     else {
         GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 2 * (d+1));
     }
-    for(i = 0 ; i <= d ; i++) {
+    for(i = 0; i <= d; i++) {
         dx = cosf( M_PI * 2.0f * i / d );
         dy = sinf( M_PI * 2.0f * i / d );
         GX_Position3f32( 0, -0.5f * h,0);
@@ -624,7 +624,7 @@ void GRRLIB_DrawCone(f32 r, f32 h, int d, bool filled, u32 col) {
     GX_Position3f32(0.0f, 0.5f * h, 0.0f);
     GX_Normal3f32(0.0f, 1.0f, 0.0f);
     GX_Color1u32(col);
-    for(i = 0 ; i <= d ; i++) {
+    for(i = 0; i <= d; i++) {
         GX_Position3f32( r * cosf( M_PI * 2.0f * i / d ), 0.5f * h, r * sinf( M_PI * 2.0f * i / d ) );
         GX_Normal3f32(0.0f, 1.0f, 0.0f);
         GX_Color1u32(col);
@@ -648,7 +648,7 @@ void GRRLIB_DrawTessPanel(f32 w, f32 wstep, f32 h, f32 hstep, bool filled, u32 c
     tmpy = h/2.0f;
     tmpx = w/2.0f;
     tmp = ((w/wstep)*2)+2;
-    for ( y = -tmpy ; y <= tmpy ; y+=hstep )
+    for ( y = -tmpy; y <= tmpy; y += hstep )
     {
         if(filled == true) {
             GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, tmp);
@@ -656,7 +656,7 @@ void GRRLIB_DrawTessPanel(f32 w, f32 wstep, f32 h, f32 hstep, bool filled, u32 c
         else {
             GX_Begin(GX_LINESTRIP, GX_VTXFMT0, tmp);
         }
-        for ( x = -tmpx ; x <= tmpx ; x+=wstep )
+        for ( x = -tmpx; x <= tmpx; x += wstep )
         {
             GX_Position3f32( x, y, 0.0f );
             GX_Normal3f32( 0.0f, 0.0f, 1.0f);

@@ -167,8 +167,8 @@ int main() {
         if((dirx==0) && (diry==0)) {
             if (WPAD_ButtonsHeld(0) & WPAD_BUTTON_LEFT) { diry=-4; idperso=15;}
             else if (WPAD_ButtonsHeld(0) & WPAD_BUTTON_RIGHT) { diry=4; idperso=15;}
-            else if (WPAD_ButtonsHeld(0) & WPAD_BUTTON_DOWN) { dirx=-4 ; idperso=1;}
-            else if (WPAD_ButtonsHeld(0) & WPAD_BUTTON_UP) { dirx=4 ; idperso=8;}
+            else if (WPAD_ButtonsHeld(0) & WPAD_BUTTON_DOWN) { dirx=-4; idperso=1;}
+            else if (WPAD_ButtonsHeld(0) & WPAD_BUTTON_UP) { dirx=4; idperso=8;}
         }
 
         if((dirx==0) && (diry==0)) {
