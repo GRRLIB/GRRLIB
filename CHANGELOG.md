@@ -1,4 +1,5 @@
 # Change Log
+
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
@@ -106,7 +107,7 @@ All notable changes to this project will be documented in this file.
 - New Bitmap FX
 - Add `GRRLIB_Exit()` to free the memory allocated by GRRLIB
 
-[Unreleased]: https://github.com/GRRLIB/GRRLIB/compare/v4.4.0...HEAD
+[unreleased]: https://github.com/GRRLIB/GRRLIB/compare/v4.4.0...HEAD
 [4.4.0]: https://github.com/GRRLIB/GRRLIB/compare/4.3.2...v4.4.0
 [4.3.2]: https://github.com/GRRLIB/GRRLIB/compare/4.3.1...4.3.2
 [4.3.1]: https://github.com/GRRLIB/GRRLIB/compare/4.3.0...4.3.1

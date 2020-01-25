@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2019 The GRRLIB Team
+Copyright (c) 2009-2020 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -55,14 +55,18 @@ int  GRRLIB_Init (void) {
     s8 error_code = 0;
 
     // Ensure this function is only ever called once
-    if (is_setup)  return 0;
+    if (is_setup == true) {
+        return 0;
+    }
 
     // Initialise the video subsystem
     VIDEO_Init();
     VIDEO_SetBlack(true);  // Disable video output during initialisation
 
     // Grab a pointer to the video mode attributes
-    if ( !(rmode = VIDEO_GetPreferredMode(NULL)) )  return -1;
+    if ( !(rmode = VIDEO_GetPreferredMode(NULL)) ) {
+        return -1;
+    }
 
     // Video Mode Correction
     switch (rmode->viTVMode) {
