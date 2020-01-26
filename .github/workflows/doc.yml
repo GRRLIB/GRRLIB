@@ -1,0 +1,35 @@
+name: Documentation
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+
+  doc:
+    name: Deploy documentation
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Checkout the Git repository
+      uses: actions/checkout@v2
+
+    - name: Install doxygen
+      run: |
+        sudo apt-get update
+        sudo apt-get install doxygen doxygen-latex graphviz
+
+    - name: Generate documentaion
+      run: |
+        doxygen grrlib.doxygen >/dev/null
+        make --directory=latex >/dev/null
+        touch doc/.nojekyll
+        mv latex/refman.pdf doc/PDF-documentation.pdf
+
+    - name: Deploy to GitHub Pages
+      uses: maxheld83/ghpages@v0.2.1
+      env:
+        BUILD_DIR: ./doc
+        GH_PAT: ${{ secrets.GH_PAT }}
