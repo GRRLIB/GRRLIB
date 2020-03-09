@@ -29,7 +29,7 @@ jobs:
         mv latex/refman.pdf doc/PDF-documentation.pdf
 
     - name: Deploy to GitHub Pages
-      uses: maxheld83/ghpages@v0.2.1
+      uses: maxheld83/ghpages@v0.3.0
       env:
         BUILD_DIR: ./doc
         GH_PAT: ${{ secrets.GH_PAT }}
