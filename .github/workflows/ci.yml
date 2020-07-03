@@ -18,8 +18,9 @@ jobs:
 
     - name: Download and install devkitPro
       run: |
-        wget -nv https://github.com/devkitPro/pacman/releases/download/devkitpro-pacman-1.0.1/devkitpro-pacman.deb
-        sudo dpkg --install devkitpro-pacman.deb
+        wget -nv https://github.com/devkitPro/pacman/releases/latest/download/devkitpro-pacman.amd64.deb
+        sudo apt-get install gdebi-core
+        sudo gdebi --non-interactive devkitpro-pacman.amd64.deb
 
     - name: Install required packages
       run: sudo dkp-pacman --sync --sysupgrade --refresh --needed --noconfirm wii-dev ppc-libpng ppc-freetype ppc-libjpeg-turbo
