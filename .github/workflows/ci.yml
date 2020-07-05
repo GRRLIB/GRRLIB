@@ -7,26 +7,16 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-    env:
-      DEVKITPRO: /opt/devkitpro
-      DEVKITPPC: ${DEVKITPRO}/devkitPPC
+    container:
+      image: devkitpro/devkitppc:latest
 
     steps:
 
     - name: Checkout the Git repository
       uses: actions/checkout@v2
 
-    - name: Download and install devkitPro
-      run: |
-        wget -nv https://github.com/devkitPro/pacman/releases/latest/download/devkitpro-pacman.amd64.deb
-        sudo apt-get install gdebi-core
-        sudo gdebi --non-interactive devkitpro-pacman.amd64.deb
-
-    - name: Install required packages
-      run: sudo dkp-pacman --sync --sysupgrade --refresh --needed --noconfirm wii-dev ppc-libpng ppc-freetype ppc-libjpeg-turbo
-
     - name: Build library and examples
       run: |
-        (cd GRRLIB && sudo -E make clean all install)
+        (cd GRRLIB && make clean all install)
         (cd examples && make)
-        (cd GRRLIB && sudo -E make PLATFORM=cube clean all)
+        (cd GRRLIB && make PLATFORM=cube clean all)
