@@ -24,6 +24,7 @@ THE SOFTWARE.
 #include <malloc.h>
 #include <string.h>
 #include <ogc/conf.h>
+#include <ogc/machine/processor.h>
 #include <fat.h>
 
 #define __GRRLIB_CORE__
@@ -89,6 +90,15 @@ int  GRRLIB_Init (void) {
     // GameCube
     rmode->viWidth = 672;
     rmode->viXOrigin = (VI_MAX_WIDTH_NTSC - 672) / 2;
+#endif
+
+#if defined(HW_RVL)
+     // Patch widescreen on Wii U
+    if (CONF_GetAspectRatio() == CONF_ASPECT_16_9 && (*(u32*)(0xCD8005A0) >> 16) == 0xCAFE)
+    {
+        write32(0xd8006a0, 0x30000004);
+        mask32(0xd8006a8, 0, 2);
+    }
 #endif
 
     // --

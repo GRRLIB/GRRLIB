@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-- TBD
+- Patch widescreen on Wii U
 
 ## [4.4.0] - 2020-01-12
 
