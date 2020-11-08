@@ -28,15 +28,18 @@ CFLAGS  := -O2 -Wall $(MACHDEP) $(INCLUDE)
 LIB		:= grrlib
 CFILES	:= $(wildcard *.c)
 OFILES	:= $(CFILES:.c=.o)
+DEPENDS	:= $(OFILES:.o=.d)
 ARC		:= lib$(LIB).a
 HDR		:= $(LIB).h
 INL		:= $(wildcard $(LIB)/*.h)
+
+export DEPSDIR := $(CURDIR)
 
 all : $(OFILES)
 	$(AR) -r $(ARC) $(OFILES)
 
 clean :
-	rm -f $(OFILES) $(ARC)
+	rm -f $(OFILES) $(DEPENDS) $(ARC)
 
 install :
 	mkdir -p  $(INSTALL_LIB)  $(INSTALL_INC)  $(INSTALL_INC)/grrlib
