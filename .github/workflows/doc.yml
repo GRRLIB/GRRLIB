@@ -25,12 +25,12 @@ jobs:
       run: |
         doxygen grrlib.doxygen >/dev/null
         make --directory=latex >/dev/null
-        touch doc/.nojekyll
-        mv latex/refman.pdf doc/PDF-documentation.pdf
+        touch html/.nojekyll
+        mv latex/refman.pdf html/PDF-documentation.pdf
 
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@3.6.2
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         BRANCH: gh-pages
-        FOLDER: doc
+        FOLDER: html
