@@ -846,6 +846,7 @@ WARN_LOGFILE           =
 
 INPUT                  = ./GRRLIB/GRRLIB \
                          ./GRRLIB/GRRLIB/grrlib \
+                         ./docs \
                          LICENCE.md \
                          CHANGELOG.md
 
