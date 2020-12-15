@@ -227,6 +227,6 @@ source code.
 We do +request+ that you tell others about us by naming our library (GRRLIB) in
 the credits of your game/application.  And, if you +choose+ to do that, we
 encourage you to use our logo to achieve it; You can find our logo here:
-C:\grr\grrlib_logo.png
+C:\grr\docs\grrlib_logo.png
 and here:
-<https://raw.githubusercontent.com/GRRLIB/GRRLIB/master/grrlib_logo.png>
+<https://grrlib.github.io/GRRLIB/grrlib_logo.png>

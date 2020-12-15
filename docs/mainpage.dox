@@ -1,0 +1,31 @@
+/**
+ * @mainpage GRRLIB Documentation
+ * @image html grrlib_logo.png
+ * Welcome to the GRRLIB documentation.
+ * A complete list of functions is available from this \ref AllFunc "page".
+ *
+ * @section Introduction
+ * GRRLIB is a C/C++ 2D/3D graphics library for Wii application developers.
+ * It is essentially a wrapper which presents a friendly interface to the Nintendo GX core.
+ *
+ * @section Links
+ * Code: https://github.com/GRRLIB/GRRLIB\n
+ * Discussions: http://grrlib.santo.fr/forum\n
+ * Chat: <a href="irc://irc.efnet.net/grrlib">\#GRRLIB</a> on EFnet
+ *
+ * @section Credits
+ * Project Leader : NoNameNo\n
+ * Documentation  : Crayon, BlueChip\n
+ * Lead Coder     : NoNameNo\n
+ * Support Coders : Crayon, Xane, DragonMinded, BlueChip\n
+ * Advisors       : RedShade, Jespa\n
+ *
+ * @section Licence
+ * See the [LICENCE](LICENCE.md) file for licence rights and limitations (MIT).
+ *
+ * @example template/source/main.c
+ * This example shows the minimum code required to use GRRLIB.
+ * It could be used as a template to start a new project.
+ * More elaborate examples can be found inside the \e examples folder.
+ */
+ 

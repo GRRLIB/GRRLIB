@@ -17,7 +17,7 @@ build
 *.pnps
 
 # Generated doxygen documentation
-/doc
+/html
 /latex
 
 # Temporary file
