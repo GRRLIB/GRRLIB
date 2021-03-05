@@ -20,3 +20,10 @@ jobs:
         (cd GRRLIB && make clean all install)
         (cd examples && make)
         (cd GRRLIB && make PLATFORM=cube clean all)
+
+    - uses: actions/upload-artifact@master
+      with:
+        name: examples
+        path: |
+          examples/**/*.elf
+          !examples/template/*
