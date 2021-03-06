@@ -2,9 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [4.4.1] - 2021-03-05
 
-- Patch widescreen on Wii U
+- Patch widescreen on Wii U.
 
 ## [4.4.0] - 2020-01-12
 
@@ -37,7 +37,7 @@ All notable changes to this project will be documented in this file.
 - 3D primitive drawing: torus, sphere, cube, cylinder and cone
 - Light functions (diffuse, specular, spot) + ambient
 - Splitted functions for rotation/translation/scaling 3d object.
-- Here is the list a new added samples demo code :
+- Here is the list a new added samples demo code:
   - 3d_light1 -> Simple Diffuse light sample code
   - 3d_light2 -> Simple Lights and `GRRLIB_ObjectViewInv()` sample
   - 3d_light3 -> A little Specular light sample code
@@ -53,7 +53,7 @@ All notable changes to this project will be documented in this file.
 - USB_Gecko output facilities
 - `GRRLIB_Compose()` was deleted since it was not fully using GX
 - `GRRLIB_GetColor()` was deleted, the RGBA macro should be used instead
-- Lot of new sample code :
+- Lot of new sample code:
   - 3D_CubedTileDemo (How to use dynamic texturing)
   - 3D_sample1 (A simple rotating flat cube)
   - 3D_sample2 (A simple rotating textured cube)
@@ -107,7 +107,7 @@ All notable changes to this project will be documented in this file.
 - New Bitmap FX
 - Add `GRRLIB_Exit()` to free the memory allocated by GRRLIB
 
-[unreleased]: https://github.com/GRRLIB/GRRLIB/compare/v4.4.0...HEAD
+[4.4.1]: https://github.com/GRRLIB/GRRLIB/compare/v4.4.0...v4.4.1
 [4.4.0]: https://github.com/GRRLIB/GRRLIB/compare/4.3.2...v4.4.0
 [4.3.2]: https://github.com/GRRLIB/GRRLIB/compare/4.3.1...4.3.2
 [4.3.1]: https://github.com/GRRLIB/GRRLIB/compare/4.3.0...4.3.1
