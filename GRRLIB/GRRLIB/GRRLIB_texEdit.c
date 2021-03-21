@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2019 The GRRLIB Team
+Copyright (c) 2009-2021 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -368,7 +368,6 @@ GRRLIB_texImg*  GRRLIB_LoadTextureJPGEx (const u8 *my_jpg, const int my_size) {
     struct jpeg_decompress_struct cinfo;
     struct jpeg_error_mgr jerr;
     GRRLIB_texImg *my_texture = calloc(1, sizeof(GRRLIB_texImg));
-    unsigned int i;
 
     if (my_texture == NULL) {
         return NULL;
@@ -389,7 +388,7 @@ GRRLIB_texImg*  GRRLIB_LoadTextureJPGEx (const u8 *my_jpg, const int my_size) {
     size_t location = 0;
     while (cinfo.output_scanline < cinfo.output_height) {
         jpeg_read_scanlines(&cinfo, row_pointer, 1);
-        for (i = 0; i < cinfo.image_width * cinfo.output_components; i++) {
+        for (unsigned int i = 0; i < cinfo.image_width * cinfo.output_components; i++) {
             /* Put the decoded scanline into the tempBuffer */
             tempBuffer[ location++ ] = row_pointer[0][i];
         }
