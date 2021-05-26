@@ -4,16 +4,16 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-- 
+- Fixed compatibility issues with devkitPPC release 39.
 
 ## [4.4.1] - 2021-03-05
 
-- Patch widescreen on Wii U.
+- Patched widescreen on Wii U.
 
 ## [4.4.0] - 2020-01-12
 
 - Removed libpng, zlib, libfreetype and libjpeg from the project. These libraries should now be installed in devkitPro with pacman.
-- GRRLIB and pngu are now installed into the _porlibs_ folder instead of the _libogc_ folder.
+- GRRLIB and pngu are now installed into the _portlibs_ folder instead of the _libogc_ folder.
 - Removed `uint` declaration. The `u32` type should be used instead.
 - The `GRRLIB_CreateEmptyTexture()` function is not inline anymore.
 

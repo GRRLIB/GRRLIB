@@ -83,7 +83,7 @@ void GRRLIB_Camera3dSettings(f32 posx, f32 posy, f32 posz,
  * @param normalmode False, GX won't need normal coordinate, True, GX will need normal coordinate.
  */
 void GRRLIB_3dMode(f32 minDist, f32 maxDist, f32 fov, bool texturemode, bool normalmode) {
-    Mtx m;
+    Mtx44 m;
 
     guLookAt(_GRR_view, &_GRR_cam, &_GRR_up, &_GRR_look);
     guPerspective(m, fov, (f32)rmode->fbWidth/rmode->efbHeight, minDist, maxDist);
@@ -123,7 +123,8 @@ void GRRLIB_3dMode(f32 minDist, f32 maxDist, f32 fov, bool texturemode, bool nor
  * Go back to 2D mode (contributed by chris_c aka DaShAmAn).
  */
 void GRRLIB_2dMode() {
-    Mtx view, m;
+    Mtx view;
+    Mtx44 m;
 
     GX_SetZMode(GX_FALSE, GX_LEQUAL, GX_TRUE);
 
