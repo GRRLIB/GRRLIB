@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2017 The GRRLIB Team
+Copyright (c) 2009-2021 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -40,9 +40,9 @@ THE SOFTWARE.
 INLINE
 u32  GRRLIB_GetPixelFromtexImg (const int x, const int y,
                                 const GRRLIB_texImg *tex) {
-    register u32  offs;
-    register u32  ar;
-    register u8*  bp = (u8*)tex->data;
+    u32  offs;
+    u32  ar;
+    u8*  bp = (u8*)tex->data;
 
     offs = (((y&(~3))<<2)*tex->w) + ((x&(~3))<<4) + ((((y&3)<<2) + (x&3)) <<1);
 
@@ -61,8 +61,8 @@ u32  GRRLIB_GetPixelFromtexImg (const int x, const int y,
 INLINE
 void  GRRLIB_SetPixelTotexImg (const int x, const int y,
                                GRRLIB_texImg *tex, const u32 color) {
-    register u32  offs;
-    register u8*  bp = (u8*)tex->data;
+    u32  offs;
+    u8*  bp = (u8*)tex->data;
 
     offs = (((y&(~3))<<2)*tex->w) + ((x&(~3))<<4) + ((((y&3)<<2) + (x&3)) <<1);
 

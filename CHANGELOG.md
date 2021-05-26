@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+
+- 
+
 ## [4.4.1] - 2021-03-05
 
 - Patch widescreen on Wii U.
@@ -107,6 +111,7 @@ All notable changes to this project will be documented in this file.
 - New Bitmap FX
 - Add `GRRLIB_Exit()` to free the memory allocated by GRRLIB
 
+[unreleased]: https://github.com/GRRLIB/GRRLIB/compare/v4.4.1...HEAD
 [4.4.1]: https://github.com/GRRLIB/GRRLIB/compare/v4.4.0...v4.4.1
 [4.4.0]: https://github.com/GRRLIB/GRRLIB/compare/4.3.2...v4.4.0
 [4.3.2]: https://github.com/GRRLIB/GRRLIB/compare/4.3.1...4.3.2

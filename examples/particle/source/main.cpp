@@ -150,7 +150,6 @@ int main() {
 }
 
 static void createEffect( u8 id, int _x, int _y ) {
-    u8 _ColorAdd = 0;
     switch (id) {
         case EFFECT_SMOKEBOMB:
             for (u8 i = 0; i < 5; i++) {
@@ -160,7 +159,7 @@ static void createEffect( u8 id, int _x, int _y ) {
                 createParticle( 3, (_x + (RANDOM * 50)), (_y + (RANDOM * 50)), 1.25f, 1.5f, 92, 92, 92 );
             }
             for (u8 i = 0; i < 5; i++) {
-                _ColorAdd = (RANDOM * 75);
+                u8 _ColorAdd = (RANDOM * 75);
                 createParticle( 2, (_x + (RANDOM * 40)), (_y + (RANDOM * 40)), (1.0f+(RANDOM*0.20)), 1.0f, 128+_ColorAdd, 128+_ColorAdd, 128+_ColorAdd );
             }
             break;

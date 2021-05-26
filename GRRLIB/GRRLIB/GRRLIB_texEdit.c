@@ -185,9 +185,9 @@ GRRLIB_texImg*  GRRLIB_LoadTexturePNG (const u8 *my_png) {
  * @return An array of palette. Memory must be deleted.
  */
 static RGBQUAD*  GRRLIB_CreatePalette (const u8 *my_bmp, u32 Size) {
-    u32 n, i = 0;
+    u32 i = 0;
     RGBQUAD *Palette = calloc(Size, sizeof(RGBQUAD));
-    for(n=0; n<Size; n++) {
+    for(u32 n=0; n<Size; n++) {
         Palette[n].rgbBlue = my_bmp[i];
         Palette[n].rgbGreen = my_bmp[i+1];
         Palette[n].rgbRed = my_bmp[i+2];
