@@ -38,7 +38,7 @@ int main() {
 
         // dir param of GRRLIB_SetLightSpec function have to be a crazy 0,0,0 value
         // there is a bug in libogc about this
-        // http://forums.devkitpro.org/viewtopic.php?f=7&t=1933
+        // https://devkitpro.org/viewtopic.php?f=7&t=1933
         // we are waiting for a fix from libogc devs
         GRRLIB_SetLightAmbient(0x404040FF);
         GRRLIB_SetLightSpec(0, (guVector){0.0f,0.0f,0.0f}, shy, 0xFFFFFFFF, 0xFFFFFFFF);

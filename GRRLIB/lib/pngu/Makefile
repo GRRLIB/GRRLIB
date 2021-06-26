@@ -40,4 +40,4 @@ clean :
 install :
 	mkdir -p  $(INSTALL_LIB)  $(INSTALL_INC)
 	cp -f $(ARC) $(INSTALL_LIB)/
-	cp -f $(HDR) $(INSTALL_INC)/
+	cp -f $(HDR) $(INSTALL_INC)
