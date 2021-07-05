@@ -48,7 +48,7 @@ struct _IMGCTX
 	png_structp png_ptr;
 	png_infop info_ptr;
 	FILE *fd;
-	
+
 	png_bytep *row_pointers;
 	png_bytep img_data;
 };
@@ -165,7 +165,7 @@ int PNGU_DecodeToYCbYCr (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buff
 		for (x = 0; x < (width / 2); x++)
 			((PNGU_u32 *)buffer)[y*buffWidth+x] = PNGU_RGB8_TO_YCbYCr (*(ctx->row_pointers[y]+x*6), *(ctx->row_pointers[y]+x*6+1), *(ctx->row_pointers[y]+x*6+2),
 															*(ctx->row_pointers[y]+x*6+3), *(ctx->row_pointers[y]+x*6+4), *(ctx->row_pointers[y]+x*6+5));
-	
+
 	// Free resources
 	free (ctx->img_data);
 	free (ctx->row_pointers);
@@ -179,7 +179,7 @@ int PNGU_DecodeToRGB565 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buff
 {
 	int result;
 	PNGU_u32 x, y, buffWidth;
-	
+
 	result = pngu_decode (ctx, width, height, 1);
 	if (result != PNGU_OK)
 		return result;
@@ -189,11 +189,11 @@ int PNGU_DecodeToRGB565 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buff
 	// Copy image to the output buffer
 	for (y = 0; y < height; y++)
 		for (x = 0; x < width; x++)
-			((PNGU_u16 *)buffer)[y*buffWidth+x] = 
-				(((PNGU_u16) (ctx->row_pointers[y][x*3] & 0xF8)) << 8) | 
-				(((PNGU_u16) (ctx->row_pointers[y][x*3+1] & 0xFC)) << 3) | 
+			((PNGU_u16 *)buffer)[y*buffWidth+x] =
+				(((PNGU_u16) (ctx->row_pointers[y][x*3] & 0xF8)) << 8) |
+				(((PNGU_u16) (ctx->row_pointers[y][x*3+1] & 0xFC)) << 3) |
 				(((PNGU_u16) (ctx->row_pointers[y][x*3+2] & 0xF8)) >> 3);
-	
+
 	// Free resources
 	free (ctx->img_data);
 	free (ctx->row_pointers);
@@ -207,7 +207,7 @@ int PNGU_DecodeToRGBA8 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffe
 {
 	int result;
 	PNGU_u32 x, y, buffWidth;
-	
+
 	result = pngu_decode (ctx, width, height, 0);
 	if (result != PNGU_OK)
 		return result;
@@ -226,13 +226,13 @@ int PNGU_DecodeToRGBA8 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffe
 		// No alpha channel present, copy image to the output buffer
 		for (y = 0; y < height; y++)
 			for (x = 0; x < width; x++)
-				((PNGU_u32 *)buffer)[y*buffWidth+x] = 
-					(((PNGU_u32) ctx->row_pointers[y][x*3]) << 24) | 
-					(((PNGU_u32) ctx->row_pointers[y][x*3+1]) << 16) | 
-					(((PNGU_u32) ctx->row_pointers[y][x*3+2]) << 8) | 
+				((PNGU_u32 *)buffer)[y*buffWidth+x] =
+					(((PNGU_u32) ctx->row_pointers[y][x*3]) << 24) |
+					(((PNGU_u32) ctx->row_pointers[y][x*3+1]) << 16) |
+					(((PNGU_u32) ctx->row_pointers[y][x*3+2]) << 8) |
 					((PNGU_u32) default_alpha);
 	}
-	
+
 	// Free resources
 	free (ctx->img_data);
 	free (ctx->row_pointers);
@@ -266,37 +266,37 @@ int PNGU_DecodeTo4x4RGB565 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *b
 
 			PNGU_u64 field64 = *((PNGU_u64 *)(ctx->row_pointers[y*4]+x*12));
 			PNGU_u64 field32 = (PNGU_u64) *((PNGU_u32 *)(ctx->row_pointers[y*4]+x*12+8));
-			((PNGU_u64 *) buffer)[blockbase] = 
-				(((field64 & 0xF800000000000000ULL) | ((field64 & 0xFC000000000000ULL) << 3) | ((field64 & 0xF80000000000ULL) << 5)) | 
-				(((field64 & 0xF800000000ULL) << 8) | ((field64 & 0xFC000000ULL) << 11) | ((field64 & 0xF80000ULL) << 13)) | 
+			((PNGU_u64 *) buffer)[blockbase] =
+				(((field64 & 0xF800000000000000ULL) | ((field64 & 0xFC000000000000ULL) << 3) | ((field64 & 0xF80000000000ULL) << 5)) |
+				(((field64 & 0xF800000000ULL) << 8) | ((field64 & 0xFC000000ULL) << 11) | ((field64 & 0xF80000ULL) << 13)) |
 				(((field64 & 0xF800ULL) << 16) | ((field64 & 0xFCULL) << 19) | ((field32 & 0xF8000000ULL) >> 11)) |
 				(((field32 & 0xF80000ULL) >> 8) | ((field32 & 0xFC00ULL) >> 5) | ((field32 & 0xF8ULL) >> 3)));
 
 			field64 = *((PNGU_u64 *)(ctx->row_pointers[y*4+1]+x*12));
 			field32 = (PNGU_u64) *((PNGU_u32 *)(ctx->row_pointers[y*4+1]+x*12+8));
-			((PNGU_u64 *) buffer)[blockbase+1] = 
-				(((field64 & 0xF800000000000000ULL) | ((field64 & 0xFC000000000000ULL) << 3) | ((field64 & 0xF80000000000ULL) << 5)) | 
-				(((field64 & 0xF800000000ULL) << 8) | ((field64 & 0xFC000000ULL) << 11) | ((field64 & 0xF80000ULL) << 13)) | 
+			((PNGU_u64 *) buffer)[blockbase+1] =
+				(((field64 & 0xF800000000000000ULL) | ((field64 & 0xFC000000000000ULL) << 3) | ((field64 & 0xF80000000000ULL) << 5)) |
+				(((field64 & 0xF800000000ULL) << 8) | ((field64 & 0xFC000000ULL) << 11) | ((field64 & 0xF80000ULL) << 13)) |
 				(((field64 & 0xF800ULL) << 16) | ((field64 & 0xFCULL) << 19) | ((field32 & 0xF8000000ULL) >> 11)) |
 				(((field32 & 0xF80000ULL) >> 8) | ((field32 & 0xFC00ULL) >> 5) | ((field32 & 0xF8ULL) >> 3)));
 
 			field64 = *((PNGU_u64 *)(ctx->row_pointers[y*4+2]+x*12));
 			field32 = (PNGU_u64) *((PNGU_u32 *)(ctx->row_pointers[y*4+2]+x*12+8));
-			((PNGU_u64 *) buffer)[blockbase+2] = 
-				(((field64 & 0xF800000000000000ULL) | ((field64 & 0xFC000000000000ULL) << 3) | ((field64 & 0xF80000000000ULL) << 5)) | 
-				(((field64 & 0xF800000000ULL) << 8) | ((field64 & 0xFC000000ULL) << 11) | ((field64 & 0xF80000ULL) << 13)) | 
+			((PNGU_u64 *) buffer)[blockbase+2] =
+				(((field64 & 0xF800000000000000ULL) | ((field64 & 0xFC000000000000ULL) << 3) | ((field64 & 0xF80000000000ULL) << 5)) |
+				(((field64 & 0xF800000000ULL) << 8) | ((field64 & 0xFC000000ULL) << 11) | ((field64 & 0xF80000ULL) << 13)) |
 				(((field64 & 0xF800ULL) << 16) | ((field64 & 0xFCULL) << 19) | ((field32 & 0xF8000000ULL) >> 11)) |
 				(((field32 & 0xF80000ULL) >> 8) | ((field32 & 0xFC00ULL) >> 5) | ((field32 & 0xF8ULL) >> 3)));
 
 			field64 = *((PNGU_u64 *)(ctx->row_pointers[y*4+3]+x*12));
 			field32 = (PNGU_u64) *((PNGU_u32 *)(ctx->row_pointers[y*4+3]+x*12+8));
-			((PNGU_u64 *) buffer)[blockbase+3] = 
-				(((field64 & 0xF800000000000000ULL) | ((field64 & 0xFC000000000000ULL) << 3) | ((field64 & 0xF80000000000ULL) << 5)) | 
-				(((field64 & 0xF800000000ULL) << 8) | ((field64 & 0xFC000000ULL) << 11) | ((field64 & 0xF80000ULL) << 13)) | 
+			((PNGU_u64 *) buffer)[blockbase+3] =
+				(((field64 & 0xF800000000000000ULL) | ((field64 & 0xFC000000000000ULL) << 3) | ((field64 & 0xF80000000000ULL) << 5)) |
+				(((field64 & 0xF800000000ULL) << 8) | ((field64 & 0xFC000000ULL) << 11) | ((field64 & 0xF80000ULL) << 13)) |
 				(((field64 & 0xF800ULL) << 16) | ((field64 & 0xFCULL) << 19) | ((field32 & 0xF8000000ULL) >> 11)) |
 				(((field32 & 0xF80000ULL) >> 8) | ((field32 & 0xFC00ULL) >> 5) | ((field32 & 0xF8ULL) >> 3)));
 		}
-	
+
 	// Free resources
 	free (ctx->img_data);
 	free (ctx->row_pointers);
@@ -337,7 +337,7 @@ int PNGU_DecodeTo4x4RGB5A3 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *b
 				PNGU_u64 fieldA = *((PNGU_u64 *)(ctx->row_pointers[y*4]+x*16));
 				PNGU_u64 fieldB = *((PNGU_u64 *)(ctx->row_pointers[y*4]+x*16+8));
 				// If first pixel is opaque set MSB to 1 and encode colors in RGB555, else set MSB to 0 and encode colors in ARGB3444
-				if ((fieldA & 0xE000000000ULL) == 0xE000000000ULL)			
+				if ((fieldA & 0xE000000000ULL) == 0xE000000000ULL)
 					tmp = 0x8000000000000000ULL | ((fieldA & 0xF800000000000000ULL) >> 1) | ((fieldA & 0xF8000000000000ULL) << 2) | ((fieldA & 0xF80000000000ULL) << 5);
 				else
 					tmp = ((fieldA & 0xE000000000ULL) << 23) | ((fieldA & 0xF000000000000000ULL) >> 4) | (fieldA & 0xF0000000000000ULL) | ((fieldA & 0xF00000000000ULL) << 4);
@@ -471,34 +471,34 @@ int PNGU_DecodeTo4x4RGB5A3 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *b
 
 					PNGU_u64 field64 = *((PNGU_u64 *)(ctx->row_pointers[y*4]+x*12));
 					PNGU_u64 field32 = (PNGU_u64) *((PNGU_u32 *)(ctx->row_pointers[y*4]+x*12+8));
-					((PNGU_u64 *) buffer)[blockbase] = 
+					((PNGU_u64 *) buffer)[blockbase] =
 						 alphaMask | ((field64 & 0xF800000000000000ULL) >> 1) | ((field64 & 0xF8000000000000ULL) << 2) |
 						((field64 & 0xF80000000000ULL) << 5) | ((field64 & 0xF800000000ULL) << 7) | ((field64 & 0xF8000000ULL) << 10) |
-						((field64 & 0xF80000ULL) << 13) | ((field64 & 0xF800ULL) << 15) | ((field64 & 0xF8ULL) << 18) | 
+						((field64 & 0xF80000ULL) << 13) | ((field64 & 0xF800ULL) << 15) | ((field64 & 0xF8ULL) << 18) |
 						((field32 & 0xF8000000ULL) >> 11) |	((field32 & 0xF80000ULL) >> 9) | ((field32 & 0xF800ULL) >> 6) | ((field32 & 0xF8ULL) >> 3);
 
 					field64 = *((PNGU_u64 *)(ctx->row_pointers[y*4+1]+x*12));
 					field32 = (PNGU_u64) *((PNGU_u32 *)(ctx->row_pointers[y*4+1]+x*12+8));
-					((PNGU_u64 *) buffer)[blockbase+1] = 
+					((PNGU_u64 *) buffer)[blockbase+1] =
 						alphaMask | ((field64 & 0xF800000000000000ULL) >> 1) | ((field64 & 0xF8000000000000ULL) << 2) |
 						((field64 & 0xF80000000000ULL) << 5) | ((field64 & 0xF800000000ULL) << 7) | ((field64 & 0xF8000000ULL) << 10) |
-						((field64 & 0xF80000ULL) << 13) | ((field64 & 0xF800ULL) << 15) | ((field64 & 0xF8ULL) << 18) | 
+						((field64 & 0xF80000ULL) << 13) | ((field64 & 0xF800ULL) << 15) | ((field64 & 0xF8ULL) << 18) |
 						((field32 & 0xF8000000ULL) >> 11) |	((field32 & 0xF80000ULL) >> 9) | ((field32 & 0xF800ULL) >> 6) | ((field32 & 0xF8ULL) >> 3);
 
 					field64 = *((PNGU_u64 *)(ctx->row_pointers[y*4+2]+x*12));
 					field32 = (PNGU_u64) *((PNGU_u32 *)(ctx->row_pointers[y*4+2]+x*12+8));
-					((PNGU_u64 *) buffer)[blockbase+2] = 
+					((PNGU_u64 *) buffer)[blockbase+2] =
 						alphaMask | ((field64 & 0xF800000000000000ULL) >> 1) | ((field64 & 0xF8000000000000ULL) << 2) |
 						((field64 & 0xF80000000000ULL) << 5) | ((field64 & 0xF800000000ULL) << 7) | ((field64 & 0xF8000000ULL) << 10) |
-						((field64 & 0xF80000ULL) << 13) | ((field64 & 0xF800ULL) << 15) | ((field64 & 0xF8ULL) << 18) | 
+						((field64 & 0xF80000ULL) << 13) | ((field64 & 0xF800ULL) << 15) | ((field64 & 0xF8ULL) << 18) |
 						((field32 & 0xF8000000ULL) >> 11) |	((field32 & 0xF80000ULL) >> 9) | ((field32 & 0xF800ULL) >> 6) | ((field32 & 0xF8ULL) >> 3);
 
 					field64 = *((PNGU_u64 *)(ctx->row_pointers[y*4+3]+x*12));
 					field32 = (PNGU_u64) *((PNGU_u32 *)(ctx->row_pointers[y*4+3]+x*12+8));
-					((PNGU_u64 *) buffer)[blockbase+3] = 
+					((PNGU_u64 *) buffer)[blockbase+3] =
 						alphaMask | ((field64 & 0xF800000000000000ULL) >> 1) | ((field64 & 0xF8000000000000ULL) << 2) |
 						((field64 & 0xF80000000000ULL) << 5) | ((field64 & 0xF800000000ULL) << 7) | ((field64 & 0xF8000000ULL) << 10) |
-						((field64 & 0xF80000ULL) << 13) | ((field64 & 0xF800ULL) << 15) | ((field64 & 0xF8ULL) << 18) | 
+						((field64 & 0xF80000ULL) << 13) | ((field64 & 0xF800ULL) << 15) | ((field64 & 0xF8ULL) << 18) |
 						((field32 & 0xF8000000ULL) >> 11) |	((field32 & 0xF80000ULL) >> 9) | ((field32 & 0xF800ULL) >> 6) | ((field32 & 0xF8ULL) >> 3);
 				}
 		}
@@ -516,39 +516,39 @@ int PNGU_DecodeTo4x4RGB5A3 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *b
 
 					PNGU_u64 field64 = *((PNGU_u64 *)(ctx->row_pointers[y*4]+x*12));
 					PNGU_u64 field32 = (PNGU_u64) *((PNGU_u32 *)(ctx->row_pointers[y*4]+x*12+8));
-					((PNGU_u64 *) buffer)[blockbase] = 
-						alphaMask | ((field64 & 0xF000000000000000ULL) >> 4) | (field64 & 0xF0000000000000ULL) | ((field64 & 0xF00000000000ULL) << 4) | 
-						((field64 & 0xF000000000ULL) << 4) | ((field64 & 0xF0000000ULL) << 8) | ((field64 & 0xF00000ULL) << 12) | 
-						((field64 & 0xF000ULL) << 12) | ((field64 & 0xF0ULL) << 16) | ((field32 & 0xF0000000ULL) >> 12) |	
+					((PNGU_u64 *) buffer)[blockbase] =
+						alphaMask | ((field64 & 0xF000000000000000ULL) >> 4) | (field64 & 0xF0000000000000ULL) | ((field64 & 0xF00000000000ULL) << 4) |
+						((field64 & 0xF000000000ULL) << 4) | ((field64 & 0xF0000000ULL) << 8) | ((field64 & 0xF00000ULL) << 12) |
+						((field64 & 0xF000ULL) << 12) | ((field64 & 0xF0ULL) << 16) | ((field32 & 0xF0000000ULL) >> 12) |
 						((field32 & 0xF00000ULL) >> 12) | ((field32 & 0xF000ULL) >> 8) | ((field32 & 0xF0ULL) >> 4);
 
 					field64 = *((PNGU_u64 *)(ctx->row_pointers[y*4+1]+x*12));
 					field32 = (PNGU_u64) *((PNGU_u32 *)(ctx->row_pointers[y*4+1]+x*12+8));
-					((PNGU_u64 *) buffer)[blockbase+1] = 
-						alphaMask | ((field64 & 0xF000000000000000ULL) >> 4) | (field64 & 0xF0000000000000ULL) | ((field64 & 0xF00000000000ULL) << 4) | 
-						((field64 & 0xF000000000ULL) << 4) | ((field64 & 0xF0000000ULL) << 8) | ((field64 & 0xF00000ULL) << 12) | 
-						((field64 & 0xF000ULL) << 12) | ((field64 & 0xF0ULL) << 16) | ((field32 & 0xF0000000ULL) >> 12) |	
+					((PNGU_u64 *) buffer)[blockbase+1] =
+						alphaMask | ((field64 & 0xF000000000000000ULL) >> 4) | (field64 & 0xF0000000000000ULL) | ((field64 & 0xF00000000000ULL) << 4) |
+						((field64 & 0xF000000000ULL) << 4) | ((field64 & 0xF0000000ULL) << 8) | ((field64 & 0xF00000ULL) << 12) |
+						((field64 & 0xF000ULL) << 12) | ((field64 & 0xF0ULL) << 16) | ((field32 & 0xF0000000ULL) >> 12) |
 						((field32 & 0xF00000ULL) >> 12) | ((field32 & 0xF000ULL) >> 8) | ((field32 & 0xF0ULL) >> 4);
 
 					field64 = *((PNGU_u64 *)(ctx->row_pointers[y*4+2]+x*12));
 					field32 = (PNGU_u64) *((PNGU_u32 *)(ctx->row_pointers[y*4+2]+x*12+8));
-					((PNGU_u64 *) buffer)[blockbase+2] = 
-						alphaMask | ((field64 & 0xF000000000000000ULL) >> 4) | (field64 & 0xF0000000000000ULL) | ((field64 & 0xF00000000000ULL) << 4) | 
-						((field64 & 0xF000000000ULL) << 4) | ((field64 & 0xF0000000ULL) << 8) | ((field64 & 0xF00000ULL) << 12) | 
-						((field64 & 0xF000ULL) << 12) | ((field64 & 0xF0ULL) << 16) | ((field32 & 0xF0000000ULL) >> 12) |	
+					((PNGU_u64 *) buffer)[blockbase+2] =
+						alphaMask | ((field64 & 0xF000000000000000ULL) >> 4) | (field64 & 0xF0000000000000ULL) | ((field64 & 0xF00000000000ULL) << 4) |
+						((field64 & 0xF000000000ULL) << 4) | ((field64 & 0xF0000000ULL) << 8) | ((field64 & 0xF00000ULL) << 12) |
+						((field64 & 0xF000ULL) << 12) | ((field64 & 0xF0ULL) << 16) | ((field32 & 0xF0000000ULL) >> 12) |
 						((field32 & 0xF00000ULL) >> 12) | ((field32 & 0xF000ULL) >> 8) | ((field32 & 0xF0ULL) >> 4);
 
 					field64 = *((PNGU_u64 *)(ctx->row_pointers[y*4+3]+x*12));
 					field32 = (PNGU_u64) *((PNGU_u32 *)(ctx->row_pointers[y*4+3]+x*12+8));
-					((PNGU_u64 *) buffer)[blockbase+3] = 
-						alphaMask | ((field64 & 0xF000000000000000ULL) >> 4) | (field64 & 0xF0000000000000ULL) | ((field64 & 0xF00000000000ULL) << 4) | 
-						((field64 & 0xF000000000ULL) << 4) | ((field64 & 0xF0000000ULL) << 8) | ((field64 & 0xF00000ULL) << 12) | 
-						((field64 & 0xF000ULL) << 12) | ((field64 & 0xF0ULL) << 16) | ((field32 & 0xF0000000ULL) >> 12) |	
+					((PNGU_u64 *) buffer)[blockbase+3] =
+						alphaMask | ((field64 & 0xF000000000000000ULL) >> 4) | (field64 & 0xF0000000000000ULL) | ((field64 & 0xF00000000000ULL) << 4) |
+						((field64 & 0xF000000000ULL) << 4) | ((field64 & 0xF0000000ULL) << 8) | ((field64 & 0xF00000ULL) << 12) |
+						((field64 & 0xF000ULL) << 12) | ((field64 & 0xF0ULL) << 16) | ((field32 & 0xF0000000ULL) >> 12) |
 						((field32 & 0xF00000ULL) >> 12) | ((field32 & 0xF000ULL) >> 8) | ((field32 & 0xF0ULL) >> 4);
 				}
 		}
 	}
-	
+
 	// Free resources
 	free (ctx->img_data);
 	free (ctx->row_pointers);
@@ -633,7 +633,7 @@ PNGU_u8 * PNGU_DecodeTo4x4RGBA8 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, in
 					y2 = ((y*yRatio)>>16);
 				}
 
-				if (ctx->prop.imgColorType == PNGU_COLOR_TYPE_GRAY_ALPHA || 
+				if (ctx->prop.imgColorType == PNGU_COLOR_TYPE_GRAY_ALPHA ||
 					ctx->prop.imgColorType == PNGU_COLOR_TYPE_RGB_ALPHA)
 				{
 					if(xRatio > 0)
@@ -682,7 +682,7 @@ int PNGU_EncodeFromRGB (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffe
 	ctx->propRead = 0;
 
 	// Check if the user has selected a file to write the image
-	if (ctx->source == PNGU_SOURCE_BUFFER);	
+	if (ctx->source == PNGU_SOURCE_BUFFER);
 
 	else if (ctx->source == PNGU_SOURCE_DEVICE)
 	{
@@ -725,17 +725,17 @@ int PNGU_EncodeFromRGB (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffe
 	}
 
 	// Setup output file properties
-    png_set_IHDR (ctx->png_ptr, ctx->info_ptr, width, height, 8, PNG_COLOR_TYPE_RGB, 
+    png_set_IHDR (ctx->png_ptr, ctx->info_ptr, width, height, 8, PNG_COLOR_TYPE_RGB,
 				PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
 
 	// Allocate memory to store the image in RGB format
 	rowbytes = width * 3;
 	if (rowbytes % 4)
 		rowbytes = ((rowbytes >>2) + 1) <<2; // Add extra padding so each row starts in a 4 byte boundary
-		
+
 	ctx->img_data = malloc(rowbytes * height);
 	memset(ctx->img_data, 0, rowbytes * height);
-	
+
 	if (!ctx->img_data)
 	{
 		png_destroy_write_struct (&(ctx->png_ptr), (png_infopp)NULL);
@@ -746,7 +746,7 @@ int PNGU_EncodeFromRGB (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffe
 
 	ctx->row_pointers = malloc (sizeof (png_bytep) * height);
 	memset(ctx->row_pointers, 0, sizeof (png_bytep) * height);
-	
+
 	if (!ctx->row_pointers)
 	{
 		png_destroy_write_struct (&(ctx->png_ptr), (png_infopp)NULL);
@@ -790,7 +790,7 @@ int PNGU_EncodeFromGXTexture (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void 
 	unsigned char * tmpbuffer = (unsigned char *)malloc(width*height*3);
 	memset(tmpbuffer, 0, width*height*3);
 	png_uint_32 offset;
-	
+
 	for(y=0; y < height; y++)
 	{
 		tmpy1 = y * 640*3;
@@ -807,7 +807,7 @@ int PNGU_EncodeFromGXTexture (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void 
 			tmpbuffer[tmpxy+2] = ptr[offset+33]; // B
 		}
 	}
-	
+
 	res = PNGU_EncodeFromRGB (ctx, width, height, tmpbuffer, stride);
 	free(tmpbuffer);
 	return res;
@@ -852,7 +852,7 @@ int PNGU_EncodeFromYCbYCr (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *bu
 	ctx->propRead = 0;
 
 	// Check if the user has selected a file to write the image
-	if (ctx->source == PNGU_SOURCE_BUFFER);	
+	if (ctx->source == PNGU_SOURCE_BUFFER);
 
 	else if (ctx->source == PNGU_SOURCE_DEVICE)
 	{
@@ -895,7 +895,7 @@ int PNGU_EncodeFromYCbYCr (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *bu
 	}
 
 	// Setup output file properties
-    png_set_IHDR (ctx->png_ptr, ctx->info_ptr, width, height, 8, PNG_COLOR_TYPE_RGB, 
+    png_set_IHDR (ctx->png_ptr, ctx->info_ptr, width, height, 8, PNG_COLOR_TYPE_RGB,
 				PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
 
 	// Allocate memory to store the image in RGB format
@@ -928,7 +928,7 @@ int PNGU_EncodeFromYCbYCr (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *bu
 		ctx->row_pointers[y] = ctx->img_data + (y * rowbytes);
 
 		for (x = 0; x < (width / 2); x++)
-			PNGU_YCbYCr_TO_RGB8 ( ((PNGU_u32 *)buffer)[y*buffWidth+x], 
+			PNGU_YCbYCr_TO_RGB8 ( ((PNGU_u32 *)buffer)[y*buffWidth+x],
 				((PNGU_u8 *) ctx->row_pointers[y]+x*6), ((PNGU_u8 *) ctx->row_pointers[y]+x*6+1),
 				((PNGU_u8 *) ctx->row_pointers[y]+x*6+2), ((PNGU_u8 *) ctx->row_pointers[y]+x*6+3),
 				((PNGU_u8 *) ctx->row_pointers[y]+x*6+4), ((PNGU_u8 *) ctx->row_pointers[y]+x*6+5) );
@@ -963,14 +963,14 @@ PNGU_u32 PNGU_RGB8_TO_YCbYCr (PNGU_u8 r1, PNGU_u8 g1, PNGU_u8 b1, PNGU_u8 r2, PN
   y1 = (299 * r1 + 587 * g1 + 114 * b1) / 1000;
   cb1 = (-16874 * r1 - 33126 * g1 + 50000 * b1 + 12800000) / 100000;
   cr1 = (50000 * r1 - 41869 * g1 - 8131 * b1 + 12800000) / 100000;
- 
+
   y2 = (299 * r2 + 587 * g2 + 114 * b2) / 1000;
   cb2 = (-16874 * r2 - 33126 * g2 + 50000 * b2 + 12800000) / 100000;
   cr2 = (50000 * r2 - 41869 * g2 - 8131 * b2 + 12800000) / 100000;
- 
+
   cb = (cb1 + cb2) >> 1;
   cr = (cr1 + cr2) >> 1;
- 
+
   return (PNGU_u32) ((y1 << 24) | (cb << 16) | (y2 << 8) | cr);
 }
 
@@ -1070,7 +1070,7 @@ int pngu_info (IMGCTX ctx)
 	if (!ctx->propRead)
 	{
 		png_get_IHDR(ctx->png_ptr, ctx->info_ptr, &width, &height,
-					(int *) &(ctx->prop.imgBitDepth), 
+					(int *) &(ctx->prop.imgBitDepth),
 					(int *) &(ctx->prop.imgColorType),
 					NULL, NULL, NULL);
 
@@ -1148,7 +1148,7 @@ int pngu_info (IMGCTX ctx)
 				ctx->prop.trans = malloc (sizeof (PNGUCOLOR) * ctx->prop.numTrans);
 				if (ctx->prop.trans)
 					for (i = 0; i < ctx->prop.numTrans; i++)
-						ctx->prop.trans[i].r = ctx->prop.trans[i].g = ctx->prop.trans[i].b = 
+						ctx->prop.trans[i].r = ctx->prop.trans[i].g = ctx->prop.trans[i].b =
 						trans_values[i].gray / scale;
 				else
 					ctx->prop.numTrans = 0;
