@@ -4,6 +4,7 @@
 #include <grrlib.h>
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <wiiuse/wpad.h>
 #include <ogc/lwp_watchdog.h>   // Needed for gettime and ticks_to_millisecs
 
