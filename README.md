@@ -102,18 +102,25 @@ libfreetype and libjpeg with there dependencies in a single command:
 
 Each library could also be installed individually:
 
-To install libpngu
+To install libpngu:
 ```bash
   c:
   cd \grr\GRRLIB\lib\pngu
   make clean all install
 ```
 
-To install libgrrlib:
+To install libgrrlib for Wii:
 ```bash
   c:
   cd \grr\GRRLIB\GRRLIB
   make clean all install
+```
+
+To install libgrrlib for GameCube:
+```bash
+  c:
+  cd \grr\GRRLIB\GRRLIB
+  make PLATFORM=cube clean all install
 ```
 
 ## Using GRRLIB
