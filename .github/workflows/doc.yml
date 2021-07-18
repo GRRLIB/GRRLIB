@@ -21,7 +21,7 @@ jobs:
         sudo apt-get update
         sudo apt-get install doxygen doxygen-latex graphviz
 
-    - name: Generate documentaion
+    - name: Generate documentation
       run: |
         doxygen grrlib.doxygen >/dev/null
         make --directory=latex >/dev/null
