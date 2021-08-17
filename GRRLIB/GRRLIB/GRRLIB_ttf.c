@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2020 The GRRLIB Team
+Copyright (c) 2009-2021 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -48,8 +48,7 @@ static inline void DrawBitmap(FT_Bitmap *bitmap, int offset, int top, const u8 c
         for ( j = top, q = 0; j < y_max; j++, q++ ) {
             GX_Begin(GX_POINTS, GX_VTXFMT0, 1);
                 GX_Position3f32(i, j, 0);
-                GX_Color4u8(cR, cG, cB,
-                            bitmap->buffer[ q * bitmap->width + p ]);
+                GX_Color4u8(cR, cG, cB, bitmap->buffer[ q * bitmap->width + p ]);
             GX_End();
         }
     }
@@ -199,7 +198,14 @@ static u32 _PrintfTTF(int x, int y, GRRLIB_ttfFont *myFont, const char *string, 
         return 0;
     }
 	u32 penX = 0;
-    size_t length = strlen(string) + 1;
+    size_t length;
+	
+	length = mbstowcs(NULL, string, 0);
+    if(length == (size_t) -1) {
+		return 0;
+	}
+	length++;
+	
 	if(length > _utf32_len) {
 		if(_utf32 != NULL) {
 			free(_utf32);
@@ -210,9 +216,8 @@ static u32 _PrintfTTF(int x, int y, GRRLIB_ttfFont *myFont, const char *string, 
 		_utf32_len = length;
 	}
 	if (_utf32 != NULL) {	
-		length = mbstowcs(_utf32, string, length);
-		if (length > 0) {
-			*(_utf32+length) = L'\0';
+		if(mbstowcs(_utf32, string, length) > 0) {
+			_utf32[length-1] = L'\0';
 			penX = _PrintfTTFW(x, y, myFont, _utf32, fontSize, color, noprint);
 		}		
 	}
