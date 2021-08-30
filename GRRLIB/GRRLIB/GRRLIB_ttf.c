@@ -40,14 +40,12 @@ static u32 _utf32_len = 0;
  * @param cB Blue component of the colour.
  */
 static inline void DrawBitmap(FT_Bitmap *bitmap, int offset, int top, const u8 cR, const u8 cG, const u8 cB) {
-    FT_Int i, j, p, q;
-    FT_Int x_max = offset + bitmap->width;
-    FT_Int y_max = top + bitmap->rows;
+    FT_Int p, q;
 
-    for ( i = offset, p = 0; i < x_max; i++, p++ ) {
-        for ( j = top, q = 0; j < y_max; j++, q++ ) {
+    for ( p = 0; p < bitmap->width; p++ ) {
+        for ( q = 0; q < bitmap->rows; q++ ) {
             GX_Begin(GX_POINTS, GX_VTXFMT0, 1);
-                GX_Position3f32(i, j, 0);
+                GX_Position3f32(offset+p, top+q, 0);
                 GX_Color4u8(cR, cG, cB, bitmap->buffer[ q * bitmap->width + p ]);
             GX_End();
         }
