@@ -13,7 +13,7 @@ int main() {
     float rot=0;
     float i;
     int circsize=150;
-    char text[]="GRRLIB ROXX ";
+    const char text[]="GRRLIB ROXX ";
 
     GRRLIB_Init();
     WPAD_Init();
