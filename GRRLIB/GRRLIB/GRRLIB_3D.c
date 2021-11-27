@@ -50,12 +50,12 @@ void GRRLIB_SetBackgroundColour(u8 r, u8 g, u8 b, u8 a) {
  * @param posx x position of the camera.
  * @param posy y position of the camera.
  * @param posz z position of the camera.
- * @param upx Alpha component.
- * @param upy Alpha component.
- * @param upz Alpha component.
- * @param lookx x up position of the camera.
- * @param looky y up position of the camera.
- * @param lookz z up position of the camera.
+ * @param upx x up position of the camera.
+ * @param upy y up position of the camera.
+ * @param upz z up position of the camera.
+ * @param lookx x position of the target.
+ * @param looky y position of the target.
+ * @param lookz z position of the target.
  */
 void GRRLIB_Camera3dSettings(f32 posx, f32 posy, f32 posz,
     f32 upx, f32 upy, f32 upz,
@@ -642,12 +642,11 @@ void GRRLIB_DrawCone(f32 r, f32 h, int d, bool filled, u32 col) {
  * @param col Color in RGBA format.
  */
 void GRRLIB_DrawTessPanel(f32 w, f32 wstep, f32 h, f32 hstep, bool filled, u32 col) {
-    f32 x, y, tmpx, tmpy;
-    int tmp;
+    f32 x, y;
 
-    tmpy = h/2.0f;
-    tmpx = w/2.0f;
-    tmp = ((w/wstep)*2)+2;
+    f32 tmpy = h/2.0f;
+    f32 tmpx = w/2.0f;
+    int tmp = ((w/wstep)*2)+2;
     for ( y = -tmpy; y <= tmpy; y += hstep )
     {
         if(filled == true) {
