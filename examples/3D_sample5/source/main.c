@@ -53,7 +53,6 @@ int main(void){
         GRRLIB_ObjectViewEnd();
         GRRLIB_DrawCube(0.8f,1,0xFFFFFFFF);
 
-
         GRRLIB_ObjectViewBegin();
         GRRLIB_ObjectViewRotate(0,a*3,0);
         GRRLIB_ObjectViewTrans(0,offset,0);
@@ -102,4 +101,3 @@ int main(void){
 
     exit(0);
 }
-
