@@ -46,7 +46,7 @@ void GRRLIB_SetBackgroundColour(u8 r, u8 g, u8 b, u8 a) {
 }
 
 /**
- * Set the camera parameter (contributed my chris_c aka DaShAmAn).
+ * Set the camera parameter (contributed by chris_c aka DaShAmAn).
  * @param posx x position of the camera.
  * @param posy y position of the camera.
  * @param posz z position of the camera.
@@ -486,7 +486,6 @@ void GRRLIB_DrawCube(f32 size, bool filled, u32 col) {
         {7, 4, 0, 3}
     };
     f32 v[8][3];
-    int i;
 
     v[0][0] = v[1][0] = v[2][0] = v[3][0] = -size / 2;
     v[4][0] = v[5][0] = v[6][0] = v[7][0] = size / 2;
@@ -495,7 +494,7 @@ void GRRLIB_DrawCube(f32 size, bool filled, u32 col) {
     v[0][2] = v[3][2] = v[4][2] = v[7][2] = -size / 2;
     v[1][2] = v[2][2] = v[5][2] = v[6][2] = size / 2;
 
-    for (i = 5; i >= 0; i--) {
+    for (int i = 5; i >= 0; i--) {
         if(filled == true) {
             GX_Begin(GX_QUADS, GX_VTXFMT0, 4);
         }
