@@ -1023,7 +1023,7 @@ int pngu_info (IMGCTX ctx)
 	}
 
 	else
-		return PNGU_NO_FILE_SELECTED;;
+		return PNGU_NO_FILE_SELECTED;
 
 	if (png_sig_cmp(magic, 0, 8) != 0)
 	{
