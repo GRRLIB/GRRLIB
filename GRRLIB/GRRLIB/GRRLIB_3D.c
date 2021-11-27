@@ -708,11 +708,11 @@ void GRRLIB_SetLightDiff(u8 num, guVector pos, f32 distattn, f32 brightness, u32
  * Set specular light parameters.
  * @param num Number of the light. It's a number from 0 to 7.
  * @param dir Direction of the specular ray (x/y/z).
- * @param shy Shyniness of the specular. ( between 4 and 254)
+ * @param shininess Shininess of the specular. ( between 4 and 254)
  * @param lightcolor Color of the light in RGBA format.
  * @param speccolor Specular color in RGBA format..
  */
-void GRRLIB_SetLightSpec(u8 num, guVector dir, f32 shy, u32 lightcolor, u32 speccolor) {
+void GRRLIB_SetLightSpec(u8 num, guVector dir, f32 shininess, u32 lightcolor, u32 speccolor) {
     Mtx mr,mv;
     GXLightObj MyLight;
     guVector ldir = {dir.x, dir.y, dir.z};
@@ -724,7 +724,7 @@ void GRRLIB_SetLightSpec(u8 num, guVector dir, f32 shy, u32 lightcolor, u32 spec
     guVecMultiplySR(mv, &ldir,&ldir);
     GX_InitSpecularDirv(&MyLight, &ldir);
 
-    GX_InitLightShininess(&MyLight, shy);  // between 4 and 255 !!!
+    GX_InitLightShininess(&MyLight, shininess);  // between 4 and 255 !!!
     GX_InitLightColor(&MyLight, (GXColor) { R(lightcolor), G(lightcolor), B(lightcolor), 0xFF });
     GX_LoadLightObj(&MyLight, (1<<num));
 
