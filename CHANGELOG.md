@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 - Fixed compatibility issues with devkitPPC release 39.
+- Fixed documentation for `GRRLIB_Camera3dSettings()`.
 
 ## [4.4.1] - 2021-03-05
 
