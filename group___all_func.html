@@ -321,6 +321,9 @@ INLINE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 <tr class="memitem:ga1c43c28ecb0e4d7f592577bca92e7ffc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_g_r_r_l_i_b__tex_img.html">GRRLIB_texImg</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___all_func.html#ga1c43c28ecb0e4d7f592577bca92e7ffc">GRRLIB_LoadTextureFromFile</a> (const char *filename)</td></tr>
 <tr class="memdesc:ga1c43c28ecb0e4d7f592577bca92e7ffc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a texture from a file.  <a href="group___all_func.html#ga1c43c28ecb0e4d7f592577bca92e7ffc">More...</a><br /></td></tr>
 <tr class="separator:ga1c43c28ecb0e4d7f592577bca92e7ffc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga61a5765d99502956f055b666d51f0497"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group___all_func.html#gac8a079ae4566c590762c46b8210bb9f4">GRRLIB_ttfFont</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___all_func.html#ga61a5765d99502956f055b666d51f0497">GRRLIB_LoadTTFFromFile</a> (const char *filename)</td></tr>
+<tr class="memdesc:ga61a5765d99502956f055b666d51f0497"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a TTF from a file.  <a href="group___all_func.html#ga61a5765d99502956f055b666d51f0497">More...</a><br /></td></tr>
+<tr class="separator:ga61a5765d99502956f055b666d51f0497"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga3460233a6d9323890a8eefa19f520e25"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___all_func.html#ga3460233a6d9323890a8eefa19f520e25">GRRLIB_ScrShot</a> (const char *filename)</td></tr>
 <tr class="memdesc:ga3460233a6d9323890a8eefa19f520e25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Make a PNG screenshot.  <a href="group___all_func.html#ga3460233a6d9323890a8eefa19f520e25">More...</a><br /></td></tr>
 <tr class="separator:ga3460233a6d9323890a8eefa19f520e25"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -2781,6 +2784,33 @@ GRR_EXTERN GXRModeObj *&#160;</td><td class="memItemRight" valign="bottom"><a cl
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A handle to a given TTF font object or NULL if it fails to load the font. </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="group___all_func.html#ga977ef3ec2aaa49cae6c7492066e35640" title="Free memory allocated by TTF fonts.">GRRLIB_FreeTTF</a> </dd></dl>
+
+</div>
+</div>
+<a id="ga61a5765d99502956f055b666d51f0497"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga61a5765d99502956f055b666d51f0497">&#9670;&nbsp;</a></span>GRRLIB_LoadTTFFromFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group___all_func.html#gac8a079ae4566c590762c46b8210bb9f4">GRRLIB_ttfFont</a>* GRRLIB_LoadTTFFromFile </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>filename</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Load a TTF from a file. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">filename</td><td>The TTF filename to load. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A GRRLIB_ttfFont structure filled with font information. If an error occurs NULL will be returned. </dd></dl>
 
 </div>
 </div>
