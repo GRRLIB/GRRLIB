@@ -88,9 +88,10 @@ void  GRRLIB_Circle (const f32 x, const f32 y, const f32 radius,
 
 //------------------------------------------------------------------------------
 // GRRLIB_fileIO - File I/O (SD Card)
-int             GRRLIB_LoadFile            (const char* filename, u8* *data);
-GRRLIB_texImg*  GRRLIB_LoadTextureFromFile (const char* filename);
-bool            GRRLIB_ScrShot             (const char* filename);
+int              GRRLIB_LoadFile            (const char* filename, u8* *data);
+GRRLIB_texImg*   GRRLIB_LoadTextureFromFile (const char* filename);
+GRRLIB_ttfFont*  GRRLIB_LoadTTFFromFile     (const char* filename);
+bool             GRRLIB_ScrShot             (const char* filename);
 
 //------------------------------------------------------------------------------
 // GRRLIB_print.c - Will someone please tell me what these are :)
