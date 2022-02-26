@@ -81,7 +81,7 @@ GRRLIB_texImg*  GRRLIB_LoadTextureFromFile(const char *filename) {
     GRRLIB_texImg  *tex;
     u8             *data;
 
-    // return NULL it load fails
+    // Return NULL if load fails
     if (GRRLIB_LoadFile(filename, &data) <= 0) {
         return NULL;
     }
@@ -93,6 +93,32 @@ GRRLIB_texImg*  GRRLIB_LoadTextureFromFile(const char *filename) {
     free(data);
 
     return tex;
+}
+
+/**
+ * Load a TTF from a file.
+ * @param filename The TTF filename to load.
+ * @return A GRRLIB_ttfFont structure filled with font information.
+ *         If an error occurs NULL will be returned.
+ */
+GRRLIB_ttfFont*  GRRLIB_LoadTTFFromFile(const char *filename) {
+    GRRLIB_ttfFont  *ttf;
+    u8              *data;
+
+    s32 size = GRRLIB_LoadFile(filename, &data);
+
+    // Return NULL if load fails
+    if (size <= 0) {
+        return NULL;
+    }
+
+    // Convert to TTF
+    ttf = GRRLIB_LoadTTF(data, size);
+
+    // Free up the buffer
+    free(data);
+
+    return ttf;
 }
 
 /**
