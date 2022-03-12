@@ -40,11 +40,10 @@ to allow real-time loading and saving of graphical data, and thus requires
 'libfreetype' is also required.
 
 ```text
-libgrrlib          <- 2D/3D graphics library
+libgrr             <- 2D/3D graphics library
 ├── libfat         <- File I/O
 ├── libjpeg        <- JPEG image processor
-├── libpngu        <- Wii wrapper for libpng
-│   └── libpng     <- PNG image processor
+├── libpng         <- PNG image processor  
 └── libfreetype    <- TrueType font processor
 ```
 
@@ -72,8 +71,7 @@ version" to a directory called  C:\grr
 This guide is for Windows.  If you are using Linux, I am going to presume you
 are smart enough to convert these instructions.
 ```text
-GRRLIB      is supplied as source code
-libpngu     is supplied as source code
+GRRLIB      is supplied as source code (libpngu is now included)
 libpng      is supplied via devkitPro pacman (ppc-libpng)
 libfreetype is supplied via devkitPro pacman (ppc-freetype)
 libjpeg     is supplied via devkitPro pacman (ppc-libjpeg-turbo)
@@ -102,14 +100,7 @@ libfreetype and libjpeg with there dependencies in a single command:
 
 Each library could also be installed individually:
 
-To install libpngu
-```bash
-  c:
-  cd \grr\GRRLIB\lib\pngu
-  make clean all install
-```
-
-To install libgrrlib:
+To install libgrr:
 ```bash
   c:
   cd \grr\GRRLIB\GRRLIB
@@ -126,7 +117,11 @@ at the top of your .c/.cpp file and use the functions as required
 
 You will need to add
 ```make
--lgrrlib -lfreetype -lbz2 -lfat -ljpeg -lpngu -lpng -lz
+`freetype-config --cflags`
+```
+to the CFLAGS line in your makefile and
+```make
+-lgrr `freetype-config --libs` -lbz2 -lfat -ljpeg -lpng -lz
 ```
 to the libs line in your makefile
 
@@ -172,7 +167,7 @@ so lbz2 needs to be added after lfreetype in your makefile.
 For example:
 
 ```make
-LIBS	:= -lgrrlib -lfreetype -lbz2 -lpngu -lpng -ljpeg -lz -lfat
+LIBS	:= -lgrrlib `freetype-config --libs` -lbz2 -lpng -ljpeg -lz -lfat
 ```
 
 Since GRRLIB and libpngu are now installed into the porlibs folder, make sure you don't have any leftovers from previous installations.
