@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2019 The GRRLIB Team
+Copyright (c) 2009-2021 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -88,9 +88,10 @@ void  GRRLIB_Circle (const f32 x, const f32 y, const f32 radius,
 
 //------------------------------------------------------------------------------
 // GRRLIB_fileIO - File I/O (SD Card)
-int             GRRLIB_LoadFile            (const char* filename, u8* *data);
-GRRLIB_texImg*  GRRLIB_LoadTextureFromFile (const char* filename);
-bool            GRRLIB_ScrShot             (const char* filename);
+int              GRRLIB_LoadFile            (const char* filename, u8* *data);
+GRRLIB_texImg*   GRRLIB_LoadTextureFromFile (const char* filename);
+GRRLIB_ttfFont*  GRRLIB_LoadTTFFromFile     (const char* filename);
+bool             GRRLIB_ScrShot             (const char* filename);
 
 //------------------------------------------------------------------------------
 // GRRLIB_print.c - Will someone please tell me what these are :)
@@ -166,7 +167,7 @@ void GRRLIB_DrawCone(f32 r, f32 h, int d, bool filled, u32 col);
 void GRRLIB_DrawTessPanel(f32 w, f32 wstep, f32 h, f32 hstep, bool filled, u32 col);
 void GRRLIB_SetLightAmbient(u32 ambientcolor);
 void GRRLIB_SetLightDiff(u8 num, guVector pos, f32 distattn, f32 brightness, u32 lightcolor);
-void GRRLIB_SetLightSpec(u8 num, guVector dir, f32 shy, u32 lightcolor, u32 speccolor);
+void GRRLIB_SetLightSpec(u8 num, guVector dir, f32 shininess, u32 lightcolor, u32 speccolor);
 void GRRLIB_SetLightSpot(u8 num, guVector pos, guVector lookat, f32 angAttn0, f32 angAttn1, f32 angAttn2, f32 distAttn0, f32 distAttn1, f32 distAttn2, u32 lightcolor);
 void GRRLIB_SetLightOff(void);
 

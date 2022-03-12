@@ -21,7 +21,7 @@ jobs:
         sudo apt-get update
         sudo apt-get install doxygen doxygen-latex graphviz
 
-    - name: Generate documentaion
+    - name: Generate documentation
       run: |
         doxygen grrlib.doxygen >/dev/null
         make --directory=latex >/dev/null
@@ -29,7 +29,7 @@ jobs:
         mv latex/refman.pdf html/PDF-documentation.pdf
 
     - name: Deploy to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@4.1.3
+      uses: JamesIves/github-pages-deploy-action@4.1.7
       with:
         branch: gh-pages
         folder: html

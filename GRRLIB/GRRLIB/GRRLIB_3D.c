@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2020 The GRRLIB Team
+Copyright (c) 2009-2021 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -46,16 +46,16 @@ void GRRLIB_SetBackgroundColour(u8 r, u8 g, u8 b, u8 a) {
 }
 
 /**
- * Set the camera parameter (contributed my chris_c aka DaShAmAn).
+ * Set the camera parameter (contributed by chris_c aka DaShAmAn).
  * @param posx x position of the camera.
  * @param posy y position of the camera.
  * @param posz z position of the camera.
- * @param upx Alpha component.
- * @param upy Alpha component.
- * @param upz Alpha component.
- * @param lookx x up position of the camera.
- * @param looky y up position of the camera.
- * @param lookz z up position of the camera.
+ * @param upx x up position of the camera.
+ * @param upy y up position of the camera.
+ * @param upz z up position of the camera.
+ * @param lookx x position of the target.
+ * @param looky y position of the target.
+ * @param lookz z position of the target.
  */
 void GRRLIB_Camera3dSettings(f32 posx, f32 posy, f32 posz,
     f32 upx, f32 upy, f32 upz,
@@ -486,7 +486,6 @@ void GRRLIB_DrawCube(f32 size, bool filled, u32 col) {
         {7, 4, 0, 3}
     };
     f32 v[8][3];
-    int i;
 
     v[0][0] = v[1][0] = v[2][0] = v[3][0] = -size / 2;
     v[4][0] = v[5][0] = v[6][0] = v[7][0] = size / 2;
@@ -495,7 +494,7 @@ void GRRLIB_DrawCube(f32 size, bool filled, u32 col) {
     v[0][2] = v[3][2] = v[4][2] = v[7][2] = -size / 2;
     v[1][2] = v[2][2] = v[5][2] = v[6][2] = size / 2;
 
-    for (i = 5; i >= 0; i--) {
+    for (int i = 5; i >= 0; i--) {
         if(filled == true) {
             GX_Begin(GX_QUADS, GX_VTXFMT0, 4);
         }
@@ -643,12 +642,11 @@ void GRRLIB_DrawCone(f32 r, f32 h, int d, bool filled, u32 col) {
  * @param col Color in RGBA format.
  */
 void GRRLIB_DrawTessPanel(f32 w, f32 wstep, f32 h, f32 hstep, bool filled, u32 col) {
-    f32 x, y, tmpx, tmpy;
-    int tmp;
+    f32 x, y;
 
-    tmpy = h/2.0f;
-    tmpx = w/2.0f;
-    tmp = ((w/wstep)*2)+2;
+    f32 tmpy = h/2.0f;
+    f32 tmpx = w/2.0f;
+    int tmp = ((w/wstep)*2)+2;
     for ( y = -tmpy; y <= tmpy; y += hstep )
     {
         if(filled == true) {
@@ -709,11 +707,11 @@ void GRRLIB_SetLightDiff(u8 num, guVector pos, f32 distattn, f32 brightness, u32
  * Set specular light parameters.
  * @param num Number of the light. It's a number from 0 to 7.
  * @param dir Direction of the specular ray (x/y/z).
- * @param shy Shyniness of the specular. ( between 4 and 254)
+ * @param shininess Shininess of the specular. ( between 4 and 254)
  * @param lightcolor Color of the light in RGBA format.
  * @param speccolor Specular color in RGBA format..
  */
-void GRRLIB_SetLightSpec(u8 num, guVector dir, f32 shy, u32 lightcolor, u32 speccolor) {
+void GRRLIB_SetLightSpec(u8 num, guVector dir, f32 shininess, u32 lightcolor, u32 speccolor) {
     Mtx mr,mv;
     GXLightObj MyLight;
     guVector ldir = {dir.x, dir.y, dir.z};
@@ -725,7 +723,7 @@ void GRRLIB_SetLightSpec(u8 num, guVector dir, f32 shy, u32 lightcolor, u32 spec
     guVecMultiplySR(mv, &ldir,&ldir);
     GX_InitSpecularDirv(&MyLight, &ldir);
 
-    GX_InitLightShininess(&MyLight, shy);  // between 4 and 255 !!!
+    GX_InitLightShininess(&MyLight, shininess);  // between 4 and 255 !!!
     GX_InitLightColor(&MyLight, (GXColor) { R(lightcolor), G(lightcolor), B(lightcolor), 0xFF });
     GX_LoadLightObj(&MyLight, (1<<num));
 

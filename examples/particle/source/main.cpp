@@ -27,7 +27,7 @@
 #define RANDOM   ((((float)(rand() % 12))/12)-0.5)
 
 // Basic structure to hold particle data
-typedef struct Particle {
+struct Particle {
     u8 id;
     float x, y;
     float sx, sy;
@@ -38,7 +38,7 @@ typedef struct Particle {
     float sscale, salpha;
     float scolor;
     GRRLIB_texImg *tex;
-} Particle;
+};
 
 // Vector used as a container to iterate through all members of GRRLIB_texImg
 static std::vector<GRRLIB_texImg *> TextureList;
@@ -51,7 +51,7 @@ static void createEffect( u8 id, int _x, int _y );
 static void createParticle( u8 _id, int _x, int _y, float _scale, float _alpha, u8 _red, u8 _green, u8 _blue );
 static bool updateParticle( Particle *part );
 static u8 CalculateFrameRate();
-static u8 ClampVar8 (f32 Value);
+static constexpr u8 ClampVar8 (f32 Value);
 
 // Prepare Graphics
 GRRLIB_texImg *GFX_Background;
@@ -95,11 +95,10 @@ int main() {
 
         // Resetting Vars
         GRRLIB_SetBlend( GRRLIB_BLEND_ALPHA );
-        u32 ParticleCnt = 0;
 
         // WiiMote IR Viewport correction
-        int P1MX = P1Mote.sx - 150;
-        int P1MY = P1Mote.sy - 150;
+        const int P1MX = P1Mote.sx - 150;
+        const int P1MY = P1Mote.sy - 150;
 
         // Drawing Background
         GRRLIB_DrawImg( 0, 0, GFX_Background, 0, 1, 1, RGBA(255, 255, 255, 255) );
@@ -115,11 +114,10 @@ int main() {
             if (updateParticle((*PartIter)) == true) {
                 GRRLIB_DrawImg( (*PartIter)->x, (*PartIter)->y, (*PartIter)->tex, (*PartIter)->rot, (*PartIter)->scale, (*PartIter)->scale, RGBA( (*PartIter)->red, (*PartIter)->green, (*PartIter)->blue, ClampVar8((*PartIter)->alpha*255) ) );
             } else {
-                free( (*PartIter) );
+                delete (*PartIter);
                 ParticleList.erase(PartIter);
                 continue;
             }
-            ParticleCnt++;
             PartIter++;
         }
 
@@ -130,7 +128,7 @@ int main() {
         GRRLIB_Rectangle( 28, 28, 280, 20, RGBA(0, 0, 0, 160), 1 );
         GRRLIB_Printf   ( 32, 32, GFX_Font, 0xFFFFFFFF, 1, "Point your WiiMote on the screen." );
         GRRLIB_Rectangle( 28, 48, 200, 16, RGBA(0, 0, 0, 160), 1 );
-        GRRLIB_Printf   ( 32, 48, GFX_Font, 0xFFFFFFFF, 1, "Number of Particle: %d", ParticleCnt );
+        GRRLIB_Printf   ( 32, 48, GFX_Font, 0xFFFFFFFF, 1, "Number of Particle: %d", ParticleList.size() );
         GRRLIB_Rectangle( 28, 64, 64, 16, RGBA(0, 0, 0, 160), 1 );
         GRRLIB_Printf   ( 32, 64, GFX_Font, 0xFFFFFFFF, 1, "FPS: %d", FPS );
 
@@ -167,7 +165,7 @@ static void createEffect( u8 id, int _x, int _y ) {
 }
 
 static void createParticle( u8 _id, int _x, int _y, float _scale, float _alpha, u8 _red, u8 _green, u8 _blue ) {
-    Particle *part = (struct Particle *)calloc(1, sizeof(Particle));
+    Particle *part = new Particle();
     part->id  = _id;
     part->x   = _x;
     part->y   = _y;
@@ -276,7 +274,7 @@ static u8 CalculateFrameRate() {
  * @param Value The value to clamp. Using float to increase the precision. This makes a full spectrum (0 - 255) possible.
  * @return Returns a clean, clamped unsigned char.
  */
-static u8 ClampVar8 (f32 Value) {
+static constexpr u8 ClampVar8 (f32 Value) {
     Value = std::roundf(Value);
     if (Value < 0) {
         Value = 0;
@@ -285,5 +283,5 @@ static u8 ClampVar8 (f32 Value) {
         Value = 255;
     }
 
-    return (u8)Value;
+    return static_cast<u8>(Value);
 }

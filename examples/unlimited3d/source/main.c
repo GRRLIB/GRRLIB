@@ -28,7 +28,7 @@ int main() {
     int n=1;
     float a=0;
     float cubeZ=10.0f;
-    float camZ=30.0f;;
+    float camZ=30.0f;
 
     GRRLIB_Init();
     WPAD_Init();

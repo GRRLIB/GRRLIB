@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 - Fixed compatibility issues with devkitPPC release 39.
+- Added `GRRLIB_LoadTTFFromFile()` to load a TTF from a file.
+- Fixed documentation for `GRRLIB_Camera3dSettings()`.
 
 ## [4.4.1] - 2021-03-05
 
@@ -40,7 +42,7 @@ All notable changes to this project will be documented in this file.
 - FreeType 2.3.12 support (first support)
 - 3D primitive drawing: torus, sphere, cube, cylinder and cone
 - Light functions (diffuse, specular, spot) + ambient
-- Splitted functions for rotation/translation/scaling 3d object.
+- Split functions for rotation/translation/scaling 3d object.
 - Here is the list a new added samples demo code:
   - 3d_light1 -> Simple Diffuse light sample code
   - 3d_light2 -> Simple Lights and `GRRLIB_ObjectViewInv()` sample

@@ -13,7 +13,7 @@
 
 int main() {
     f32 rot = 0.0f;
-    float shy = 10.0f;
+    float shininess = 10.0f;
 
     GRRLIB_Init();
     WPAD_Init();
@@ -31,17 +31,17 @@ int main() {
         WPAD_ScanPads();
 
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) break;
-        if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_A) shy+=1;
-        if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_B) shy-=1;
+        if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_A) shininess+=1;
+        if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_B) shininess-=1;
 
         GRRLIB_3dMode(0.1,1000,45,0,1);
 
         // dir param of GRRLIB_SetLightSpec function have to be a crazy 0,0,0 value
         // there is a bug in libogc about this
-        // http://forums.devkitpro.org/viewtopic.php?f=7&t=1933
+        // https://devkitpro.org/viewtopic.php?f=7&t=1933
         // we are waiting for a fix from libogc devs
         GRRLIB_SetLightAmbient(0x404040FF);
-        GRRLIB_SetLightSpec(0, (guVector){0.0f,0.0f,0.0f}, shy, 0xFFFFFFFF, 0xFFFFFFFF);
+        GRRLIB_SetLightSpec(0, (guVector){0.0f,0.0f,0.0f}, shininess, 0xFFFFFFFF, 0xFFFFFFFF);
 
         GRRLIB_ObjectViewBegin();
         GRRLIB_ObjectViewTrans(0.0f,1.3f,0.0f);
@@ -93,7 +93,7 @@ int main() {
         rot+=0.8f;
 
         GRRLIB_2dMode();
-        GRRLIB_Printf(50, 60, tex_font, 0xFFFFFFFF, 1, "Use ( A / B ) to change the shyniness value : %d ",(int)shy);
+        GRRLIB_Printf(50, 60, tex_font, 0xFFFFFFFF, 1, "Use ( A / B ) to change the shininess value: %d ",(int)shininess);
         GRRLIB_Render();
     }
     GRRLIB_FreeTexture(tex_font);
@@ -101,4 +101,3 @@ int main() {
 
     exit(0);
 }
-

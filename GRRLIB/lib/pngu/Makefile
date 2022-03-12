@@ -10,16 +10,13 @@ ifeq ($(strip $(DEVKITPRO)),)
 $(error "Please set DEVKITPRO in your environment. export DEVKITPRO=<path to>devkitPro)
 endif
 
-ifeq ($(PLATFORM),cube)
-include $(DEVKITPPC)/gamecube_rules
-else
-include $(DEVKITPPC)/wii_rules
-endif
+include $(DEVKITPPC)/base_rules
+MACHDEP =  -DGEKKO -mcpu=750 -meabi -mhard-float
 
 INSTALL_INC	:=	$(DEVKITPRO)/portlibs/ppc/include
 INSTALL_LIB	:=	$(DEVKITPRO)/portlibs/ppc/lib
 
-INCLUDE	:= -I$(LIBOGC_INC) -I$(DEVKITPRO)/portlibs/ppc/include
+INCLUDE	:= -I$(DEVKITPRO)/portlibs/ppc/include
 CFLAGS  := -O2 -Wall $(MACHDEP) $(INCLUDE)
 
 LIB 	:= pngu
@@ -40,4 +37,4 @@ clean :
 install :
 	mkdir -p  $(INSTALL_LIB)  $(INSTALL_INC)
 	cp -f $(ARC) $(INSTALL_LIB)/
-	cp -f $(HDR) $(INSTALL_INC)/
+	cp -f $(HDR) $(INSTALL_INC)

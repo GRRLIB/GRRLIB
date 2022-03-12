@@ -62,7 +62,7 @@ typedef struct
 
 // Image context, always initialize with SelectImageFrom* and free with ReleaseImageContext
 struct _IMGCTX;
-typedef struct _IMGCTX *IMGCTX; 
+typedef struct _IMGCTX *IMGCTX;
 
 
 /****************************************************************************
@@ -110,7 +110,7 @@ int PNGU_GetImageProperties (IMGCTX ctx, PNGUPROP *fileproperties);
 *							 Image conversion								*
 ****************************************************************************/
 
-// Expands selected image into an YCbYCr buffer. You need to specify context, image dimensions, 
+// Expands selected image into an YCbYCr buffer. You need to specify context, image dimensions,
 // destination address and stride in pixels (stride = buffer width - image width).
 int PNGU_DecodeToYCbYCr (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffer, PNGU_u32 stride);
 
@@ -120,7 +120,7 @@ int PNGU_DecodeToYCbYCr (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buff
 		PNGU_DecodeToYCbYCr (ctx, imgWidth, imgHeight, ((void *) buffer) + (coordY) * (bufferWidth) * 2 +	\
 							(coordX) * 2, (bufferWidth) - (imgWidth))
 
-// Expands selected image into a linear RGB565 buffer. You need to specify context, image dimensions, 
+// Expands selected image into a linear RGB565 buffer. You need to specify context, image dimensions,
 // destination address and stride in pixels (stride = buffer width - image width).
 int PNGU_DecodeToRGB565 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffer, PNGU_u32 stride);
 
@@ -130,8 +130,8 @@ int PNGU_DecodeToRGB565 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buff
 		PNGU_DecodeToRGB565 (ctx, imgWidth, imgHeight, ((void *) buffer) + (coordY) * (bufferWidth) * 2 +	\
 							(coordX) * 2, (bufferWidth) - (imgWidth))
 
-// Expands selected image into a linear RGBA8 buffer. You need to specify context, image dimensions, 
-// destination address, stride in pixels and default alpha value, which is used if the source image 
+// Expands selected image into a linear RGBA8 buffer. You need to specify context, image dimensions,
+// destination address, stride in pixels and default alpha value, which is used if the source image
 // doesn't have an alpha channel.
 int PNGU_DecodeToRGBA8 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffer, PNGU_u32 stride, PNGU_u8 default_alpha);
 
@@ -153,7 +153,7 @@ int PNGU_DecodeTo4x4RGB5A3 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *b
 // destination address.
 PNGU_u8 * PNGU_DecodeTo4x4RGBA8 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, int * dstWidth, int * dstHeight, PNGU_u8 *dstPtr);
 
-// Encodes an YCbYCr image in PNG format and stores it in the selected device or memory buffer. You need to 
+// Encodes an YCbYCr image in PNG format and stores it in the selected device or memory buffer. You need to
 // specify context, image dimensions, destination address and stride in pixels (stride = buffer width - image width).
 int PNGU_EncodeFromYCbYCr (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffer, PNGU_u32 stride);
 
@@ -172,4 +172,3 @@ int PNGU_EncodeFromEFB (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, PNGU_u32 st
 #endif
 
 #endif
-

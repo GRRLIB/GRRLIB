@@ -149,4 +149,3 @@ int main() {
     GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
     exit(0);
 }
-
