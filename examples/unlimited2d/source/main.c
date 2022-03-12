@@ -10,9 +10,9 @@
 #include <wiiuse/wpad.h>
 
 
-#include "gfx/logo.h"
-#include "gfx/font.h"
-#include "gfx/ball.h"
+#include "logo_png.h"
+#include "font_png.h"
+#include "ball_png.h"
 
 
 int main() {
@@ -38,9 +38,9 @@ int main() {
         tex_screen[i] = GRRLIB_CreateEmptyTexture(rmode->fbWidth, rmode->efbHeight);
     }
 
-    GRRLIB_texImg *tex_ball = GRRLIB_LoadTexture(ball);
-    GRRLIB_texImg *tex_logo = GRRLIB_LoadTexture(logo);
-    GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(font);
+    GRRLIB_texImg *tex_ball = GRRLIB_LoadTexture(ball_png);
+    GRRLIB_texImg *tex_logo = GRRLIB_LoadTexture(logo_png);
+    GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(font_png);
     GRRLIB_InitTileSet(tex_font, 16, 16, 32);
 
 

@@ -14,8 +14,8 @@
 #include <malloc.h>
 #include <wiiuse/wpad.h>
 
-#include "gfx/font9x12.h"
-#include "gfx/room.h"
+#include "font9x12_png.h"
+#include "room_jpg.h"
 
 extern Mtx _GRR_view;
 
@@ -32,9 +32,9 @@ GXTexObj  texObj;
     WPAD_Init();
 
 
-    GRRLIB_texImg *tex_room = GRRLIB_LoadTexture(room);
+    GRRLIB_texImg *tex_room = GRRLIB_LoadTexture(room_jpg);
 
-    GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(font9x12);
+    GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(font9x12_png);
     GRRLIB_InitTileSet(tex_font, 9, 12, 32);
 
     GRRLIB_Settings.antialias = false;

@@ -12,11 +12,11 @@
 #include <math.h>
 
 // Include Graphics
-#include "GFX/RGFX_Background.h"
-#include "GFX/RGFX_Blob01.h"
-#include "GFX/RGFX_Blob02.h"
-#include "GFX/RGFX_Blob03.h"
-#include "GFX/RGFX_Font.h"
+#include "RGFX_Background_jpg.h"
+#include "RGFX_Blob01_png.h"
+#include "RGFX_Blob02_png.h"
+#include "RGFX_Blob03_png.h"
+#include "RGFX_Font_png.h"
 
 // Declare Static Functions
 static void ExitGame();
@@ -50,11 +50,11 @@ int main() {
     WPAD_SetDataFormat( WPAD_CHAN_0, WPAD_FMT_BTNS_ACC_IR );
 
     // Load Textures
-    GFX_Background = GRRLIB_LoadTextureJPG(RGFX_Background);
-    GFX_Blob[0]    = GRRLIB_LoadTexturePNG(RGFX_Blob01);
-    GFX_Blob[1]    = GRRLIB_LoadTexturePNG(RGFX_Blob02);
-    GFX_Blob[2]    = GRRLIB_LoadTexturePNG(RGFX_Blob03);
-    GFX_Font       = GRRLIB_LoadTexturePNG(RGFX_Font);
+    GFX_Background = GRRLIB_LoadTextureJPG(RGFX_Background_jpg);
+    GFX_Blob[0]    = GRRLIB_LoadTexturePNG(RGFX_Blob01_png);
+    GFX_Blob[1]    = GRRLIB_LoadTexturePNG(RGFX_Blob02_png);
+    GFX_Blob[2]    = GRRLIB_LoadTexturePNG(RGFX_Blob03_png);
+    GFX_Font       = GRRLIB_LoadTexturePNG(RGFX_Font_png);
     GRRLIB_InitTileSet(GFX_Font, 8, 16, 32);
 
     // Set Handles

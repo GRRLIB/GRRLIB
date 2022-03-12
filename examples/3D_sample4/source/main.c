@@ -10,7 +10,7 @@
 #include <malloc.h>
 #include <wiiuse/wpad.h>
 
-#include "gfx/logo.h"
+#include "logo.h"
 
 int main() {
     int i;

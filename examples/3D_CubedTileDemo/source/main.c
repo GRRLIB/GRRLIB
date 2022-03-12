@@ -9,10 +9,10 @@
 #include <math.h>
 #include <wiiuse/wpad.h>
 
-#include "gfx/tile1.h"
-#include "gfx/perso.h"
-#include "gfx/bg.h"
-#include "gfx/nonameno.h"
+#include "tile1_png.h"
+#include "perso_png.h"
+#include "bg_png.h"
+#include "nonameno_png.h"
 
 #define TileMap1Width (32)
 #define TileMap1Height (32)
@@ -145,12 +145,12 @@ int main() {
     GRRLIB_Settings.antialias = false;
     WPAD_Init();
     GRRLIB_ClipDrawing(0,0,rmode->fbWidth,rmode->efbHeight);
-    GRRLIB_texImg *tex_tile1 = GRRLIB_LoadTexture(tile1);
+    GRRLIB_texImg *tex_tile1 = GRRLIB_LoadTexture(tile1_png);
     GRRLIB_InitTileSet(tex_tile1, TileMap1Width, TileMap1Height, 0);
-    GRRLIB_texImg *tex_perso = GRRLIB_LoadTexture(perso);
+    GRRLIB_texImg *tex_perso = GRRLIB_LoadTexture(perso_png);
     GRRLIB_InitTileSet(tex_perso, 64, 64, 0);
-    GRRLIB_texImg *tex_bg = GRRLIB_LoadTexture(bg);
-    GRRLIB_texImg *tex_nonameno = GRRLIB_LoadTexture(nonameno);
+    GRRLIB_texImg *tex_bg = GRRLIB_LoadTexture(bg_png);
+    GRRLIB_texImg *tex_nonameno = GRRLIB_LoadTexture(nonameno_png);
     GRRLIB_InitTileSet(tex_nonameno, 32, 32, 0);
 
     GRRLIB_texImg *tex_screen = GRRLIB_CreateEmptyTexture(rmode->fbWidth, rmode->efbHeight);
