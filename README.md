@@ -103,7 +103,7 @@ Each library could also be installed individually:
 To install libgrr:
 ```bash
   c:
-  cd \grr\GRRLIB\GRRLIB
+  cd \grr\GRRLIB
   make clean all install
 ```
 
