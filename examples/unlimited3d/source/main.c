@@ -10,9 +10,9 @@
 #include <wiiuse/wpad.h>
 
 
-#include "gfx/girl.h"
-#include "gfx/logo.h"
-#include "gfx/font.h"
+#include "girl_png.h"
+#include "logo_png.h"
+#include "font_png.h"
 
 
 int main() {
@@ -40,9 +40,9 @@ int main() {
         tex_screen[i] = GRRLIB_CreateEmptyTexture(rmode->fbWidth, rmode->efbHeight);
     }
 
-    GRRLIB_texImg *tex_girl = GRRLIB_LoadTexture(girl);
-    GRRLIB_texImg *tex_logo = GRRLIB_LoadTexture(logo);
-    GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(font);
+    GRRLIB_texImg *tex_girl = GRRLIB_LoadTexture(girl_png);
+    GRRLIB_texImg *tex_logo = GRRLIB_LoadTexture(logo_png);
+    GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(font_png);
     GRRLIB_InitTileSet(tex_font, 16, 16, 32);
 
 

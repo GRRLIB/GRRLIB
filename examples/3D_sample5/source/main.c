@@ -9,7 +9,7 @@
 #include <malloc.h>
 #include <wiiuse/wpad.h>
 
-#include "gfx/font.h"
+#include "font_png.h"
 
 int main(void){
     f32 a = 0;
@@ -19,7 +19,7 @@ int main(void){
     GRRLIB_Init();
     WPAD_Init();
 
-    GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(font);
+    GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(font_png);
     GRRLIB_InitTileSet(tex_font, 16, 16, 32);
 
     GRRLIB_Settings.antialias = true;

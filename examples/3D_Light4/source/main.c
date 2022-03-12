@@ -8,14 +8,14 @@
 #include <math.h>
 #include <wiiuse/wpad.h>
 
-#include "Snap_ITC_12.h"
+#include "Snap_ITC_12_png.h"
 
 int main(int argc, char **argv) {
     f32 lightx=0.0f;
 
     GRRLIB_Init();
 
-    GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(Snap_ITC_12);
+    GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(Snap_ITC_12_png);
     GRRLIB_InitTileSet(tex_font, 17, 22, 32);
 
     WPAD_Init();

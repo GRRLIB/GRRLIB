@@ -25,7 +25,7 @@ INCLUDES	:=
 # options for code generation
 #---------------------------------------------------------------------------------
 
-CFLAGS	= -g -O2 -Wall $(MACHDEP) $(INCLUDE)
+CFLAGS	= -g -O2 -Wall $(MACHDEP) $(INCLUDE) `freetype-config --cflags`
 CXXFLAGS	=	$(CFLAGS)
 
 LDFLAGS	=	-g $(MACHDEP) -Wl,-Map,$(notdir $@).map
@@ -33,13 +33,13 @@ LDFLAGS	=	-g $(MACHDEP) -Wl,-Map,$(notdir $@).map
 #---------------------------------------------------------------------------------
 # any extra libraries we wish to link with the project
 #---------------------------------------------------------------------------------
-LIBS	:=	-lgrrlib -lfreetype -lbz2 -lpngu -lpng -ljpeg -lz -lfat -lwiiuse -lbte -logc -lm
+LIBS	:=	-lgrr `freetype-config --libs` -lbz2 -lpng -ljpeg -lz -lfat -lwiiuse -lbte -logc -lm
 
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing
 # include and lib
 #---------------------------------------------------------------------------------
-LIBDIRS	:= $(CURDIR)/$(GRRLIB) $(PORTLIBS)
+LIBDIRS	:= $(PORTLIBS)
 
 #---------------------------------------------------------------------------------
 # no real need to edit anything past this point unless you need to add additional
@@ -84,13 +84,16 @@ export HFILES := $(addsuffix .h,$(subst .,_,$(BINFILES)))
 #---------------------------------------------------------------------------------
 export INCLUDE	:=	$(foreach dir,$(INCLUDES), -iquote $(CURDIR)/$(dir)) \
 					$(foreach dir,$(LIBDIRS),-I$(dir)/include) \
+					-I$(CURDIR)/include \
 					-I$(CURDIR)/$(BUILD) \
 					-I$(LIBOGC_INC)
 
 #---------------------------------------------------------------------------------
 # build a list of library paths
 #---------------------------------------------------------------------------------
-export LIBPATHS	:= -L$(LIBOGC_LIB) $(foreach dir,$(LIBDIRS),-L$(dir)/lib)
+export LIBPATHS	:=	-L$(LIBOGC_LIB) \
+					$(foreach dir,$(LIBDIRS),-L$(dir)/lib) \
+                    $(foreach dir,$(PORTLIBS),-L$(dir)/lib)
 
 export OUTPUT	:=	$(CURDIR)/$(TARGET)
 .PHONY: $(BUILD) clean
@@ -98,7 +101,7 @@ export OUTPUT	:=	$(CURDIR)/$(TARGET)
 #---------------------------------------------------------------------------------
 $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
-	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
+	@make --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
 
 #---------------------------------------------------------------------------------
 clean:
@@ -108,7 +111,6 @@ clean:
 #---------------------------------------------------------------------------------
 run:
 	wiiload $(TARGET).dol
-
 
 #---------------------------------------------------------------------------------
 else
@@ -121,8 +123,6 @@ DEPENDS	:=	$(OFILES:.o=.d)
 $(OUTPUT).dol: $(OUTPUT).elf
 $(OUTPUT).elf: $(OFILES)
 
-$(OFILES_SOURCES) : $(HFILES)
-
 #---------------------------------------------------------------------------------
 # This rule links in binary data with the .jpg extension
 #---------------------------------------------------------------------------------
@@ -130,17 +130,55 @@ $(OFILES_SOURCES) : $(HFILES)
 #---------------------------------------------------------------------------------
 	@echo $(notdir $<)
 	$(bin2o)
+	
+%.bin.o	:	%.bin
+#---------------------------------------------------------------------------------
+	@echo $(notdir $<)
+	@$(bin2o)
+	
+%.bmp.o	:	%.bmp
+#---------------------------------------------------------------------------------
+	@echo $(notdir $<)
+	@$(bin2o)
 
+%.mp3.o	:	%.mp3
 #---------------------------------------------------------------------------------
-# This rule links in binary data with the .png extension
+	@echo $(notdir $<)
+	@$(bin2o)
+	
+%.mod.o	:	%.mod
 #---------------------------------------------------------------------------------
+	@echo $(notdir $<)
+	@$(bin2o)	
+	
+%.ogg.o	:	%.ogg
+#---------------------------------------------------------------------------------
+	@echo $(notdir $<)
+	@$(bin2o)
+	
+%.raw.o	:	%.raw
+#---------------------------------------------------------------------------------
+	@echo $(notdir $<)
+	@$(bin2o)	
+	
+%.wav.o	:	%.wav
+#---------------------------------------------------------------------------------
+	@echo $(notdir $<)
+	@$(bin2o)		
+	
 %.png.o	:	%.png
 #---------------------------------------------------------------------------------
 	@echo $(notdir $<)
-	$(bin2o)
-
+	@$(bin2o)
+	
+%.ttf.o	:	%.ttf
+#---------------------------------------------------------------------------------
+	@echo $(notdir $<)
+	@$(bin2o)
+	
 -include $(DEPENDS)
 
 #---------------------------------------------------------------------------------
 endif
 #---------------------------------------------------------------------------------
+
