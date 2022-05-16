@@ -26,4 +26,5 @@ jobs:
         name: examples
         path: |
           examples/**/*.elf
+          examples/gamecube/**/*.dol
           !examples/template/*
