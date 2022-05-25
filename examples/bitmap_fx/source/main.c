@@ -9,8 +9,8 @@
 #include <stdlib.h>
 #include <wiiuse/wpad.h>
 
-#include "gfx/pirate.h"
-#include "gfx/font1.h"
+#include "pirate_png.h"
+#include "font1_png.h"
 
 
 int main() {
@@ -18,11 +18,11 @@ int main() {
     s8 page = 0;
 
     // Font texture
-    GRRLIB_texImg *text_font1 = GRRLIB_LoadTexture(font1);
+    GRRLIB_texImg *text_font1 = GRRLIB_LoadTexture(font1_png);
     GRRLIB_InitTileSet(text_font1, 32, 36, 32);
 
     // Load the original texture and create empty texture of the same size as the original one
-    GRRLIB_texImg *tex_pirate   = GRRLIB_LoadTexture(pirate);
+    GRRLIB_texImg *tex_pirate   = GRRLIB_LoadTexture(pirate_png);
     GRRLIB_texImg *tex_gray     = GRRLIB_CreateEmptyTexture(tex_pirate->w, tex_pirate->h);
     GRRLIB_texImg *tex_sepia    = GRRLIB_CreateEmptyTexture(tex_pirate->w, tex_pirate->h);
     GRRLIB_texImg *tex_invert   = GRRLIB_CreateEmptyTexture(tex_pirate->w, tex_pirate->h);

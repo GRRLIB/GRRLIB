@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <wiiuse/wpad.h>
 
-#include "gfx/font9x12.h"
+#include "font9x12_png.h"
 
 
 int main() {
@@ -18,7 +18,7 @@ int main() {
     GRRLIB_Init();
     WPAD_Init();
 
-    GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(font9x12);
+    GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(font9x12_png);
     GRRLIB_InitTileSet(tex_font, 9, 12, 32);
 
     GRRLIB_Settings.antialias = true;
@@ -93,7 +93,7 @@ int main() {
         rot+=0.8f;
 
         GRRLIB_2dMode();
-        GRRLIB_Printf(50, 60, tex_font, 0xFFFFFFFF, 1, "Use ( A / B ) to change the shininess value: %d ",(int)shininess);
+        GRRLIB_Printf(50, 60, tex_font, 0xFFFFFFFF, 1, "Use ( A / B ) to change the shininess value: %d", (int)shininess);
         GRRLIB_Render();
     }
     GRRLIB_FreeTexture(tex_font);

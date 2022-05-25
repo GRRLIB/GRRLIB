@@ -9,7 +9,7 @@
 #include <malloc.h>
 #include <wiiuse/wpad.h>
 
-#include "gfx/Rockwell_Condensed_12_Bold.h"
+#include "Rockwell_Condensed_12_Bold_png.h"
 
 
 int main() {
@@ -20,7 +20,7 @@ int main() {
     GRRLIB_Init();
     WPAD_Init();
 
-    GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(Rockwell_Condensed_12_Bold);
+    GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(Rockwell_Condensed_12_Bold_png);
     GRRLIB_InitTileSet(tex_font, 12, 19, 32);
 
 

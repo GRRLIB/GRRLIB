@@ -9,7 +9,7 @@
 #include <wiiuse/wpad.h>
 
 
-#include "gfx/Letter_Gothic_Std_14_Bold.h"
+#include "Letter_Gothic_Std_14_Bold_png.h"
 
 int main() {
     float l1=0, l2=0;
@@ -20,7 +20,7 @@ int main() {
     WPAD_Init();
 
 
-    GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(Letter_Gothic_Std_14_Bold);
+    GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(Letter_Gothic_Std_14_Bold_png);
     GRRLIB_InitTileSet(tex_font, 11, 24, 32);
 
 

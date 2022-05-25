@@ -10,8 +10,8 @@
 #include <wiiuse/wpad.h>
 
 
-#include "gfx/font.h"
-#include "gfx/girl.h"
+#include "font_png.h"
+#include "girl_png.h"
 
 int main() {
     float a=0;
@@ -20,9 +20,9 @@ int main() {
     GRRLIB_Init();
     WPAD_Init();
 
-    GRRLIB_texImg *tex_girl= GRRLIB_LoadTexture(girl);
+    GRRLIB_texImg *tex_girl= GRRLIB_LoadTexture(girl_png);
 
-    GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(font);
+    GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(font_png);
     GRRLIB_InitTileSet(tex_font, 16, 16, 32);
 
 

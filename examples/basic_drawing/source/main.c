@@ -11,14 +11,14 @@
 #include <wiiuse/wpad.h>
 #include <fat.h>
 
-#include "gfx/BMfont1.h"
-#include "gfx/BMfont2.h"
-#include "gfx/BMfont3.h"
-#include "gfx/BMfont4.h"
-#include "gfx/BMfont5.h"
-#include "gfx/test_jpg.h"
-#include "gfx/test_bmp.h"
-#include "gfx/sprite.h"
+#include "BMfont1_png.h"
+#include "BMfont2_png.h"
+#include "BMfont3_png.h"
+#include "BMfont4_png.h"
+#include "BMfont5_png.h"
+#include "test_jpg_jpg.h"
+#include "test_bmp_bmp.h"
+#include "sprite_png.h"
 #include "ocean_bmf.h"
 #include "frontal_bmf.h"
 
@@ -68,28 +68,28 @@ int main() {
     WPAD_Init();
     WPAD_SetDataFormat(WPAD_CHAN_0, WPAD_FMT_BTNS_ACC_IR);
 
-    GRRLIB_texImg *tex_test_jpg = GRRLIB_LoadTexture(test_jpg);
-    GRRLIB_texImg *tex_test_bmp = GRRLIB_LoadTexture(test_bmp);
+    GRRLIB_texImg *tex_test_jpg = GRRLIB_LoadTexture(test_jpg_jpg);
+    GRRLIB_texImg *tex_test_bmp = GRRLIB_LoadTexture(test_bmp_bmp);
 
     GRRLIB_bytemapFont *bmf_Font1 = GRRLIB_LoadBMF(ocean_bmf);
     GRRLIB_bytemapFont *bmf_Font2 = GRRLIB_LoadBMF(frontal_bmf);
 
-    GRRLIB_texImg *tex_sprite_png = GRRLIB_LoadTexture(sprite);
+    GRRLIB_texImg *tex_sprite_png = GRRLIB_LoadTexture(sprite_png);
     GRRLIB_InitTileSet(tex_sprite_png, 24, 32, 0);
 
-    GRRLIB_texImg *tex_BMfont1 = GRRLIB_LoadTexture(BMfont1);
+    GRRLIB_texImg *tex_BMfont1 = GRRLIB_LoadTexture(BMfont1_png);
     GRRLIB_InitTileSet(tex_BMfont1, 32, 32, 32);
 
-    GRRLIB_texImg *tex_BMfont2 = GRRLIB_LoadTexture(BMfont2);
+    GRRLIB_texImg *tex_BMfont2 = GRRLIB_LoadTexture(BMfont2_png);
     GRRLIB_InitTileSet(tex_BMfont2, 16, 16, 32);
 
-    GRRLIB_texImg *tex_BMfont3 = GRRLIB_LoadTexture(BMfont3);
+    GRRLIB_texImg *tex_BMfont3 = GRRLIB_LoadTexture(BMfont3_png);
     GRRLIB_InitTileSet(tex_BMfont3, 32, 32, 32);
 
-    GRRLIB_texImg *tex_BMfont4 = GRRLIB_LoadTexture(BMfont4);
+    GRRLIB_texImg *tex_BMfont4 = GRRLIB_LoadTexture(BMfont4_png);
     GRRLIB_InitTileSet(tex_BMfont4, 16, 16, 32);
 
-    GRRLIB_texImg *tex_BMfont5 = GRRLIB_LoadTexture(BMfont5);
+    GRRLIB_texImg *tex_BMfont5 = GRRLIB_LoadTexture(BMfont5_png);
     GRRLIB_InitTileSet(tex_BMfont5, 8, 16, 0);
 
     while(1) {

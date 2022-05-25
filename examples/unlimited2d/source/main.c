@@ -10,14 +10,15 @@
 #include <wiiuse/wpad.h>
 
 
-#include "gfx/logo.h"
-#include "gfx/font.h"
-#include "gfx/ball.h"
+#include "logo_png.h"
+#include "font_png.h"
+#include "ball_png.h"
 
 
 int main() {
     int i;
     int screen_index = 0;
+    const int tex_screen_count = 10;
     float t = 0;
     const int R = 81;
     const int r = 71;
@@ -33,25 +34,25 @@ int main() {
 
     GRRLIB_Settings.antialias = false;
 
-    GRRLIB_texImg *tex_screen[10];
-    for(i=0; i<10; i++) {
+    GRRLIB_texImg *tex_screen[tex_screen_count];
+    for(i=0; i<tex_screen_count; i++) {
         tex_screen[i] = GRRLIB_CreateEmptyTexture(rmode->fbWidth, rmode->efbHeight);
     }
 
-    GRRLIB_texImg *tex_ball = GRRLIB_LoadTexture(ball);
-    GRRLIB_texImg *tex_logo = GRRLIB_LoadTexture(logo);
-    GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(font);
+    GRRLIB_texImg *tex_ball = GRRLIB_LoadTexture(ball_png);
+    GRRLIB_texImg *tex_logo = GRRLIB_LoadTexture(logo_png);
+    GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(font_png);
     GRRLIB_InitTileSet(tex_font, 16, 16, 32);
 
 
-    for(i=0;i<=255;i+=1) {
+    for(i=0; i<=255; i+=1) {
         GRRLIB_Printf((640-(16*16))/2, 200, tex_font, 0xFFFFFF00|i, 1, "HOW MANY SPRITES");
         GRRLIB_Printf((640-(16*20))/2, 216, tex_font, 0xFFFFFF00|i, 1, "CAN YOU DISPLAY WITH");
         GRRLIB_DrawImg((640-352)/2, 248, tex_logo, 0, 1, 1, 0xFFFFFF00|i);
         GRRLIB_Printf((640-(16*28))/2, 480-16, tex_font, 0xFFFFFF00|i, 1, "BY NONAMENO FROM GRRLIB TEAM");
         GRRLIB_Render();
     }
-    for(i=255;i>=0;i-=2) {
+    for(i=255; i>=0; i-=2) {
         GRRLIB_Printf((640-(16*16))/2, 200, tex_font, 0xFFFFFF00|i, 1, "HOW MANY SPRITES");
         GRRLIB_Printf((640-(16*20))/2, 216, tex_font, 0xFFFFFF00|i, 1, "CAN YOU DISPLAY WITH");
         GRRLIB_DrawImg((640-352)/2, 248, tex_logo, 0, 1, 1, 0xFFFFFF00|i);
@@ -70,7 +71,7 @@ int main() {
 
         GRRLIB_Render();
         screen_index++;
-        screen_index %= 10;
+        screen_index %= tex_screen_count;
         spr+=0.1f;
         t+=0.01f;
 
@@ -91,7 +92,7 @@ int main() {
     GRRLIB_FreeTexture(tex_logo);
     GRRLIB_FreeTexture(tex_ball);
     GRRLIB_FreeTexture(tex_font);
-    for(i=0; i<10; i++) {
+    for(i=0; i<tex_screen_count; i++) {
         GRRLIB_FreeTexture(tex_screen[i]);
     }
     GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB

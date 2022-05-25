@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <wiiuse/wpad.h>
 
-#include "gfx/font3d.h"
+#include "font3d_png.h"
 
 
 int main() {
@@ -19,7 +19,7 @@ int main() {
     WPAD_Init();
 
 
-    GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(font3d);
+    GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(font3d_png);
     GRRLIB_InitTileSet(tex_font, 64, 64, 32);
     GRRLIB_SetHandle(tex_font, tex_font->tilew/2, tex_font->tileh+circsize);
 
