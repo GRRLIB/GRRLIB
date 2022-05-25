@@ -1,6 +1,6 @@
 /*===========================================
         GRRLIB
-	Spot Light Sample Code
+    Spot Light Sample Code
 ============================================*/
 #include <grrlib.h>
 

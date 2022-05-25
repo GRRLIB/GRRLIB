@@ -38,7 +38,7 @@ int main() {
         GRRLIB_Camera3dSettings(0.0f,0.0f,camZ, 0,1,0, 0,0,0);
         GRRLIB_SetLightAmbient(0x333333FF);
 
-		GRRLIB_3dMode(0.1, 1000, 45, 0, 1);
+        GRRLIB_3dMode(0.1, 1000, 45, 0, 1);
 
         if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_A) {
             // Set all light off to get the sphere no light sourced (only get the vertex color)

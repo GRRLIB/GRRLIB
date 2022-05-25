@@ -65,8 +65,8 @@ int main() {
         GRRLIB_DrawImg(0, 0, tex_screen[screen_index], 0, 1, 1, 0xFFFFFFFF);
         GRRLIB_DrawImg(((R + r-ff)*cos(t-f) - d*cos(((R + r-f)/r)*t))+rmode->fbWidth/2-32, ((R + r-ff)*sin(t) - d*sin(((R + r)/r)*t)-f)+rmode->efbHeight/2-32, tex_ball, 1, 1, 1, 0xFFFFFFFF);
         GRRLIB_Screen2Texture(0, 0, tex_screen[screen_index], GX_FALSE);
-        GRRLIB_Printf((640-(16*6*5))/2+5, 200+5, tex_font, 0x00000088, 5, "%06d",(int)spr);
-        GRRLIB_Printf((640-(16*6*5))/2, 200, tex_font, 0xFFEEEE88, 5, "%06d",(int)spr);
+        GRRLIB_Printf((640-(16*6*5))/2+5, 200+5, tex_font, 0x00000088, 5, "%06d", (int)spr);
+        GRRLIB_Printf((640-(16*6*5))/2, 200, tex_font, 0xFFEEEE88, 5, "%06d", (int)spr);
 
         GRRLIB_Render();
         screen_index++;

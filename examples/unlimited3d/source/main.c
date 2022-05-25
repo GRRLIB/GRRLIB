@@ -161,8 +161,8 @@ int main() {
 
         GRRLIB_2dMode();
         GRRLIB_Screen2Texture(0, 0, tex_screen[screen_index], GX_FALSE);
-        GRRLIB_Printf((640-(16*6*5))/2+5, 200+5, tex_font, 0x00000088, 5, "%06d",(int)spr);
-        GRRLIB_Printf((640-(16*6*5))/2, 200, tex_font, 0xFFEEEE88, 5, "%06d",(int)spr);
+        GRRLIB_Printf((640-(16*6*5))/2+5, 200+5, tex_font, 0x00000088, 5, "%06d", (int)spr);
+        GRRLIB_Printf((640-(16*6*5))/2, 200, tex_font, 0xFFEEEE88, 5, "%06d", (int)spr);
 
         GRRLIB_Render();
         screen_index++;
@@ -193,4 +193,3 @@ int main() {
 
     return 0;
 }
-

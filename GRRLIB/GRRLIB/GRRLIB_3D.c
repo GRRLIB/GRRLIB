@@ -184,7 +184,7 @@ void GRRLIB_ObjectViewScale(f32 scalx, f32 scaly, f32 scalz) {
 }
 
 /**
- * Rotate the object matrix to draw object .
+ * Rotate the object matrix to draw object.
  * @param angx x rotation angle of the object.
  * @param angy y rotation angle of the object.
  * @param angz z rotation angle of the object.

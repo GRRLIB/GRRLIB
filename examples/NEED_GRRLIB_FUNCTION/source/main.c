@@ -20,13 +20,13 @@
 extern Mtx _GRR_view;
 
 int main() {
-f32 a= 0.0f;
-GXLightObj MyLight0;
-GXLightObj MyLight1;
-int demo=0;
+    f32 a = 0.0f;
+    GXLightObj MyLight0;
+    GXLightObj MyLight1;
+    int demo = 0;
 
-Mtx mr,mv,rx,ry,rz,m;
-GXTexObj  texObj;
+    Mtx mr,mv,rx,ry,rz,m;
+    GXTexObj  texObj;
 
     GRRLIB_Init();
     WPAD_Init();
@@ -42,7 +42,7 @@ GXTexObj  texObj;
     GRRLIB_SetBackgroundColour(0x40, 0x40, 0x40, 0xFF);
 
     while(1) {
-	GRRLIB_Camera3dSettings(0.0f,0.0f,10.0f, 0,1,0, 0,0,0);
+        GRRLIB_Camera3dSettings(0.0f,0.0f,10.0f, 0,1,0, 0,0,0);
 
         GRRLIB_2dMode();
         WPAD_ScanPads();
@@ -52,7 +52,7 @@ GXTexObj  texObj;
 
         GRRLIB_3dMode(0.1,1000,45,0,1);
 
-	if(demo==0){
+	if(demo==0) {
 		/////////////////// DEFINE A  DIFUSE LIGHT /////////////////////////////////////////////
 		guVector l0pos={0.0f,20.0f,0.0f};
 	    	guVecMultiply(_GRR_view, &l0pos, &l0pos);
@@ -81,7 +81,7 @@ GXTexObj  texObj;
 		GRRLIB_Printf(20, 30, tex_font, 0xFFFFFFFF, 1, "Simple Demo 1 Diffuse Light Source");
 	}
 
-	if(demo==1){
+	if(demo==1) {
 		/////////////////// DEFINE 2 DIFUSE LIGHTS /////////////////////////////////////////////
 		guVector l0pos={0.0f,20.0f,0.0f};
 	    	guVecMultiply(_GRR_view, &l0pos, &l0pos);
@@ -118,7 +118,7 @@ GXTexObj  texObj;
 		GRRLIB_Printf(20, 30, tex_font, 0xFFFFFFFF, 1, "Simple Demo 2 Diffuse Light Sources");
 	}
 
-	if(demo==2){
+	if(demo==2) {
 		/////////////////// DEFINE A  SPECUALR LIGHT /////////////////////////////////////////////
 		guVector l0dir={0.0f,0.0f,0.0f};
     		GX_InitSpecularDir(&MyLight0, l0dir.x,l0dir.y,l0dir.z);
@@ -158,7 +158,7 @@ GXTexObj  texObj;
 		GRRLIB_Printf(20, 30, tex_font, 0xFFFFFFFF, 1, "Simple Demo 1 Specular Source with shininess = 20");
 	}
 
-	if(demo==3){
+	if(demo==3) {
 		/////////////////// DEFINE A  SPECUALR LIGHT /////////////////////////////////////////////
 		guVector l0dir={0.0f,0.0f,0.0f};
     		GX_InitSpecularDir(&MyLight0, l0dir.x,l0dir.y,l0dir.z);
@@ -197,7 +197,7 @@ GXTexObj  texObj;
         	GRRLIB_2dMode();
 		GRRLIB_Printf(20, 30, tex_font, 0xFFFFFFFF, 1, "Simple Demo 1 Specular Source with shininess = 200");
 	}
-	if(demo==4){
+	if(demo==4) {
 		GX_SetTexCoordGen(GX_TEXCOORD0, GX_TG_MTX3x4, GX_TG_NRM, GX_TEXMTX0); // We say we use the Normal coord to map the texture (since there is no textcoord with this torus)
         	guLightFrustum(mv, 1.0F, -1.0F, 1.0F, -1.0F, 1.0F, 0.5F, 0.5F, 0.5F, 0.5F); // we are projecting the texture like a light (ie : videoprojector))
 
@@ -219,7 +219,7 @@ GXTexObj  texObj;
         	GRRLIB_2dMode();
 		GRRLIB_Printf(20, 30, tex_font, 0xFFFFFFFF, 1, "Simple Demo Mapping Using textgen from normal coord");
 	}
-	if(demo==5){
+	if(demo==5) {
 		GX_SetTexCoordGen(GX_TEXCOORD0, GX_TG_MTX3x4, GX_TG_NRM, GX_TEXMTX0); // We say we use the Normal coord to map the texture (since there is no textcoord with this torus)
         	guLightFrustum(mv, 1.0F, -1.0F, 1.0F, -1.0F, 1.0F, 0.5F, 0.5F, 0.5F, 0.5F); // we are projecting the texture like a light (ie : videoprojector))
         	guMtxRotDeg(rx, 'X', a);     //  Here i rotate the texture
@@ -256,4 +256,3 @@ GXTexObj  texObj;
 
     exit(0);
 }
-
