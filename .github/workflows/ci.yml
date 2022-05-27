@@ -13,7 +13,7 @@ jobs:
     steps:
 
     - name: Checkout the Git repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Build library and examples
       run: |

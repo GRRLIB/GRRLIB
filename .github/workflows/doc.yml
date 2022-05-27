@@ -9,12 +9,12 @@ jobs:
 
   doc:
     name: Deploy documentation
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
 
     - name: Checkout the Git repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Install doxygen
       run: |
@@ -29,7 +29,7 @@ jobs:
         mv latex/refman.pdf html/PDF-documentation.pdf
 
     - name: Deploy to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@4.1.7
+      uses: JamesIves/github-pages-deploy-action@v4.3.3
       with:
         branch: gh-pages
         folder: html
