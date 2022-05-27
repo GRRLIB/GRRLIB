@@ -73,7 +73,7 @@ GRRLIB_blendMode  GRRLIB_GetBlend (void) {
 
 /**
  * Turn anti-aliasing on/off.
- * @param aa Set to true to enable anti-aliasing (Default: Enabled).
+ * @param aa Set to @c true to enable anti-aliasing (Default: Enabled).
  */
 INLINE
 void  GRRLIB_SetAntiAliasing (const bool aa) {
@@ -82,10 +82,9 @@ void  GRRLIB_SetAntiAliasing (const bool aa) {
 
 /**
  * Get current anti-aliasing setting.
- * @return True if anti-aliasing is enabled.
+ * @return Returns @c true if anti-aliasing is enabled.
  */
 INLINE
 bool  GRRLIB_GetAntiAliasing (void) {
     return GRRLIB_Settings.antialias;
 }
-

@@ -28,7 +28,7 @@ static bool geckoinit = false;
 
 /**
  * Initialize USB Gecko.
- * @return bool true=everything worked, false=problems occurred.
+ * @return Returns @c true if everything worked, @c false if problems occurred.
  */
 bool GRRLIB_GeckoInit() {
     s32 geckoattached = usb_isgeckoalive(EXI_CHANNEL_1);

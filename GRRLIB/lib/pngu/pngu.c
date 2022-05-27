@@ -671,7 +671,7 @@ PNGU_u8 * PNGU_DecodeTo4x4RGBA8 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, in
 	return dst;
 }
 
-// Coded by Tantric for libwiigui (http://code.google.com/p/libwiigui)
+// Coded by Tantric for libwiigui (https://github.com/dborth/libwiigui)
 int PNGU_EncodeFromRGB (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffer, PNGU_u32 stride)
 {
 	png_uint_32 rowbytes;

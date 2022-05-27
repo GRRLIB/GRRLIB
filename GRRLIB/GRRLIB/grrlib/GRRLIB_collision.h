@@ -33,7 +33,7 @@ THE SOFTWARE.
  * @param hoth The height of the rectangle.
  * @param wpadx Specifies the x-coordinate of the point.
  * @param wpady Specifies the y-coordinate of the point.
- * @return If the specified point lies within the rectangle, the return value is true otherwise it's false.
+ * @return If the specified point lies within the rectangle, the return value is @c true otherwise it's @c false.
  */
 INLINE
 bool  GRRLIB_PtInRect (const int hotx,   const int hoty,
@@ -53,7 +53,7 @@ bool  GRRLIB_PtInRect (const int hotx,   const int hoty,
  * @param rect2y Specifies the y-coordinate of the upper-left corner of the rectangle.
  * @param rect2w Specifies the width of the rectangle.
  * @param rect2h Specifies the height of the rectangle.
- * @return If the specified rectangle lies within the other rectangle, the return value is true otherwise it's false.
+ * @return If the specified rectangle lies within the other rectangle, the return value is @c true otherwise it's @c false.
  */
 INLINE
 bool  GRRLIB_RectInRect (const int rect1x, const int rect1y,
@@ -75,7 +75,7 @@ bool  GRRLIB_RectInRect (const int rect1x, const int rect1y,
  * @param rect2y Specifies the y-coordinate of the upper-left corner of the second rectangle.
  * @param rect2w Specifies the width of the second rectangle.
  * @param rect2h Specifies the height of the second rectangle.
- * @return If the specified rectangle lies on the other rectangle, the return value is true otherwise it's false.
+ * @return If the specified rectangle lies on the other rectangle, the return value is @c true otherwise it's @c false.
  */
 INLINE
 bool  GRRLIB_RectOnRect (const int rect1x, const int rect1y,

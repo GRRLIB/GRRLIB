@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2019 The GRRLIB Team
+Copyright (c) 2009-2022 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,21 +24,22 @@ THE SOFTWARE.
 
 /**
  * Make a snapshot of the screen in a texture WITHOUT ALPHA LAYER.
- * @param posx top left corner of the grabbed part.
- * @param posy top left corner of the grabbed part.
- * @param tex A pointer to a texture representing the screen or NULL if an error occurs.
- * @param clear When this flag is set to true, the screen is cleared after copy.
+ * @param posx Top left corner of the grabbed part.
+ * @param posy Top left corner of the grabbed part.
+ * @param tex A pointer to a texture representing the screen.
+ * @param clear When this flag is set to @c true, the screen is cleared after copy.
  */
 void  GRRLIB_Screen2Texture (int posx, int posy, GRRLIB_texImg *tex, bool clear) {
-    if(tex->data != NULL) {
-        GX_SetTexCopySrc(posx, posy, tex->w, tex->h);
-        GX_SetTexCopyDst(tex->w, tex->h, GX_TF_RGBA8, GX_FALSE);
-        GX_CopyTex(tex->data, GX_FALSE);
-        GX_PixModeSync();
-        GRRLIB_FlushTex(tex);
-        if(clear == true) {
-            GX_CopyDisp(xfb[!fb], GX_TRUE);
-        }
+    if(tex == NULL || tex->data == NULL) {
+        return;
+    }
+    GX_SetTexCopySrc(posx, posy, tex->w, tex->h);
+    GX_SetTexCopyDst(tex->w, tex->h, GX_TF_RGBA8, GX_FALSE);
+    GX_CopyTex(tex->data, GX_FALSE);
+    GX_PixModeSync();
+    GRRLIB_FlushTex(tex);
+    if(clear == true) {
+        GX_CopyDisp(xfb[!fb], GX_TRUE);
     }
 }
 
@@ -55,9 +56,9 @@ void GRRLIB_CompoStart (void) {
  * End GX compositing process (Make a snapshot of the screen in a texture WITH ALPHA LAYER).
  * EFB is cleared after this function.
  * @see GRRLIB_CompoStart
- * @param posx top left corner of the grabbed part.
- * @param posy top left corner of the grabbed part.
- * @param tex A pointer to a texture representing the screen or NULL if an error occurs.
+ * @param posx Top left corner of the grabbed part.
+ * @param posy Top left corner of the grabbed part.
+ * @param tex A pointer to a texture representing the screen.
  */
 void GRRLIB_CompoEnd(int posx, int posy, GRRLIB_texImg *tex) {
     GRRLIB_Screen2Texture(posx, posy, tex, GX_TRUE);

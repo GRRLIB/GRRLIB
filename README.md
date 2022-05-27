@@ -43,7 +43,7 @@ to allow real-time loading and saving of graphical data, and thus requires
 libgrrlib          <- 2D/3D graphics library
 ├── libfat         <- File I/O
 ├── libjpeg        <- JPEG image processor
-├── libpngu        <- Wii wrapper for libpng
+├── libpngu        <- Wrapper for libpng
 │   └── libpng     <- PNG image processor
 └── libfreetype    <- TrueType font processor
 ```

@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 
 - Fixed compatibility issues with devkitPPC release 39.
 - Added `GRRLIB_LoadTTFFromFile()` to load a TTF from a file.
-- Fixed documentation for `GRRLIB_Camera3dSettings()`.
+- Fixed documentation for `GRRLIB_Camera3dSettings()`, `GRRLIB_Screen2Texture()` and `GRRLIB_CompoEnd()`.
 
 ## [4.4.1] - 2021-03-05
 

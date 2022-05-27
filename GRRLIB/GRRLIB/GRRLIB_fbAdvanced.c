@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2019 The GRRLIB Team
+Copyright (c) 2009-2022 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -31,18 +31,16 @@ THE SOFTWARE.
  * @param y Specifies the y-coordinate of the circle.
  * @param radius The radius of the circle.
  * @param color The color of the circle in RGBA format.
- * @param filled Set to true to fill the circle.
+ * @param filled Set to @c true to fill the circle.
  */
 void  GRRLIB_Circle (const f32 x, const f32 y, const f32 radius,
                      const u32 color, const u8 filled) {
     guVector v[36];
     u32 ncolor[36];
-    u32 a;
-    f32 ra;
-    f32 G_DTOR = M_DTOR * 10;
+    const f32 G_DTOR = M_DTOR * 10;
 
-    for (a = 0; a < 36; a++) {
-        ra = a * G_DTOR;
+    for (u32 a = 0; a < 36; a++) {
+        const f32 ra = a * G_DTOR;
 
         v[a].x = cos(ra) * radius + x;
         v[a].y = sin(ra) * radius + y;

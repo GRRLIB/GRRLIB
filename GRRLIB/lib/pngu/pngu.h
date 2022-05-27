@@ -55,7 +55,7 @@ typedef struct
 	PNGU_u32 imgBitDepth; // In bitx
 	PNGU_u32 imgColorType; // PNGU_COLOR_TYPE_*
 	PNGU_u32 validBckgrnd; // Non zero if there is a background color
-	PNGUCOLOR bckgrnd; // Backgroun color
+	PNGUCOLOR bckgrnd; // Background color
 	PNGU_u32 numTrans; // Number of transparent colors
 	PNGUCOLOR *trans; // Transparent colors
 } PNGUPROP;

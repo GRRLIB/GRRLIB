@@ -338,7 +338,7 @@ void GRRLIB_ObjectViewInv(f32 posx, f32 posy, f32 posz, f32 angx, f32 angy, f32 
 /**
  * Set the texture to an object (contributed by chris_c aka DaShAmAn).
  * @param tex Pointer to an image texture (GRRLIB_texImg format).
- * @param rep Texture Repeat Mode, True will repeat it, False won't.
+ * @param rep Texture Repeat Mode, @c true will repeat it, @c false won't.
  */
 void GRRLIB_SetTexture(GRRLIB_texImg *tex, bool rep) {
     GXTexObj  texObj;
@@ -709,7 +709,7 @@ void GRRLIB_SetLightDiff(u8 num, guVector pos, f32 distattn, f32 brightness, u32
  * @param dir Direction of the specular ray (x/y/z).
  * @param shininess Shininess of the specular. ( between 4 and 254)
  * @param lightcolor Color of the light in RGBA format.
- * @param speccolor Specular color in RGBA format..
+ * @param speccolor Specular color in RGBA format.
  */
 void GRRLIB_SetLightSpec(u8 num, guVector dir, f32 shininess, u32 lightcolor, u32 speccolor) {
     Mtx mr,mv;

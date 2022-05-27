@@ -76,7 +76,7 @@ void  GRRLIB_Line (const f32 x1, const f32 y1,
  * @param width The width of the rectangle.
  * @param height The height of the rectangle.
  * @param color The color of the rectangle in RGBA format.
- * @param filled Set to true to fill the rectangle.
+ * @param filled Set to @c true to fill the rectangle.
  */
 INLINE
 void  GRRLIB_Rectangle (const f32 x,      const f32 y,
