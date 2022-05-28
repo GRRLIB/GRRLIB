@@ -18,7 +18,7 @@
 int main() {
     int i;
     int screen_index = 0;
-    const int tex_screen_count = 4;
+    const int tex_screen_count = 3;
     float t = 0;
     const int R = 81;
     const int r = 71;
