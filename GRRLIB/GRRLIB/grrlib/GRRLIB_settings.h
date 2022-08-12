@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2017 The GRRLIB Team
+Copyright (c) 2009-2022 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -31,10 +31,10 @@ THE SOFTWARE.
      * libogc revision 4170 fixed a typographical error. GX_BM_SUBSTRACT was renamed GX_BM_SUBTRACT.
      * But for previous versions this define is needed.
      */
-    #define GX_BM_SUBTRACT      GX_BM_SUBSTRACT
+    #define GX_BM_SUBTRACT GX_BM_SUBSTRACT
 #endif
 
-extern  GRRLIB_drawSettings  GRRLIB_Settings;
+extern GRRLIB_drawSettings GRRLIB_Settings;
 
 /**
  * Set a blending mode.
@@ -58,6 +58,8 @@ void  GRRLIB_SetBlend (const GRRLIB_blendMode blendmode) {
             break;
         case GRRLIB_BLEND_INV:
             GX_SetBlendMode(GX_BM_BLEND, GX_BL_INVSRCCLR, GX_BL_INVSRCCLR, GX_LO_CLEAR);
+            break;
+        default:
             break;
     }
 }

@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2017 The GRRLIB Team
+Copyright (c) 2009-2022 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,10 +24,10 @@ THE SOFTWARE.
 
 #include <grrlib.h>
 
-extern  GRRLIB_drawSettings  GRRLIB_Settings;
-extern  Mtx                  GXmodelView2D;
+extern GRRLIB_drawSettings GRRLIB_Settings;
+extern Mtx                 GXmodelView2D;
 
-static  guVector  axis = (guVector){0, 0, 1};
+static guVector axis = (guVector){0, 0, 1};
 
 /**
  * Draw a texture.
@@ -41,10 +41,10 @@ static  guVector  axis = (guVector){0, 0, 1};
  */
 void  GRRLIB_DrawImg (const f32 xpos, const f32 ypos, const GRRLIB_texImg *tex, const f32 degrees, const f32 scaleX, const f32 scaleY, const u32 color) {
     GXTexObj  texObj;
-    u16       width, height;
     Mtx       m, m1, m2, mv;
 
-    if (tex == NULL || tex->data == NULL)  return;
+    if (tex == NULL || tex->data == NULL)
+        return;
 
     GX_InitTexObj(&texObj, tex->data, tex->w, tex->h,
                   GX_TF_RGBA8, GX_CLAMP, GX_CLAMP, GX_FALSE);
@@ -67,8 +67,8 @@ void  GRRLIB_DrawImg (const f32 xpos, const f32 ypos, const GRRLIB_texImg *tex, 
     guMtxRotAxisDeg(m2, &axis, degrees);
     guMtxConcat    (m2, m1, m);
 
-    width  = tex->w * 0.5;
-    height = tex->h * 0.5;
+    const u32 width  = tex->w * 0.5;
+    const u32 height = tex->h * 0.5;
 
     guMtxTransApply(m, m,
         xpos +width  +tex->handlex
@@ -114,7 +114,8 @@ void  GRRLIB_DrawImgQuad (const guVector pos[4], GRRLIB_texImg *tex, const u32 c
     GXTexObj  texObj;
     Mtx       m, m1, m2, mv;
 
-    if (tex == NULL || tex->data == NULL)  return;
+    if (tex == NULL || tex->data == NULL)
+        return;
 
     GX_InitTexObj(&texObj, tex->data, tex->w, tex->h,
                   GX_TF_RGBA8, GX_CLAMP, GX_CLAMP, GX_FALSE);
@@ -175,17 +176,16 @@ void  GRRLIB_DrawImgQuad (const guVector pos[4], GRRLIB_texImg *tex, const u32 c
  */
 void  GRRLIB_DrawTile (const f32 xpos, const f32 ypos, const GRRLIB_texImg *tex, const f32 degrees, const f32 scaleX, const f32 scaleY, const u32 color, const int frame) {
     GXTexObj  texObj;
-    f32       width, height;
     Mtx       m, m1, m2, mv;
-    f32       s1, s2, t1, t2;
 
-    if (tex == NULL || tex->data == NULL)  return;
+    if (tex == NULL || tex->data == NULL)
+        return;
 
     // The 0.001f/x is the frame correction formula by spiffen
-    s1 = (frame % tex->nbtilew) * tex->ofnormaltexx;
-    s2 = s1 + tex->ofnormaltexx;
-    t1 = (int)(frame/tex->nbtilew) * tex->ofnormaltexy;
-    t2 = t1 + tex->ofnormaltexy;
+    const f32 s1 = (frame % tex->nbtilew) * tex->ofnormaltexx;
+    const f32 s2 = s1 + tex->ofnormaltexx;
+    const f32 t1 = (int)(frame/tex->nbtilew) * tex->ofnormaltexy;
+    const f32 t2 = t1 + tex->ofnormaltexy;
 
     GX_InitTexObj(&texObj, tex->data,
                   tex->tilew * tex->nbtilew, tex->tileh * tex->nbtileh,
@@ -204,8 +204,8 @@ void  GRRLIB_DrawTile (const f32 xpos, const f32 ypos, const GRRLIB_texImg *tex,
     GX_SetTevOp  (GX_TEVSTAGE0, GX_MODULATE);
     GX_SetVtxDesc(GX_VA_TEX0,   GX_DIRECT);
 
-    width  = tex->tilew * 0.5f;
-    height = tex->tileh * 0.5f;
+    const f32 width  = tex->tilew * 0.5f;
+    const f32 height = tex->tileh * 0.5f;
 
     guMtxIdentity  (m1);
     guMtxScaleApply(m1, m1, scaleX, scaleY, 1.0f);
@@ -263,17 +263,16 @@ void  GRRLIB_DrawTile (const f32 xpos, const f32 ypos, const GRRLIB_texImg *tex,
  */
 void  GRRLIB_DrawPart (const f32 xpos, const f32 ypos, const f32 partx, const f32 party, const f32 partw, const f32 parth, const GRRLIB_texImg *tex, const f32 degrees, const f32 scaleX, const f32 scaleY, const u32 color) {
     GXTexObj  texObj;
-    f32       width, height;
     Mtx       m, m1, m2, mv;
-    f32       s1, s2, t1, t2;
 
-    if (tex == NULL || tex->data == NULL)  return;
+    if (tex == NULL || tex->data == NULL)
+        return;
 
     // The 0.001f/x is the frame correction formula by spiffen
-    s1 = (partx /tex->w) +(0.001f /tex->w);
-    s2 = ((partx + partw)/tex->w) -(0.001f /tex->w);
-    t1 = (party /tex->h) +(0.001f /tex->h);
-    t2 = ((party + parth)/tex->h) -(0.001f /tex->h);
+    const f32 s1 = (partx /tex->w) +(0.001f /tex->w);
+    const f32 s2 = ((partx + partw)/tex->w) -(0.001f /tex->w);
+    const f32 t1 = (party /tex->h) +(0.001f /tex->h);
+    const f32 t2 = ((party + parth)/tex->h) -(0.001f /tex->h);
 
     GX_InitTexObj(&texObj, tex->data,
                   tex->w, tex->h,
@@ -292,8 +291,8 @@ void  GRRLIB_DrawPart (const f32 xpos, const f32 ypos, const f32 partx, const f3
     GX_SetTevOp  (GX_TEVSTAGE0, GX_MODULATE);
     GX_SetVtxDesc(GX_VA_TEX0,   GX_DIRECT);
 
-    width  = partw * 0.5f;
-    height = parth * 0.5f;
+    const f32 width  = partw * 0.5f;
+    const f32 height = parth * 0.5f;
 
     guMtxIdentity  (m1);
     guMtxScaleApply(m1, m1, scaleX, scaleY, 1.0f);
@@ -345,15 +344,15 @@ void  GRRLIB_DrawPart (const f32 xpos, const f32 ypos, const f32 partx, const f3
 void  GRRLIB_DrawTileQuad (const guVector pos[4], GRRLIB_texImg *tex, const u32 color, const int frame) {
     GXTexObj  texObj;
     Mtx       m, m1, m2, mv;
-    f32       s1, s2, t1, t2;
 
-    if (tex == NULL || tex->data == NULL)  return;
+    if (tex == NULL || tex->data == NULL)
+        return;
 
     // The 0.001f/x is the frame correction formula by spiffen
-    s1 = ((     (frame %tex->nbtilew)   ) /(f32)tex->nbtilew) +(0.001f /tex->w);
-    s2 = ((     (frame %tex->nbtilew) +1) /(f32)tex->nbtilew) -(0.001f /tex->w);
-    t1 = (((int)(frame /tex->nbtilew)   ) /(f32)tex->nbtileh) +(0.001f /tex->h);
-    t2 = (((int)(frame /tex->nbtilew) +1) /(f32)tex->nbtileh) -(0.001f /tex->h);
+    const f32 s1 = ((     (frame %tex->nbtilew)   ) /(f32)tex->nbtilew) +(0.001f /tex->w);
+    const f32 s2 = ((     (frame %tex->nbtilew) +1) /(f32)tex->nbtilew) -(0.001f /tex->w);
+    const f32 t1 = (((int)(frame /tex->nbtilew)   ) /(f32)tex->nbtileh) +(0.001f /tex->h);
+    const f32 t2 = (((int)(frame /tex->nbtilew) +1) /(f32)tex->nbtileh) -(0.001f /tex->h);
 
     GX_InitTexObj(&texObj, tex->data,
                   tex->tilew * tex->nbtilew, tex->tileh * tex->nbtileh,
