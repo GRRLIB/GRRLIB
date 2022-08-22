@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2021 The GRRLIB Team
+Copyright (c) 2009-2022 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -36,6 +36,7 @@ THE SOFTWARE.
 
 GRRLIB_drawSettings  GRRLIB_Settings;
 Mtx                  GXmodelView2D;
+guVector             axis2D = (guVector){0, 0, 1};
 
 static void  *gp_fifo = NULL;
 
@@ -177,8 +178,10 @@ int  GRRLIB_Init (void) {
     GX_SetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, GX_TEXMAP0, GX_COLOR0A0);
     GX_SetTexCoordGen(GX_TEXCOORD0, GX_TG_MTX2x4, GX_TG_TEX0, GX_IDENTITY);
 
+    // Default matrix settings, reflected in GRRLIB_Origin()
     guMtxIdentity(GXmodelView2D);
-    guMtxTransApply(GXmodelView2D, GXmodelView2D, 0.0F, 0.0F, -100.0F);
+    guMtxTransApply(GXmodelView2D, GXmodelView2D, 0.0f, 0.0f, -100.0f);
+
     GX_LoadPosMtxImm(GXmodelView2D, GX_PNMTX0);
 
     guOrtho(perspective, 0.0f, rmode->efbHeight, 0.0f, rmode->fbWidth, 0.0f, 1000.0f);
