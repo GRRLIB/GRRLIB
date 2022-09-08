@@ -83,6 +83,8 @@ void  GRRLIB_Exit (void);
 
 //------------------------------------------------------------------------------
 // GRRLIB_fbAdvanced.c - Render to framebuffer: Advanced primitives
+void  GRRLIB_Ellipse (const f32 x, const f32 y, const f32 radiusX,
+                      const f32 radiusY, const u32 color, const u8 filled);
 void  GRRLIB_Circle (const f32 x, const f32 y, const f32 radius,
                      const u32 color, const u8 filled);
 

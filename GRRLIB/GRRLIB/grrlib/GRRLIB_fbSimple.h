@@ -82,8 +82,8 @@ INLINE
 void  GRRLIB_Rectangle (const f32 x,      const f32 y,
                         const f32 width,  const f32 height,
                         const u32 color, const bool filled) {
-    f32 x2 = x + width;
-    f32 y2 = y + height;
+    const f32 x2 = x + width;
+    const f32 y2 = y + height;
 
     if (filled == true) {
         GX_Begin(GX_QUADS, GX_VTXFMT0, 4);

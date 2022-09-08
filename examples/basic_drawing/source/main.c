@@ -24,14 +24,14 @@
 
 // Tile stuff
 #define TILE_DELAY  10
-#define TILE_UP     12*0
-#define TILE_RIGHT  12*1
-#define TILE_DOWN   12*2
-#define TILE_LEFT   12*3
-#define TILE_UP2    12*4+9
-#define TILE_RIGHT2 12*5+9
-#define TILE_DOWN2  12*6+9
-#define TILE_LEFT2  12*7+9
+#define TILE_UP     12 * 0
+#define TILE_RIGHT  12 * 1
+#define TILE_DOWN   12 * 2
+#define TILE_LEFT   12 * 3
+#define TILE_UP2    12 * 4 + 9
+#define TILE_RIGHT2 12 * 5 + 9
+#define TILE_DOWN2  12 * 6 + 9
+#define TILE_LEFT2  12 * 7 + 9
 
 // RGBA Colors
 #define GRRLIB_BLACK   0x000000FF
@@ -135,7 +135,8 @@ int main() {
                         frame = direction + 1;  // Not moving
                         wait = TILE_DELAY;      // Ready to move
                     }
-                    if(frame > direction+2) frame = direction;
+                    if(frame > direction + 2)
+                        frame = direction;
                 }
                 break;
             case 2:   // Draw shapes
@@ -202,13 +203,15 @@ int main() {
             page--;
             left = 0;
             top = 0;
-            if(page < 0) page = 2;
+            if(page < 0)
+                page = 2;
         }
         if(wpaddown & WPAD_BUTTON_PLUS) {
             page++;
             left = 0;
             top = 0;
-            if(page > 2) page = 0;
+            if(page > 2)
+                page = 0;
         }
         if(wpadheld & WPAD_BUTTON_1 && wpadheld & WPAD_BUTTON_2) {
             WPAD_Rumble(WPAD_CHAN_0, 1); // Rumble on
