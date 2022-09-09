@@ -312,6 +312,9 @@ INLINE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 <tr class="memitem:ga15b1f7d9224e25e77d2806847344f651"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___all_func.html#ga15b1f7d9224e25e77d2806847344f651">GRRLIB_Exit</a> (void)</td></tr>
 <tr class="memdesc:ga15b1f7d9224e25e77d2806847344f651"><td class="mdescLeft">&#160;</td><td class="mdescRight">Call this before exiting your application.  <a href="group___all_func.html#ga15b1f7d9224e25e77d2806847344f651">More...</a><br /></td></tr>
 <tr class="separator:ga15b1f7d9224e25e77d2806847344f651"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6bef7c5bd9550225b7ee0cc3da207738"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___all_func.html#ga6bef7c5bd9550225b7ee0cc3da207738">GRRLIB_Ellipse</a> (const f32 x, const f32 y, const f32 radiusX, const f32 radiusY, const u32 color, const u8 filled)</td></tr>
+<tr class="memdesc:ga6bef7c5bd9550225b7ee0cc3da207738"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw an ellipse.  <a href="group___all_func.html#ga6bef7c5bd9550225b7ee0cc3da207738">More...</a><br /></td></tr>
+<tr class="separator:ga6bef7c5bd9550225b7ee0cc3da207738"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga23a8ac948a2f606256f981ec7665f7a3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___all_func.html#ga23a8ac948a2f606256f981ec7665f7a3">GRRLIB_Circle</a> (const f32 x, const f32 y, const f32 radius, const u32 color, const u8 filled)</td></tr>
 <tr class="memdesc:ga23a8ac948a2f606256f981ec7665f7a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw a circle.  <a href="group___all_func.html#ga23a8ac948a2f606256f981ec7665f7a3">More...</a><br /></td></tr>
 <tr class="separator:ga23a8ac948a2f606256f981ec7665f7a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1088,7 +1091,6 @@ GRR_EXTERN GXRModeObj *&#160;</td><td class="memItemRight" valign="bottom"><a cl
 </div><div class="memdoc">
 
 <p>Draw a circle. </p>
-<dl class="section author"><dt>Author</dt><dd>Dark_Link </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">x</td><td>Specifies the x-coordinate of the circle. </td></tr>
@@ -1971,6 +1973,72 @@ GRR_EXTERN GXRModeObj *&#160;</td><td class="memItemRight" valign="bottom"><a cl
     <tr><td class="paramname">rings</td><td>Number of rings. </td></tr>
     <tr><td class="paramname">filled</td><td>Wired or not. </td></tr>
     <tr><td class="paramname">col</td><td>Color of the torus. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga6bef7c5bd9550225b7ee0cc3da207738"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6bef7c5bd9550225b7ee0cc3da207738">&#9670;&nbsp;</a></span>GRRLIB_Ellipse()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void GRRLIB_Ellipse </td>
+          <td>(</td>
+          <td class="paramtype">const f32&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const f32&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const f32&#160;</td>
+          <td class="paramname"><em>radiusX</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const f32&#160;</td>
+          <td class="paramname"><em>radiusY</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const u32&#160;</td>
+          <td class="paramname"><em>color</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const u8&#160;</td>
+          <td class="paramname"><em>filled</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Draw an ellipse. </p>
+<dl class="section author"><dt>Author</dt><dd>Dark_Link </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>Specifies the x-coordinate of the ellipse. </td></tr>
+    <tr><td class="paramname">y</td><td>Specifies the y-coordinate of the ellipse. </td></tr>
+    <tr><td class="paramname">radiusX</td><td>The X radius of the ellipse. </td></tr>
+    <tr><td class="paramname">radiusY</td><td>The Y radius of the ellipse. </td></tr>
+    <tr><td class="paramname">color</td><td>The color of the ellipse in RGBA format. </td></tr>
+    <tr><td class="paramname">filled</td><td>Set to <code>true</code> to fill the ellipse. </td></tr>
   </table>
   </dd>
 </dl>
