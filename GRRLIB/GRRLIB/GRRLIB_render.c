@@ -67,8 +67,8 @@ void  GRRLIB_DrawImg (const f32 xpos, const f32 ypos, const GRRLIB_texImg *tex, 
     guMtxRotAxisDeg(m2, &axis, degrees);
     guMtxConcat    (m2, m1, m);
 
-    const u32 width  = tex->w * 0.5;
-    const u32 height = tex->h * 0.5;
+    const f32 width  = tex->w * 0.5;
+    const f32 height = tex->h * 0.5;
 
     guMtxTransApply(m, m,
         xpos +width  +tex->handlex
