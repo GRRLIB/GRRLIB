@@ -240,7 +240,7 @@ int main() {
             bgy++;
         else if(diry<0)
             bgy--;
-        if((bgy>-1) ||(bgy<-63))
+        if((bgy>-1) || (bgy<-63))
             bgy=-32;
 
         if(cpty==32) {

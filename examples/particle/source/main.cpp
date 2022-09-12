@@ -20,8 +20,10 @@
 #include "RGFX_Font_png.h"
 
 
-// Define Effects
-#define EFFECT_SMOKEBOMB    1
+// Effects
+enum class Effect : u8 {
+    SMOKEBOMB
+};
 
 // Random Number (0 - 1) in float
 #define RANDOM   ((((float)(rand() % 12))/12)-0.5)
@@ -47,7 +49,7 @@ static std::vector<Particle *> ParticleListTmp;
 
 // Declare static functions
 static void ExitGame();
-static void createEffect( u8 id, int _x, int _y );
+static void createEffect( Effect id, int _x, int _y );
 static void createParticle( u8 _id, int _x, int _y, float _scale, float _alpha, u8 _red, u8 _green, u8 _blue );
 static bool updateParticle( Particle *part );
 static u8 CalculateFrameRate();
@@ -137,7 +139,7 @@ int main() {
         FPS = CalculateFrameRate();
 
         if (WPADKeyDown & WPAD_BUTTON_B) {
-            createEffect( EFFECT_SMOKEBOMB, P1MX, P1MY );
+            createEffect( Effect::SMOKEBOMB, P1MX, P1MY );
         }
         if (WPADKeyDown & WPAD_BUTTON_HOME) {
             break;
@@ -147,9 +149,9 @@ int main() {
     return 0;
 }
 
-static void createEffect( u8 id, int _x, int _y ) {
+static void createEffect( Effect id, int _x, int _y ) {
     switch (id) {
-        case EFFECT_SMOKEBOMB:
+        case Effect::SMOKEBOMB:
             for (u8 i = 0; i < 5; i++) {
                 createParticle( 1, (_x + (RANDOM * 10)), (_y + (RANDOM * 10)), (1.4f+(RANDOM*0.20)), 1.0f, 64, 64, 64 );
             }

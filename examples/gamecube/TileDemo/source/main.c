@@ -208,7 +208,7 @@ int main() {
             bgx++;
         else if(dirx<0)
             bgx--;
-        if((bgx>-1) ||(bgx<-63))
+        if((bgx>-1) || (bgx<-63))
             bgx=-32;
 
         if(cptx==32) {
