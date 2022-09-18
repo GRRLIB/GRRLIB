@@ -77,18 +77,13 @@ typedef  struct tagRGBQUAD {
 static
 void  RawTo4x4RGBA (const u8 *src, void *dst,
                     const u32 width, const u32 height) {
-    u32 block;
-    u32 i;
-    u8 c;
-    u8 argb;
-
     u8 *p = (u8*)dst;
 
-    for (block = 0; block < height; block += 4) {
-        for (i = 0; i < width; i += 4) {
+    for (u32 block = 0; block < height; block += 4) {
+        for (u32 i = 0; i < width; i += 4) {
             // Alpha and Red
-            for (c = 0; c < 4; ++c) {
-                for (argb = 0; argb < 4; ++argb) {
+            for (u8 c = 0; c < 4; ++c) {
+                for (u8 argb = 0; argb < 4; ++argb) {
                     // Alpha pixels
                     *p++ = 255;
                     // Red pixels
@@ -97,8 +92,8 @@ void  RawTo4x4RGBA (const u8 *src, void *dst,
             }
 
             // Green and Blue
-            for (c = 0; c < 4; ++c) {
-                for (argb = 0; argb < 4; ++argb) {
+            for (u8 c = 0; c < 4; ++c) {
+                for (u8 argb = 0; argb < 4; ++argb) {
                     // Green pixels
                     *p++ = src[(((i + argb) + ((block + c) * width)) * 3) + 1];
                     // Blue pixels
@@ -188,9 +183,8 @@ GRRLIB_texImg*  GRRLIB_LoadTexturePNG (const u8 *my_png) {
  * @return An array of palette. Memory must be deleted.
  */
 static RGBQUAD*  GRRLIB_CreatePalette (const u8 *my_bmp, u32 Size) {
-    u32 i = 0;
     RGBQUAD *Palette = calloc(Size, sizeof(RGBQUAD));
-    for(u32 n=0; n<Size; n++) {
+    for(u32 n=0, i=0; n<Size; n++) {
         Palette[n].rgbBlue = my_bmp[i];
         Palette[n].rgbGreen = my_bmp[i+1];
         Palette[n].rgbRed = my_bmp[i+2];
@@ -203,7 +197,7 @@ static RGBQUAD*  GRRLIB_CreatePalette (const u8 *my_bmp, u32 Size) {
 /**
  * Load a texture from a buffer.
  * It only works for the MS-Windows standard format uncompressed (1-bit, 4-bit, 8-bit, 24-bit and 32-bit).
- * @param my_bmp the Bitmap buffer to load.
+ * @param my_bmp The Bitmap buffer to load.
  * @return A GRRLIB_texImg structure filled with image information.
  */
 GRRLIB_texImg*  GRRLIB_LoadTextureBMP (const u8 *my_bmp) {
@@ -215,9 +209,6 @@ GRRLIB_texImg*  GRRLIB_LoadTextureBMP (const u8 *my_bmp) {
 
     BITMAPFILEHEADER MyBitmapFileHeader;
     BITMAPINFOHEADER MyBitmapHeader;
-    u16 pal_ref;
-    u32 BufferSize;
-    s32 y, x, i;
 
     // Fill file header structure
     MyBitmapFileHeader.bfType      = (my_bmp[0]  | my_bmp[1]<<8);
@@ -240,14 +231,16 @@ GRRLIB_texImg*  GRRLIB_LoadTextureBMP (const u8 *my_bmp) {
 
     my_texture->data = memalign(32, MyBitmapHeader.biWidth * MyBitmapHeader.biHeight * 4);
     if (my_texture->data != NULL && MyBitmapFileHeader.bfType == 0x4D42) {
+        u32 BufferSize;
+        s32 i;
         RGBQUAD *Palette;
         my_texture->w = MyBitmapHeader.biWidth;
         my_texture->h = MyBitmapHeader.biHeight;
         switch(MyBitmapHeader.biBitCount) {
             case 32:    // RGBA images
                 i = 54;
-                for(y=MyBitmapHeader.biHeight-1; y>=0; y--) {
-                    for(x=0; x<MyBitmapHeader.biWidth; x++) {
+                for(s32 y=MyBitmapHeader.biHeight-1; y>=0; y--) {
+                    for(s32 x=0; x<MyBitmapHeader.biWidth; x++) {
                         GRRLIB_SetPixelTotexImg(x, y, my_texture,
                             RGBA(my_bmp[i+2], my_bmp[i+1], my_bmp[i], my_bmp[i+3]));
                         i += 4;
@@ -257,8 +250,8 @@ GRRLIB_texImg*  GRRLIB_LoadTextureBMP (const u8 *my_bmp) {
             case 24:    // truecolor images
                 BufferSize = (MyBitmapHeader.biWidth % 4);
                 i = 54;
-                for(y=MyBitmapHeader.biHeight-1; y>=0; y--) {
-                    for(x=0; x<MyBitmapHeader.biWidth; x++) {
+                for(s32 y=MyBitmapHeader.biHeight-1; y>=0; y--) {
+                    for(s32 x=0; x<MyBitmapHeader.biWidth; x++) {
                         GRRLIB_SetPixelTotexImg(x, y, my_texture,
                             RGBA(my_bmp[i+2], my_bmp[i+1], my_bmp[i], 0xFF));
                         i += 3;
@@ -274,8 +267,8 @@ GRRLIB_texImg*  GRRLIB_LoadTextureBMP (const u8 *my_bmp) {
                 BufferSize -= MyBitmapHeader.biWidth;
                 Palette = GRRLIB_CreatePalette(&my_bmp[54], 256);
                 i = 1078; // 54 + (MyBitmapHeader.biBitCount * 4)
-                for(y=MyBitmapHeader.biHeight-1; y>=0; y--) {
-                    for(x=0; x<MyBitmapHeader.biWidth; x++) {
+                for(s32 y=MyBitmapHeader.biHeight-1; y>=0; y--) {
+                    for(s32 x=0; x<MyBitmapHeader.biWidth; x++) {
                         GRRLIB_SetPixelTotexImg(x, y, my_texture,
                             RGBA(Palette[my_bmp[i]].rgbRed,
                                     Palette[my_bmp[i]].rgbGreen,
@@ -297,9 +290,9 @@ GRRLIB_texImg*  GRRLIB_LoadTextureBMP (const u8 *my_bmp) {
                 }
                 Palette = GRRLIB_CreatePalette(&my_bmp[54], 16);
                 i = 118; // 54 + (MyBitmapHeader.biBitCount * 4)
-                for(y=MyBitmapHeader.biHeight-1; y>=0; y--) {
-                    for(x=0; x<MyBitmapHeader.biWidth; x++) {
-                        pal_ref = (my_bmp[i + (x / 2)] >> ((x % 2) ? 0 : 4)) & 0x0F;
+                for(s32 y=MyBitmapHeader.biHeight-1; y>=0; y--) {
+                    for(s32 x=0; x<MyBitmapHeader.biWidth; x++) {
+                        u16 pal_ref = (my_bmp[i + (x / 2)] >> ((x % 2) ? 0 : 4)) & 0x0F;
                         GRRLIB_SetPixelTotexImg(x, y, my_texture,
                             RGBA(Palette[pal_ref].rgbRed,
                                     Palette[pal_ref].rgbGreen,
@@ -320,9 +313,9 @@ GRRLIB_texImg*  GRRLIB_LoadTextureBMP (const u8 *my_bmp) {
                 }
                 Palette = GRRLIB_CreatePalette(&my_bmp[54], 2);
                 i = 62; // 54 + (MyBitmapHeader.biBitCount * 4)
-                for(y=MyBitmapHeader.biHeight-1; y>=0; y--) {
-                    for(x=0; x<MyBitmapHeader.biWidth; x++) {
-                        pal_ref = (my_bmp[i + (x / 8)] >> (-x%8+7)) & 0x01;
+                for(s32 y=MyBitmapHeader.biHeight-1; y>=0; y--) {
+                    for(s32 x=0; x<MyBitmapHeader.biWidth; x++) {
+                        u16 pal_ref = (my_bmp[i + (x / 8)] >> (-x%8+7)) & 0x01;
                         GRRLIB_SetPixelTotexImg(x, y, my_texture,
                             RGBA(Palette[pal_ref].rgbRed,
                                     Palette[pal_ref].rgbGreen,

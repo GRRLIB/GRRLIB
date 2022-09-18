@@ -51,8 +51,6 @@ static bool  is_setup = false;  // To control entry and exit
  * @see GRRLIB_Exit
  */
 int  GRRLIB_Init (void) {
-    f32 yscale;
-    u32 xfbHeight;
     Mtx44 perspective;
     s8 error_code = 0;
 
@@ -144,8 +142,8 @@ int  GRRLIB_Init (void) {
     }
 
     // Other GX setup
-    yscale    = GX_GetYScaleFactor(rmode->efbHeight, rmode->xfbHeight);
-    xfbHeight = GX_SetDispCopyYScale(yscale);
+    f32 yscale    = GX_GetYScaleFactor(rmode->efbHeight, rmode->xfbHeight);
+    u32 xfbHeight = GX_SetDispCopyYScale(yscale);
     GX_SetDispCopySrc(0, 0, rmode->fbWidth, rmode->efbHeight);
     GX_SetDispCopyDst(rmode->fbWidth, xfbHeight);
     GX_SetCopyFilter(rmode->aa, rmode->sample_pattern, GX_TRUE, rmode->vfilter);

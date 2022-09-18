@@ -51,7 +51,7 @@ void  GRRLIB_SetHandle (GRRLIB_texImg *tex, const int x, const int y) {
  */
 INLINE
 void  GRRLIB_SetMidHandle (GRRLIB_texImg *tex, const bool enabled) {
-    if (enabled) {
+    if (enabled == true) {
         if (tex->tiledtex) {
             tex->offsetx = (((int)tex->tilew)/2);
             tex->offsety = (((int)tex->tileh)/2);

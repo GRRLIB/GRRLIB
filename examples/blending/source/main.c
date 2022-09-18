@@ -66,7 +66,7 @@ int main() {
         WPAD_SetVRes(WPAD_CHAN_0, WinW, WinH);
         WPAD_IR(WPAD_CHAN_0, &P1Mote);
 
-        // WiiMote IR Viewport Correction
+        // Wii Remote IR Viewport Correction
         int P1MX = P1Mote.sx - 150;
         int P1MY = P1Mote.sy - 150;
 

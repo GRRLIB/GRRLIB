@@ -69,8 +69,8 @@ int main() {
 
     // Init GRRLIB & WiiUse
     GRRLIB_Init();
-    u16 WinW = rmode->fbWidth;
-    u16 WinH = rmode->efbHeight;
+    const u16 WinW = rmode->fbWidth;
+    const u16 WinH = rmode->efbHeight;
     WPAD_Init();
     WPAD_SetIdleTimeout( 60 * 10 );
     WPAD_SetDataFormat( WPAD_CHAN_0, WPAD_FMT_BTNS_ACC_IR );
@@ -98,7 +98,7 @@ int main() {
         // Resetting Vars
         GRRLIB_SetBlend( GRRLIB_BLEND_ALPHA );
 
-        // WiiMote IR Viewport correction
+        // Wii Remote IR Viewport correction
         const int P1MX = P1Mote.sx - 150;
         const int P1MY = P1Mote.sy - 150;
 
@@ -127,8 +127,8 @@ int main() {
         GRRLIB_DrawImg( P1MX, P1MY, GFX_Crosshair, 0, 1, 1, RGBA(255, 255, 255, 255) );
 
         // Draw Text
-        GRRLIB_Rectangle( 28, 28, 280, 20, RGBA(0, 0, 0, 160), 1 );
-        GRRLIB_Printf   ( 32, 32, GFX_Font, 0xFFFFFFFF, 1, "Point your WiiMote on the screen." );
+        GRRLIB_Rectangle( 28, 28, 292, 20, RGBA(0, 0, 0, 160), 1 );
+        GRRLIB_Printf   ( 32, 32, GFX_Font, 0xFFFFFFFF, 1, "Point your Wii Remote on the screen." );
         GRRLIB_Rectangle( 28, 48, 200, 16, RGBA(0, 0, 0, 160), 1 );
         GRRLIB_Printf   ( 32, 48, GFX_Font, 0xFFFFFFFF, 1, "Number of Particle: %d", ParticleList.size() );
         GRRLIB_Rectangle( 28, 64, 64, 16, RGBA(0, 0, 0, 160), 1 );
