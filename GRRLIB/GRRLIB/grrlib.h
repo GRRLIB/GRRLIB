@@ -160,6 +160,14 @@ typedef  struct GRRLIB_Font {
     bool kerning;   /**< true whenever a face object contains kerning data that can be accessed with FT_Get_Kerning. */
 } GRRLIB_ttfFont;
 
+//------------------------------------------------------------------------------
+/**
+ * Structure to hold the matrix information.
+ */
+typedef  struct GRRLIB_matrix {
+    Mtx matrix;
+} GRRLIB_matrix;
+
 //==============================================================================
 // Allow general access to screen and frame information
 //==============================================================================

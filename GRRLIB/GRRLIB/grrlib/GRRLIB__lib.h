@@ -128,6 +128,17 @@ void  GRRLIB_DrawTileQuad (const guVector pos[4], GRRLIB_texImg *tex, const u32 
 void  GRRLIB_Render  (void);
 
 //------------------------------------------------------------------------------
+// GRRLIB_matrix.c - Matrix functions
+GRRLIB_matrix  GRRLIB_GetMatrix  (void);
+void  GRRLIB_SetMatrix           (GRRLIB_matrix *matrixObject);
+void  GRRLIB_Scale               (f32 scaleX, f32 scaleY);
+void  GRRLIB_Rotate              (f32 degrees);
+void  GRRLIB_Translate           (f32 posX, f32 posY);
+void  GRRLIB_Transform           (f32 scaleX, f32 scaleY, f32 degrees, f32 posX, f32 posY);
+void  GRRLIB_TransformInv        (f32 scaleX, f32 scaleY, f32 posX, f32 posY, f32 degrees);
+void  GRRLIB_Origin              (void);
+
+//------------------------------------------------------------------------------
 // GRRLIB_snapshot.c - Create a texture containing a snapshot of a part of the framebuffer
 void  GRRLIB_Screen2Texture (int posx, int posy, GRRLIB_texImg *tex, bool clear);
 void  GRRLIB_CompoStart (void);
