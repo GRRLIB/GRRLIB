@@ -1,7 +1,7 @@
 ﻿# GRRLIB
 
 [![Continuous Integration](https://github.com/GRRLIB/GRRLIB/workflows/Continuous%20Integration/badge.svg)](https://github.com/GRRLIB/GRRLIB/actions)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/5b2983faefbf443eaa5705e7cc6e5f68)](https://www.codacy.com/app/Crayon2000/GRRLIB?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=GRRLIB/GRRLIB&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/02847b348a1e4e6b850f956541ef2361)](https://www.codacy.com/gh/GRRLIB/GRRLIB/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=GRRLIB/GRRLIB&amp;utm_campaign=Badge_Grade)
 [![Join the chat at https://gitter.im/GRRLIB/GRRLIB](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/GRRLIB/GRRLIB?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ## Table of Contents
@@ -204,16 +204,20 @@ All official releases can be found here <https://github.com/GRRLIB/GRRLIB/releas
 ## Credits
 
 ### Project Leader
+
 * NoNameNo
 
 ### Documentation
+
 * Crayon
 * BlueChip
 
 ### Lead Coder
+
 * NoNameNo
 
 ### Support Coders
+
 * Crayon
 * Xane
 * DragonMinded
@@ -221,6 +225,7 @@ All official releases can be found here <https://github.com/GRRLIB/GRRLIB/releas
 * elisherer
 
 ### Advisors
+
 * RedShade
 * Jespa
 

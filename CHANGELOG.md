@@ -2,25 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [Unreleased][]
 
 - Fixed compatibility issues with devkitPPC release 39.
 - Added `GRRLIB_LoadTTFFromFile()` to load a TTF from a file.
 - Added `GRRLIB_Ellipse()` to draw an ellipse.
 - Fixed documentation for `GRRLIB_Camera3dSettings()`, `GRRLIB_Screen2Texture()` and `GRRLIB_CompoEnd()`.
 
-## [4.4.1] - 2021-03-05
+## [4.4.1][] - 2021-03-05
 
 - Patched widescreen on Wii U.
 
-## [4.4.0] - 2020-01-12
+## [4.4.0][] - 2020-01-12
 
 - Removed libpng, zlib, libfreetype and libjpeg from the project. These libraries should now be installed in devkitPro with pacman.
 - GRRLIB and pngu are now installed into the _portlibs_ folder instead of the _libogc_ folder.
 - Removed `uint` declaration. The `u32` type should be used instead.
 - The `GRRLIB_CreateEmptyTexture()` function is not inline anymore.
 
-## [4.3.2] - 2012-08-12
+## [4.3.2][] - 2012-08-12
 
 - libpng was updated to version 1.5.12
 - zlib was updated to version 1.2.7
@@ -29,13 +29,13 @@ All notable changes to this project will be documented in this file.
 - `GRRLIB_ClampVar8()` was removed from GRRLIB
 - Removed warnings from `GRRLIB_LoadBMF()`
 
-## [4.3.1] - 2010-10-22
+## [4.3.1][] - 2010-10-22
 
 - libpng was updated to version 1.4.4
 - FreeType updated to version 2.4.3
 - GRRLIB is compatible with libogc 1.8.4
 
-## [4.3.0] - 2010-06-28
+## [4.3.0][] - 2010-06-28
 
 - libpng was updated to version 1.4.2
 - libjpeg was updated to version 8b
@@ -52,7 +52,7 @@ All notable changes to this project will be documented in this file.
   - 3D_sample5 -> Simple demo of rotation/translation/scaling 3d object.
   - ttf -> TrueType Font demo
 
-## [4.2.0] - 2009-12-16
+## [4.2.0][] - 2009-12-16
 
 - First support to 3D functions
 - `GRRLIB_CompoStart()` and `GRRLIB_CompoEnd()` for real GX compositing with transparency support
@@ -77,7 +77,7 @@ All notable changes to this project will be documented in this file.
   - unlimited2d (A faky technic for unlimited sprites)
   - unlimited3d (Same as above but with 3D)
 
-## [4.1.1] - 2009-11-24
+## [4.1.1][] - 2009-11-24
 
 - Fully compatible with devkitPro release 18 and 19 (code and examples)
 - libpng was updated to version 1.2.40
