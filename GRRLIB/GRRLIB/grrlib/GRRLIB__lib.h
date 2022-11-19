@@ -129,9 +129,9 @@ void  GRRLIB_Render  (void);
 
 //------------------------------------------------------------------------------
 // GRRLIB_snapshot.c - Create a texture containing a snapshot of a part of the framebuffer
-void  GRRLIB_Screen2Texture (int posx, int posy, GRRLIB_texImg *tex, bool clear);
+void  GRRLIB_Screen2Texture (u16 posx, u16 posy, GRRLIB_texImg *tex, bool clear);
 void  GRRLIB_CompoStart (void);
-void  GRRLIB_CompoEnd(int posx, int posy, GRRLIB_texImg *tex);
+void  GRRLIB_CompoEnd(u16 posx, u16 posy, GRRLIB_texImg *tex);
 
 //------------------------------------------------------------------------------
 // GRRLIB_texEdit.c - Modifying the content of a texture
@@ -139,7 +139,7 @@ GRRLIB_texImg*  GRRLIB_CreateEmptyTexture (const u32 width, const u32 height);
 GRRLIB_texImg*  GRRLIB_LoadTexture    (const u8 *my_img);
 GRRLIB_texImg*  GRRLIB_LoadTexturePNG (const u8 *my_png);
 GRRLIB_texImg*  GRRLIB_LoadTextureJPG (const u8 *my_jpg);
-GRRLIB_texImg*  GRRLIB_LoadTextureJPGEx (const u8 *my_jpg, const int my_size);
+GRRLIB_texImg*  GRRLIB_LoadTextureJPGEx (const u8 *my_jpg, const u32 my_size);
 GRRLIB_texImg*  GRRLIB_LoadTextureBMP (const u8 *my_bmp);
 
 //------------------------------------------------------------------------------

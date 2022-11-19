@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2020 The GRRLIB Team
+Copyright (c) 2009-2022 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -34,9 +34,9 @@ THE SOFTWARE.
  */
 GRRLIB_bytemapFont*  GRRLIB_LoadBMF (const u8 my_bmf[] ) {
     GRRLIB_bytemapFont *fontArray = (struct GRRLIB_bytemapFont *)malloc(sizeof(GRRLIB_bytemapFont));
-    u32 i, j = 1;
 
     if (fontArray != NULL && my_bmf[0]==0xE1 && my_bmf[1]==0xE6 && my_bmf[2]==0xD5 && my_bmf[3]==0x1A) {
+        u32 j = 1;
         fontArray->version = my_bmf[4];
         //u8 lineheight = my_bmf[5];
         //short int sizeover = my_bmf[6];
@@ -48,7 +48,7 @@ GRRLIB_bytemapFont*  GRRLIB_LoadBMF (const u8 my_bmf[] ) {
         u8 nbPalette = my_bmf[16];
         short int numcolpal = 3 * nbPalette;
         fontArray->palette = (u32 *)calloc(nbPalette + 1, sizeof(u32));
-        for (i=0; i < numcolpal; i+=3) {
+        for (u32 i=0; i < numcolpal; i+=3) {
             fontArray->palette[j++] = ((((my_bmf[i+17]<<2)+3)<<24) | (((my_bmf[i+18]<<2)+3)<<16) | (((my_bmf[i+19]<<2)+3)<<8) | 0xFF);
         }
         j = my_bmf[17 + numcolpal];
@@ -58,7 +58,7 @@ GRRLIB_bytemapFont*  GRRLIB_LoadBMF (const u8 my_bmf[] ) {
         fontArray->nbChar = (my_bmf[j] | my_bmf[j+1]<<8);
         memset(fontArray->charDef, 0, 256 * sizeof(GRRLIB_bytemapChar));
         j++;
-        for (i=0; i < fontArray->nbChar; i++) {
+        for (u32 i=0; i < fontArray->nbChar; i++) {
             const u8 c = my_bmf[++j];
             fontArray->charDef[c].width = my_bmf[++j];
             fontArray->charDef[c].height = my_bmf[++j];
@@ -83,16 +83,18 @@ GRRLIB_bytemapFont*  GRRLIB_LoadBMF (const u8 my_bmf[] ) {
  * @param bmf A GRRLIB_bytemapFont structure.
  */
 void  GRRLIB_FreeBMF (GRRLIB_bytemapFont *bmf) {
-    if (bmf != NULL) {
-        for (u16 i=0; i<256; i++) {
-            if (bmf->charDef[i].data != NULL) {
-                free(bmf->charDef[i].data);
-            }
-        }
-        free(bmf->palette);
-        free(bmf->name);
-        free(bmf);
+    if (bmf == NULL) {
+        return;
     }
+
+    for (u16 i = 0; i < 256; i++) {
+        if (bmf->charDef[i].data != NULL) {
+            free(bmf->charDef[i].data);
+        }
+    }
+    free(bmf->palette);
+    free(bmf->name);
+    free(bmf);
 }
 
 /**
@@ -115,7 +117,7 @@ void  GRRLIB_InitTileSet (GRRLIB_texImg *tex,
     }
     tex->tilestart = tilestart;
     tex->tiledtex = true;
-    tex->ofnormaltexx = 1.0F / tex->nbtilew;
-    tex->ofnormaltexy = 1.0F / tex->nbtileh;
+    tex->ofnormaltexx = 1.0f / tex->nbtilew;
+    tex->ofnormaltexy = 1.0f / tex->nbtileh;
     GRRLIB_SetHandle( tex, 0, 0 );
 }

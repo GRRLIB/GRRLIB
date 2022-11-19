@@ -251,14 +251,14 @@ void GRRLIB_ObjectView(f32 posx, f32 posy, f32 posz, f32 angx, f32 angy, f32 ang
 
     guMtxIdentity(ObjTransformationMtx);
 
-    if((scalx !=1.0f) || (scaly !=1.0f) || (scalz !=1.0f)) {
+    if((scalx != 1.0f) || (scaly != 1.0f) || (scalz != 1.0f)) {
         guMtxIdentity(m);
         guMtxScaleApply(m, m, scalx, scaly, scalz);
 
         guMtxConcat(m, ObjTransformationMtx, ObjTransformationMtx);
     }
 
-    if((angx !=0.0f) || (angy !=0.0f) || (angz !=0.0f)) {
+    if((angx != 0.0f) || (angy != 0.0f) || (angz != 0.0f)) {
         Mtx rx, ry, rz;
         guMtxIdentity(m);
         guMtxRotAxisDeg(rx, &_GRRaxisx, angx);
@@ -270,7 +270,7 @@ void GRRLIB_ObjectView(f32 posx, f32 posy, f32 posz, f32 angx, f32 angy, f32 ang
         guMtxConcat(m, ObjTransformationMtx, ObjTransformationMtx);
     }
 
-    if((posx !=0.0f) || (posy !=0.0f) || (posz !=0.0f)) {
+    if((posx != 0.0f) || (posy != 0.0f) || (posz != 0.0f)) {
         guMtxIdentity(m);
         guMtxTransApply(m, m, posx, posy, posz);
 
@@ -383,8 +383,8 @@ void GRRLIB_DrawTorus(f32 r, f32 R, int nsides, int rings, bool filled, u32 col)
     f32 sinTheta = 0.0;
     for (int i = rings - 1; i >= 0; i--) {
         const f32 theta1 = theta + ringDelta;
-        const f32 cosTheta1 = cos(theta1);
-        const f32 sinTheta1 = sin(theta1);
+        const f32 cosTheta1 = cosf(theta1);
+        const f32 sinTheta1 = sinf(theta1);
         if(filled == true) {
             GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 2 * (nsides + 1));
         }
@@ -394,8 +394,8 @@ void GRRLIB_DrawTorus(f32 r, f32 R, int nsides, int rings, bool filled, u32 col)
         f32 phi = 0.0;
         for (int j = nsides; j >= 0; j--) {
             phi += sideDelta;
-            const f32 cosPhi = cos(phi);
-            const f32 sinPhi = sin(phi);
+            const f32 cosPhi = cosf(phi);
+            const f32 sinPhi = sinf(phi);
             const f32 dist = R + r * cosPhi;
 
             GX_Position3f32(cosTheta1 * dist, -sinTheta1 * dist, r * sinPhi);
@@ -423,12 +423,12 @@ void GRRLIB_DrawTorus(f32 r, f32 R, int nsides, int rings, bool filled, u32 col)
 void GRRLIB_DrawSphere(f32 r, int lats, int longs, bool filled, u32 col) {
     for(int i = 0; i <= lats; i++) {
         const f32 lat0 = M_PI * (-0.5F + (f32) (i - 1) / lats);
-        const f32 z0  = sin(lat0);
-        const f32 zr0 = cos(lat0);
+        const f32 z0  = sinf(lat0);
+        const f32 zr0 = cosf(lat0);
 
         const f32 lat1 = M_PI * (-0.5F + (f32) i / lats);
-        const f32 z1 = sin(lat1);
-        const f32 zr1 = cos(lat1);
+        const f32 z1 = sinf(lat1);
+        const f32 zr1 = cosf(lat1);
 
         if(filled == true) {
             GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 2 * (longs + 1));
@@ -438,8 +438,8 @@ void GRRLIB_DrawSphere(f32 r, int lats, int longs, bool filled, u32 col) {
         }
         for(int j = 0; j <= longs; j++) {
             const f32 lng = 2 * M_PI * (f32) (j - 1) / longs;
-            const f32 x = cos(lng);
-            const f32 y = sin(lng);
+            const f32 x = cosf(lng);
+            const f32 y = sinf(lng);
 
             GX_Position3f32(x * zr0 * r, y * zr0 * r, z0 * r);
             GX_Normal3f32(x * zr0 * r, y * zr0 * r, z0 * r);

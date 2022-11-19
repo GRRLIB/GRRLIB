@@ -29,7 +29,7 @@ THE SOFTWARE.
  * @param tex A pointer to a texture representing the screen.
  * @param clear When this flag is set to @c true, the screen is cleared after copy.
  */
-void  GRRLIB_Screen2Texture (int posx, int posy, GRRLIB_texImg *tex, bool clear) {
+void  GRRLIB_Screen2Texture (u16 posx, u16 posy, GRRLIB_texImg *tex, bool clear) {
     if(tex == NULL || tex->data == NULL) {
         return;
     }
@@ -60,7 +60,7 @@ void GRRLIB_CompoStart (void) {
  * @param posy Top left corner of the grabbed part.
  * @param tex A pointer to a texture representing the screen.
  */
-void GRRLIB_CompoEnd(int posx, int posy, GRRLIB_texImg *tex) {
+void GRRLIB_CompoEnd(u16 posx, u16 posy, GRRLIB_texImg *tex) {
     GRRLIB_Screen2Texture(posx, posy, tex, GX_TRUE);
 
     if (rmode->aa) {
