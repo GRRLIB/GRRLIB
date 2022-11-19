@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2021 The GRRLIB Team
+Copyright (c) 2009-2022 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -29,14 +29,14 @@ THE SOFTWARE.
  * Draws a vector.
  * @param v The vector to draw.
  * @param color The color of the vector in RGBA format.
- * @param n Number of points in the vector.
+ * @param n Number of points in the vector. The maximum is 65536.
  * @param fmt Type of primitive.
  */
 INLINE
-void  GRRLIB_GXEngine (const guVector v[], const u32 color[], const long n,
+void  GRRLIB_GXEngine (const guVector v[], const u32 color[], const u16 n,
                        const u8 fmt) {
     GX_Begin(fmt, GX_VTXFMT0, n);
-    for (int i = 0; i < n; i++) {
+    for (u16 i = 0; i < n; i++) {
         GX_Position3f32(v[i].x, v[i].y, v[i].z);
         GX_Color1u32(color[i]);
     }
