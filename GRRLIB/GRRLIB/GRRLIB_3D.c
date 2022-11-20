@@ -422,11 +422,11 @@ void GRRLIB_DrawTorus(f32 r, f32 R, int nsides, int rings, bool filled, u32 col)
  */
 void GRRLIB_DrawSphere(f32 r, int lats, int longs, bool filled, u32 col) {
     for(int i = 0; i <= lats; i++) {
-        const f32 lat0 = M_PI * (-0.5F + (f32) (i - 1) / lats);
+        const f32 lat0 = M_PI * (-0.5f + (f32) (i - 1) / lats);
         const f32 z0  = sinf(lat0);
         const f32 zr0 = cosf(lat0);
 
-        const f32 lat1 = M_PI * (-0.5F + (f32) i / lats);
+        const f32 lat1 = M_PI * (-0.5f + (f32) i / lats);
         const f32 z1 = sinf(lat1);
         const f32 zr1 = cosf(lat1);
 
@@ -486,7 +486,7 @@ void GRRLIB_DrawCube(f32 size, bool filled, u32 col) {
     v[0][2] = v[3][2] = v[4][2] = v[7][2] = -size / 2;
     v[1][2] = v[2][2] = v[5][2] = v[6][2] = size / 2;
 
-    for (int i = 5; i >= 0; i--) {
+    for (s8 i = 5; i >= 0; i--) {
         if(filled == true) {
             GX_Begin(GX_QUADS, GX_VTXFMT0, 4);
         }
@@ -522,14 +522,14 @@ void GRRLIB_DrawCube(f32 size, bool filled, u32 col) {
  * @param filled Wired or not.
  * @param col Color of the cylinder.
  */
-void GRRLIB_DrawCylinder(f32 r, f32 h, int d, bool filled, u32 col) {
+void GRRLIB_DrawCylinder(f32 r, f32 h, u16 d, bool filled, u32 col) {
     if(filled == true) {
-        GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 2 * (d+1));
+        GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 2 * (d + 1));
     }
     else {
-        GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 2 * (d+1));
+        GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 2 * (d + 1));
     }
-    for(int i = 0; i <= d; i++) {
+    for(u16 i = 0; i <= d; i++) {
         const f32 dx = cosf( M_PI * 2.0f * i / d );
         const f32 dy = sinf( M_PI * 2.0f * i / d );
         GX_Position3f32( r * dx, -0.5f * h, r * dy );
@@ -550,7 +550,7 @@ void GRRLIB_DrawCylinder(f32 r, f32 h, int d, bool filled, u32 col) {
     GX_Position3f32(0.0f, -0.5f * h, 0.0f);
     GX_Normal3f32(0.0f, -1.0f, 0.0f);
     GX_Color1u32(col);
-    for(int i = 0; i <= d; i++) {
+    for(u16 i = 0; i <= d; i++) {
         GX_Position3f32( r * cosf( M_PI * 2.0f * i / d ), -0.5f * h, r * sinf( M_PI * 2.0f * i / d ) );
         GX_Normal3f32(0.0f, -1.0f, 0.0f);
         GX_Color1u32(col);
@@ -566,7 +566,7 @@ void GRRLIB_DrawCylinder(f32 r, f32 h, int d, bool filled, u32 col) {
     GX_Position3f32(0.0f, 0.5f * h, 0.0f);
     GX_Normal3f32(0.0f, 1.0f, 0.0f);
     GX_Color1u32(col);
-    for(int i = 0; i <= d; i++) {
+    for(u16 i = 0; i <= d; i++) {
         GX_Position3f32( r * cosf( M_PI * 2.0f * i / d ), 0.5f * h, r * sinf( M_PI * 2.0f * i / d ) );
         GX_Normal3f32(0.0f, 1.0f, 0.0f);
         GX_Color1u32(col);
@@ -582,14 +582,14 @@ void GRRLIB_DrawCylinder(f32 r, f32 h, int d, bool filled, u32 col) {
  * @param filled Wired or not.
  * @param col Color of the cone.
  */
-void GRRLIB_DrawCone(f32 r, f32 h, int d, bool filled, u32 col) {
+void GRRLIB_DrawCone(f32 r, f32 h, u16 d, bool filled, u32 col) {
     if(filled == true) {
-        GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 2 * (d+1));
+        GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 2 * (d + 1));
     }
     else {
-        GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 2 * (d+1));
+        GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 2 * (d + 1));
     }
-    for(int i = 0; i <= d; i++) {
+    for(u16 i = 0; i <= d; i++) {
         const f32 dx = cosf( M_PI * 2.0f * i / d );
         const f32 dy = sinf( M_PI * 2.0f * i / d );
         GX_Position3f32( 0, -0.5f * h,0);
@@ -610,7 +610,7 @@ void GRRLIB_DrawCone(f32 r, f32 h, int d, bool filled, u32 col) {
     GX_Position3f32(0.0f, 0.5f * h, 0.0f);
     GX_Normal3f32(0.0f, 1.0f, 0.0f);
     GX_Color1u32(col);
-    for(int i = 0; i <= d; i++) {
+    for(u16 i = 0; i <= d; i++) {
         GX_Position3f32( r * cosf( M_PI * 2.0f * i / d ), 0.5f * h, r * sinf( M_PI * 2.0f * i / d ) );
         GX_Normal3f32(0.0f, 1.0f, 0.0f);
         GX_Color1u32(col);

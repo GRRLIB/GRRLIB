@@ -47,42 +47,42 @@ int main() {
         GRRLIB_ObjectViewTrans(0.0f,1.3f,0.0f);
         GRRLIB_ObjectViewRotate(rot,rot*2,rot*3);
         GRRLIB_ObjectViewEnd();
-        GRRLIB_DrawCone(0.6f, 2.6f, 60,true, 0x502010FF);
+        GRRLIB_DrawCone(0.6f, 2.6f, 60, true, 0x502010FF);
 
         GRRLIB_ObjectViewBegin();
         GRRLIB_ObjectViewRotate(0.0f,0.0f,90.0f);
         GRRLIB_ObjectViewTrans(-1.3f,0.0f,0.0f);
         GRRLIB_ObjectViewRotate(rot,rot*2,rot*3);
         GRRLIB_ObjectViewEnd();
-        GRRLIB_DrawCone(0.6f, 2.6f, 60,true, 0x502010FF);
+        GRRLIB_DrawCone(0.6f, 2.6f, 60, true, 0x502010FF);
 
         GRRLIB_ObjectViewBegin();
         GRRLIB_ObjectViewRotate(0.0f,0.0f,180.0f);
         GRRLIB_ObjectViewTrans(0.0f,-1.3f,0.0f);
         GRRLIB_ObjectViewRotate(rot,rot*2,rot*3);
         GRRLIB_ObjectViewEnd();
-        GRRLIB_DrawCone(0.6f, 2.6f, 60,true, 0x502010FF);
+        GRRLIB_DrawCone(0.6f, 2.6f, 60, true, 0x502010FF);
 
         GRRLIB_ObjectViewBegin();
         GRRLIB_ObjectViewRotate(0.0f,0.0f,-90.0f);
         GRRLIB_ObjectViewTrans(1.3f,0.0f,0.0f);
         GRRLIB_ObjectViewRotate(rot,rot*2,rot*3);
         GRRLIB_ObjectViewEnd();
-        GRRLIB_DrawCone(0.6f, 2.6f, 60,true, 0x502010FF);
+        GRRLIB_DrawCone(0.6f, 2.6f, 60, true, 0x502010FF);
 
         GRRLIB_ObjectViewBegin();
         GRRLIB_ObjectViewRotate(-90.0f,0.0f,0.0f);
         GRRLIB_ObjectViewTrans(0.0f,0.0f,-1.3f);
         GRRLIB_ObjectViewRotate(rot,rot*2,rot*3);
         GRRLIB_ObjectViewEnd();
-        GRRLIB_DrawCone(0.6f, 2.6f, 60,true, 0x502010FF);
+        GRRLIB_DrawCone(0.6f, 2.6f, 60, true, 0x502010FF);
 
         GRRLIB_ObjectViewBegin();
         GRRLIB_ObjectViewRotate(90.0f,0.0f,0.0f);
         GRRLIB_ObjectViewTrans(0.0f,0.0f,1.3f);
         GRRLIB_ObjectViewRotate(rot,rot*2,rot*3);
         GRRLIB_ObjectViewEnd();
-        GRRLIB_DrawCone(0.6f, 2.6f, 60,true, 0x502010FF);
+        GRRLIB_DrawCone(0.6f, 2.6f, 60, true, 0x502010FF);
 
         GRRLIB_ObjectViewBegin();
         GRRLIB_ObjectViewRotate(rot,rot*2,rot*3);
