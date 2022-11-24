@@ -459,16 +459,16 @@ void GRRLIB_DrawSphere(f32 r, int lats, int longs, bool filled, u32 col) {
  * @param col Color of the cube.
  */
 void GRRLIB_DrawCube(f32 size, bool filled, u32 col) {
-    static f32 n[6][3] =
+    static const f32 normal[6][3] =
     {
-        {-1.0, 0.0, 0.0},
-        {0.0, 1.0, 0.0},
-        {1.0, 0.0, 0.0},
-        {0.0, -1.0, 0.0},
-        {0.0, 0.0, 1.0},
-        {0.0, 0.0, -1.0}
+        {-1.0f, 0.0f, 0.0f},
+        {0.0f, 1.0f, 0.0f},
+        {1.0f, 0.0f, 0.0f},
+        {0.0f, -1.0f, 0.0f},
+        {0.0f, 0.0f, 1.0f},
+        {0.0f, 0.0f, -1.0f}
     };
-    static int faces[6][4] =
+    static const u8 faces[6][4] =
     {
         {0, 1, 2, 3},
         {3, 2, 6, 7},
@@ -479,12 +479,12 @@ void GRRLIB_DrawCube(f32 size, bool filled, u32 col) {
     };
     f32 v[8][3];
 
-    v[0][0] = v[1][0] = v[2][0] = v[3][0] = -size / 2;
-    v[4][0] = v[5][0] = v[6][0] = v[7][0] = size / 2;
-    v[0][1] = v[1][1] = v[4][1] = v[5][1] = -size / 2;
-    v[2][1] = v[3][1] = v[6][1] = v[7][1] = size / 2;
-    v[0][2] = v[3][2] = v[4][2] = v[7][2] = -size / 2;
-    v[1][2] = v[2][2] = v[5][2] = v[6][2] = size / 2;
+    v[0][0] = v[1][0] = v[2][0] = v[3][0] = -size / 2.0f;
+    v[4][0] = v[5][0] = v[6][0] = v[7][0] = size / 2.0f;
+    v[0][1] = v[1][1] = v[4][1] = v[5][1] = -size / 2.0f;
+    v[2][1] = v[3][1] = v[6][1] = v[7][1] = size / 2.0f;
+    v[0][2] = v[3][2] = v[4][2] = v[7][2] = -size / 2.0f;
+    v[1][2] = v[2][2] = v[5][2] = v[6][2] = size / 2.0f;
 
     for (s8 i = 5; i >= 0; i--) {
         if(filled == true) {
@@ -494,20 +494,20 @@ void GRRLIB_DrawCube(f32 size, bool filled, u32 col) {
             GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 5);
         }
         GX_Position3f32(v[faces[i][0]][0], v[faces[i][0]][1], v[faces[i][0]][2] );
-        GX_Normal3f32(n[i][0], n[i][1], n[i][2]);
+        GX_Normal3f32(normal[i][0], normal[i][1], normal[i][2]);
         GX_Color1u32(col);
         GX_Position3f32(v[faces[i][1]][0], v[faces[i][1]][1], v[faces[i][1]][2]);
-        GX_Normal3f32(n[i][0], n[i][1], n[i][2]);
+        GX_Normal3f32(normal[i][0], normal[i][1], normal[i][2]);
         GX_Color1u32(col);
         GX_Position3f32(v[faces[i][2]][0], v[faces[i][2]][1], v[faces[i][2]][2]);
-        GX_Normal3f32(n[i][0], n[i][1], n[i][2]);
+        GX_Normal3f32(normal[i][0], normal[i][1], normal[i][2]);
         GX_Color1u32(col);
         GX_Position3f32(v[faces[i][3]][0], v[faces[i][3]][1], v[faces[i][3]][2]);
-        GX_Normal3f32(n[i][0], n[i][1], n[i][2]);
+        GX_Normal3f32(normal[i][0], normal[i][1], normal[i][2]);
         GX_Color1u32(col);
         if(filled == false) {
             GX_Position3f32(v[faces[i][0]][0], v[faces[i][0]][1], v[faces[i][0]][2]);
-            GX_Normal3f32(n[i][0], n[i][1], n[i][2]);
+            GX_Normal3f32(normal[i][0], normal[i][1], normal[i][2]);
             GX_Color1u32(col);
         }
         GX_End();
