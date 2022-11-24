@@ -52,9 +52,9 @@ int main() {
 
         GRRLIB_3dMode(0.1, 1000, 45, false, true);
 
-        if(demo==0) {
+        if(demo == 0) {
             /////////////////// DEFINE A DIFFUSE LIGHT /////////////////////////////////////////////
-            guVector l0pos={0.0f,20.0f,0.0f};
+            guVector l0pos={0.0f, 20.0f, 0.0f};
             guVecMultiply(_GRR_view, &l0pos, &l0pos);
             GX_InitLightPos(&MyLight0, l0pos.x, l0pos.y, l0pos.z);
             GX_InitLightColor(&MyLight0, (GXColor) { 0xFF, 0x00, 0x00, 0xFF });
@@ -80,9 +80,9 @@ int main() {
             GRRLIB_2dMode();
             GRRLIB_Printf(20, 30, tex_font, 0xFFFFFFFF, 1, "Simple Demo 1 Diffuse Light Source");
         }
-        else if(demo==1) {
+        else if(demo == 1) {
             /////////////////// DEFINE 2 DIFFUSE LIGHTS /////////////////////////////////////////////
-            guVector l0pos={0.0f,20.0f,0.0f};
+            guVector l0pos={0.0f, 20.0f, 0.0f};
             guVecMultiply(_GRR_view, &l0pos, &l0pos);
             GX_InitLightPos(&MyLight0, l0pos.x, l0pos.y, l0pos.z);
             GX_InitLightColor(&MyLight0, (GXColor) { 0x00, 0xFF, 0x00, 0xFF });
@@ -116,13 +116,13 @@ int main() {
             GRRLIB_2dMode();
             GRRLIB_Printf(20, 30, tex_font, 0xFFFFFFFF, 1, "Simple Demo 2 Diffuse Light Sources");
         }
-        else if(demo==2) {
+        else if(demo == 2) {
             /////////////////// DEFINE A SPECULAR LIGHT /////////////////////////////////////////////
-            guVector l0dir={0.0f,0.0f,0.0f};
+            guVector l0dir={0.0f, 0.0f, 0.0f};
             GX_InitSpecularDir(&MyLight0, l0dir.x,l0dir.y,l0dir.z);
 
             GX_InitLightShininess(&MyLight0, 20);  // between 4 and 255 !!!
-            GX_InitLightColor(&MyLight0, (GXColor){0xFF,0xFF,0xFF,0xFF});
+            GX_InitLightColor(&MyLight0, (GXColor){0xFF, 0xFF, 0xFF,0xFF});
             GX_LoadLightObj(&MyLight0, GX_LIGHT0);
 
             /////////////////////// Turn light ON ////////////////////////////////////////////////
@@ -143,8 +143,8 @@ int main() {
             GRRLIB_ObjectView(0,0,0, a,a*2,a*3, 1.0f,1.0f,1.0f);
             GX_SetChanAmbColor(GX_COLOR0, (GXColor) {  0xFF,  0xFF, 0xFF, 0xFF});
             GX_SetChanMatColor(GX_COLOR0, (GXColor) {  0x00,  0x00, 0x00, 0xFF});
-            GX_SetChanAmbColor(GX_COLOR1, (GXColor){0x00,0x00,0x00,0x00});
-            GX_SetChanMatColor(GX_COLOR1, (GXColor){0xFF,0xFF,0xFF,0xFF});
+            GX_SetChanAmbColor(GX_COLOR1, (GXColor){0x00, 0x00, 0x00, 0x00});
+            GX_SetChanMatColor(GX_COLOR1, (GXColor){0xFF, 0xFF, 0xFF, 0xFF});
             GRRLIB_DrawTorus(0.6f, 2.0f, 60, 60, true, 0xFFFFFFFF);
             a+=0.8f;
 
@@ -155,13 +155,13 @@ int main() {
             GRRLIB_2dMode();
             GRRLIB_Printf(20, 30, tex_font, 0xFFFFFFFF, 1, "Simple Demo 1 Specular Source with shininess = 20");
         }
-        else if(demo==3) {
+        else if(demo == 3) {
             /////////////////// DEFINE A SPECULAR LIGHT /////////////////////////////////////////////
-            guVector l0dir={0.0f,0.0f,0.0f};
+            guVector l0dir={0.0f, 0.0f, 0.0f};
             GX_InitSpecularDir(&MyLight0, l0dir.x,l0dir.y,l0dir.z);
 
             GX_InitLightShininess(&MyLight0, 200);  // between 4 and 255 !!!
-            GX_InitLightColor(&MyLight0, (GXColor){0xFF,0xFF,0xFF,0xFF});
+            GX_InitLightColor(&MyLight0, (GXColor){0xFF, 0xFF, 0xFF, 0xFF});
             GX_LoadLightObj(&MyLight0, GX_LIGHT0);
 
             /////////////////////// Turn light ON ////////////////////////////////////////////////
@@ -182,9 +182,9 @@ int main() {
             GRRLIB_ObjectView(0,0,0, a,a*2,a*3, 1.0f,1.0f,1.0f);
             GX_SetChanAmbColor(GX_COLOR0, (GXColor) {  0xFF,  0xFF, 0xFF, 0xFF});
             GX_SetChanMatColor(GX_COLOR0, (GXColor) {  0x00,  0x00, 0x00, 0xFF});
-            GX_SetChanAmbColor(GX_COLOR1, (GXColor){0x00,0x00,0x00,0x00});
-            GX_SetChanMatColor(GX_COLOR1, (GXColor){0xFF,0xFF,0xFF,0xFF});
-            GRRLIB_DrawTorus(0.6f, 2.0f, 60, 60,true, 0xFFFFFFFF);
+            GX_SetChanAmbColor(GX_COLOR1, (GXColor){0x00, 0x00, 0x00, 0x00});
+            GX_SetChanMatColor(GX_COLOR1, (GXColor){0xFF, 0xFF, 0xFF, 0xFF});
+            GRRLIB_DrawTorus(0.6f, 2.0f, 60, 60, true, 0xFFFFFFFF);
             a+=0.8f;
 
             //////////////////////////// Turn light off and Write demo name
@@ -194,9 +194,9 @@ int main() {
             GRRLIB_2dMode();
             GRRLIB_Printf(20, 30, tex_font, 0xFFFFFFFF, 1, "Simple Demo 1 Specular Source with shininess = 200");
         }
-        else if(demo==4) {
+        else if(demo == 4) {
             GX_SetTexCoordGen(GX_TEXCOORD0, GX_TG_MTX3x4, GX_TG_NRM, GX_TEXMTX0); // We say we use the Normal coord to map the texture (since there is no textcoord with this torus)
-            guLightFrustum(mv, 1.0F, -1.0F, 1.0F, -1.0F, 1.0F, 0.5F, 0.5F, 0.5F, 0.5F); // we are projecting the texture like a light (ie : videoprojector))
+            guLightFrustum(mv, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f, 0.5f, 0.5f, 0.5f, 0.5f); // we are projecting the texture like a light (ie : videoprojector))
 
             guMtxScale(mr, -2.8f, -2.8f, 0.0f); //here is a little scaling to fit the torus
             guMtxConcat(mr, mv, mv);
@@ -216,9 +216,9 @@ int main() {
             GRRLIB_2dMode();
             GRRLIB_Printf(20, 30, tex_font, 0xFFFFFFFF, 1, "Simple Demo Mapping Using textgen from normal coord");
         }
-        else if(demo==5) {
+        else if(demo == 5) {
             GX_SetTexCoordGen(GX_TEXCOORD0, GX_TG_MTX3x4, GX_TG_NRM, GX_TEXMTX0); // We say we use the Normal coord to map the texture (since there is no textcoord with this torus)
-            guLightFrustum(mv, 1.0F, -1.0F, 1.0F, -1.0F, 1.0F, 0.5F, 0.5F, 0.5F, 0.5F); // we are projecting the texture like a light (ie : videoprojector))
+            guLightFrustum(mv, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f, 0.5f, 0.5f, 0.5f, 0.5f); // we are projecting the texture like a light (ie : videoprojector))
             guMtxRotDeg(rx, 'X', a);     //  Here i rotate the texture
             guMtxRotDeg(ry, 'Y', a*2);   //  in the inverse way
             guMtxRotDeg(rz, 'Z', a*3);   //  of the

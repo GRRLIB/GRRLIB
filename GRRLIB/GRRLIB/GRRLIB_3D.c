@@ -26,9 +26,9 @@ THE SOFTWARE.
 
 // User should not directly modify these
 Mtx       _GRR_view;  // Should be static as soon as all light functions needing this var will be in this file ;)
-static  guVector  _GRR_cam  = {0.0F, 0.0F, 0.0F},
-                  _GRR_up   = {0.0F, 1.0F, 0.0F},
-                  _GRR_look = {0.0F, 0.0F, -100.0F};
+static  guVector  _GRR_cam  = {0.0f, 0.0f, 0.0f},
+                  _GRR_up   = {0.0f, 1.0f, 0.0f},
+                  _GRR_look = {0.0f, 0.0f, -100.0f};
 static  guVector  _GRRaxisx = (guVector){1, 0, 0}; // DO NOT MODIFY!!!
 static  guVector  _GRRaxisy = (guVector){0, 1, 0}; // Even at runtime
 static  guVector  _GRRaxisz = (guVector){0, 0, 1}; // NOT ever!
@@ -134,7 +134,7 @@ void GRRLIB_2dMode() {
     GX_LoadProjectionMtx(m, GX_ORTHOGRAPHIC);
 
     guMtxIdentity(view);
-    guMtxTransApply(view, view, 0, 0, -100.0F);
+    guMtxTransApply(view, view, 0, 0, -100.0f);
     GX_LoadPosMtxImm(view, GX_PNMTX0);
 
     GX_ClearVtxDesc();
