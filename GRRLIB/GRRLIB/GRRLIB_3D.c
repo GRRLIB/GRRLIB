@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2021 The GRRLIB Team
+Copyright (c) 2009-2022 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -26,9 +26,9 @@ THE SOFTWARE.
 
 // User should not directly modify these
 Mtx       _GRR_view;  // Should be static as soon as all light functions needing this var will be in this file ;)
-static  guVector  _GRR_cam  = {0.0F, 0.0F, 0.0F},
-                  _GRR_up   = {0.0F, 1.0F, 0.0F},
-                  _GRR_look = {0.0F, 0.0F, -100.0F};
+static  guVector  _GRR_cam  = {0.0f, 0.0f, 0.0f},
+                  _GRR_up   = {0.0f, 1.0f, 0.0f},
+                  _GRR_look = {0.0f, 0.0f, -100.0f};
 static  guVector  _GRRaxisx = (guVector){1, 0, 0}; // DO NOT MODIFY!!!
 static  guVector  _GRRaxisy = (guVector){0, 1, 0}; // Even at runtime
 static  guVector  _GRRaxisz = (guVector){0, 0, 1}; // NOT ever!
@@ -134,7 +134,7 @@ void GRRLIB_2dMode() {
     GX_LoadProjectionMtx(m, GX_ORTHOGRAPHIC);
 
     guMtxIdentity(view);
-    guMtxTransApply(view, view, 0, 0, -100.0F);
+    guMtxTransApply(view, view, 0, 0, -100.0f);
     GX_LoadPosMtxImm(view, GX_PNMTX0);
 
     GX_ClearVtxDesc();
@@ -190,7 +190,8 @@ void GRRLIB_ObjectViewScale(f32 scalx, f32 scaly, f32 scalz) {
  * @param angz z rotation angle of the object.
  */
 void GRRLIB_ObjectViewRotate(f32 angx, f32 angy, f32 angz) {
-    Mtx m, rx,ry,rz;
+    Mtx m;
+    Mtx rx, ry, rz;
 
     guMtxIdentity(m);
     guMtxRotAxisDeg(rx, &_GRRaxisx, angx);
@@ -245,19 +246,20 @@ void GRRLIB_ObjectViewEnd(void) {
  */
 void GRRLIB_ObjectView(f32 posx, f32 posy, f32 posz, f32 angx, f32 angy, f32 angz, f32 scalx, f32 scaly, f32 scalz) {
     Mtx ObjTransformationMtx;
-    Mtx m, rx,ry,rz;
+    Mtx m;
     Mtx mv, mvi;
 
     guMtxIdentity(ObjTransformationMtx);
 
-    if((scalx !=1.0f) || (scaly !=1.0f) || (scalz !=1.0f)) {
+    if((scalx != 1.0f) || (scaly != 1.0f) || (scalz != 1.0f)) {
         guMtxIdentity(m);
         guMtxScaleApply(m, m, scalx, scaly, scalz);
 
         guMtxConcat(m, ObjTransformationMtx, ObjTransformationMtx);
     }
 
-    if((angx !=0.0f) || (angy !=0.0f) || (angz !=0.0f)) {
+    if((angx != 0.0f) || (angy != 0.0f) || (angz != 0.0f)) {
+        Mtx rx, ry, rz;
         guMtxIdentity(m);
         guMtxRotAxisDeg(rx, &_GRRaxisx, angx);
         guMtxRotAxisDeg(ry, &_GRRaxisy, angy);
@@ -268,7 +270,7 @@ void GRRLIB_ObjectView(f32 posx, f32 posy, f32 posz, f32 angx, f32 angy, f32 ang
         guMtxConcat(m, ObjTransformationMtx, ObjTransformationMtx);
     }
 
-    if((posx !=0.0f) || (posy !=0.0f) || (posz !=0.0f)) {
+    if((posx != 0.0f) || (posy != 0.0f) || (posz != 0.0f)) {
         guMtxIdentity(m);
         guMtxTransApply(m, m, posx, posy, posz);
 
@@ -297,26 +299,27 @@ void GRRLIB_ObjectView(f32 posx, f32 posy, f32 posz, f32 angx, f32 angy, f32 ang
  */
 void GRRLIB_ObjectViewInv(f32 posx, f32 posy, f32 posz, f32 angx, f32 angy, f32 angz, f32 scalx, f32 scaly, f32 scalz) {
     Mtx ObjTransformationMtx;
-    Mtx m, rx,ry,rz;
+    Mtx m;
     Mtx mv, mvi;
 
     guMtxIdentity(ObjTransformationMtx);
 
-    if((scalx !=1.0f) || (scaly !=1.0f) || (scalz !=1.0f)) {
+    if((scalx != 1.0f) || (scaly != 1.0f) || (scalz != 1.0f)) {
         guMtxIdentity(m);
         guMtxScaleApply(m, m, scalx, scaly, scalz);
 
         guMtxConcat(m, ObjTransformationMtx, ObjTransformationMtx);
     }
 
-    if((posx !=0.0f) || (posy !=0.0f) || (posz !=0.0f)) {
+    if((posx != 0.0f) || (posy != 0.0f) || (posz != 0.0f)) {
         guMtxIdentity(m);
         guMtxTransApply(m, m, posx, posy, posz);
 
         guMtxConcat(m, ObjTransformationMtx, ObjTransformationMtx);
     }
 
-    if((angx !=0.0f) || (angy !=0.0f) || (angz !=0.0f)) {
+    if((angx != 0.0f) || (angy != 0.0f) || (angz != 0.0f)) {
+        Mtx rx, ry, rz;
         guMtxIdentity(m);
         guMtxRotAxisDeg(rx, &_GRRaxisx, angx);
         guMtxRotAxisDeg(ry, &_GRRaxisy, angy);
@@ -372,35 +375,28 @@ void GRRLIB_SetTexture(GRRLIB_texImg *tex, bool rep) {
  * @param col Color of the torus.
  */
 void GRRLIB_DrawTorus(f32 r, f32 R, int nsides, int rings, bool filled, u32 col) {
-    int i, j;
-    f32 theta, phi, theta1;
-    f32 cosTheta, sinTheta;
-    f32 cosTheta1, sinTheta1;
-    f32 ringDelta, sideDelta;
-    f32 cosPhi, sinPhi, dist;
+    const f32 ringDelta = 2.0 * M_PI / rings;
+    const f32 sideDelta = 2.0 * M_PI / nsides;
 
-    ringDelta = 2.0 * M_PI / rings;
-    sideDelta = 2.0 * M_PI / nsides;
-
-    theta = 0.0;
-    cosTheta = 1.0;
-    sinTheta = 0.0;
-    for (i = rings - 1; i >= 0; i--) {
-        theta1 = theta + ringDelta;
-        cosTheta1 = cos(theta1);
-        sinTheta1 = sin(theta1);
+    f32 theta = 0.0;
+    f32 cosTheta = 1.0;
+    f32 sinTheta = 0.0;
+    for (int i = rings - 1; i >= 0; i--) {
+        const f32 theta1 = theta + ringDelta;
+        const f32 cosTheta1 = cosf(theta1);
+        const f32 sinTheta1 = sinf(theta1);
         if(filled == true) {
-            GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 2*(nsides+1));
+            GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 2 * (nsides + 1));
         }
         else {
-            GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 2*(nsides+1));
+            GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 2 * (nsides + 1));
         }
-        phi = 0.0;
-        for (j = nsides; j >= 0; j--) {
+        f32 phi = 0.0;
+        for (int j = nsides; j >= 0; j--) {
             phi += sideDelta;
-            cosPhi = cos(phi);
-            sinPhi = sin(phi);
-            dist = R + r * cosPhi;
+            const f32 cosPhi = cosf(phi);
+            const f32 sinPhi = sinf(phi);
+            const f32 dist = R + r * cosPhi;
 
             GX_Position3f32(cosTheta1 * dist, -sinTheta1 * dist, r * sinPhi);
             GX_Normal3f32(cosTheta1 * cosPhi, -sinTheta1 * cosPhi, sinPhi);
@@ -425,29 +421,25 @@ void GRRLIB_DrawTorus(f32 r, f32 R, int nsides, int rings, bool filled, u32 col)
  * @param col Color of the sphere.
  */
 void GRRLIB_DrawSphere(f32 r, int lats, int longs, bool filled, u32 col) {
-    int i, j;
-    f32 lat0, z0, zr0,
-        lat1, z1, zr1,
-        lng, x, y;
+    for(int i = 0; i <= lats; i++) {
+        const f32 lat0 = M_PI * (-0.5f + (f32) (i - 1) / lats);
+        const f32 z0  = sinf(lat0);
+        const f32 zr0 = cosf(lat0);
 
-    for(i = 0; i <= lats; i++) {
-        lat0 = M_PI * (-0.5F + (f32) (i - 1) / lats);
-        z0  = sin(lat0);
-        zr0 = cos(lat0);
+        const f32 lat1 = M_PI * (-0.5f + (f32) i / lats);
+        const f32 z1 = sinf(lat1);
+        const f32 zr1 = cosf(lat1);
 
-        lat1 = M_PI * (-0.5F + (f32) i / lats);
-        z1 = sin(lat1);
-        zr1 = cos(lat1);
         if(filled == true) {
-            GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 2*(longs+1));
+            GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 2 * (longs + 1));
         }
         else {
-            GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 2*(longs+1));
+            GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 2 * (longs + 1));
         }
-        for(j = 0; j <= longs; j++) {
-            lng = 2 * M_PI * (f32) (j - 1) / longs;
-            x = cos(lng);
-            y = sin(lng);
+        for(int j = 0; j <= longs; j++) {
+            const f32 lng = 2 * M_PI * (f32) (j - 1) / longs;
+            const f32 x = cosf(lng);
+            const f32 y = sinf(lng);
 
             GX_Position3f32(x * zr0 * r, y * zr0 * r, z0 * r);
             GX_Normal3f32(x * zr0 * r, y * zr0 * r, z0 * r);
@@ -467,16 +459,16 @@ void GRRLIB_DrawSphere(f32 r, int lats, int longs, bool filled, u32 col) {
  * @param col Color of the cube.
  */
 void GRRLIB_DrawCube(f32 size, bool filled, u32 col) {
-    static f32 n[6][3] =
+    static const f32 normal[6][3] =
     {
-        {-1.0, 0.0, 0.0},
-        {0.0, 1.0, 0.0},
-        {1.0, 0.0, 0.0},
-        {0.0, -1.0, 0.0},
-        {0.0, 0.0, 1.0},
-        {0.0, 0.0, -1.0}
+        {-1.0f, 0.0f, 0.0f},
+        {0.0f, 1.0f, 0.0f},
+        {1.0f, 0.0f, 0.0f},
+        {0.0f, -1.0f, 0.0f},
+        {0.0f, 0.0f, 1.0f},
+        {0.0f, 0.0f, -1.0f}
     };
-    static int faces[6][4] =
+    static const u8 faces[6][4] =
     {
         {0, 1, 2, 3},
         {3, 2, 6, 7},
@@ -487,14 +479,14 @@ void GRRLIB_DrawCube(f32 size, bool filled, u32 col) {
     };
     f32 v[8][3];
 
-    v[0][0] = v[1][0] = v[2][0] = v[3][0] = -size / 2;
-    v[4][0] = v[5][0] = v[6][0] = v[7][0] = size / 2;
-    v[0][1] = v[1][1] = v[4][1] = v[5][1] = -size / 2;
-    v[2][1] = v[3][1] = v[6][1] = v[7][1] = size / 2;
-    v[0][2] = v[3][2] = v[4][2] = v[7][2] = -size / 2;
-    v[1][2] = v[2][2] = v[5][2] = v[6][2] = size / 2;
+    v[0][0] = v[1][0] = v[2][0] = v[3][0] = -size / 2.0f;
+    v[4][0] = v[5][0] = v[6][0] = v[7][0] = size / 2.0f;
+    v[0][1] = v[1][1] = v[4][1] = v[5][1] = -size / 2.0f;
+    v[2][1] = v[3][1] = v[6][1] = v[7][1] = size / 2.0f;
+    v[0][2] = v[3][2] = v[4][2] = v[7][2] = -size / 2.0f;
+    v[1][2] = v[2][2] = v[5][2] = v[6][2] = size / 2.0f;
 
-    for (int i = 5; i >= 0; i--) {
+    for (s8 i = 5; i >= 0; i--) {
         if(filled == true) {
             GX_Begin(GX_QUADS, GX_VTXFMT0, 4);
         }
@@ -502,20 +494,20 @@ void GRRLIB_DrawCube(f32 size, bool filled, u32 col) {
             GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 5);
         }
         GX_Position3f32(v[faces[i][0]][0], v[faces[i][0]][1], v[faces[i][0]][2] );
-        GX_Normal3f32(n[i][0], n[i][1], n[i][2]);
+        GX_Normal3f32(normal[i][0], normal[i][1], normal[i][2]);
         GX_Color1u32(col);
         GX_Position3f32(v[faces[i][1]][0], v[faces[i][1]][1], v[faces[i][1]][2]);
-        GX_Normal3f32(n[i][0], n[i][1], n[i][2]);
+        GX_Normal3f32(normal[i][0], normal[i][1], normal[i][2]);
         GX_Color1u32(col);
         GX_Position3f32(v[faces[i][2]][0], v[faces[i][2]][1], v[faces[i][2]][2]);
-        GX_Normal3f32(n[i][0], n[i][1], n[i][2]);
+        GX_Normal3f32(normal[i][0], normal[i][1], normal[i][2]);
         GX_Color1u32(col);
         GX_Position3f32(v[faces[i][3]][0], v[faces[i][3]][1], v[faces[i][3]][2]);
-        GX_Normal3f32(n[i][0], n[i][1], n[i][2]);
+        GX_Normal3f32(normal[i][0], normal[i][1], normal[i][2]);
         GX_Color1u32(col);
         if(filled == false) {
             GX_Position3f32(v[faces[i][0]][0], v[faces[i][0]][1], v[faces[i][0]][2]);
-            GX_Normal3f32(n[i][0], n[i][1], n[i][2]);
+            GX_Normal3f32(normal[i][0], normal[i][1], normal[i][2]);
             GX_Color1u32(col);
         }
         GX_End();
@@ -530,19 +522,16 @@ void GRRLIB_DrawCube(f32 size, bool filled, u32 col) {
  * @param filled Wired or not.
  * @param col Color of the cylinder.
  */
-void GRRLIB_DrawCylinder(f32 r, f32 h, int d, bool filled, u32 col) {
-    int i;
-    f32 dx, dy;
-
+void GRRLIB_DrawCylinder(f32 r, f32 h, u16 d, bool filled, u32 col) {
     if(filled == true) {
-        GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 2 * (d+1));
+        GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 2 * (d + 1));
     }
     else {
-        GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 2 * (d+1));
+        GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 2 * (d + 1));
     }
-    for(i = 0; i <= d; i++) {
-        dx = cosf( M_PI * 2.0f * i / d );
-        dy = sinf( M_PI * 2.0f * i / d );
+    for(u16 i = 0; i <= d; i++) {
+        const f32 dx = cosf( M_PI * 2.0f * i / d );
+        const f32 dy = sinf( M_PI * 2.0f * i / d );
         GX_Position3f32( r * dx, -0.5f * h, r * dy );
         GX_Normal3f32( dx, 0.0f, dy );
         GX_Color1u32(col);
@@ -553,15 +542,15 @@ void GRRLIB_DrawCylinder(f32 r, f32 h, int d, bool filled, u32 col) {
     GX_End();
 
     if(filled == true) {
-        GX_Begin(GX_TRIANGLEFAN, GX_VTXFMT0, d+2);
+        GX_Begin(GX_TRIANGLEFAN, GX_VTXFMT0, d + 2);
     }
     else {
-        GX_Begin(GX_LINESTRIP, GX_VTXFMT0, d+2);
+        GX_Begin(GX_LINESTRIP, GX_VTXFMT0, d + 2);
     }
     GX_Position3f32(0.0f, -0.5f * h, 0.0f);
     GX_Normal3f32(0.0f, -1.0f, 0.0f);
     GX_Color1u32(col);
-    for(i = 0; i <= d; i++) {
+    for(u16 i = 0; i <= d; i++) {
         GX_Position3f32( r * cosf( M_PI * 2.0f * i / d ), -0.5f * h, r * sinf( M_PI * 2.0f * i / d ) );
         GX_Normal3f32(0.0f, -1.0f, 0.0f);
         GX_Color1u32(col);
@@ -569,15 +558,15 @@ void GRRLIB_DrawCylinder(f32 r, f32 h, int d, bool filled, u32 col) {
     GX_End();
 
     if(filled == true) {
-        GX_Begin(GX_TRIANGLEFAN, GX_VTXFMT0, d+2);
+        GX_Begin(GX_TRIANGLEFAN, GX_VTXFMT0, d + 2);
     }
     else {
-        GX_Begin(GX_LINESTRIP, GX_VTXFMT0, d+2);
+        GX_Begin(GX_LINESTRIP, GX_VTXFMT0, d + 2);
     }
     GX_Position3f32(0.0f, 0.5f * h, 0.0f);
     GX_Normal3f32(0.0f, 1.0f, 0.0f);
     GX_Color1u32(col);
-    for(i = 0; i <= d; i++) {
+    for(u16 i = 0; i <= d; i++) {
         GX_Position3f32( r * cosf( M_PI * 2.0f * i / d ), 0.5f * h, r * sinf( M_PI * 2.0f * i / d ) );
         GX_Normal3f32(0.0f, 1.0f, 0.0f);
         GX_Color1u32(col);
@@ -593,19 +582,16 @@ void GRRLIB_DrawCylinder(f32 r, f32 h, int d, bool filled, u32 col) {
  * @param filled Wired or not.
  * @param col Color of the cone.
  */
-void GRRLIB_DrawCone(f32 r, f32 h, int d, bool filled, u32 col) {
-    int i;
-    f32 dx, dy;
-
+void GRRLIB_DrawCone(f32 r, f32 h, u16 d, bool filled, u32 col) {
     if(filled == true) {
-        GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 2 * (d+1));
+        GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 2 * (d + 1));
     }
     else {
-        GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 2 * (d+1));
+        GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 2 * (d + 1));
     }
-    for(i = 0; i <= d; i++) {
-        dx = cosf( M_PI * 2.0f * i / d );
-        dy = sinf( M_PI * 2.0f * i / d );
+    for(u16 i = 0; i <= d; i++) {
+        const f32 dx = cosf( M_PI * 2.0f * i / d );
+        const f32 dy = sinf( M_PI * 2.0f * i / d );
         GX_Position3f32( 0, -0.5f * h,0);
         GX_Normal3f32( dx, 0.0f, dy );
         GX_Color1u32(col);
@@ -616,15 +602,15 @@ void GRRLIB_DrawCone(f32 r, f32 h, int d, bool filled, u32 col) {
     GX_End();
 
     if(filled == true) {
-        GX_Begin(GX_TRIANGLEFAN, GX_VTXFMT0, d+2);
+        GX_Begin(GX_TRIANGLEFAN, GX_VTXFMT0, d + 2);
     }
     else {
-        GX_Begin(GX_LINESTRIP, GX_VTXFMT0, d+2);
+        GX_Begin(GX_LINESTRIP, GX_VTXFMT0, d + 2);
     }
     GX_Position3f32(0.0f, 0.5f * h, 0.0f);
     GX_Normal3f32(0.0f, 1.0f, 0.0f);
     GX_Color1u32(col);
-    for(i = 0; i <= d; i++) {
+    for(u16 i = 0; i <= d; i++) {
         GX_Position3f32( r * cosf( M_PI * 2.0f * i / d ), 0.5f * h, r * sinf( M_PI * 2.0f * i / d ) );
         GX_Normal3f32(0.0f, 1.0f, 0.0f);
         GX_Color1u32(col);
@@ -642,12 +628,10 @@ void GRRLIB_DrawCone(f32 r, f32 h, int d, bool filled, u32 col) {
  * @param col Color in RGBA format.
  */
 void GRRLIB_DrawTessPanel(f32 w, f32 wstep, f32 h, f32 hstep, bool filled, u32 col) {
-    f32 x, y;
-
-    f32 tmpy = h/2.0f;
-    f32 tmpx = w/2.0f;
-    int tmp = ((w/wstep)*2)+2;
-    for ( y = -tmpy; y <= tmpy; y += hstep )
+    const f32 tmpy = h / 2.0f;
+    const f32 tmpx = w / 2.0f;
+    const u16 tmp = ((w / wstep) * 2) + 2;
+    for ( f32 y = -tmpy; y <= tmpy; y += hstep )
     {
         if(filled == true) {
             GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, tmp);
@@ -655,12 +639,12 @@ void GRRLIB_DrawTessPanel(f32 w, f32 wstep, f32 h, f32 hstep, bool filled, u32 c
         else {
             GX_Begin(GX_LINESTRIP, GX_VTXFMT0, tmp);
         }
-        for ( x = -tmpx; x <= tmpx; x += wstep )
+        for ( f32 x = -tmpx; x <= tmpx; x += wstep )
         {
             GX_Position3f32( x, y, 0.0f );
             GX_Normal3f32( 0.0f, 0.0f, 1.0f);
             GX_Color1u32(col);
-            GX_Position3f32( x, y+hstep, 0.0f );
+            GX_Position3f32( x, y + hstep, 0.0f );
             GX_Normal3f32( 0.0f, 0.0f, 1.0f);
             GX_Color1u32(col);
         }
@@ -712,7 +696,7 @@ void GRRLIB_SetLightDiff(u8 num, guVector pos, f32 distattn, f32 brightness, u32
  * @param speccolor Specular color in RGBA format.
  */
 void GRRLIB_SetLightSpec(u8 num, guVector dir, f32 shininess, u32 lightcolor, u32 speccolor) {
-    Mtx mr,mv;
+    Mtx mr, mv;
     GXLightObj MyLight;
     guVector ldir = {dir.x, dir.y, dir.z};
 
@@ -744,7 +728,7 @@ void GRRLIB_SetLightSpec(u8 num, guVector dir, f32 shininess, u32 lightcolor, u3
 
     /////////////////////// Define Material and Ambient color and draw object /////////////////////////////////////
     GX_SetChanAmbColor(GX_COLOR1, (GXColor){0x00,0x00,0x00,0xFF});  // specular ambient forced to black
-    GX_SetChanMatColor(GX_COLOR1, (GXColor) { R(speccolor), G(speccolor), B(speccolor), 0xFF }); // couleur du reflet specular
+    GX_SetChanMatColor(GX_COLOR1, (GXColor) { R(speccolor), G(speccolor), B(speccolor), 0xFF }); // specular reflection color
 }
 
 /**

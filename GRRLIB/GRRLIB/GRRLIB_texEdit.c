@@ -364,7 +364,7 @@ GRRLIB_texImg*  GRRLIB_LoadTextureJPG (const u8 *my_jpg) {
  * @param my_size Size of the JPEG buffer to load.
  * @return A GRRLIB_texImg structure filled with image information.
  */
-GRRLIB_texImg*  GRRLIB_LoadTextureJPGEx (const u8 *my_jpg, const int my_size) {
+GRRLIB_texImg*  GRRLIB_LoadTextureJPGEx (const u8 *my_jpg, const u32 my_size) {
     GRRLIB_texImg *my_texture = calloc(1, sizeof(GRRLIB_texImg));
 
     if (my_texture == NULL) {

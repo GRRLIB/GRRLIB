@@ -140,7 +140,7 @@ int main() {
     GRRLIB_Init();
     GRRLIB_Settings.antialias = false;
     WPAD_Init();
-    GRRLIB_ClipDrawing(0,0,rmode->fbWidth,rmode->efbHeight);
+    GRRLIB_ClipDrawing(0, 0, rmode->fbWidth, rmode->efbHeight);
     GRRLIB_texImg *tex_tile1 = GRRLIB_LoadTexture(tile1_png);
     GRRLIB_InitTileSet(tex_tile1, TileMap1Width, TileMap1Height, 0);
     GRRLIB_texImg *tex_perso = GRRLIB_LoadTexture(perso_png);

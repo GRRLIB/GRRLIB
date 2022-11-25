@@ -46,12 +46,13 @@ void  GRRLIB_FlushTex (GRRLIB_texImg *tex) {
  */
 INLINE
 void  GRRLIB_FreeTexture (GRRLIB_texImg *tex) {
-    if(tex != NULL) {
-        if (tex->data != NULL) {
-            free(tex->data);
-        }
-        free(tex);
+    if(tex == NULL) {
+        return;
     }
+    if (tex->data != NULL) {
+        free(tex->data);
+    }
+    free(tex);
 }
 
 /**

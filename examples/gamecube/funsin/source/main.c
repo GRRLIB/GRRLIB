@@ -10,16 +10,6 @@
 
 
 int main() {
-    int offset1, offset2, offset3, offset4;
-    int periode1, periode2, periode3, periode4;
-    int length1, length2, length3, length4;
-    int amp1, amp2, amp3, amp4;
-    int origine1, origine2, origine3, origine4;
-    int adc1, adc2, adc3, adc4;
-    float siny1, siny2, siny3, siny4;
-    int x;
-    float pas1, pas2, pas3, pas4;
-
     // Initialise the Graphics & Video subsystem
     GRRLIB_Init();
 
@@ -27,54 +17,54 @@ int main() {
     PAD_Init();
 
 
-    adc1=0;
-    offset1=0;
-    origine1=0;
-    length1=1280;
-    amp1=100;
-    periode1=1;
-    pas1=(periode1*360.0F)/length1;
-    siny1 = offset1*pas1;
+    const int adc1=0;
+    const int offset1=0;
+    const int origin1=0;
+    const int length1=1280;
+    const int amp1=100;
+    const int period1=1;
+    const float pas1=(period1*360.0f)/length1;
+    float siny1 = offset1*pas1;
 
-    adc2=1;
-    offset2=0;
-    origine2=0;
-    length2=1280;
-    amp2=40;
-    periode2=2;
-    pas2=(periode2*360.0F)/length2;
-    siny2 = offset2*pas2;
+    const int adc2=1;
+    const int offset2=0;
+    const int origin2=0;
+    const int length2=1280;
+    const int amp2=40;
+    const int period2=2;
+    const float pas2=(period2*360.0f)/length2;
+    float siny2 = offset2*pas2;
 
-    adc3=-3;
-    offset3=0;
-    origine3=0;
-    length3=1280;
-    amp3=30;
-    periode3=1;
-    pas3=(periode3*360.0F)/length3;
-    siny3 = offset3*pas3;
+    const int adc3=-3;
+    const int offset3=0;
+    const int origin3=0;
+    const int length3=1280;
+    const int amp3=30;
+    const int period3=1;
+    const float pas3=(period3*360.0f)/length3;
+    float siny3 = offset3*pas3;
 
-    adc4=-7;
-    offset4=0;
-    origine4=0;
-    length4=1280;
-    amp4=70;
-    periode4=1;
-    pas4=(periode4*360.0F)/length4;
-    siny4 = offset4*pas4;
+    const int adc4=-7;
+    const int offset4=0;
+    const int origin4=0;
+    const int length4=1280;
+    const int amp4=70;
+    const int period4=1;
+    const float pas4=(period4*360.0f)/length4;
+    float siny4 = offset4*pas4;
 
 
     while (1) {
         GRRLIB_FillScreen(0x000000FF);
         PAD_ScanPads();  // Scan the GameCube controllers
         if (PAD_ButtonsDown(0) & PAD_BUTTON_START)  break;
-        float old1=siny1;
-        float old2=siny2;
-        float old3=siny3;
-        float old4=siny4;
+        const float old1=siny1;
+        const float old2=siny2;
+        const float old3=siny3;
+        const float old4=siny4;
 
 
-        for (x=0; x<=640; x++) {
+        for (u16 x=0; x<=640; x++) {
             siny1+=pas1;
             siny2+=pas2;
             siny3+=pas3;
@@ -83,11 +73,11 @@ int main() {
             GX_Begin(GX_LINES, GX_VTXFMT0, 2);
                 GX_Position3f32(x, 0, 0);
                 GX_Color1u32(0x000000FF);
-                GX_Position3f32(x, (sin(DegToRad(siny1))*amp1+origine1)+(sin(DegToRad(siny2))*amp2+origine2)+(sin(DegToRad(siny3))*amp3+origine3)+(sin(DegToRad(siny4))*amp4+origine4)+240,  0);
+                GX_Position3f32(x, (sin(DegToRad(siny1))*amp1+origin1)+(sin(DegToRad(siny2))*amp2+origin2)+(sin(DegToRad(siny3))*amp3+origin3)+(sin(DegToRad(siny4))*amp4+origin4)+240,  0);
                 GX_Color1u32(0xFF00007F);
             GX_End();
             GX_Begin(GX_LINES, GX_VTXFMT0, 2);
-                GX_Position3f32(x, (sin(DegToRad(siny1))*amp1+origine1)+(sin(DegToRad(siny2))*amp2+origine2)+(sin(DegToRad(siny3))*amp3+origine3)+(sin(DegToRad(siny4))*amp4+origine4)+240,  0);
+                GX_Position3f32(x, (sin(DegToRad(siny1))*amp1+origin1)+(sin(DegToRad(siny2))*amp2+origin2)+(sin(DegToRad(siny3))*amp3+origin3)+(sin(DegToRad(siny4))*amp4+origin4)+240,  0);
                 GX_Color1u32(0xFF00007F);
                 GX_Position3f32(x, 480, 0);
                 GX_Color1u32(0x000000FF);

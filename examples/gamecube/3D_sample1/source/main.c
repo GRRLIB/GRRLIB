@@ -12,9 +12,9 @@
 #include "font_png.h"
 
 int main() {
-    float a=0;
-    u32 col[3] = {0xFFFFFFFF, 0xAAAAAAFF, 0x666666FF};
-    int cubeZ=0;
+    float a = 0;
+    const u32 col[3] = {0xFFFFFFFF, 0xAAAAAAFF, 0x666666FF};
+    int cubeZ = 0;
 
     GRRLIB_Init();
     PAD_Init();

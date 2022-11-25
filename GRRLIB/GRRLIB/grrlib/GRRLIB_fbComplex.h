@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2017 The GRRLIB Team
+Copyright (c) 2009-2022 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -29,10 +29,10 @@ THE SOFTWARE.
  * Draw an array of points.
  * @param v Array containing the points.
  * @param color The color of the points in RGBA format.
- * @param n Number of points in the vector array.
+ * @param n Number of points in the vector array. The maximum is 65536.
  */
 INLINE
-void  GRRLIB_NPlot (const guVector v[], const u32 color[], const long n) {
+void  GRRLIB_NPlot (const guVector v[], const u32 color[], const u16 n) {
     GRRLIB_GXEngine(v, color, n, GX_POINTS);
 }
 
@@ -40,10 +40,10 @@ void  GRRLIB_NPlot (const guVector v[], const u32 color[], const long n) {
  * Draw a polygon.
  * @param v The vector containing the coordinates of the polygon.
  * @param color The color of the filled polygon in RGBA format.
- * @param n Number of points in the vector.
+ * @param n Number of points in the vector. The maximum is 65536.
  */
 INLINE
-void  GRRLIB_NGone (const guVector v[], const u32 color[], const long n) {
+void  GRRLIB_NGone (const guVector v[], const u32 color[], const u16 n) {
     GRRLIB_GXEngine(v, color, n, GX_LINESTRIP);
 }
 
@@ -51,9 +51,9 @@ void  GRRLIB_NGone (const guVector v[], const u32 color[], const long n) {
  * Draw a filled polygon.
  * @param v The vector containing the coordinates of the polygon.
  * @param color The color of the filled polygon in RGBA format.
- * @param n Number of points in the vector.
+ * @param n Number of points in the vector. The maximum is 65536.
  */
 INLINE
-void  GRRLIB_NGoneFilled (const guVector v[], const u32 color[], const long n) {
+void  GRRLIB_NGoneFilled (const guVector v[], const u32 color[], const u16 n) {
     GRRLIB_GXEngine(v, color, n, GX_TRIANGLEFAN);
 }

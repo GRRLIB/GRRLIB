@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2017 The GRRLIB Team
+Copyright (c) 2009-2022 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -44,8 +44,8 @@ THE SOFTWARE.
 //------------------------------------------------------------------------------
 // GRRLIB_clipping.h - Clipping control
 INLINE  void  GRRLIB_ClipReset   (void);
-INLINE  void  GRRLIB_ClipDrawing (const int x, const int y,
-                                  const int width, const int height);
+INLINE  void  GRRLIB_ClipDrawing (const u32 x, const u32 y,
+                                  const u32 width, const u32 height);
 
 //------------------------------------------------------------------------------
 // GRRLIB_collision.h - Collision detection
@@ -66,16 +66,16 @@ INLINE  bool  GRRLIB_RectOnRect (const int rect1x, const int rect1y,
 //------------------------------------------------------------------------------
 // GRRLIB_fbComplex.h -
 INLINE  void  GRRLIB_NPlot       (const guVector v[], const u32 color[],
-                                  const long n);
+                                  const u16 n);
 INLINE  void  GRRLIB_NGone       (const guVector v[], const u32 color[],
-                                  const long n);
+                                  const u16 n);
 INLINE  void  GRRLIB_NGoneFilled (const guVector v[], const u32 color[],
-                                  const long n);
+                                  const u16 n);
 
 //------------------------------------------------------------------------------
 // GRRLIB_fbGX.h -
 INLINE  void  GRRLIB_GXEngine (const guVector v[], const u32 color[],
-                               const long n,       const u8 fmt);
+                               const u16 n,        const u8 fmt);
 
 //------------------------------------------------------------------------------
 // GRRLIB_fbSimple.h -
