@@ -72,7 +72,8 @@ $(function() {
 <li>Fixed compatibility issues with devkitPPC release 39.</li>
 <li>Added <code><a class="el" href="group___all_func.html#ga61a5765d99502956f055b666d51f0497" title="Load a TTF from a file.">GRRLIB_LoadTTFFromFile()</a></code> to load a TTF from a file.</li>
 <li>Added <code><a class="el" href="group___all_func.html#ga6bef7c5bd9550225b7ee0cc3da207738" title="Draw an ellipse.">GRRLIB_Ellipse()</a></code> to draw an ellipse.</li>
-<li>Fixed documentation for <code><a class="el" href="group___all_func.html#ga7300940a38526ab5aa9be0f4abe4a32a" title="Set the camera parameter (contributed by chris_c aka DaShAmAn).">GRRLIB_Camera3dSettings()</a></code>, <code><a class="el" href="group___all_func.html#ga7ac4e30576d4fccd0ae537a41b75f4c1" title="Make a snapshot of the screen in a texture WITHOUT ALPHA LAYER.">GRRLIB_Screen2Texture()</a></code> and <code><a class="el" href="group___all_func.html#gaab852acf9b7679bd1142003b4d6635f3" title="End GX compositing process (Make a snapshot of the screen in a texture WITH ALPHA LAYER).">GRRLIB_CompoEnd()</a></code>.</li>
+<li>Changed function arguments types in a few functions.</li>
+<li>Fixed documentation for <code><a class="el" href="group___all_func.html#ga7300940a38526ab5aa9be0f4abe4a32a" title="Set the camera parameter (contributed by chris_c aka DaShAmAn).">GRRLIB_Camera3dSettings()</a></code>, <code><a class="el" href="group___all_func.html#ga2679d0fa70341fa428857a776b9db970" title="Make a snapshot of the screen in a texture WITHOUT ALPHA LAYER.">GRRLIB_Screen2Texture()</a></code> and <code><a class="el" href="group___all_func.html#ga0af29f5435a5cbdee720afb8c375ca71" title="End GX compositing process (Make a snapshot of the screen in a texture WITH ALPHA LAYER).">GRRLIB_CompoEnd()</a></code>.</li>
 </ul>
 <h1><a href="https://github.com/GRRLIB/GRRLIB/compare/v4.4.0...v4.4.1">4.4.1</a> - 2021-03-05</h1>
 <ul>
@@ -122,8 +123,8 @@ $(function() {
 <h1><a href="https://github.com/GRRLIB/GRRLIB/compare/4.1.1...4.2.0">4.2.0</a> - 2009-12-16</h1>
 <ul>
 <li>First support to 3D functions</li>
-<li><code><a class="el" href="group___all_func.html#gab46283be3128415bf0ab2969bf7fda95" title="Start GX compositing process.">GRRLIB_CompoStart()</a></code> and <code><a class="el" href="group___all_func.html#gaab852acf9b7679bd1142003b4d6635f3" title="End GX compositing process (Make a snapshot of the screen in a texture WITH ALPHA LAYER).">GRRLIB_CompoEnd()</a></code> for real GX compositing with transparency support</li>
-<li><code><a class="el" href="group___all_func.html#ga7ac4e30576d4fccd0ae537a41b75f4c1" title="Make a snapshot of the screen in a texture WITHOUT ALPHA LAYER.">GRRLIB_Screen2Texture()</a></code> is now fully optimized</li>
+<li><code><a class="el" href="group___all_func.html#gab46283be3128415bf0ab2969bf7fda95" title="Start GX compositing process.">GRRLIB_CompoStart()</a></code> and <code><a class="el" href="group___all_func.html#ga0af29f5435a5cbdee720afb8c375ca71" title="End GX compositing process (Make a snapshot of the screen in a texture WITH ALPHA LAYER).">GRRLIB_CompoEnd()</a></code> for real GX compositing with transparency support</li>
+<li><code><a class="el" href="group___all_func.html#ga2679d0fa70341fa428857a776b9db970" title="Make a snapshot of the screen in a texture WITHOUT ALPHA LAYER.">GRRLIB_Screen2Texture()</a></code> is now fully optimized</li>
 <li>USB_Gecko output facilities</li>
 <li><code>GRRLIB_Compose()</code> was deleted since it was not fully using GX</li>
 <li><code>GRRLIB_GetColor()</code> was deleted, the RGBA macro should be used instead</li>
@@ -152,7 +153,7 @@ $(function() {
 <li>libpng was updated to version 1.2.40</li>
 <li>Support for MS-Windows Bitmap format uncompressed (1-bit, 4-bit, 8-bit, 24-bit and 32-bit)</li>
 <li>New function called <code><a class="el" href="group___all_func.html#gabafe0b9297e020c440851543c028575e" title="Draw a part of a texture.">GRRLIB_DrawPart()</a></code> to draw a specific part of a texture</li>
-<li>Extra parameters to <code><a class="el" href="group___all_func.html#ga7ac4e30576d4fccd0ae537a41b75f4c1" title="Make a snapshot of the screen in a texture WITHOUT ALPHA LAYER.">GRRLIB_Screen2Texture()</a></code></li>
+<li>Extra parameters to <code><a class="el" href="group___all_func.html#ga2679d0fa70341fa428857a776b9db970" title="Make a snapshot of the screen in a texture WITHOUT ALPHA LAYER.">GRRLIB_Screen2Texture()</a></code></li>
 <li>Video is now initialized even without a SD card</li>
 <li>Fixed a problem with scaling images</li>
 <li>Documentation improvement</li>
