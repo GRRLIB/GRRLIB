@@ -71,6 +71,7 @@ version" to a directory called  C:\grr
 
 This guide is for Windows.  If you are using Linux, I am going to presume you
 are smart enough to convert these instructions.
+
 ```text
 GRRLIB      is supplied as source code
 libpngu     is supplied as source code
@@ -80,8 +81,9 @@ libjpeg     is supplied via devkitPro pacman (ppc-libjpeg-turbo)
 libfat      is supplied via devkitPro pacman (libfat-ogc)
 ```
 
-The easy way is to install GRRLIB and all the required libraries in a single
-command:
+The easy way is to install GRRLIB and all the required libraries with a few
+commands:
+
 ```bash
   c:
   cd \grr\GRRLIB
@@ -96,6 +98,7 @@ installed and you are ready to start developing Wii homebrew games.
 
 If you want, you could install the libfat, libpng,
 libfreetype and libjpeg with there dependencies in a single command:
+
 ```bash
   pacman --sync --needed --noconfirm libfat-ogc ppc-libpng ppc-freetype ppc-libjpeg-turbo
 ```
@@ -103,6 +106,7 @@ libfreetype and libjpeg with there dependencies in a single command:
 Each library could also be installed individually:
 
 To install libpngu:
+
 ```bash
   c:
   cd \grr\GRRLIB\lib\pngu
@@ -110,6 +114,7 @@ To install libpngu:
 ```
 
 To install libgrrlib for Wii:
+
 ```bash
   c:
   cd \grr\GRRLIB\GRRLIB
@@ -117,6 +122,7 @@ To install libgrrlib for Wii:
 ```
 
 To install libgrrlib for GameCube:
+
 ```bash
   c:
   cd \grr\GRRLIB\GRRLIB
@@ -126,15 +132,19 @@ To install libgrrlib for GameCube:
 ## Using GRRLIB
 
 After everything is installed, simply put
+
 ```c
 #include <grrlib.h>
 ```
+
 at the top of your .c/.cpp file and use the functions as required
 
 You will need to add
+
 ```make
 -lgrrlib -lfreetype -lbz2 -lfat -ljpeg -lpngu -lpng -lz
 ```
+
 to the libs line in your makefile
 
 ...Remember the order of the libraries is critical.  You may (need to) insert

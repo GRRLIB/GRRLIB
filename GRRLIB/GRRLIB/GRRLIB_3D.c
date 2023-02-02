@@ -592,7 +592,7 @@ void GRRLIB_DrawCone(f32 r, f32 h, u16 d, bool filled, u32 col) {
     for(u16 i = 0; i <= d; i++) {
         const f32 dx = cosf( M_PI * 2.0f * i / d );
         const f32 dy = sinf( M_PI * 2.0f * i / d );
-        GX_Position3f32( 0, -0.5f * h,0);
+        GX_Position3f32( 0, -0.5f * h, 0);
         GX_Normal3f32( dx, 0.0f, dy );
         GX_Color1u32(col);
         GX_Position3f32( r * dx, 0.5f * h, r * dy );
