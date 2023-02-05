@@ -18,8 +18,11 @@ jobs:
 
     - name: Install doxygen
       run: |
+        wget https://www.doxygen.nl/files/doxygen-1.9.6.linux.bin.tar.gz -O - | tar -xzv --directory=/tmp/
+        cd /tmp/doxygen-*
+        sudo make install
         sudo apt-get update
-        sudo apt-get install doxygen doxygen-latex graphviz
+        sudo apt-get install doxygen-latex graphviz
 
     - name: Generate documentation
       run: |
