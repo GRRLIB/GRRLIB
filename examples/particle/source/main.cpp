@@ -26,7 +26,7 @@ enum class Effect : u8 {
 };
 
 // Random Number (0 - 1) in float
-#define RANDOM   ((((float)(rand() % 12))/12)-0.5)
+#define RANDOM   ((((float)(rand() % 12)) / 12) - 0.5f)
 
 // Basic structure to hold particle data
 struct Particle {
