@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2020 The GRRLIB Team
+Copyright (c) 2009-2023 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -133,7 +133,9 @@ void GRRLIB_PrintfTTFW(int x, int y, GRRLIB_ttfFont *myFont, const wchar_t *utf3
     FT_GlyphSlot slot = Face->glyph;
     FT_UInt glyphIndex;
     FT_UInt previousGlyph = 0;
-    u8 cR = R(color), cG = G(color), cB = B(color);
+    const u8 cR = R(color);
+    const u8 cG = G(color);
+    const u8 cB = B(color);
 
     if (FT_Set_Pixel_Sizes(Face, 0, fontSize) != 0) {
         FT_Set_Pixel_Sizes(Face, 0, 12);
