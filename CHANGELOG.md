@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 - Fixed compatibility issues with devkitPPC release 39.
 - Added `GRRLIB_LoadTTFFromFile()` to load a TTF from a file.
 - Added `GRRLIB_Ellipse()` to draw an ellipse.
+- Changed `GRRLIB_PrintfTTF()` and `GRRLIB_PrintfTTFW()` so they use the alpha channel from the `color` parameter.
 - Changed function arguments types in a few functions.
 - Fixed documentation for `GRRLIB_Camera3dSettings()`, `GRRLIB_Screen2Texture()` and `GRRLIB_CompoEnd()`.
 
@@ -102,7 +103,7 @@ All notable changes to this project will be documented in this file.
 
 ## 4.0.0 - 2009-03-05
 
-- Color format changed to RGBA for ALL GRRLib functions to fit to `GXColor` format and use `GX_Color1u32`
+- Changed color format to RGBA for ALL GRRLib functions to fit to `GXColor` format and use `GX_Color1u32`
 - `GRRLIB_LoadTexture()` now auto detect PNG or JPEG
 - GRRLib introduce a new texture structure (easier to handle texture width, height, etc ...)
 - Add `GRRLIB_InitTileSet()` to initialize a tile set

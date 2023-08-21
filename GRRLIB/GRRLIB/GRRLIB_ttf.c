@@ -29,7 +29,7 @@ THE SOFTWARE.
 static FT_Library ftLibrary; /**< A handle to a FreeType library instance. */
 
 // Static function prototypes
-static void DrawBitmap(FT_Bitmap *bitmap, int offset, int top, const u8 cR, const u8 cG, const u8 cB);
+static void DrawBitmap(FT_Bitmap *bitmap, int offset, int top, const u8 cR, const u8 cG, const u8 cB, const u8 cA);
 
 
 /**
@@ -136,6 +136,7 @@ void GRRLIB_PrintfTTFW(int x, int y, GRRLIB_ttfFont *myFont, const wchar_t *utf3
     const u8 cR = R(color);
     const u8 cG = G(color);
     const u8 cB = B(color);
+    const u8 cA = A(color);
 
     if (FT_Set_Pixel_Sizes(Face, 0, fontSize) != 0) {
         FT_Set_Pixel_Sizes(Face, 0, 12);
@@ -158,7 +159,7 @@ void GRRLIB_PrintfTTFW(int x, int y, GRRLIB_ttfFont *myFont, const wchar_t *utf3
         DrawBitmap(&slot->bitmap,
                    penX + slot->bitmap_left + x,
                    penY - slot->bitmap_top + y,
-                   cR, cG, cB);
+                   cR, cG, cB, cA);
         penX += slot->advance.x >> 6;
         previousGlyph = glyphIndex;
     }
@@ -172,18 +173,21 @@ void GRRLIB_PrintfTTFW(int x, int y, GRRLIB_ttfFont *myFont, const wchar_t *utf3
  * @param cR Red component of the colour.
  * @param cG Green component of the colour.
  * @param cB Blue component of the colour.
+ * @param cA Alpha component of the colour.
  */
-static void DrawBitmap(FT_Bitmap *bitmap, int offset, int top, const u8 cR, const u8 cG, const u8 cB) {
-    FT_Int i, j, p, q;
-    FT_Int x_max = offset + bitmap->width;
-    FT_Int y_max = top + bitmap->rows;
+static void DrawBitmap(FT_Bitmap *bitmap, int offset, int top, const u8 cR, const u8 cG, const u8 cB, const u8 cA) {
+    const FT_Int x_max = offset + bitmap->width;
+    const FT_Int y_max = top + bitmap->rows;
 
-    for ( i = offset, p = 0; i < x_max; i++, p++ ) {
-        for ( j = top, q = 0; j < y_max; j++, q++ ) {
+    for (FT_Int i = offset, p = 0; i < x_max; i++, p++ ) {
+        for (FT_Int j = top, q = 0; j < y_max; j++, q++ ) {
+            s16 alpha = bitmap->buffer[ q * bitmap->width + p ] - (0xFF - cA);
+            if(alpha < 0) {
+                alpha = 0;
+            }
             GX_Begin(GX_POINTS, GX_VTXFMT0, 1);
                 GX_Position3f32(i, j, 0);
-                GX_Color4u8(cR, cG, cB,
-                            bitmap->buffer[ q * bitmap->width + p ]);
+                GX_Color4u8(cR, cG, cB, alpha);
             GX_End();
         }
     }
