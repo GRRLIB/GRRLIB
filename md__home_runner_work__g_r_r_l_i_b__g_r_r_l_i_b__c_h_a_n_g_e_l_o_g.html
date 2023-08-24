@@ -78,6 +78,7 @@ $(function() {
 <li>Fixed compatibility issues with devkitPPC release 39.</li>
 <li>Added <code><a class="el" href="group___all_func.html#ga402b52f044c46e147e32cc1da4153829" title="Load a TTF from a file.">GRRLIB_LoadTTFFromFile()</a></code> to load a TTF from a file.</li>
 <li>Added <code><a class="el" href="group___all_func.html#ga6bef7c5bd9550225b7ee0cc3da207738" title="Draw an ellipse.">GRRLIB_Ellipse()</a></code> to draw an ellipse.</li>
+<li>Changed <code><a class="el" href="group___all_func.html#ga358e206bb75caac5bf850bd6f8f17d2a" title="Print function for TTF font.">GRRLIB_PrintfTTF()</a></code> and <code><a class="el" href="group___all_func.html#gaba31ba538f5ee4f1abf0fb604a34d45b" title="Print function for TTF font.">GRRLIB_PrintfTTFW()</a></code> so they use the alpha channel from the <code>color</code> parameter.</li>
 <li>Changed function arguments types in a few functions.</li>
 <li>Fixed documentation for <code><a class="el" href="group___all_func.html#ga7300940a38526ab5aa9be0f4abe4a32a" title="Set the camera parameter (contributed by chris_c aka DaShAmAn).">GRRLIB_Camera3dSettings()</a></code>, <code><a class="el" href="group___all_func.html#ga2679d0fa70341fa428857a776b9db970" title="Make a snapshot of the screen in a texture WITHOUT ALPHA LAYER.">GRRLIB_Screen2Texture()</a></code> and <code><a class="el" href="group___all_func.html#ga0af29f5435a5cbdee720afb8c375ca71" title="End GX compositing process (Make a snapshot of the screen in a texture WITH ALPHA LAYER).">GRRLIB_CompoEnd()</a></code>.</li>
 </ul>
@@ -177,7 +178,7 @@ $(function() {
 </ul>
 <h1>4.0.0 - 2009-03-05</h1>
 <ul>
-<li>Color format changed to RGBA for ALL GRRLib functions to fit to <code>GXColor</code> format and use <code>GX_Color1u32</code></li>
+<li>Changed color format to RGBA for ALL GRRLib functions to fit to <code>GXColor</code> format and use <code>GX_Color1u32</code></li>
 <li><code><a class="el" href="group___all_func.html#ga3bcf05b86d1d2345eef642fd6eb9912d" title="Load a texture from a buffer.">GRRLIB_LoadTexture()</a></code> now auto detect PNG or JPEG</li>
 <li>GRRLib introduce a new texture structure (easier to handle texture width, height, etc ...)</li>
 <li>Add <code><a class="el" href="group___all_func.html#ga9a25f472b099163469251ec7ad52d270" title="Initialize a tile set.">GRRLIB_InitTileSet()</a></code> to initialize a tile set</li>
