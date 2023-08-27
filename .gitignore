@@ -13,6 +13,9 @@ build
 # Compiled static library
 *.a
 
+# Visual Studio Code
+.vscode/*
+
 # Programmer's Notepad state file
 *.pnps
 

@@ -26,7 +26,9 @@ enum class Effect : u8 {
 };
 
 // Random Number (0 - 1) in float
-#define RANDOM   ((((float)(rand() % 12)) / 12) - 0.5f)
+static float RandomFloat() {
+    return (static_cast<float>(rand() % 12) / 12.0f) - 0.5f;
+}
 
 // Basic structure to hold particle data
 struct Particle {
@@ -153,14 +155,14 @@ static void createEffect( Effect id, int _x, int _y ) {
     switch (id) {
         case Effect::SMOKEBOMB:
             for (u8 i = 0; i < 5; i++) {
-                createParticle( 1, (_x + (RANDOM * 10)), (_y + (RANDOM * 10)), (1.4f+(RANDOM*0.20)), 1.0f, 64, 64, 64 );
+                createParticle( 1, (_x + (RandomFloat() * 10)), (_y + (RandomFloat() * 10)), (1.4f+(RandomFloat()*0.20)), 1.0f, 64, 64, 64 );
             }
             for (u8 i = 0; i < 20; i++) {
-                createParticle( 3, (_x + (RANDOM * 50)), (_y + (RANDOM * 50)), 1.25f, 1.5f, 92, 92, 92 );
+                createParticle( 3, (_x + (RandomFloat() * 50)), (_y + (RandomFloat() * 50)), 1.25f, 1.5f, 92, 92, 92 );
             }
             for (u8 i = 0; i < 5; i++) {
-                u8 _ColorAdd = (RANDOM * 75);
-                createParticle( 2, (_x + (RANDOM * 40)), (_y + (RANDOM * 40)), (1.0f+(RANDOM*0.20)), 1.0f, 128+_ColorAdd, 128+_ColorAdd, 128+_ColorAdd );
+                u8 _ColorAdd = (RandomFloat() * 75);
+                createParticle( 2, (_x + (RandomFloat() * 40)), (_y + (RandomFloat() * 40)), (1.0f+(RandomFloat()*0.20)), 1.0f, 128+_ColorAdd, 128+_ColorAdd, 128+_ColorAdd );
             }
             break;
     }
@@ -179,14 +181,14 @@ static void createParticle( u8 _id, int _x, int _y, float _scale, float _alpha, 
     part->alpha = _alpha;
 
     part->tex = GFX_Smoke;
-    part->sy = RANDOM;
-    part->sx = RANDOM;
+    part->sy = RandomFloat();
+    part->sx = RandomFloat();
     part->sscale = 0.9985;
     part->salpha = 0.985;
     switch (part->id) {
         case 1:
-            part->sy = RANDOM * 0.5;
-            part->sx = RANDOM * 0.5;
+            part->sy = RandomFloat() * 0.5;
+            part->sx = RandomFloat() * 0.5;
             part->sscale = 0.999;
             part->salpha = 0.992;
             part->framedelay = 10;
@@ -197,8 +199,8 @@ static void createParticle( u8 _id, int _x, int _y, float _scale, float _alpha, 
             part->salpha = 0.95;
             break;
         case 3:
-            part->sy = (RANDOM * 8);
-            part->sx = (RANDOM * 8);
+            part->sy = (RandomFloat() * 8);
+            part->sx = (RandomFloat() * 8);
             part->salpha = 0.85;
             part->scolor = 0.95;
             break;
