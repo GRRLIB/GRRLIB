@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['offsetx_0',['offsetx',['../struct_g_r_r_l_i_b__tex_img.html#a1f1b2cd64720fe490801ccf4c5af3318',1,'GRRLIB_texImg']]],
-  ['offsety_1',['offsety',['../struct_g_r_r_l_i_b__tex_img.html#a1e4f9e08319378a51518c10a7f9315c4',1,'GRRLIB_texImg']]],
-  ['ofnormaltexx_2',['ofnormaltexx',['../struct_g_r_r_l_i_b__tex_img.html#a89846626665e4077edd8fb83ecaf4b8c',1,'GRRLIB_texImg']]],
-  ['ofnormaltexy_3',['ofnormaltexy',['../struct_g_r_r_l_i_b__tex_img.html#a750ee88d4bdc2c0fabf27124951044b6',1,'GRRLIB_texImg']]]
+  ['name_0',['name',['../struct_g_r_r_l_i_b__bytemap_font.html#a5ac083a645d964373f022d03df4849c8',1,'GRRLIB_bytemapFont']]],
+  ['nbchar_1',['nbChar',['../struct_g_r_r_l_i_b__bytemap_font.html#ae859dcb34b5b3dafa769120b2302130f',1,'GRRLIB_bytemapFont']]],
+  ['nbtileh_2',['nbtileh',['../struct_g_r_r_l_i_b__tex_img.html#a1da5528a8f8d7727d166c727e07b30ba',1,'GRRLIB_texImg']]],
+  ['nbtilew_3',['nbtilew',['../struct_g_r_r_l_i_b__tex_img.html#acb5644c4dac42ee6f9a5081ec0fd3a4f',1,'GRRLIB_texImg']]]
 ];

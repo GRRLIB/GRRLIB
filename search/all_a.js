@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['name_0',['name',['../struct_g_r_r_l_i_b__bytemap_font.html#a5ac083a645d964373f022d03df4849c8',1,'GRRLIB_bytemapFont']]],
-  ['nbchar_1',['nbChar',['../struct_g_r_r_l_i_b__bytemap_font.html#ae859dcb34b5b3dafa769120b2302130f',1,'GRRLIB_bytemapFont']]],
-  ['nbtileh_2',['nbtileh',['../struct_g_r_r_l_i_b__tex_img.html#a1da5528a8f8d7727d166c727e07b30ba',1,'GRRLIB_texImg']]],
-  ['nbtilew_3',['nbtilew',['../struct_g_r_r_l_i_b__tex_img.html#acb5644c4dac42ee6f9a5081ec0fd3a4f',1,'GRRLIB_texImg']]]
+  ['licence_0',['LICENCE',['../md__2home_2runner_2work_2_g_r_r_l_i_b_2_g_r_r_l_i_b_2_l_i_c_e_n_c_e.html',1,'']]],
+  ['lights_1',['lights',['../struct_g_r_r_l_i_b__draw_settings.html#a48b630899944c5bb1103172391c738a8',1,'GRRLIB_drawSettings']]]
 ];
