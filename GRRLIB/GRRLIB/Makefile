@@ -1,13 +1,10 @@
 #---------------------------------------------------------------------------------
+# Clear the implicit built in rules
+#---------------------------------------------------------------------------------
 .SUFFIXES:
 #---------------------------------------------------------------------------------
-
 ifeq ($(strip $(DEVKITPPC)),)
-$(error "Please set DEVKITPPC in your environment. export DEVKITPPC=<path to>devkitPPC)
-endif
-
-ifeq ($(strip $(DEVKITPRO)),)
-$(error "Please set DEVKITPRO in your environment. export DEVKITPRO=<path to>devkitPro)
+$(error "Please set DEVKITPPC in your environment. export DEVKITPPC=<path to>devkitPPC")
 endif
 
 ifeq ($(PLATFORM),cube)
@@ -15,41 +12,105 @@ include $(DEVKITPPC)/gamecube_rules
 
 MACHDEP		+=	-DHW_DOL
 
-INSTALL_INC	:=	$(DEVKITPRO)/portlibs/gamecube/include
-INSTALL_LIB	:=	$(DEVKITPRO)/portlibs/gamecube/lib
+# Installation directory
+DESTDIR	:=	$(PORTLIBS_PATH)/gamecube
 else
 include $(DEVKITPPC)/wii_rules
 
 MACHDEP		+=	-DHW_RVL
 
-INSTALL_INC	:=	$(DEVKITPRO)/portlibs/wii/include
-INSTALL_LIB	:=	$(DEVKITPRO)/portlibs/wii/lib
+# Installation directory
+DESTDIR	:=	$(PORTLIBS_PATH)/wii
 endif
 
-NULLSTR :=
-PWD     := $(subst $(NULLSTR) ,\ ,$(shell pwd))
+#---------------------------------------------------------------------------------
+# TARGET is the name of the output
+# BUILD is the directory where object files & intermediate files will be placed
+# SOURCES is a list of directories containing source code
+# INCLUDES is a list of directories containing extra header files
+#---------------------------------------------------------------------------------
+TARGET		:=	grrlib
+BUILD		:=	build
+SOURCES		:=	.
+INCLUDES	:=	. ../lib/pngu
 
-INCLUDE	:= -I../lib/pngu -I$(PWD) -I$(LIBOGC_INC) -I$(DEVKITPRO)/portlibs/ppc/include -I$(DEVKITPRO)/portlibs/ppc/include/freetype2
-CFLAGS  := -O2 -Wall $(MACHDEP) $(INCLUDE)
+HDR			:=	$(TARGET).h $(wildcard $(TARGET)/*.h)
 
-LIB		:= grrlib
-CFILES	:= $(wildcard *.c)
-OFILES	:= $(CFILES:.c=.o)
-DEPENDS	:= $(OFILES:.o=.d)
-ARC		:= lib$(LIB).a
-HDR		:= $(LIB).h
-INL		:= $(wildcard $(LIB)/*.h)
+#---------------------------------------------------------------------------------
+# options for code generation
+#---------------------------------------------------------------------------------
 
-export DEPSDIR := $(CURDIR)
+CFLAGS	= -g -O2 -Wall $(MACHDEP) $(INCLUDE) `$(PREFIX)pkg-config freetype2 --cflags`
+CXXFLAGS	=	$(CFLAGS)
 
-all : $(OFILES)
-	$(AR) -r $(ARC) $(OFILES)
+LDFLAGS	=	-g $(MACHDEP) -Wl,-Map,$(notdir $@).map
 
-clean :
-	rm -f $(OFILES) $(DEPENDS) $(ARC)
+#---------------------------------------------------------------------------------
+# list of directories containing libraries, this must be the top level containing
+# include and lib
+#---------------------------------------------------------------------------------
+LIBDIRS	:=
 
-install :
-	mkdir -p  $(INSTALL_LIB)  $(INSTALL_INC)  $(INSTALL_INC)/grrlib
-	cp -f $(ARC) $(INSTALL_LIB)/
-	cp -f $(HDR) $(INSTALL_INC)/
-	cp -f $(INL) $(INSTALL_INC)/grrlib
+#---------------------------------------------------------------------------------
+# no real need to edit anything past this point unless you need to add additional
+# rules for different file extensions
+#---------------------------------------------------------------------------------
+ifneq ($(BUILD),$(notdir $(CURDIR)))
+#---------------------------------------------------------------------------------
+
+export OUTPUT	:=	$(CURDIR)/lib$(TARGET).a
+
+export VPATH	:=	$(foreach dir,$(SOURCES),$(CURDIR)/$(dir))
+
+export DEPSDIR	:=	$(CURDIR)/$(BUILD)
+
+#---------------------------------------------------------------------------------
+# automatically build a list of object files for our project
+#---------------------------------------------------------------------------------
+CFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
+
+export OFILES_SOURCES := $(CFILES:.c=.o)
+export OFILES := $(OFILES_SOURCES)
+
+#---------------------------------------------------------------------------------
+# build a list of include paths
+#---------------------------------------------------------------------------------
+export INCLUDE	:=	$(foreach dir,$(INCLUDES), -I$(CURDIR)/$(dir)) \
+					-I$(LIBOGC_INC)
+
+.PHONY: $(BUILD) clean
+
+#---------------------------------------------------------------------------------
+all: $(BUILD)
+
+$(BUILD):
+	@[ -d $@ ] || mkdir -p $@
+	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
+
+#---------------------------------------------------------------------------------
+clean:
+	@echo clean ...
+	@rm -fr $(BUILD) $(OUTPUT)
+
+#---------------------------------------------------------------------------------
+install:
+	@cp --force $(OUTPUT) $(DESTDIR)/lib
+	@cp --force --parents $(HDR) $(DESTDIR)/include
+
+#---------------------------------------------------------------------------------
+else
+
+DEPENDS	:=	$(OFILES:.o=.d)
+
+#---------------------------------------------------------------------------------
+# main targets
+#---------------------------------------------------------------------------------
+$(OUTPUT)	:	$(OFILES)
+
+$(OFILES_SOURCES) : $(HFILES)
+
+-include $(DEPENDS)
+
+#---------------------------------------------------------------------------------
+endif
+#---------------------------------------------------------------------------------
