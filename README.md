@@ -142,7 +142,7 @@ at the top of your .c/.cpp file and use the functions as required
 You will need to add
 
 ```make
--lgrrlib -lfreetype -lbz2 -lfat -ljpeg -lpngu -lpng -lz
+-lgrrlib -lpngu `$(PREFIX)pkg-config freetype2 libpng libjpeg --libs` -lfat
 ```
 
 to the libs line in your makefile
@@ -189,7 +189,7 @@ so lbz2 needs to be added after lfreetype in your makefile.
 For example:
 
 ```make
-LIBS	:= -lgrrlib -lfreetype -lbz2 -lpngu -lpng -ljpeg -lz -lfat
+LIBS	:= -lgrrlib -lpngu `$(PREFIX)pkg-config freetype2 libpng libjpeg --libs` -lfat
 ```
 
 Since GRRLIB and libpngu are now installed into the porlibs folder, make sure you don't have any leftovers from previous installations.

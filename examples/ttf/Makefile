@@ -35,7 +35,7 @@ LDFLAGS	=	-g $(MACHDEP) -Wl,-Map,$(notdir $@).map
 # the order can-be/is critical
 #---------------------------------------------------------------------------------
 LIBS	:= -lgrrlib
-LIBS	+= -lfreetype -lbz2
+LIBS	+= `freetype-config --libs`
 LIBS	+= -lpngu -lpng -ljpeg -lz -lfat
 LIBS	+= -lwiiuse
 #LIBS	+= -lmodplay -laesnd
