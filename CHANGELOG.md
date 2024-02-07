@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased][]
 
 - Fixed compatibility issues with devkitPPC release 39.
+- Fixed linking problem in examples with FreeType 2.13.2.
 - Added `GRRLIB_LoadTTFFromFile()` to load a TTF from a file.
 - Added `GRRLIB_Ellipse()` to draw an ellipse.
 - Changed `GRRLIB_PrintfTTF()` and `GRRLIB_PrintfTTFW()` so they use the alpha channel from the `color` parameter.

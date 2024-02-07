@@ -183,8 +183,8 @@ Now it needs to be like this:
 LIBDIRS	:= $(PORTLIBS)
 ```
 
-The FreeType library is now compiled with a dependency on bzip2,
-so lbz2 needs to be added after lfreetype in your makefile.
+The FreeType library is now compiled with dependencies,
+so freetype2 must be added to pkg-config in your makefile.
 
 For example:
 
