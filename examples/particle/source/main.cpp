@@ -7,6 +7,7 @@
 ============================================*/
 #include <grrlib.h>
 
+#include <algorithm>
 #include <cstdlib>
 #include <wiiuse/wpad.h>
 #include <cmath>
@@ -280,12 +281,5 @@ static u8 CalculateFrameRate() {
  */
 static constexpr u8 ClampVar8 (f32 Value) {
     Value = std::roundf(Value);
-    if (Value < 0) {
-        Value = 0;
-    }
-    else if (Value > 255) {
-        Value = 255;
-    }
-
-    return static_cast<u8>(Value);
+    return static_cast<u8>(std::clamp(Value, 0.0f, 255.0f));
 }
