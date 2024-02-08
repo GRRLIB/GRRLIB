@@ -12,7 +12,7 @@
 #include "FreeMonoBold_ttf.h"
 
 // Prototype
-static u8 CalculateFrameRate();
+static u8 CalculateFrameRate(void);
 
 int main(int argc, char **argv) {
     bool ShowFPS = false;
@@ -98,7 +98,7 @@ int main(int argc, char **argv) {
  * This function calculates the number of frames we render each second.
  * @return The number of frames per second.
  */
-static u8 CalculateFrameRate() {
+static u8 CalculateFrameRate(void) {
     static u8 frameCount = 0;
     static u32 lastTime;
     static u8 FPS = 0;

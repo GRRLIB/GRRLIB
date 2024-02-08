@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2019 The GRRLIB Team
+Copyright (c) 2009-2024 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -30,8 +30,8 @@ static bool geckoinit = false;
  * Initialize USB Gecko.
  * @return Returns @c true if everything worked, @c false if problems occurred.
  */
-bool GRRLIB_GeckoInit() {
-    s32 geckoattached = usb_isgeckoalive(EXI_CHANNEL_1);
+bool GRRLIB_GeckoInit(void) {
+    const s32 geckoattached = usb_isgeckoalive(EXI_CHANNEL_1);
     if (geckoattached) {
         usb_flush(EXI_CHANNEL_1);
         geckoinit = true;

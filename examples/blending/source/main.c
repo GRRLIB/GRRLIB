@@ -19,7 +19,7 @@
 #include "RGFX_Font_png.h"
 
 // Declare Static Functions
-static void ExitGame();
+static void ExitGame(void);
 
 // Prepare Graphics
 GRRLIB_texImg *GFX_Background;
@@ -160,7 +160,7 @@ int main() {
     return 0;
 }
 
-static void ExitGame() {
+static void ExitGame(void) {
     // Free all memory used by textures.
     GRRLIB_FreeTexture(GFX_Background);
     GRRLIB_FreeTexture(GFX_Blob[0]);

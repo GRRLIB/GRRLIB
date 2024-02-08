@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2023 The GRRLIB Team
+Copyright (c) 2009-2024 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -36,7 +36,7 @@ static void DrawBitmap(FT_Bitmap *bitmap, int offset, int top, const u8 cR, cons
  * Initialize FreeType library.
  * @return int 0=OK; -1=Failed
  */
-int GRRLIB_InitTTF () {
+int GRRLIB_InitTTF (void) {
     if (FT_Init_FreeType(&ftLibrary) != 0) {
         return -1;
     }

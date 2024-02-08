@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2022 The GRRLIB Team
+Copyright (c) 2009-2024 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -144,7 +144,7 @@ GRRLIB_texImg*  GRRLIB_LoadTextureBMP (const u8 *my_bmp);
 
 //------------------------------------------------------------------------------
 // GRRLIB_gecko.c - USB_Gecko output facilities
-bool GRRLIB_GeckoInit();
+bool GRRLIB_GeckoInit(void);
 void GRRLIB_GeckoPrintf (const char *text, ...);
 
 //------------------------------------------------------------------------------
@@ -152,7 +152,7 @@ void GRRLIB_GeckoPrintf (const char *text, ...);
 void GRRLIB_SetBackgroundColour(u8 r, u8 g, u8 b, u8 a);
 void GRRLIB_Camera3dSettings(f32 posx, f32 posy, f32 posz, f32 upx, f32 upy, f32 upz, f32 lookx, f32 looky, f32 lookz);
 void GRRLIB_3dMode(f32 minDist, f32 maxDist, f32 fov, bool texturemode, bool normalmode);
-void GRRLIB_2dMode();
+void GRRLIB_2dMode(void);
 void GRRLIB_ObjectViewBegin(void);
 void GRRLIB_ObjectViewScale(f32 scalx, f32 scaly, f32 scalz);
 void GRRLIB_ObjectViewRotate(f32 angx, f32 angy, f32 angz);

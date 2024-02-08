@@ -50,7 +50,7 @@
 #define GRRLIB_AQUA    0x00FFFFFF
 #define GRRLIB_WHITE   0xFFFFFFFF
 
-static u8 CalculateFrameRate();
+static u8 CalculateFrameRate(void);
 
 int main() {
     s32 left = 0, top = 0, page = 0, frame = TILE_DOWN + 1;
@@ -217,7 +217,7 @@ int main() {
  * This function calculates the number of frames we render each second.
  * @return The number of frames per second.
  */
-static u8 CalculateFrameRate() {
+static u8 CalculateFrameRate(void) {
     static u8 frameCount = 0;
     static u32 lastTime;
     static u8 FPS = 0;

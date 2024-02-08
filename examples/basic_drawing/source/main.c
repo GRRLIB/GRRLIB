@@ -51,7 +51,7 @@
 #define GRRLIB_AQUA    0x00FFFFFF
 #define GRRLIB_WHITE   0xFFFFFFFF
 
-static u8 CalculateFrameRate();
+static u8 CalculateFrameRate(void);
 
 int main() {
     s32 left = 0, top = 0, page = 0, frame = TILE_DOWN + 1;
@@ -59,7 +59,6 @@ int main() {
     u8 FPS = 0;
 
     ir_t ir1;
-    u32 wpaddown, wpadheld;
     guVector triangle[] = {{400,200,0.0f}, {500,400,0.0f}, {300,400,0.0f}};
     u32 trianglecolor[] = {GRRLIB_GREEN, GRRLIB_RED, GRRLIB_BLUE};
 
@@ -95,8 +94,8 @@ int main() {
     while(1) {
         WPAD_SetVRes(0, 640, 480);
         WPAD_ScanPads();
-        wpaddown = WPAD_ButtonsDown(0);
-        wpadheld = WPAD_ButtonsHeld(0);
+        const u32 wpaddown = WPAD_ButtonsDown(0);
+        const u32 wpadheld = WPAD_ButtonsHeld(0);
 
         WPAD_IR(WPAD_CHAN_0, &ir1);
 
@@ -241,7 +240,7 @@ int main() {
  * This function calculates the number of frames we render each second.
  * @return The number of frames per second.
  */
-static u8 CalculateFrameRate() {
+static u8 CalculateFrameRate(void) {
     static u8 frameCount = 0;
     static u32 lastTime;
     static u8 FPS = 0;

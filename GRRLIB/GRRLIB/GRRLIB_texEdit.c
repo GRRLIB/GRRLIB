@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2022 The GRRLIB Team
+Copyright (c) 2009-2024 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -377,7 +377,7 @@ GRRLIB_texImg*  GRRLIB_LoadTextureJPGEx (const u8 *my_jpg, const u32 my_size) {
     jpeg_create_decompress(&cinfo);
     cinfo.err = jpeg_std_error(&jerr);
     cinfo.progress = NULL;
-    jpeg_mem_src(&cinfo, (unsigned char *)my_jpg, my_size);
+    jpeg_mem_src(&cinfo, (const unsigned char *)my_jpg, my_size);
     jpeg_read_header(&cinfo, TRUE);
     if (cinfo.jpeg_color_space == JCS_GRAYSCALE) {
         cinfo.out_color_space = JCS_RGB;
