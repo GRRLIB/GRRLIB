@@ -57,7 +57,6 @@ int main() {
     u32 wait = TILE_DELAY, direction = TILE_DOWN, direction_new = TILE_DOWN;
     u8 FPS = 0;
 
-    u32 paddown, padheld;
     guVector triangle[] = {{400,200,0.0f}, {500,400,0.0f}, {300,400,0.0f}};
     u32 trianglecolor[] = {GRRLIB_GREEN, GRRLIB_RED, GRRLIB_BLUE};
 
@@ -91,8 +90,8 @@ int main() {
 
     while(1) {
         PAD_ScanPads();
-        paddown = PAD_ButtonsDown(0);
-        padheld = PAD_ButtonsHeld(0);
+        const u32 paddown = PAD_ButtonsDown(0);
+        const u32 padheld = PAD_ButtonsHeld(0);
 
         GRRLIB_FillScreen(GRRLIB_BLACK);    // Clear the screen
         switch(page)
@@ -221,7 +220,7 @@ static u8 CalculateFrameRate(void) {
     static u8 frameCount = 0;
     static u32 lastTime;
     static u8 FPS = 0;
-    u32 currentTime = ticks_to_millisecs(gettime());
+    const u32 currentTime = ticks_to_millisecs(gettime());
 
     frameCount++;
     if(currentTime - lastTime > 1000) {

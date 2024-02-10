@@ -14,7 +14,6 @@
 
 
 int main() {
-    u32 paddown;
     s8 page = 0;
 
     // Font texture
@@ -115,7 +114,7 @@ int main() {
 
     while(1) {
         PAD_ScanPads();
-        paddown = PAD_ButtonsDown(0);
+        const u32 paddown = PAD_ButtonsDown(0);
 
         GRRLIB_FillScreen(0xFFFFFFFF);
 

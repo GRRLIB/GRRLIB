@@ -421,6 +421,8 @@ void GRRLIB_DrawTorus(f32 r, f32 R, int nsides, int rings, bool filled, u32 col)
  * @param col Color of the sphere.
  */
 void GRRLIB_DrawSphere(f32 r, int lats, int longs, bool filled, u32 col) {
+    const f32 dtheta = 2 * M_PI / longs;
+
     for(int i = 0; i <= lats; i++) {
         const f32 lat0 = M_PI * (-0.5f + (f32) (i - 1) / lats);
         const f32 z0  = sinf(lat0);
@@ -430,14 +432,11 @@ void GRRLIB_DrawSphere(f32 r, int lats, int longs, bool filled, u32 col) {
         const f32 z1 = sinf(lat1);
         const f32 zr1 = cosf(lat1);
 
-        if(filled == true) {
-            GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 2 * (longs + 1));
-        }
-        else {
-            GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 2 * (longs + 1));
-        }
+        GX_Begin((filled == true) ? GX_TRIANGLESTRIP : GX_LINESTRIP,
+             GX_VTXFMT0, 2 * (longs + 1));
+
         for(int j = 0; j <= longs; j++) {
-            const f32 lng = 2 * M_PI * (f32) (j - 1) / longs;
+            const f32 lng = dtheta * (f32) (j - 1);
             const f32 x = cosf(lng);
             const f32 y = sinf(lng);
 

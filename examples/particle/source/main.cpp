@@ -262,7 +262,7 @@ static u8 CalculateFrameRate() {
     static u8 frameCount = 0;
     static u32 lastTime;
     static u8 FPS = 0;
-    u32 currentTime = ticks_to_millisecs(gettime());
+    const u32 currentTime = ticks_to_millisecs(gettime());
 
     frameCount++;
     if(currentTime - lastTime > 1000) {
