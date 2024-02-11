@@ -12,8 +12,8 @@
 #include "FreeMonoBold_ttf.h"
 
 // Prototype
-static u8 CalculateFrameRate();
-static bool ScreenShot();
+static u8 CalculateFrameRate(void);
+static bool ScreenShot(void);
 
 int main(int argc, char **argv) {
     bool ShowFPS = false;
@@ -104,11 +104,11 @@ int main(int argc, char **argv) {
  * This function calculates the number of frames we render each second.
  * @return The number of frames per second.
  */
-static u8 CalculateFrameRate() {
+static u8 CalculateFrameRate(void) {
     static u8 frameCount = 0;
     static u32 lastTime;
     static u8 FPS = 0;
-    u32 currentTime = ticks_to_millisecs(gettime());
+    const u32 currentTime = ticks_to_millisecs(gettime());
 
     frameCount++;
     if(currentTime - lastTime > 1000) {
@@ -123,7 +123,7 @@ static u8 CalculateFrameRate() {
  * Create a PNG screenshot on the root of the SD card with a timestamp.
  * @return bool true=everything worked, false=problems occurred.
  */
-static bool ScreenShot() {
+static bool ScreenShot(void) {
     char path[255];
     time_t now = time(NULL);
     struct tm *ti = localtime(&now);

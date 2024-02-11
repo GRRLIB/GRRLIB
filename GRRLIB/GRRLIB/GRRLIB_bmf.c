@@ -45,7 +45,7 @@ GRRLIB_bytemapFont*  GRRLIB_LoadBMF (const u8 my_bmf[] ) {
         //short int sizeinner = my_bmf[9];
         //u8 usedcolors = my_bmf[10];
         //u8 highestcolor = my_bmf[11];
-        u8 nbPalette = my_bmf[16];
+        const u8 nbPalette = my_bmf[16];
         const short int numcolpal = 3 * nbPalette;
         fontArray->palette = (u32 *)calloc(nbPalette + 1, sizeof(u32));
         for (u32 i=0; i < numcolpal; i+=3) {

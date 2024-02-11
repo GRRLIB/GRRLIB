@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2022 The GRRLIB Team
+Copyright (c) 2009-2024 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -26,12 +26,12 @@ THE SOFTWARE.
 
 // User should not directly modify these
 Mtx       _GRR_view;  // Should be static as soon as all light functions needing this var will be in this file ;)
-static  guVector  _GRR_cam  = {0.0f, 0.0f, 0.0f},
-                  _GRR_up   = {0.0f, 1.0f, 0.0f},
-                  _GRR_look = {0.0f, 0.0f, -100.0f};
-static  guVector  _GRRaxisx = (guVector){1, 0, 0}; // DO NOT MODIFY!!!
-static  guVector  _GRRaxisy = (guVector){0, 1, 0}; // Even at runtime
-static  guVector  _GRRaxisz = (guVector){0, 0, 1}; // NOT ever!
+static  guVector  _GRR_cam  = {0.0f, 0.0f, 0.0f};
+static  guVector  _GRR_up   = {0.0f, 1.0f, 0.0f};
+static  guVector  _GRR_look = {0.0f, 0.0f, -100.0f};
+static  guVector  _GRRaxisx = (guVector){1.0f, 0.0f, 0.0f}; // DO NOT MODIFY!!!
+static  guVector  _GRRaxisy = (guVector){0.0f, 1.0f, 0.0f}; // Even at runtime
+static  guVector  _GRRaxisz = (guVector){0.0f, 0.0f, 1.0f}; // NOT ever!
 static  Mtx       _ObjTransformationMtx;
 
 /**
@@ -122,7 +122,7 @@ void GRRLIB_3dMode(f32 minDist, f32 maxDist, f32 fov, bool texturemode, bool nor
 /**
  * Go back to 2D mode (contributed by chris_c aka DaShAmAn).
  */
-void GRRLIB_2dMode() {
+void GRRLIB_2dMode(void) {
     Mtx view;
     Mtx44 m;
 
@@ -421,6 +421,8 @@ void GRRLIB_DrawTorus(f32 r, f32 R, int nsides, int rings, bool filled, u32 col)
  * @param col Color of the sphere.
  */
 void GRRLIB_DrawSphere(f32 r, int lats, int longs, bool filled, u32 col) {
+    const f32 dtheta = 2 * M_PI / longs;
+
     for(int i = 0; i <= lats; i++) {
         const f32 lat0 = M_PI * (-0.5f + (f32) (i - 1) / lats);
         const f32 z0  = sinf(lat0);
@@ -430,14 +432,11 @@ void GRRLIB_DrawSphere(f32 r, int lats, int longs, bool filled, u32 col) {
         const f32 z1 = sinf(lat1);
         const f32 zr1 = cosf(lat1);
 
-        if(filled == true) {
-            GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 2 * (longs + 1));
-        }
-        else {
-            GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 2 * (longs + 1));
-        }
+        GX_Begin((filled == true) ? GX_TRIANGLESTRIP : GX_LINESTRIP,
+             GX_VTXFMT0, 2 * (longs + 1));
+
         for(int j = 0; j <= longs; j++) {
-            const f32 lng = 2 * M_PI * (f32) (j - 1) / longs;
+            const f32 lng = dtheta * (f32) (j - 1);
             const f32 x = cosf(lng);
             const f32 y = sinf(lng);
 

@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2023 The GRRLIB Team
+Copyright (c) 2009-2024 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -36,7 +36,7 @@ static void DrawBitmap(FT_Bitmap *bitmap, int offset, int top, const u8 cR, cons
  * Initialize FreeType library.
  * @return int 0=OK; -1=Failed
  */
-int GRRLIB_InitTTF () {
+int GRRLIB_InitTTF (void) {
     if (FT_Init_FreeType(&ftLibrary) != 0) {
         return -1;
     }
@@ -131,7 +131,6 @@ void GRRLIB_PrintfTTFW(int x, int y, GRRLIB_ttfFont *myFont, const wchar_t *utf3
     int penX = 0;
     int penY = fontSize;
     FT_GlyphSlot slot = Face->glyph;
-    FT_UInt glyphIndex;
     FT_UInt previousGlyph = 0;
     const u8 cR = R(color);
     const u8 cG = G(color);
@@ -145,7 +144,7 @@ void GRRLIB_PrintfTTFW(int x, int y, GRRLIB_ttfFont *myFont, const wchar_t *utf3
     /* Loop over each character, until the
      * end of the string is reached, or until the pixel width is too wide */
     while(*utf32) {
-        glyphIndex = FT_Get_Char_Index(myFont->face, *utf32++);
+        const FT_UInt glyphIndex = FT_Get_Char_Index(myFont->face, *utf32++);
 
         if (myFont->kerning && previousGlyph && glyphIndex) {
             FT_Vector delta;

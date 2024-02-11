@@ -564,10 +564,9 @@ static inline PNGU_u32 coordsRGBA8(PNGU_u32 x, PNGU_u32 y, PNGU_u32 w)
 }
 
 // Coded by Tantric for WiiMC (http://www.wiimc.org)
-PNGU_u8 * PNGU_DecodeTo4x4RGBA8 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, int * dstWidth, int * dstHeight, PNGU_u8 *dstPtr)
+PNGU_u8 * PNGU_DecodeTo4x4RGBA8 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, int * dstWidth, int * dstHeight)
 {
 	PNGU_u8 default_alpha = 255;    // default alpha value, which is used if the source image doesn't have an alpha channel.
-	PNGU_u8 *dst;
 	int x, y, x2=0, y2=0, offset;
 	int xRatio = 0, yRatio = 0;
 	png_byte *pixel;
@@ -604,10 +603,7 @@ PNGU_u8 * PNGU_DecodeTo4x4RGBA8 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, in
 	int len = (padWidth * padHeight) << 2;
 	if(len%32) len += (32-len%32);
 
-	if(dstPtr)
-		dst = dstPtr; // use existing allocation
-	else
-		dst = memalign (32, len);
+	PNGU_u8 *dst = memalign (32, len);
 
 	if(!dst)
 		return NULL;

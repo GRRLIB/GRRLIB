@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2017 The GRRLIB Team
+Copyright (c) 2009-2024 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -44,7 +44,7 @@ THE SOFTWARE.
 
 //------------------------------------------------------------------------------
 // GRRLIB_ttf.c - FreeType function for GRRLIB
-int GRRLIB_InitTTF();
-void GRRLIB_ExitTTF();
+int GRRLIB_InitTTF(void);
+void GRRLIB_ExitTTF(void);
 
 #endif // __GRRLIB_PRIVATE_H__
