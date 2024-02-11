@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [4.5.0][] - 2023-02-11
+## [4.5.0][] - 2024-02-11
 
 - Fixed compatibility issues with devkitPPC release 39.
 - Fixed linking problem in examples with FreeType 2.13.2 (pkgrel 1 and 2).
