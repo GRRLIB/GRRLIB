@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2022 The GRRLIB Team
+Copyright (c) 2009-2024 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -78,7 +78,6 @@ int  GRRLIB_LoadFile(const char* filename, u8* *data) {
  *         If an error occurs NULL will be returned.
  */
 GRRLIB_texImg*  GRRLIB_LoadTextureFromFile(const char *filename) {
-    GRRLIB_texImg  *tex;
     u8             *data;
 
     // Return NULL if load fails
@@ -87,7 +86,7 @@ GRRLIB_texImg*  GRRLIB_LoadTextureFromFile(const char *filename) {
     }
 
     // Convert to texture
-    tex = GRRLIB_LoadTexture(data);
+    GRRLIB_texImg *tex = GRRLIB_LoadTexture(data);
 
     // Free up the buffer
     free(data);
@@ -102,10 +101,9 @@ GRRLIB_texImg*  GRRLIB_LoadTextureFromFile(const char *filename) {
  *         If an error occurs NULL will be returned.
  */
 GRRLIB_ttfFont*  GRRLIB_LoadTTFFromFile(const char *filename) {
-    GRRLIB_ttfFont  *ttf;
     u8              *data;
 
-    s32 size = GRRLIB_LoadFile(filename, &data);
+    const s32 size = GRRLIB_LoadFile(filename, &data);
 
     // Return NULL if load fails
     if (size <= 0) {
@@ -113,7 +111,7 @@ GRRLIB_ttfFont*  GRRLIB_LoadTTFFromFile(const char *filename) {
     }
 
     // Convert to TTF
-    ttf = GRRLIB_LoadTTF(data, size);
+    GRRLIB_ttfFont *ttf = GRRLIB_LoadTTF(data, size);
 
     // Free up the buffer
     free(data);

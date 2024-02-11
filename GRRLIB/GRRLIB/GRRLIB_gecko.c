@@ -48,7 +48,6 @@ bool GRRLIB_GeckoInit(void) {
  * @param ... Optional arguments.
  */
 void  GRRLIB_GeckoPrintf (const char *text, ...) {
-    int size;
     char tmp[1024];
 
     if (geckoinit == false) {
@@ -57,7 +56,7 @@ void  GRRLIB_GeckoPrintf (const char *text, ...) {
 
     va_list argp;
     va_start(argp, text);
-    size = vsnprintf(tmp, sizeof(tmp), text, argp);
+    const int size = vsnprintf(tmp, sizeof(tmp), text, argp);
     va_end(argp);
 
     usb_sendbuffer_safe(1, tmp, size);

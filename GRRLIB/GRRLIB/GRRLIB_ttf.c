@@ -131,7 +131,6 @@ void GRRLIB_PrintfTTFW(int x, int y, GRRLIB_ttfFont *myFont, const wchar_t *utf3
     int penX = 0;
     int penY = fontSize;
     FT_GlyphSlot slot = Face->glyph;
-    FT_UInt glyphIndex;
     FT_UInt previousGlyph = 0;
     const u8 cR = R(color);
     const u8 cG = G(color);
@@ -145,7 +144,7 @@ void GRRLIB_PrintfTTFW(int x, int y, GRRLIB_ttfFont *myFont, const wchar_t *utf3
     /* Loop over each character, until the
      * end of the string is reached, or until the pixel width is too wide */
     while(*utf32) {
-        glyphIndex = FT_Get_Char_Index(myFont->face, *utf32++);
+        const FT_UInt glyphIndex = FT_Get_Char_Index(myFont->face, *utf32++);
 
         if (myFont->kerning && previousGlyph && glyphIndex) {
             FT_Vector delta;
