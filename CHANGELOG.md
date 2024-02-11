@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased][]
+## [4.5.0][] - 2023-02-11
 
 - Fixed compatibility issues with devkitPPC release 39.
 - Fixed linking problem in examples with FreeType 2.13.2 (pkgrel 1 and 2).
@@ -117,7 +117,7 @@ All notable changes to this project will be documented in this file.
 - New Bitmap FX
 - Add `GRRLIB_Exit()` to free the memory allocated by GRRLIB
 
-[unreleased]: https://github.com/GRRLIB/GRRLIB/compare/v4.4.1...HEAD
+[4.5.0]: https://github.com/GRRLIB/GRRLIB/compare/v4.4.1...v4.5.0
 [4.4.1]: https://github.com/GRRLIB/GRRLIB/compare/v4.4.0...v4.4.1
 [4.4.0]: https://github.com/GRRLIB/GRRLIB/compare/4.3.2...v4.4.0
 [4.3.2]: https://github.com/GRRLIB/GRRLIB/compare/4.3.1...4.3.2

@@ -37,7 +37,7 @@ THE SOFTWARE.
 /**
  * Version information for GRRLIB.
  */
-#define GRRLIB_VER_STRING "4.4.1"
+#define GRRLIB_VER_STRING "4.5.0"
 
 //==============================================================================
 // Includes
