@@ -1,8 +1,9 @@
 ﻿# GRRLIB
 
-[![Continuous Integration](https://github.com/GRRLIB/GRRLIB/workflows/Continuous%20Integration/badge.svg)](https://github.com/GRRLIB/GRRLIB/actions)
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/GRRLIB/GRRLIB/ci.yml?logo=github)](https://github.com/GRRLIB/GRRLIB/actions)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/02847b348a1e4e6b850f956541ef2361)](https://app.codacy.com/gh/GRRLIB/GRRLIB/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
-[![Join the chat at https://gitter.im/GRRLIB/GRRLIB](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/GRRLIB/GRRLIB?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![GitHub Discussions](https://img.shields.io/github/discussions/GRRLIB/GRRLIB?logo=github)](https://github.com/GRRLIB/GRRLIB/discussions)
+[![Static Badge](https://img.shields.io/badge/code-documented-brightgreen)](https://grrlib.github.io/GRRLIB)
 
 ## Table of Contents
 
