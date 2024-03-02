@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2022 The GRRLIB Team
+Copyright (c) 2009-2024 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -31,6 +31,9 @@ THE SOFTWARE.
  * @param texdest The texture destination.
  */
 void  GRRLIB_BMFX_FlipH (const GRRLIB_texImg *texsrc, GRRLIB_texImg *texdest) {
+    if (texsrc == NULL) {
+        return;
+    }
     const u32 txtWidth = texsrc->w - 1;
 
     for (u32 y = 0; y < texsrc->h; y++) {
@@ -48,6 +51,9 @@ void  GRRLIB_BMFX_FlipH (const GRRLIB_texImg *texsrc, GRRLIB_texImg *texdest) {
  * @param texdest The texture destination.
  */
 void  GRRLIB_BMFX_FlipV (const GRRLIB_texImg *texsrc, GRRLIB_texImg *texdest) {
+    if (texsrc == NULL) {
+        return;
+    }
     const u32 texHeight = texsrc->h - 1;
 
     for (u32 y = 0; y < texsrc->h; y++) {
@@ -66,6 +72,9 @@ void  GRRLIB_BMFX_FlipV (const GRRLIB_texImg *texsrc, GRRLIB_texImg *texdest) {
  */
 void  GRRLIB_BMFX_Grayscale (const GRRLIB_texImg *texsrc,
                              GRRLIB_texImg *texdest) {
+    if (texsrc == NULL) {
+        return;
+    }
     for (u32 y = 0; y < texsrc->h; y++) {
         for (u32 x = 0; x < texsrc->w; x++) {
             const u32 color = GRRLIB_GetPixelFromtexImg(x, y, texsrc);
@@ -89,6 +98,9 @@ void  GRRLIB_BMFX_Grayscale (const GRRLIB_texImg *texsrc,
  * @author elisherer
  */
 void  GRRLIB_BMFX_Sepia (const GRRLIB_texImg *texsrc, GRRLIB_texImg *texdest) {
+    if (texsrc == NULL) {
+        return;
+    }
     for (u32 y = 0; y < texsrc->h; y++) {
         for (u32 x = 0; x < texsrc->w; x++) {
             const u32 color = GRRLIB_GetPixelFromtexImg(x, y, texsrc);
@@ -112,6 +124,9 @@ void  GRRLIB_BMFX_Sepia (const GRRLIB_texImg *texsrc, GRRLIB_texImg *texdest) {
  * @param texdest The texture destination.
  */
 void  GRRLIB_BMFX_Invert (const GRRLIB_texImg *texsrc, GRRLIB_texImg *texdest) {
+    if (texsrc == NULL) {
+        return;
+    }
     for (u32 y = 0; y < texsrc->h; y++) {
         for (u32 x = 0; x < texsrc->w; x++) {
             const u32 color = GRRLIB_GetPixelFromtexImg(x, y, texsrc);
@@ -130,6 +145,9 @@ void  GRRLIB_BMFX_Invert (const GRRLIB_texImg *texsrc, GRRLIB_texImg *texdest) {
  */
 void  GRRLIB_BMFX_Blur (const GRRLIB_texImg *texsrc,
                               GRRLIB_texImg *texdest, const u32 factor) {
+    if (texsrc == NULL) {
+        return;
+    }
     const int numba = (1 + (factor << 1)) * (1 + (factor << 1));
     u32 colours[numba];
 
@@ -181,6 +199,9 @@ void  GRRLIB_BMFX_Blur (const GRRLIB_texImg *texsrc,
  */
 void  GRRLIB_BMFX_Scatter (const GRRLIB_texImg *texsrc,
                                  GRRLIB_texImg *texdest, const u32 factor) {
+    if (texsrc == NULL) {
+        return;
+    }
     const int factorx2 = factor * 2;
 
     for (u32 y = 0; y < texsrc->h; y++) {
@@ -188,9 +209,7 @@ void  GRRLIB_BMFX_Scatter (const GRRLIB_texImg *texsrc,
             const u32 val1 = x + (int) (factorx2 * (rand() / (RAND_MAX + 1.0))) - factor;
             const u32 val2 = y + (int) (factorx2 * (rand() / (RAND_MAX + 1.0))) - factor;
 
-            if ((val1 >= texsrc->w) || (val2 >= texsrc->h)) {
-            }
-            else {
+            if (val1 < texsrc->w && val2 < texsrc->h) {
                 const u32 val3 = GRRLIB_GetPixelFromtexImg(x, y, texsrc);
                 const u32 val4 = GRRLIB_GetPixelFromtexImg(val1, val2, texsrc);
                 GRRLIB_SetPixelTotexImg(x, y, texdest, val4);
@@ -209,6 +228,9 @@ void  GRRLIB_BMFX_Scatter (const GRRLIB_texImg *texsrc,
  */
 void  GRRLIB_BMFX_Pixelate (const GRRLIB_texImg *texsrc,
                                   GRRLIB_texImg *texdest, const u32 factor) {
+    if (texsrc == NULL) {
+        return;
+    }
     for (u32 x = 0; x < texsrc->w - 1 - factor; x += factor) {
         for (u32 y = 0; y < texsrc->h - 1 - factor; y +=factor) {
             const u32 rgb = GRRLIB_GetPixelFromtexImg(x, y, texsrc);

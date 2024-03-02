@@ -37,17 +37,16 @@ THE SOFTWARE.
  *         -    >0 : FileLength.
  */
 int  GRRLIB_LoadFile(const char* filename, u8* *data) {
-    int   len;
-    FILE  *fd;
-
     // Open the file
-    if ( !(fd = fopen(filename, "rb")) ) {
+    FILE *fd = fopen(filename, "rb");
+    if ( fd == NULL ) {
         return -1;
     }
 
     // Get file length
     fseek(fd, 0, SEEK_END);
-    if ( !(len = ftell(fd)) ) {
+    const int len = ftell(fd);
+    if ( len == 0 ) {
         fclose(fd);
         *data = NULL;
         return 0;
