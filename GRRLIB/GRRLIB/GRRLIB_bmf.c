@@ -32,7 +32,7 @@ THE SOFTWARE.
  * @return A GRRLIB_bytemapFont structure filled with BMF information.
  * @see GRRLIB_FreeBMF
  */
-GRRLIB_bytemapFont*  GRRLIB_LoadBMF (const u8 my_bmf[] ) {
+GRRLIB_bytemapFont*  GRRLIB_LoadBMF (const u8 my_bmf[]) {
     GRRLIB_bytemapFont *fontArray = (struct GRRLIB_bytemapFont *)malloc(sizeof(GRRLIB_bytemapFont));
 
     if (fontArray != NULL && my_bmf[0]==0xE1 && my_bmf[1]==0xE6 && my_bmf[2]==0xD5 && my_bmf[3]==0x1A) {

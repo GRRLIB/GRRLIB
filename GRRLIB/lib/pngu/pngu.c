@@ -58,12 +58,10 @@ struct _IMGCTX
 
 IMGCTX PNGU_SelectImageFromBuffer (const void *buffer)
 {
-	IMGCTX ctx = NULL;
-
 	if (!buffer)
 		return NULL;
 
-	ctx = malloc (sizeof (struct _IMGCTX));
+	IMGCTX ctx = malloc (sizeof (struct _IMGCTX));
 	if (!ctx)
 		return NULL;
 
@@ -80,12 +78,10 @@ IMGCTX PNGU_SelectImageFromBuffer (const void *buffer)
 
 IMGCTX PNGU_SelectImageFromDevice (const char *filename)
 {
-	IMGCTX ctx = NULL;
-
 	if (!filename)
 		return NULL;
 
-	ctx = malloc (sizeof (struct _IMGCTX));
+	IMGCTX ctx = malloc (sizeof (struct _IMGCTX));
 	if (!ctx)
 		return NULL;
 
@@ -142,9 +138,6 @@ int PNGU_GetImageProperties (IMGCTX ctx, PNGUPROP *imgprop)
 
 int PNGU_DecodeToYCbYCr (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffer, PNGU_u32 stride)
 {
-	int result;
-	PNGU_u32 x, y;
-
 	// width needs to be divisible by two
 	if (width % 2)
 		return PNGU_ODD_WIDTH;
@@ -153,16 +146,20 @@ int PNGU_DecodeToYCbYCr (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buff
 	if (stride % 2)
 		return PNGU_ODD_STRIDE;
 
-	result = pngu_decode (ctx, width, height, 1);
+	const int result = pngu_decode (ctx, width, height, 1);
 	if (result != PNGU_OK)
 		return result;
 
 	// Copy image to the output buffer
 	const PNGU_u32 buffWidth = (width + stride) / 2;
-	for (y = 0; y < height; y++)
-		for (x = 0; x < (width / 2); x++)
+	for (PNGU_u32 y = 0; y < height; y++)
+	{
+		for (PNGU_u32 x = 0; x < (width / 2); x++)
+		{
 			((PNGU_u32 *)buffer)[y*buffWidth+x] = PNGU_RGB8_TO_YCbYCr (*(ctx->row_pointers[y]+x*6), *(ctx->row_pointers[y]+x*6+1), *(ctx->row_pointers[y]+x*6+2),
 															*(ctx->row_pointers[y]+x*6+3), *(ctx->row_pointers[y]+x*6+4), *(ctx->row_pointers[y]+x*6+5));
+		}
+	}
 
 	// Free resources
 	free (ctx->img_data);
@@ -175,22 +172,23 @@ int PNGU_DecodeToYCbYCr (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buff
 
 int PNGU_DecodeToRGB565 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffer, PNGU_u32 stride)
 {
-	int result;
-	PNGU_u32 x, y;
-
-	result = pngu_decode (ctx, width, height, 1);
+	const int result = pngu_decode (ctx, width, height, 1);
 	if (result != PNGU_OK)
 		return result;
 
 	const PNGU_u32 buffWidth = width + stride;
 
 	// Copy image to the output buffer
-	for (y = 0; y < height; y++)
-		for (x = 0; x < width; x++)
+	for (PNGU_u32 y = 0; y < height; y++)
+	{
+		for (PNGU_u32 x = 0; x < width; x++)
+		{
 			((PNGU_u16 *)buffer)[y*buffWidth+x] =
 				(((PNGU_u16) (ctx->row_pointers[y][x*3] & 0xF8)) << 8) |
 				(((PNGU_u16) (ctx->row_pointers[y][x*3+1] & 0xFC)) << 3) |
 				(((PNGU_u16) (ctx->row_pointers[y][x*3+2] & 0xF8)) >> 3);
+		}
+	}
 
 	// Free resources
 	free (ctx->img_data);
@@ -203,10 +201,7 @@ int PNGU_DecodeToRGB565 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buff
 
 int PNGU_DecodeToRGBA8 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffer, PNGU_u32 stride, PNGU_u8 default_alpha)
 {
-	int result;
-	PNGU_u32 x, y;
-
-	result = pngu_decode (ctx, width, height, 0);
+	const int result = pngu_decode (ctx, width, height, 0);
 	if (result != PNGU_OK)
 		return result;
 
@@ -216,19 +211,25 @@ int PNGU_DecodeToRGBA8 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffe
 	if ( (ctx->prop.imgColorType == PNGU_COLOR_TYPE_GRAY_ALPHA) || (ctx->prop.imgColorType == PNGU_COLOR_TYPE_RGB_ALPHA) )
 	{
 		// Alpha channel present, copy image to the output buffer
-		for (y = 0; y < height; y++)
+		for (PNGU_u32 y = 0; y < height; y++)
+		{
 			memcpy (buffer + (y * buffWidth * 4), ctx->row_pointers[y], width * 4);
+		}
 	}
 	else
 	{
 		// No alpha channel present, copy image to the output buffer
-		for (y = 0; y < height; y++)
-			for (x = 0; x < width; x++)
+		for (PNGU_u32 y = 0; y < height; y++)
+		{
+			for (PNGU_u32 x = 0; x < width; x++)
+			{
 				((PNGU_u32 *)buffer)[y*buffWidth+x] =
 					(((PNGU_u32) ctx->row_pointers[y][x*3]) << 24) |
 					(((PNGU_u32) ctx->row_pointers[y][x*3+1]) << 16) |
 					(((PNGU_u32) ctx->row_pointers[y][x*3+2]) << 8) |
 					((PNGU_u32) default_alpha);
+			}
+		}
 	}
 
 	// Free resources
@@ -242,14 +243,11 @@ int PNGU_DecodeToRGBA8 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffe
 
 int PNGU_DecodeTo4x4RGB565 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffer)
 {
-	int result;
-	PNGU_u32 x, y;
-
 	// width and height need to be divisible by four
 	if ((width % 4) || (height % 4))
 		return PNGU_INVALID_WIDTH_OR_HEIGHT;
 
-	result = pngu_decode (ctx, width, height, 1);
+	const int result = pngu_decode (ctx, width, height, 1);
 	if (result != PNGU_OK)
 		return result;
 
@@ -257,10 +255,11 @@ int PNGU_DecodeTo4x4RGB565 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *b
 	const PNGU_u32 qwidth = width / 4;
 	const PNGU_u32 qheight = height / 4;
 
-	for (y = 0; y < qheight; y++)
-		for (x = 0; x < qwidth; x++)
+	for (PNGU_u32 y = 0; y < qheight; y++)
+	{
+		for (PNGU_u32 x = 0; x < qwidth; x++)
 		{
-			int blockbase = (y * qwidth + x) * 4;
+			const int blockbase = (y * qwidth + x) * 4;
 
 			PNGU_u64 field64 = *((PNGU_u64 *)(ctx->row_pointers[y*4]+x*12));
 			PNGU_u64 field32 = (PNGU_u64) *((PNGU_u32 *)(ctx->row_pointers[y*4]+x*12+8));
@@ -294,6 +293,7 @@ int PNGU_DecodeTo4x4RGB565 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *b
 				(((field64 & 0xF800ULL) << 16) | ((field64 & 0xFCULL) << 19) | ((field32 & 0xF8000000ULL) >> 11)) |
 				(((field32 & 0xF80000ULL) >> 8) | ((field32 & 0xFC00ULL) >> 5) | ((field32 & 0xF8ULL) >> 3)));
 		}
+	}
 
 	// Free resources
 	free (ctx->img_data);
@@ -306,14 +306,11 @@ int PNGU_DecodeTo4x4RGB565 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *b
 
 int PNGU_DecodeTo4x4RGB5A3 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffer, PNGU_u8 default_alpha)
 {
-	int result;
-	PNGU_u32 x, y;
-
 	// width and height need to be divisible by four
 	if ((width % 4) || (height % 4))
 		return PNGU_INVALID_WIDTH_OR_HEIGHT;
 
-	result = pngu_decode (ctx, width, height, 0);
+	const int result = pngu_decode (ctx, width, height, 0);
 	if (result != PNGU_OK)
 		return result;
 
@@ -325,8 +322,9 @@ int PNGU_DecodeTo4x4RGB5A3 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *b
 	if ( (ctx->prop.imgColorType == PNGU_COLOR_TYPE_GRAY_ALPHA) || (ctx->prop.imgColorType == PNGU_COLOR_TYPE_RGB_ALPHA) )
 	{
 		// Alpha channel present, copy image to the output buffer
-		for (y = 0; y < qheight; y++)
-			for (x = 0; x < qwidth; x++)
+		for (PNGU_u32 y = 0; y < qheight; y++)
+		{
+			for (PNGU_u32 x = 0; x < qwidth; x++)
 			{
 				int blockbase = (y * qwidth + x) * 4;
 				PNGU_u64 tmp;
@@ -451,6 +449,7 @@ int PNGU_DecodeTo4x4RGB5A3 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *b
 					tmp = tmp | ((fieldB & 0xE0ULL) << 7) | ((fieldB & 0xF0000000ULL) >> 20) | ((fieldB & 0xF00000ULL) >> 16) | ((fieldB & 0xF000ULL) >> 12);
 				((PNGU_u64 *) buffer)[blockbase+3] = tmp;
 			}
+		}
 	}
 	else
 	{
@@ -463,8 +462,9 @@ int PNGU_DecodeTo4x4RGB5A3 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *b
 			// The user wants an opaque texture, so set MSB to 1 and encode colors in RGB555
 			alphaMask = 0x8000800080008000ULL;
 
-			for (y = 0; y < qheight; y++)
-				for (x = 0; x < qwidth; x++)
+			for (PNGU_u32 y = 0; y < qheight; y++)
+			{
+				for (PNGU_u32 x = 0; x < qwidth; x++)
 				{
 					int blockbase = (y * qwidth + x) * 4;
 
@@ -500,6 +500,7 @@ int PNGU_DecodeTo4x4RGB5A3 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *b
 						((field64 & 0xF80000ULL) << 13) | ((field64 & 0xF800ULL) << 15) | ((field64 & 0xF8ULL) << 18) |
 						((field32 & 0xF8000000ULL) >> 11) |	((field32 & 0xF80000ULL) >> 9) | ((field32 & 0xF800ULL) >> 6) | ((field32 & 0xF8ULL) >> 3);
 				}
+			}
 		}
 		else
 		{
@@ -508,8 +509,9 @@ int PNGU_DecodeTo4x4RGB5A3 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *b
 			alphaMask = (((PNGU_u64) default_alpha) << 56) | (((PNGU_u64) default_alpha) << 40) |
 						(((PNGU_u64) default_alpha) << 24) | (((PNGU_u64) default_alpha) << 8);
 
-			for (y = 0; y < qheight; y++)
-				for (x = 0; x < qwidth; x++)
+			for (PNGU_u32 y = 0; y < qheight; y++)
+			{
+				for (PNGU_u32 x = 0; x < qwidth; x++)
 				{
 					int blockbase = (y * qwidth + x) * 4;
 
@@ -545,6 +547,7 @@ int PNGU_DecodeTo4x4RGB5A3 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *b
 						((field64 & 0xF000ULL) << 12) | ((field64 & 0xF0ULL) << 16) | ((field32 & 0xF0000000ULL) >> 12) |
 						((field32 & 0xF00000ULL) >> 12) | ((field32 & 0xF000ULL) >> 8) | ((field32 & 0xF0ULL) >> 4);
 				}
+			}
 		}
 	}
 
@@ -577,7 +580,7 @@ PNGU_u8 * PNGU_DecodeTo4x4RGBA8 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, in
 
 	if(width > 1024 || height > 1024)
 	{
-		float ratio = (float)width/(float)height;
+		const float ratio = (float)width/(float)height;
 
 		if(ratio > 1)
 		{
@@ -621,7 +624,7 @@ PNGU_u8 * PNGU_DecodeTo4x4RGBA8 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, in
 			}
 			else
 			{
-				png_byte *pixel;
+				const png_byte *pixel;
 				if(xRatio > 0)
 				{
 					x2 = ((x*xRatio)>>16);
@@ -988,12 +991,12 @@ int pngu_info (IMGCTX ctx)
 	png_color_16p background;
 	png_bytep trans;
 	png_color_16p trans_values;
-	int i;
 
 	// Check if there is a file selected and if it is a valid .png
 	if (ctx->source == PNGU_SOURCE_BUFFER)
+	{
 		memcpy (magic, ctx->buffer, 8);
-
+	}
 	else if (ctx->source == PNGU_SOURCE_DEVICE)
 	{
 		// Open file
@@ -1007,9 +1010,10 @@ int pngu_info (IMGCTX ctx)
 			return PNGU_CANT_READ_FILE;
 		}
 	}
-
 	else
+	{
 		return PNGU_NO_FILE_SELECTED;
+	}
 
 	if (png_sig_cmp(magic, 0, 8) != 0)
 	{
@@ -1085,9 +1089,7 @@ int pngu_info (IMGCTX ctx)
 		}
 
 		// Constant used to scale 16 bit values to 8 bit values
-		int scale = 1;
-		if (ctx->prop.imgBitDepth == 16)
-			scale = 256;
+		const int scale = (ctx->prop.imgBitDepth == 16) ? 256 : 1;
 
 		// Query background color, if any.
 		ctx->prop.validBckgrnd = 0;
@@ -1116,14 +1118,18 @@ int pngu_info (IMGCTX ctx)
 			{
 				ctx->prop.trans = malloc (sizeof (PNGUCOLOR) * ctx->prop.numTrans);
 				if (ctx->prop.trans)
-					for (i = 0; i < ctx->prop.numTrans; i++)
+				{
+					for (int i = 0; i < ctx->prop.numTrans; i++)
 					{
 						ctx->prop.trans[i].r = trans_values[i].red / scale;
 						ctx->prop.trans[i].g = trans_values[i].green / scale;
 						ctx->prop.trans[i].b = trans_values[i].blue / scale;
 					}
+				}
 				else
+				{
 					ctx->prop.numTrans = 0;
+				}
 			}
 		}
 		else if (((ctx->prop.imgColorType == PNGU_COLOR_TYPE_GRAY) || (ctx->prop.imgColorType == PNGU_COLOR_TYPE_GRAY_ALPHA)) &&
@@ -1133,11 +1139,17 @@ int pngu_info (IMGCTX ctx)
 			{
 				ctx->prop.trans = malloc (sizeof (PNGUCOLOR) * ctx->prop.numTrans);
 				if (ctx->prop.trans)
-					for (i = 0; i < ctx->prop.numTrans; i++)
+				{
+					for (int i = 0; i < ctx->prop.numTrans; i++)
+					{
 						ctx->prop.trans[i].r = ctx->prop.trans[i].g = ctx->prop.trans[i].b =
-						trans_values[i].gray / scale;
+							trans_values[i].gray / scale;
+					}
+				}
 				else
+				{
 					ctx->prop.numTrans = 0;
+				}
 			}
 		}
 
@@ -1212,7 +1224,9 @@ int pngu_decode (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, PNGU_u32 stripAlph
 	}
 
 	for (i = 0; i < ctx->prop.imgHeight; i++)
+	{
 		ctx->row_pointers[i] = ctx->img_data + (i * rowbytes);
+	}
 
 	// Transform the image and copy it to our allocated memory
 	png_read_image (ctx->png_ptr, ctx->row_pointers);
