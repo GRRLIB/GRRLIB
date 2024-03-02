@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased][]
+
+- TODO
+
 ## [4.5.1][] - 2024-03-02
 
 - Changed the libraries installation so it always creates the directory structure before moving the files.
@@ -121,6 +125,7 @@ All notable changes to this project will be documented in this file.
 - New Bitmap FX
 - Add `GRRLIB_Exit()` to free the memory allocated by GRRLIB
 
+[unreleased]: https://github.com/GRRLIB/GRRLIB/compare/v4.5.1...HEAD
 [4.5.1]: https://github.com/GRRLIB/GRRLIB/compare/v4.5.0...v4.5.1
 [4.5.0]: https://github.com/GRRLIB/GRRLIB/compare/v4.4.1...v4.5.0
 [4.4.1]: https://github.com/GRRLIB/GRRLIB/compare/v4.4.0...v4.4.1

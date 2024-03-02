@@ -44,7 +44,7 @@ void  GRRLIB_Printf (const f32 xpos, const f32 ypos,
     }
 
     char tmp[1024];
-    f32 offset = tex->tilew * zoom;
+    const f32 offset = tex->tilew * zoom;
 
     va_list argp;
     va_start(argp, text);

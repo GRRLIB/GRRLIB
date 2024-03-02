@@ -127,11 +127,9 @@ void PNGU_ReleaseImageContext (IMGCTX ctx)
 
 int PNGU_GetImageProperties (IMGCTX ctx, PNGUPROP *imgprop)
 {
-	int res;
-
 	if (!ctx->propRead)
 	{
-		res = pngu_info (ctx);
+		const int res = pngu_info (ctx);
 		if (res != PNGU_OK)
 			return res;
 	}
@@ -145,7 +143,7 @@ int PNGU_GetImageProperties (IMGCTX ctx, PNGUPROP *imgprop)
 int PNGU_DecodeToYCbYCr (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffer, PNGU_u32 stride)
 {
 	int result;
-	PNGU_u32 x, y, buffWidth;
+	PNGU_u32 x, y;
 
 	// width needs to be divisible by two
 	if (width % 2)
@@ -160,7 +158,7 @@ int PNGU_DecodeToYCbYCr (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buff
 		return result;
 
 	// Copy image to the output buffer
-	buffWidth = (width + stride) / 2;
+	const PNGU_u32 buffWidth = (width + stride) / 2;
 	for (y = 0; y < height; y++)
 		for (x = 0; x < (width / 2); x++)
 			((PNGU_u32 *)buffer)[y*buffWidth+x] = PNGU_RGB8_TO_YCbYCr (*(ctx->row_pointers[y]+x*6), *(ctx->row_pointers[y]+x*6+1), *(ctx->row_pointers[y]+x*6+2),
@@ -178,13 +176,13 @@ int PNGU_DecodeToYCbYCr (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buff
 int PNGU_DecodeToRGB565 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffer, PNGU_u32 stride)
 {
 	int result;
-	PNGU_u32 x, y, buffWidth;
+	PNGU_u32 x, y;
 
 	result = pngu_decode (ctx, width, height, 1);
 	if (result != PNGU_OK)
 		return result;
 
-	buffWidth = width + stride;
+	const PNGU_u32 buffWidth = width + stride;
 
 	// Copy image to the output buffer
 	for (y = 0; y < height; y++)
@@ -206,13 +204,13 @@ int PNGU_DecodeToRGB565 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buff
 int PNGU_DecodeToRGBA8 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffer, PNGU_u32 stride, PNGU_u8 default_alpha)
 {
 	int result;
-	PNGU_u32 x, y, buffWidth;
+	PNGU_u32 x, y;
 
 	result = pngu_decode (ctx, width, height, 0);
 	if (result != PNGU_OK)
 		return result;
 
-	buffWidth = width + stride;
+	const PNGU_u32 buffWidth = width + stride;
 
 	// Check is source image has an alpha channel
 	if ( (ctx->prop.imgColorType == PNGU_COLOR_TYPE_GRAY_ALPHA) || (ctx->prop.imgColorType == PNGU_COLOR_TYPE_RGB_ALPHA) )
@@ -245,7 +243,7 @@ int PNGU_DecodeToRGBA8 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffe
 int PNGU_DecodeTo4x4RGB565 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffer)
 {
 	int result;
-	PNGU_u32 x, y, qwidth, qheight;
+	PNGU_u32 x, y;
 
 	// width and height need to be divisible by four
 	if ((width % 4) || (height % 4))
@@ -256,8 +254,8 @@ int PNGU_DecodeTo4x4RGB565 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *b
 		return result;
 
 	// Copy image to the output buffer
-	qwidth = width / 4;
-	qheight = height / 4;
+	const PNGU_u32 qwidth = width / 4;
+	const PNGU_u32 qheight = height / 4;
 
 	for (y = 0; y < qheight; y++)
 		for (x = 0; x < qwidth; x++)
@@ -309,8 +307,7 @@ int PNGU_DecodeTo4x4RGB565 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *b
 int PNGU_DecodeTo4x4RGB5A3 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffer, PNGU_u8 default_alpha)
 {
 	int result;
-	PNGU_u32 x, y, qwidth, qheight;
-	PNGU_u64 alphaMask;
+	PNGU_u32 x, y;
 
 	// width and height need to be divisible by four
 	if ((width % 4) || (height % 4))
@@ -321,8 +318,8 @@ int PNGU_DecodeTo4x4RGB5A3 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *b
 		return result;
 
 	// Init some vars
-	qwidth = width / 4;
-	qheight = height / 4;
+	const PNGU_u32 qwidth = width / 4;
+	const PNGU_u32 qheight = height / 4;
 
 	// Check is source image has an alpha channel
 	if ( (ctx->prop.imgColorType == PNGU_COLOR_TYPE_GRAY_ALPHA) || (ctx->prop.imgColorType == PNGU_COLOR_TYPE_RGB_ALPHA) )
@@ -457,6 +454,8 @@ int PNGU_DecodeTo4x4RGB5A3 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *b
 	}
 	else
 	{
+		PNGU_u64 alphaMask;
+
 		// No alpha channel present, copy image to the output buffer
 		default_alpha = (default_alpha >> 5);
 		if (default_alpha == 7)
@@ -567,9 +566,8 @@ static inline PNGU_u32 coordsRGBA8(PNGU_u32 x, PNGU_u32 y, PNGU_u32 w)
 PNGU_u8 * PNGU_DecodeTo4x4RGBA8 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, int * dstWidth, int * dstHeight)
 {
 	PNGU_u8 default_alpha = 255;    // default alpha value, which is used if the source image doesn't have an alpha channel.
-	int x, y, x2=0, y2=0, offset;
+	int x, y, x2=0, y2=0;
 	int xRatio = 0, yRatio = 0;
-	png_byte *pixel;
 
 	if (pngu_decode (ctx, width, height, 0) != PNGU_OK)
 		return NULL;
@@ -612,7 +610,7 @@ PNGU_u8 * PNGU_DecodeTo4x4RGBA8 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, in
 	{
 		for (x = 0; x < padWidth; x++)
 		{
-			offset = coordsRGBA8(x, y, padWidth);
+			const int offset = coordsRGBA8(x, y, padWidth);
 
 			if(y >= newHeight || x >= newWidth)
 			{
@@ -623,6 +621,7 @@ PNGU_u8 * PNGU_DecodeTo4x4RGBA8 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, in
 			}
 			else
 			{
+				png_byte *pixel;
 				if(xRatio > 0)
 				{
 					x2 = ((x*xRatio)>>16);
@@ -779,24 +778,20 @@ int PNGU_EncodeFromRGB (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffe
 // Coded by Tantric for libwiigui (https://github.com/dborth/libwiigui)
 int PNGU_EncodeFromGXTexture (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffer, PNGU_u32 stride)
 {
-	int res;
-	PNGU_u32 x,y, tmpy1, tmpy2, tmpyWid, tmpxy;
-
-	unsigned char * ptr = (unsigned char*)buffer;
+	const unsigned char * ptr = (unsigned char*)buffer;
 	unsigned char * tmpbuffer = (unsigned char *)malloc(width*height*3);
 	memset(tmpbuffer, 0, width*height*3);
-	png_uint_32 offset;
 
-	for(y=0; y < height; y++)
+	for(PNGU_u32 y=0; y < height; y++)
 	{
-		tmpy1 = y * 640*3;
-		tmpy2 = y%4 << 2;
-		tmpyWid = (((y >> 2)<<4)*width);
+		const PNGU_u32 tmpy1 = y * 640*3;
+		const PNGU_u32 tmpy2 = y%4 << 2;
+		const PNGU_u32 tmpyWid = (((y >> 2)<<4)*width);
 
-		for(x=0; x < width; x++)
+		for(PNGU_u32 x=0; x < width; x++)
 		{
-			offset = tmpyWid + ((x >> 2)<<6) + ((tmpy2+ x%4 ) << 1);
-			tmpxy = x * 3 + tmpy1;
+			const png_uint_32 offset = tmpyWid + ((x >> 2)<<6) + ((tmpy2+ x%4 ) << 1);
+			const PNGU_u32 tmpxy = x * 3 + tmpy1;
 
 			tmpbuffer[tmpxy  ] = ptr[offset+1]; // R
 			tmpbuffer[tmpxy+1] = ptr[offset+32]; // G
@@ -804,7 +799,7 @@ int PNGU_EncodeFromGXTexture (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void 
 		}
 	}
 
-	res = PNGU_EncodeFromRGB (ctx, width, height, tmpbuffer, stride);
+	const int res = PNGU_EncodeFromRGB (ctx, width, height, tmpbuffer, stride);
 	free(tmpbuffer);
 	return res;
 }
@@ -812,27 +807,25 @@ int PNGU_EncodeFromGXTexture (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void 
 // Coded by Crayon for GRRLIB (https://github.com/GRRLIB/GRRLIB)
 int PNGU_EncodeFromEFB (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, PNGU_u32 stride)
 {
-    int res;
-    PNGU_u32 x,y, tmpy, tmpxy, regval, val;
     unsigned char * tmpbuffer = (unsigned char *)malloc(width*height*3);
     memset(tmpbuffer, 0, width*height*3);
 
-    for(y=0; y < height; y++)
+    for(PNGU_u32 y=0; y < height; y++)
     {
-        tmpy = y * 640*3;
-        for(x=0; x < width; x++)
+        const PNGU_u32 tmpy = y * 640*3;
+        for(PNGU_u32 x=0; x < width; x++)
         {
-            regval = 0xc8000000|(_SHIFTL(x,2,10));
+            PNGU_u32 regval = 0xc8000000|(_SHIFTL(x,2,10));
             regval = (regval&~0x3FF000)|(_SHIFTL(y,12,10));
-            val = *(PNGU_u32*)regval;
-            tmpxy = x * 3 + tmpy;
+            const PNGU_u32 val = *(PNGU_u32*)regval;
+            const PNGU_u32 tmpxy = x * 3 + tmpy;
             tmpbuffer[tmpxy  ] = _SHIFTR(val,16,8); // R
             tmpbuffer[tmpxy+1] = _SHIFTR(val,8,8);  // G
             tmpbuffer[tmpxy+2] = val&0xff;          // B
         }
     }
 
-    res = PNGU_EncodeFromRGB (ctx, width, height, tmpbuffer, stride);
+    const int res = PNGU_EncodeFromRGB (ctx, width, height, tmpbuffer, stride);
     free(tmpbuffer);
     return res;
 }
@@ -954,18 +947,16 @@ int PNGU_EncodeFromYCbYCr (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *bu
 // This function is taken from a libogc example
 PNGU_u32 PNGU_RGB8_TO_YCbYCr (PNGU_u8 r1, PNGU_u8 g1, PNGU_u8 b1, PNGU_u8 r2, PNGU_u8 g2, PNGU_u8 b2)
 {
-  int y1, cb1, cr1, y2, cb2, cr2, cb, cr;
+  const int y1 = (299 * r1 + 587 * g1 + 114 * b1) / 1000;
+  const int cb1 = (-16874 * r1 - 33126 * g1 + 50000 * b1 + 12800000) / 100000;
+  const int cr1 = (50000 * r1 - 41869 * g1 - 8131 * b1 + 12800000) / 100000;
 
-  y1 = (299 * r1 + 587 * g1 + 114 * b1) / 1000;
-  cb1 = (-16874 * r1 - 33126 * g1 + 50000 * b1 + 12800000) / 100000;
-  cr1 = (50000 * r1 - 41869 * g1 - 8131 * b1 + 12800000) / 100000;
+  const int y2 = (299 * r2 + 587 * g2 + 114 * b2) / 1000;
+  const int cb2 = (-16874 * r2 - 33126 * g2 + 50000 * b2 + 12800000) / 100000;
+  const int cr2 = (50000 * r2 - 41869 * g2 - 8131 * b2 + 12800000) / 100000;
 
-  y2 = (299 * r2 + 587 * g2 + 114 * b2) / 1000;
-  cb2 = (-16874 * r2 - 33126 * g2 + 50000 * b2 + 12800000) / 100000;
-  cr2 = (50000 * r2 - 41869 * g2 - 8131 * b2 + 12800000) / 100000;
-
-  cb = (cb1 + cb2) >> 1;
-  cr = (cr1 + cr2) >> 1;
+  const int cb = (cb1 + cb2) >> 1;
+  const int cr = (cr1 + cr2) >> 1;
 
   return (PNGU_u32) ((y1 << 24) | (cb << 16) | (y2 << 8) | cr);
 }
@@ -973,12 +964,11 @@ PNGU_u32 PNGU_RGB8_TO_YCbYCr (PNGU_u8 r1, PNGU_u8 g1, PNGU_u8 b1, PNGU_u8 r2, PN
 
 void PNGU_YCbYCr_TO_RGB8 (PNGU_u32 ycbycr, PNGU_u8 *r1, PNGU_u8 *g1, PNGU_u8 *b1, PNGU_u8 *r2, PNGU_u8 *g2, PNGU_u8 *b2)
 {
-	PNGU_u8 *val = (PNGU_u8 *) &ycbycr;
-	int r, g, b;
+	const PNGU_u8 *val = (PNGU_u8 *) &ycbycr;
 
-	r = 1.371f * (val[3] - 128);
-	g = - 0.698f * (val[3] - 128) - 0.336f * (val[1] - 128);
-	b = 1.732f * (val[1] - 128);
+	const int r = 1.371f * (val[3] - 128);
+	const int g = - 0.698f * (val[3] - 128) - 0.336f * (val[1] - 128);
+	const int b = 1.732f * (val[1] - 128);
 
 	*r1 = pngu_clamp (val[0] + r, 0, 255);
 	*g1 = pngu_clamp (val[0] + g, 0, 255);
@@ -998,7 +988,7 @@ int pngu_info (IMGCTX ctx)
 	png_color_16p background;
 	png_bytep trans;
 	png_color_16p trans_values;
-	int scale, i;
+	int i;
 
 	// Check if there is a file selected and if it is a valid .png
 	if (ctx->source == PNGU_SOURCE_BUFFER)
@@ -1095,7 +1085,7 @@ int pngu_info (IMGCTX ctx)
 		}
 
 		// Constant used to scale 16 bit values to 8 bit values
-		scale = 1;
+		int scale = 1;
 		if (ctx->prop.imgBitDepth == 16)
 			scale = 256;
 
@@ -1284,4 +1274,3 @@ int pngu_clamp (int value, int min, int max)
 
 	return value;
 }
-
