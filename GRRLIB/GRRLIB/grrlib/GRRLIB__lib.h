@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2025 The GRRLIB Team
+Copyright (c) 2009-2026 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -183,6 +183,10 @@ void GRRLIB_PrintfTTF(int x, int y, GRRLIB_ttfFont *myFont, const char *string, 
 void GRRLIB_PrintfTTFW(int x, int y, GRRLIB_ttfFont *myFont, const wchar_t *string, unsigned int fontSize, const u32 color);
 u32 GRRLIB_WidthTTF(GRRLIB_ttfFont *myFont, const char *, unsigned int);
 u32 GRRLIB_WidthTTFW(GRRLIB_ttfFont *myFont, const wchar_t *, unsigned int);
+
+//------------------------------------------------------------------------------
+// GRRLIB_systemFont.c  - System font function for GRRLIB
+void GRRLIB_PrintfSystemFont(int x, int y, const char *string, unsigned int fontSize, const u32 color);
 
 #endif // __GRRLIB_FNLIB_H__
 /** @} */ // end of group
