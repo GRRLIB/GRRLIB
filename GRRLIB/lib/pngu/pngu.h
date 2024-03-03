@@ -10,6 +10,8 @@ More info : http://frontier-dev.net
 #ifndef __PNGU__
 #define __PNGU__
 
+#include <stdint.h>
+
 // Return codes
 #define PNGU_OK							0
 #define PNGU_ODD_WIDTH					1
@@ -35,28 +37,22 @@ More info : http://frontier-dev.net
 	extern "C" {
 #endif
 
-// Types
-typedef unsigned char PNGU_u8;
-typedef unsigned short PNGU_u16;
-typedef unsigned int PNGU_u32;
-typedef unsigned long long PNGU_u64;
-
 typedef struct
 {
-	PNGU_u8 r;
-	PNGU_u8 g;
-	PNGU_u8 b;
+	uint8_t r;
+	uint8_t g;
+	uint8_t b;
 } PNGUCOLOR;
 
 typedef struct
 {
-	PNGU_u32 imgWidth; // In pixels
-	PNGU_u32 imgHeight; // In pixels
-	PNGU_u32 imgBitDepth; // In bitx
-	PNGU_u32 imgColorType; // PNGU_COLOR_TYPE_*
-	PNGU_u32 validBckgrnd; // Non zero if there is a background color
+	uint32_t imgWidth; // In pixels
+	uint32_t imgHeight; // In pixels
+	uint32_t imgBitDepth; // In bitx
+	uint32_t imgColorType; // PNGU_COLOR_TYPE_*
+	uint32_t validBckgrnd; // Non zero if there is a background color
 	PNGUCOLOR bckgrnd; // Background color
-	PNGU_u32 numTrans; // Number of transparent colors
+	uint32_t numTrans; // Number of transparent colors
 	PNGUCOLOR *trans; // Transparent colors
 } PNGUPROP;
 
@@ -70,18 +66,18 @@ typedef struct _IMGCTX *IMGCTX;
 ****************************************************************************/
 
 // Macro to convert RGB8 values to RGB565
-#define PNGU_RGB8_TO_RGB565(r,g,b) ( ((((PNGU_u16) r) & 0xF8U) << 8) | ((((PNGU_u16) g) & 0xFCU) << 3) | (((PNGU_u16) b) >> 3) )
+#define PNGU_RGB8_TO_RGB565(r,g,b) ( ((((uint16_t) r) & 0xF8U) << 8) | ((((uint16_t) g) & 0xFCU) << 3) | (((uint16_t) b) >> 3) )
 
 // Macro to convert RGBA8 values to RGB5A3
-#define PNGU_RGB8_TO_RGB5A3(r,g,b,a)	(PNGU_u16) (((a & 0xE0U) == 0xE0U) ? \
-										(0x8000U | ((((PNGU_u16) r) & 0xF8U) << 7) | ((((PNGU_u16) g) & 0xF8U) << 2) | (((PNGU_u16) b) >> 3)) : \
-										(((((PNGU_u16) a) & 0xE0U) << 7) | ((((PNGU_u16) r) & 0xF0U) << 4) | (((PNGU_u16) g) & 0xF0U) | ((((PNGU_u16) b) & 0xF0U) >> 4)))
+#define PNGU_RGB8_TO_RGB5A3(r,g,b,a)	(uint16_t) (((a & 0xE0U) == 0xE0U) ? \
+										(0x8000U | ((((uint16_t) r) & 0xF8U) << 7) | ((((uint16_t) g) & 0xF8U) << 2) | (((uint16_t) b) >> 3)) : \
+										(((((uint16_t) a) & 0xE0U) << 7) | ((((uint16_t) r) & 0xF0U) << 4) | (((uint16_t) g) & 0xF0U) | ((((uint16_t) b) & 0xF0U) >> 4)))
 
 // Function to convert two RGB8 values to YCbYCr
-PNGU_u32 PNGU_RGB8_TO_YCbYCr (PNGU_u8 r1, PNGU_u8 g1, PNGU_u8 b1, PNGU_u8 r2, PNGU_u8 g2, PNGU_u8 b2);
+uint32_t PNGU_RGB8_TO_YCbYCr (uint8_t r1, uint8_t g1, uint8_t b1, uint8_t r2, uint8_t g2, uint8_t b2);
 
 // Function to convert an YCbYCr to two RGB8 values.
-void PNGU_YCbYCr_TO_RGB8 (PNGU_u32 ycbycr, PNGU_u8 *r1, PNGU_u8 *g1, PNGU_u8 *b1, PNGU_u8 *r2, PNGU_u8 *g2, PNGU_u8 *b2);
+void PNGU_YCbYCr_TO_RGB8 (uint32_t ycbycr, uint8_t *r1, uint8_t *g1, uint8_t *b1, uint8_t *r2, uint8_t *g2, uint8_t *b2);
 
 
 /****************************************************************************
@@ -112,7 +108,7 @@ int PNGU_GetImageProperties (IMGCTX ctx, PNGUPROP *fileproperties);
 
 // Expands selected image into an YCbYCr buffer. You need to specify context, image dimensions,
 // destination address and stride in pixels (stride = buffer width - image width).
-int PNGU_DecodeToYCbYCr (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffer, PNGU_u32 stride);
+int PNGU_DecodeToYCbYCr (IMGCTX ctx, uint32_t width, uint32_t height, void *buffer, uint32_t stride);
 
 // Macro for decoding an image inside a buffer at given coordinates.
 #define PNGU_DECODE_TO_COORDS_YCbYCr(ctx,coordX,coordY,imgWidth,imgHeight,bufferWidth,bufferHeight,buffer)	\
@@ -122,7 +118,7 @@ int PNGU_DecodeToYCbYCr (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buff
 
 // Expands selected image into a linear RGB565 buffer. You need to specify context, image dimensions,
 // destination address and stride in pixels (stride = buffer width - image width).
-int PNGU_DecodeToRGB565 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffer, PNGU_u32 stride);
+int PNGU_DecodeToRGB565 (IMGCTX ctx, uint32_t width, uint32_t height, void *buffer, uint32_t stride);
 
 // Macro for decoding an image inside a buffer at given coordinates.
 #define PNGU_DECODE_TO_COORDS_RGB565(ctx,coordX,coordY,imgWidth,imgHeight,bufferWidth,bufferHeight,buffer)	\
@@ -133,7 +129,7 @@ int PNGU_DecodeToRGB565 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buff
 // Expands selected image into a linear RGBA8 buffer. You need to specify context, image dimensions,
 // destination address, stride in pixels and default alpha value, which is used if the source image
 // doesn't have an alpha channel.
-int PNGU_DecodeToRGBA8 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffer, PNGU_u32 stride, PNGU_u8 default_alpha);
+int PNGU_DecodeToRGBA8 (IMGCTX ctx, uint32_t width, uint32_t height, void *buffer, uint32_t stride, uint8_t default_alpha);
 
 // Macro for decoding an image inside a buffer at given coordinates.
 #define PNGU_DECODE_TO_COORDS_RGBA8(ctx,coordX,coordY,imgWidth,imgHeight,default_alpha,bufferWidth,bufferHeight,buffer)	\
@@ -143,23 +139,23 @@ int PNGU_DecodeToRGBA8 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffe
 
 // Expands selected image into a 4x4 tiled RGB565 buffer. You need to specify context, image dimensions
 // and destination address.
-int PNGU_DecodeTo4x4RGB565 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffer);
+int PNGU_DecodeTo4x4RGB565 (IMGCTX ctx, uint32_t width, uint32_t height, void *buffer);
 
 // Expands selected image into a 4x4 tiled RGB5A3 buffer. You need to specify context, image dimensions,
 // destination address and default alpha value, which is used if the source image doesn't have an alpha channel.
-int PNGU_DecodeTo4x4RGB5A3 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffer, PNGU_u8 default_alpha);
+int PNGU_DecodeTo4x4RGB5A3 (IMGCTX ctx, uint32_t width, uint32_t height, void *buffer, uint8_t default_alpha);
 
 // Expands selected image into a 4x4 tiled RGBA8 buffer. You need to specify context, image dimensions,
 // destination address.
-PNGU_u8 * PNGU_DecodeTo4x4RGBA8 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, int * dstWidth, int * dstHeight);
+uint8_t * PNGU_DecodeTo4x4RGBA8 (IMGCTX ctx, uint32_t width, uint32_t height, int * dstWidth, int * dstHeight);
 
 // Encodes an YCbYCr image in PNG format and stores it in the selected device or memory buffer. You need to
 // specify context, image dimensions, destination address and stride in pixels (stride = buffer width - image width).
-int PNGU_EncodeFromYCbYCr (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffer, PNGU_u32 stride);
+int PNGU_EncodeFromYCbYCr (IMGCTX ctx, uint32_t width, uint32_t height, void *buffer, uint32_t stride);
 
-int PNGU_EncodeFromRGB (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffer, PNGU_u32 stride);
-int PNGU_EncodeFromGXTexture (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffer, PNGU_u32 stride);
-int PNGU_EncodeFromEFB (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, PNGU_u32 stride);
+int PNGU_EncodeFromRGB (IMGCTX ctx, uint32_t width, uint32_t height, void *buffer, uint32_t stride);
+int PNGU_EncodeFromGXTexture (IMGCTX ctx, uint32_t width, uint32_t height, void *buffer, uint32_t stride);
+int PNGU_EncodeFromEFB (IMGCTX ctx, uint32_t width, uint32_t height, uint32_t stride);
 
 // Macro for encoding an image stored into an YCbYCr buffer at given coordinates.
 #define PNGU_ENCODE_TO_COORDS_YCbYCr(ctx,coordX,coordY,imgWidth,imgHeight,bufferWidth,bufferHeight,buffer)	\
