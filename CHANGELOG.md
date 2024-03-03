@@ -4,8 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased][]
 
-- Use `SYS_MainLoop()` in all examples.
+- Add `GRRLIB_PrintfSystemFont()` to print text using the ROM font on non-Japanese systems.
 - Allow rendering of paletted PNG images.
+- Use `SYS_MainLoop()` in all examples.
 
 ## [4.6.1][] - 2025-08-02
 

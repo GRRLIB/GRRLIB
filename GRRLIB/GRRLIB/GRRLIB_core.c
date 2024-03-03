@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2025 The GRRLIB Team
+Copyright (c) 2009-2026 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -47,7 +47,8 @@ static bool is_setup = false;  // To control entry and exit
  *         -     0 : The operation completed successfully.
  *         -    -1 : Not enough memory is available to initialize GRRLIB.
  *         -    -2 : Failed to add the fat device driver to the devoptab.
- *         -    -3 : Failed to initialize the font engine.
+ *         -    -3 : Failed to initialize the ttf font engine.
+ *         -    -4 : Failed to initialize the system font engine.
  * @see GRRLIB_Exit
  */
 int  GRRLIB_Init (void) {
@@ -209,6 +210,11 @@ int  GRRLIB_Init (void) {
         error_code = -3;
     }
 
+    // Initialise System Font
+    if (GRRLIB_InitSystemFont() != 0) {
+        error_code = -4;
+    }
+
     VIDEO_SetBlack(false);  // Enable video output
     return error_code;
 }
@@ -253,6 +259,9 @@ void  GRRLIB_Exit (void) {
         free(gp_fifo);
         gp_fifo = NULL;
     }
+
+    // Done with the system font
+    GRRLIB_ExitSystemFont();
 
     // Done with TTF
     GRRLIB_ExitTTF();
