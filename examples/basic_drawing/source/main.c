@@ -22,6 +22,9 @@
 #include "ocean_bmf.h"
 #include "frontal_bmf.h"
 
+#include "textures_tpl.h"
+#include "textures.h"
+
 // Tile stuff
 #define TILE_DELAY  10
 #define TILE_UP     12 * 0
@@ -91,6 +94,8 @@ int main() {
     GRRLIB_texImg *tex_BMfont5 = GRRLIB_LoadTexture(BMfont5_png);
     GRRLIB_InitTileSet(tex_BMfont5, 8, 16, 0);
 
+    GRRLIB_texImg *tex_test_tpl = GRRLIB_LoadTextureTPL(textures_tpl, textures_tpl_size);
+
     while(1) {
         WPAD_SetVRes(0, 640, 480);
         WPAD_ScanPads();
@@ -108,6 +113,8 @@ int main() {
 
                 GRRLIB_DrawImg(10, 50, tex_test_jpg, 0, 1, 1, GRRLIB_WHITE);  // Draw a jpeg
                 GRRLIB_DrawImg(350, 50, tex_test_bmp, 0, 4, 4, GRRLIB_WHITE); // Draw a bitmap
+
+                GRRLIB_DrawImg(400, 150, tex_test_tpl, 0, 2, 2, GRRLIB_WHITE); // Draw a TPL
 
                 // Draw a sprite
                 GRRLIB_DrawTile(600, 400, tex_sprite_png, 0, 2, 2, GRRLIB_WHITE, 12*4); // Rupee

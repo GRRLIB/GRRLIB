@@ -43,6 +43,7 @@ THE SOFTWARE.
 // Includes
 //==============================================================================
 #include <gccore.h>
+#include <ogc/tpl.h>
 //==============================================================================
 
 //==============================================================================
@@ -123,6 +124,8 @@ typedef  struct GRRLIB_texImg {
     f32    ofnormaltexy;/**< Offset of normalized texture on y. */
 
     void  *data;        /**< Pointer to the texture data. */
+    TPLFile *tdf;       /**< Pointer to the a TPL file structure. */
+    s32 tplid;          /**< ID to the texture number in the file. */
 } GRRLIB_texImg;
 
 //------------------------------------------------------------------------------
