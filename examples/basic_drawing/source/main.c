@@ -114,7 +114,7 @@ int main() {
                 GRRLIB_DrawImg(10, 50, tex_test_jpg, 0, 1, 1, GRRLIB_WHITE);  // Draw a jpeg
                 GRRLIB_DrawImg(350, 50, tex_test_bmp, 0, 4, 4, GRRLIB_WHITE); // Draw a bitmap
 
-                GRRLIB_DrawImg(400, 150, tex_test_tpl, 0, 2, 2, GRRLIB_WHITE); // Draw a TPL
+                GRRLIB_DrawImg(400, 200, tex_test_tpl, 0, 2, 2, GRRLIB_WHITE); // Draw a TPL
 
                 // Draw a sprite
                 GRRLIB_DrawTile(600, 400, tex_sprite_png, 0, 2, 2, GRRLIB_WHITE, 12*4); // Rupee

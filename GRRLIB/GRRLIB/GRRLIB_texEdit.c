@@ -25,6 +25,7 @@ THE SOFTWARE.
 #include <stdio.h>
 #include <jpeglib.h>
 #include <string.h>
+#include <ogc/tpl.h>
 
 #include <grrlib.h>
 
@@ -188,24 +189,25 @@ GRRLIB_texImg*  GRRLIB_CreateEmptyTexture (const u32 width, const u32 height)
  * @return A GRRLIB_texImg structure filled with image information.
  */
 GRRLIB_texImg*  GRRLIB_LoadTextureTPL (u8 *my_tpl, const int size) {
-    u16 width = 0;
-    u16 height = 0;
     const s32 id = 0; // Only id zero is valid for now
-    GRRLIB_texImg *my_texture = NULL;
 
-    if(my_tpl == NULL || size <= 0 ||
-        (my_texture = calloc(1, sizeof(GRRLIB_texImg))) == NULL) {
+    if(my_tpl == NULL || size <= 0) {
         return NULL;
     }
 
-    TPLFile *tdf = calloc(1, sizeof(TPLFile));
-    if (tdf && TPL_OpenTPLFromMemory(tdf, my_tpl, size) == 1) {
-        TPL_GetTextureInfo(tdf, id, NULL, &width, &height);
-        TPLDescHeader *deschead = (TPLDescHeader*)tdf->texdesc;
+    GRRLIB_texImg *my_texture = calloc(1, sizeof(GRRLIB_texImg));
+
+    if (my_texture == NULL) {
+        return NULL;
+    }
+
+    TPLFile tdf;
+    if (TPL_OpenTPLFromMemory(&tdf, my_tpl, size) > 0) {
+        const TPLDescHeader *deschead = (TPLDescHeader*)tdf.texdesc;
         my_texture->data = deschead[id].imghead->data;
-        my_texture->w = width;
-        my_texture->h = height;
-        my_texture->tdf = tdf;
+        my_texture->w = deschead[id].imghead->width;
+        my_texture->h = deschead[id].imghead->height;
+        my_texture->freedata = true;
         GRRLIB_SetHandle( my_texture, 0, 0 );
         GRRLIB_FlushTex( my_texture );
     }
