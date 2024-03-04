@@ -28,6 +28,44 @@ THE SOFTWARE.
 
 #include <grrlib.h>
 
+// texture header
+typedef struct _tplimgheader TPLImgHeader;
+
+struct _tplimgheader {
+	u16 height;
+	u16 width;
+	u32 fmt;
+	void *data;
+	u32 wraps;
+	u32 wrapt;
+	u32 minfilter;
+	u32 magfilter;
+	f32 lodbias;
+	u8 edgelod;
+	u8 minlod;
+	u8 maxlod;
+	u8 unpacked;
+} ATTRIBUTE_PACKED;
+
+// texture palette header
+typedef struct _tplpalheader TPLPalHeader;
+
+struct _tplpalheader {
+	u16 nitems;
+	u8 unpacked;
+	u8 pad;
+	u32 fmt;
+	void *data;
+} ATTRIBUTE_PACKED;
+
+// texture descriptor
+typedef struct _tpldesc TPLDescHeader;
+
+struct _tpldesc {
+	TPLImgHeader *imghead;
+	TPLPalHeader *palhead;
+} ATTRIBUTE_PACKED;
+
 /**
  * This structure contains information about the type, size, and layout of a file that containing a device-independent bitmap (DIB).
  */
@@ -155,7 +193,7 @@ GRRLIB_texImg*  GRRLIB_LoadTextureTPL (u8 *my_tpl, const int size) {
     const s32 id = 0; // Only id zero is valid for now
     GRRLIB_texImg *my_texture = NULL;
 
-    if(my_tpl == NULL || !size ||
+    if(my_tpl == NULL || size <= 0 ||
         (my_texture = calloc(1, sizeof(GRRLIB_texImg))) == NULL) {
         return NULL;
     }
@@ -163,11 +201,11 @@ GRRLIB_texImg*  GRRLIB_LoadTextureTPL (u8 *my_tpl, const int size) {
     TPLFile *tdf = calloc(1, sizeof(TPLFile));
     if (tdf && TPL_OpenTPLFromMemory(tdf, my_tpl, size) == 1) {
         TPL_GetTextureInfo(tdf, id, NULL, &width, &height);
-        my_texture->data = (u8 *)my_tpl;
+        TPLDescHeader *deschead = (TPLDescHeader*)tdf->texdesc;
+        my_texture->data = deschead[id].imghead->data;
         my_texture->w = width;
         my_texture->h = height;
         my_texture->tdf = tdf;
-        my_texture->tplid = id;
         GRRLIB_SetHandle( my_texture, 0, 0 );
         GRRLIB_FlushTex( my_texture );
     }
