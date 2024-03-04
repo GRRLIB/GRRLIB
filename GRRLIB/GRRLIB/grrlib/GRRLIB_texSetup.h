@@ -49,11 +49,7 @@ void  GRRLIB_FreeTexture (GRRLIB_texImg *tex) {
     if(tex == NULL) {
         return;
     }
-    if (tex->tdf != NULL) {
-        TPL_CloseTPLFile(tex->tdf);
-        free(tex->tdf);
-    }
-    else if (tex->data != NULL) {
+    if (tex->data != NULL && tex->freedata == true) {
         free(tex->data);
     }
     free(tex);
