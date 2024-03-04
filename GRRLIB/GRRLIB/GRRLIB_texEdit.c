@@ -144,6 +144,41 @@ GRRLIB_texImg*  GRRLIB_CreateEmptyTexture (const u32 width, const u32 height)
 }
 
 /**
+ * Set TPL data to a GRRLIB_texImg structure.
+ * @param my_tpl The TPL buffer to set.
+ * @param size Size of the TPL buffer to set.
+ * @return A GRRLIB_texImg structure filled with image information.
+ */
+GRRLIB_texImg*  GRRLIB_LoadTextureTPL (u8 *my_tpl, const int size) {
+    u16 width = 0;
+    u16 height = 0;
+    const s32 id = 0; // Only id zero is valid for now
+    GRRLIB_texImg *my_texture = NULL;
+
+    if(my_tpl == NULL || !size ||
+        (my_texture = calloc(1, sizeof(GRRLIB_texImg))) == NULL) {
+        return NULL;
+    }
+
+    TPLFile *tdf = calloc(1, sizeof(TPLFile));
+    if (tdf && TPL_OpenTPLFromMemory(tdf, my_tpl, size) == 1) {
+        TPL_GetTextureInfo(tdf, id, NULL, &width, &height);
+        my_texture->data = (u8 *)my_tpl;
+        my_texture->w = width;
+        my_texture->h = height;
+        my_texture->tdf = tdf;
+        my_texture->tplid = id;
+        GRRLIB_SetHandle( my_texture, 0, 0 );
+        GRRLIB_FlushTex( my_texture );
+    }
+    else {
+        free(my_texture);
+        return NULL;
+    }
+    return my_texture;
+}
+
+/**
  * Load a texture from a buffer.
  * @param my_img The JPEG, PNG or Bitmap buffer to load.
  * @return A GRRLIB_texImg structure filled with image information.
