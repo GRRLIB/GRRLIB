@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2021 The GRRLIB Team
+Copyright (c) 2009-2024 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,11 +24,6 @@ THE SOFTWARE.
  * @file GRRLIB_pixel.h
  * Inline functions for manipulating pixels in textures.
  */
-
-#define _SHIFTL(v, s, w)    \
-    ((u32) (((u32)(v) & ((0x01 << (w)) - 1)) << (s)))
-#define _SHIFTR(v, s, w)    \
-    ((u32)(((u32)(v) >> (s)) & ((0x01 << (w)) - 1)))
 
 /**
  * Return the color value of a pixel from a GRRLIB_texImg.
