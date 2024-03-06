@@ -16,7 +16,6 @@
 
 
 int main() {
-    int i;
     int screen_index = 0;
     const int tex_screen_count = 9;
     float t=0;
@@ -37,8 +36,8 @@ int main() {
     GRRLIB_Settings.antialias = false;
 
     GRRLIB_texImg *tex_screen[tex_screen_count];
-    for(i=0; i<tex_screen_count; i++) {
-        tex_screen[i] = GRRLIB_CreateEmptyTexture(rmode->fbWidth, rmode->efbHeight);
+    for(int i=0; i<tex_screen_count; i++) {
+        tex_screen[i] = GRRLIB_CreateEmptyTextureFmt(rmode->fbWidth, rmode->efbHeight, GX_TF_RGBA8);
     }
 
     GRRLIB_texImg *tex_girl = GRRLIB_LoadTexture(girl_png);
@@ -47,14 +46,14 @@ int main() {
     GRRLIB_InitTileSet(tex_font, 16, 16, 32);
 
 
-    for(i=0; i<=255; i+=1) {
+    for(int i=0; i<=255; i+=1) {
         GRRLIB_Printf((640-(16*16))/2, 200, tex_font, 0xFFFFFF00|i, 1, "HOW MANY 3D CUBE");
         GRRLIB_Printf((640-(16*20))/2, 216, tex_font, 0xFFFFFF00|i, 1, "CAN YOU DISPLAY WITH");
         GRRLIB_DrawImg((640-352)/2, 248, tex_logo, 0, 1, 1, 0xFFFFFF00|i);
         GRRLIB_Printf((640-(16*28))/2, 480-16, tex_font, 0xFFFFFF00|i, 1, "BY NONAMENO FROM GRRLIB TEAM");
         GRRLIB_Render();
     }
-    for(i=255; i>=0; i-=2) {
+    for(int i=255; i>=0; i-=2) {
         GRRLIB_Printf((640-(16*16))/2, 200, tex_font, 0xFFFFFF00|i, 1, "HOW MANY 3D CUBE");
         GRRLIB_Printf((640-(16*20))/2, 216, tex_font, 0xFFFFFF00|i, 1, "CAN YOU DISPLAY WITH");
         GRRLIB_DrawImg((640-352)/2, 248, tex_logo, 0, 1, 1, 0xFFFFFF00|i);
@@ -182,12 +181,13 @@ int main() {
         }
 
 
-        if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) exit(0);
+        if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME)
+            break;
     }
     GRRLIB_FreeTexture(tex_logo);
     GRRLIB_FreeTexture(tex_girl);
     GRRLIB_FreeTexture(tex_font);
-    for(i=0; i<tex_screen_count; i++) {
+    for(int i=0; i<tex_screen_count; i++) {
         GRRLIB_FreeTexture(tex_screen[i]);
     }
     GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB

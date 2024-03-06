@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2021 The GRRLIB Team
+Copyright (c) 2009-2024 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -35,7 +35,7 @@ THE SOFTWARE.
  */
 INLINE
 void  GRRLIB_FlushTex (GRRLIB_texImg *tex) {
-    DCFlushRange(tex->data, tex->w * tex->h * 4);
+    DCFlushRange(tex->data, GX_GetTexBufferSize(tex->w, tex->h, tex->format, 0, 0));
 }
 
 /**
@@ -61,6 +61,9 @@ void  GRRLIB_FreeTexture (GRRLIB_texImg *tex) {
  */
 INLINE
 void  GRRLIB_ClearTex(GRRLIB_texImg* tex) {
-    memset(tex->data, 0, (tex->h * tex->w) << 2);
+    if(tex == NULL) {
+        return;
+    }
+    memset(tex->data, 0, GX_GetTexBufferSize(tex->w, tex->h, tex->format, 0, 0));
     GRRLIB_FlushTex(tex);
 }

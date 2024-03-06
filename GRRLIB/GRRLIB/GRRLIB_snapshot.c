@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2022 The GRRLIB Team
+Copyright (c) 2009-2024 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -34,7 +34,7 @@ void  GRRLIB_Screen2Texture (u16 posx, u16 posy, GRRLIB_texImg *tex, bool clear)
         return;
     }
     GX_SetTexCopySrc(posx, posy, tex->w, tex->h);
-    GX_SetTexCopyDst(tex->w, tex->h, GX_TF_RGBA8, GX_FALSE);
+    GX_SetTexCopyDst(tex->w, tex->h, tex->format, GX_FALSE);
     GX_CopyTex(tex->data, GX_FALSE);
     GX_PixModeSync();
     GRRLIB_FlushTex(tex);
