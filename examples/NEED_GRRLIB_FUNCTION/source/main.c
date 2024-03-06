@@ -46,7 +46,7 @@ int main() {
 
         GRRLIB_2dMode();
         WPAD_ScanPads();
-        if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) exit(0);
+        if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) break;
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_PLUS && demo < 5) demo++;
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_MINUS && demo > 0) demo--;
 

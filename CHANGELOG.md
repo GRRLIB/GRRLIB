@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased][]
 
-- TODO
+- Added `GRRLIB_CreateEmptyTextureFmt()` to create an empty texture with a given format.
 
 ## [4.5.1][] - 2024-03-02
 

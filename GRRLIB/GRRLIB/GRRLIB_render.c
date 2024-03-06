@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2022 The GRRLIB Team
+Copyright (c) 2009-2024 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -47,7 +47,7 @@ void  GRRLIB_DrawImg (const f32 xpos, const f32 ypos, const GRRLIB_texImg *tex, 
         return;
 
     GX_InitTexObj(&texObj, tex->data, tex->w, tex->h,
-                  GX_TF_RGBA8, GX_CLAMP, GX_CLAMP, GX_FALSE);
+                  tex->format, GX_CLAMP, GX_CLAMP, GX_FALSE);
 
     if (GRRLIB_Settings.antialias == false) {
         GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR,
@@ -118,7 +118,7 @@ void  GRRLIB_DrawImgQuad (const guVector pos[4], GRRLIB_texImg *tex, const u32 c
         return;
 
     GX_InitTexObj(&texObj, tex->data, tex->w, tex->h,
-                  GX_TF_RGBA8, GX_CLAMP, GX_CLAMP, GX_FALSE);
+                  tex->format, GX_CLAMP, GX_CLAMP, GX_FALSE);
 
     if (GRRLIB_Settings.antialias == false) {
         GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR,
@@ -189,7 +189,7 @@ void  GRRLIB_DrawTile (const f32 xpos, const f32 ypos, const GRRLIB_texImg *tex,
 
     GX_InitTexObj(&texObj, tex->data,
                   tex->tilew * tex->nbtilew, tex->tileh * tex->nbtileh,
-                  GX_TF_RGBA8, GX_CLAMP, GX_CLAMP, GX_FALSE);
+                  tex->format, GX_CLAMP, GX_CLAMP, GX_FALSE);
 
     if (GRRLIB_Settings.antialias == false) {
         GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR,
@@ -276,7 +276,7 @@ void  GRRLIB_DrawPart (const f32 xpos, const f32 ypos, const f32 partx, const f3
 
     GX_InitTexObj(&texObj, tex->data,
                   tex->w, tex->h,
-                  GX_TF_RGBA8, GX_CLAMP, GX_CLAMP, GX_FALSE);
+                  tex->format, GX_CLAMP, GX_CLAMP, GX_FALSE);
 
     if (GRRLIB_Settings.antialias == false) {
         GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR,
@@ -356,7 +356,7 @@ void  GRRLIB_DrawTileQuad (const guVector pos[4], GRRLIB_texImg *tex, const u32 
 
     GX_InitTexObj(&texObj, tex->data,
                   tex->tilew * tex->nbtilew, tex->tileh * tex->nbtileh,
-                  GX_TF_RGBA8, GX_CLAMP, GX_CLAMP, GX_FALSE);
+                  tex->format, GX_CLAMP, GX_CLAMP, GX_FALSE);
 
     if (GRRLIB_Settings.antialias == false) {
         GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR,
