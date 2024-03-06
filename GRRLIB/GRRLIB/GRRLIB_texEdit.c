@@ -202,30 +202,25 @@ GRRLIB_texImg*  GRRLIB_LoadTextureTPL (const u8 *my_tpl, const int size, u32 id)
         return NULL;
     }
 
-    const TPLDescHeader *deschead = (TPLDescHeader*)(my_tpl + TPL_HDR_DESCR_FIELD);
-
-    for(u32 c = 0; c <= id; ++c) {
-        u32 pos = (u32)deschead[c].imghead;
-        const TPLImgHeader *imghead = (TPLImgHeader*)(my_tpl + pos);
-
-        if(c == id) {
-            GRRLIB_texImg *my_texture = calloc(1, sizeof(GRRLIB_texImg));
-            if (my_texture == NULL) {
-                return NULL;
-            }
-            pos = (u32)imghead->data;
-            my_texture->data = (char*)(my_tpl + pos);
-            my_texture->w = imghead->width;
-            my_texture->h = imghead->height;
-            my_texture->freedata = true;
-            GRRLIB_SetHandle( my_texture, 0, 0 );
-            GRRLIB_FlushTex( my_texture );
-
-            return my_texture;
-        }
+    GRRLIB_texImg *my_texture = calloc(1, sizeof(GRRLIB_texImg));
+    if (my_texture == NULL) {
+        return NULL;
     }
 
-    return NULL;
+    const TPLDescHeader *deschead = (TPLDescHeader*)(my_tpl + TPL_HDR_DESCR_FIELD);
+
+    u32 pos = (u32)deschead[id].imghead;
+    const TPLImgHeader *imghead = (TPLImgHeader*)(my_tpl + pos);
+
+    pos = (u32)imghead->data;
+    my_texture->data = (u8*)(my_tpl + pos);
+    my_texture->w = imghead->width;
+    my_texture->h = imghead->height;
+    my_texture->freedata = true;
+    GRRLIB_SetHandle( my_texture, 0, 0 );
+    GRRLIB_FlushTex( my_texture );
+
+    return my_texture;
 }
 
 /**
