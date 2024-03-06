@@ -216,6 +216,7 @@ GRRLIB_texImg*  GRRLIB_LoadTextureTPL (const u8 *my_tpl, const int size, u32 id)
     my_texture->data = (u8*)(my_tpl + pos);
     my_texture->w = imghead->width;
     my_texture->h = imghead->height;
+    my_texture->format = imghead->fmt;
     my_texture->freedata = true;
     GRRLIB_SetHandle( my_texture, 0, 0 );
     GRRLIB_FlushTex( my_texture );
