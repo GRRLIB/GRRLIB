@@ -61,7 +61,7 @@ void  GRRLIB_FreeTexture (GRRLIB_texImg *tex) {
  */
 INLINE
 void  GRRLIB_ClearTex(GRRLIB_texImg* tex) {
-    if(tex == NULL) {
+    if(tex == NULL || tex->freedata == false) {
         return;
     }
     memset(tex->data, 0, GX_GetTexBufferSize(tex->w, tex->h, tex->format, 0, 0));

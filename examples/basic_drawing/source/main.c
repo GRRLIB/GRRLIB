@@ -94,7 +94,8 @@ int main() {
     GRRLIB_texImg *tex_BMfont5 = GRRLIB_LoadTexture(BMfont5_png);
     GRRLIB_InitTileSet(tex_BMfont5, 8, 16, 0);
 
-    GRRLIB_texImg *tex_test_tpl = GRRLIB_LoadTextureTPL(textures_tpl, textures_tpl_size);
+    GRRLIB_texImg *tex_test_tpl1 = GRRLIB_LoadTextureTPL(textures_tpl, textures_tpl_size, ballsprites);
+    GRRLIB_texImg *tex_test_tpl2 = GRRLIB_LoadTextureTPL(textures_tpl, textures_tpl_size, pirate);
 
     while(1) {
         WPAD_SetVRes(0, 640, 480);
@@ -114,7 +115,8 @@ int main() {
                 GRRLIB_DrawImg(10, 50, tex_test_jpg, 0, 1, 1, GRRLIB_WHITE);  // Draw a jpeg
                 GRRLIB_DrawImg(350, 50, tex_test_bmp, 0, 4, 4, GRRLIB_WHITE); // Draw a bitmap
 
-                GRRLIB_DrawImg(400, 200, tex_test_tpl, 0, 2, 2, GRRLIB_WHITE); // Draw a TPL
+                GRRLIB_DrawImg(400, 200, tex_test_tpl1, 0, 2, 2, GRRLIB_WHITE); // Draw a TPL
+                GRRLIB_DrawImg(400, 300, tex_test_tpl2, 0, 1, 1, GRRLIB_WHITE); // Draw a TPL
 
                 // Draw a sprite
                 GRRLIB_DrawTile(600, 400, tex_sprite_png, 0, 2, 2, GRRLIB_WHITE, 12*4); // Rupee
