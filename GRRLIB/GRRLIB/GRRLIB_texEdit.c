@@ -25,46 +25,50 @@ THE SOFTWARE.
 #include <stdio.h>
 #include <jpeglib.h>
 #include <string.h>
-#include <ogc/tpl.h>
 
 #include <grrlib.h>
+
+#define TPL_HDR_VERSION_FIELD       0
+#define TPL_HDR_NTEXTURE_FIELD      4
+#define TPL_HDR_HDRSIZE_FIELD       8
+#define TPL_HDR_DESCR_FIELD         12
 
 // texture header
 typedef struct _tplimgheader TPLImgHeader;
 
 struct _tplimgheader {
-	u16 height;
-	u16 width;
-	u32 fmt;
-	void *data;
-	u32 wraps;
-	u32 wrapt;
-	u32 minfilter;
-	u32 magfilter;
-	f32 lodbias;
-	u8 edgelod;
-	u8 minlod;
-	u8 maxlod;
-	u8 unpacked;
+    u16 height;
+    u16 width;
+    u32 fmt;
+    void *data;
+    u32 wraps;
+    u32 wrapt;
+    u32 minfilter;
+    u32 magfilter;
+    f32 lodbias;
+    u8 edgelod;
+    u8 minlod;
+    u8 maxlod;
+    u8 unpacked;
 } ATTRIBUTE_PACKED;
 
 // texture palette header
 typedef struct _tplpalheader TPLPalHeader;
 
 struct _tplpalheader {
-	u16 nitems;
-	u8 unpacked;
-	u8 pad;
-	u32 fmt;
-	void *data;
+    u16 nitems;
+    u8 unpacked;
+    u8 pad;
+    u32 fmt;
+    void *data;
 } ATTRIBUTE_PACKED;
 
 // texture descriptor
 typedef struct _tpldesc TPLDescHeader;
 
 struct _tpldesc {
-	TPLImgHeader *imghead;
-	TPLPalHeader *palhead;
+    TPLImgHeader *imghead;
+    TPLPalHeader *palhead;
 } ATTRIBUTE_PACKED;
 
 /**
@@ -188,34 +192,40 @@ GRRLIB_texImg*  GRRLIB_CreateEmptyTexture (const u32 width, const u32 height)
  * @param size Size of the TPL buffer to set.
  * @return A GRRLIB_texImg structure filled with image information.
  */
-GRRLIB_texImg*  GRRLIB_LoadTextureTPL (u8 *my_tpl, const int size) {
-    const s32 id = 0; // Only id zero is valid for now
-
+GRRLIB_texImg*  GRRLIB_LoadTextureTPL (const u8 *my_tpl, const int size, u32 id) {
     if(my_tpl == NULL || size <= 0) {
         return NULL;
     }
 
-    GRRLIB_texImg *my_texture = calloc(1, sizeof(GRRLIB_texImg));
-
-    if (my_texture == NULL) {
+    const u32 ntextures = *(u32*)(my_tpl + TPL_HDR_NTEXTURE_FIELD);
+    if(id > ntextures) {
         return NULL;
     }
 
-    TPLFile tdf;
-    if (TPL_OpenTPLFromMemory(&tdf, my_tpl, size) > 0) {
-        const TPLDescHeader *deschead = (TPLDescHeader*)tdf.texdesc;
-        my_texture->data = deschead[id].imghead->data;
-        my_texture->w = deschead[id].imghead->width;
-        my_texture->h = deschead[id].imghead->height;
-        my_texture->freedata = true;
-        GRRLIB_SetHandle( my_texture, 0, 0 );
-        GRRLIB_FlushTex( my_texture );
+    const TPLDescHeader *deschead = (TPLDescHeader*)(my_tpl + TPL_HDR_DESCR_FIELD);
+
+    for(u32 c = 0; c <= id; ++c) {
+        u32 pos = (u32)deschead[c].imghead;
+        const TPLImgHeader *imghead = (TPLImgHeader*)(my_tpl + pos);
+
+        if(c == id) {
+            GRRLIB_texImg *my_texture = calloc(1, sizeof(GRRLIB_texImg));
+            if (my_texture == NULL) {
+                return NULL;
+            }
+            pos = (u32)imghead->data;
+            my_texture->data = (char*)(my_tpl + pos);
+            my_texture->w = imghead->width;
+            my_texture->h = imghead->height;
+            my_texture->freedata = true;
+            GRRLIB_SetHandle( my_texture, 0, 0 );
+            GRRLIB_FlushTex( my_texture );
+
+            return my_texture;
+        }
     }
-    else {
-        free(my_texture);
-        return NULL;
-    }
-    return my_texture;
+
+    return NULL;
 }
 
 /**
