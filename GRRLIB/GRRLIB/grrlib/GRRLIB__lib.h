@@ -178,8 +178,8 @@ void GRRLIB_SetLightOff(void);
 // GRRLIB_ttf.c - FreeType function for GRRLIB
 GRRLIB_ttfFont* GRRLIB_LoadTTF(const u8* file_base, s32 file_size);
 void GRRLIB_FreeTTF(GRRLIB_ttfFont *myFont);
-void GRRLIB_PrintfTTF(int x, int y, GRRLIB_ttfFont *myFont, const char *string, unsigned int fontSize, const u32 color);
-void GRRLIB_PrintfTTFW(int x, int y, GRRLIB_ttfFont *myFont, const wchar_t *string, unsigned int fontSize, const u32 color);
+u32 GRRLIB_PrintfTTF(int x, int y, GRRLIB_ttfFont *myFont, const char *string, unsigned int fontSize, const u32 color);
+u32 GRRLIB_PrintfTTFW(int x, int y, GRRLIB_ttfFont *myFont, const wchar_t *string, unsigned int fontSize, const u32 color);
 u32 GRRLIB_WidthTTF(GRRLIB_ttfFont *myFont, const char *, unsigned int);
 u32 GRRLIB_WidthTTFW(GRRLIB_ttfFont *myFont, const wchar_t *, unsigned int);
 
