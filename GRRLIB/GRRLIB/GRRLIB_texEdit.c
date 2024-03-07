@@ -105,27 +105,42 @@ void  RawTo4x4RGBA (const u8 *src, void *dst,
 }
 
 /**
- * Create an empty texture.
+ * Create an empty texture with a given format.
+ * @param width Width of the new texture to create.
+ * @param height Height of the new texture to create.
+ * @param format Format of the new texture to create.
+ * @return A GRRLIB_texImg structure newly created.
+ */
+GRRLIB_texImg*  GRRLIB_CreateEmptyTextureFmt (const u32 width, const u32 height, const u32 format)
+{
+    GRRLIB_texImg *my_texture = (struct GRRLIB_texImg *)calloc(1, sizeof(GRRLIB_texImg));
+
+    if (my_texture != NULL) {
+        const u32 buffsize = GX_GetTexBufferSize(width, height, format, 0, 0);
+
+        my_texture->data = memalign(32, buffsize);
+        my_texture->w = width;
+        my_texture->h = height;
+        my_texture->format = format;
+
+        // Initialize the texture
+        memset(my_texture->data, '\0', buffsize);
+
+        GRRLIB_SetHandle(my_texture, 0, 0);
+        GRRLIB_FlushTex(my_texture);
+    }
+    return my_texture;
+}
+
+/**
+ * Create an empty texture in GX_TF_RGBA8 format.
  * @param width Width of the new texture to create.
  * @param height Height of the new texture to create.
  * @return A GRRLIB_texImg structure newly created.
  */
 GRRLIB_texImg*  GRRLIB_CreateEmptyTexture (const u32 width, const u32 height)
 {
-    GRRLIB_texImg *my_texture = (struct GRRLIB_texImg *)calloc(1, sizeof(GRRLIB_texImg));
-
-    if (my_texture != NULL) {
-        my_texture->data = memalign(32, height * width * 4);
-        my_texture->w = width;
-        my_texture->h = height;
-
-        // Initialize the texture
-        memset(my_texture->data, '\0', (height * width) << 2);
-
-        GRRLIB_SetHandle(my_texture, 0, 0);
-        GRRLIB_FlushTex(my_texture);
-    }
-    return my_texture;
+    return GRRLIB_CreateEmptyTextureFmt(width, height, GX_TF_RGBA8);
 }
 
 /**
@@ -164,6 +179,7 @@ GRRLIB_texImg*  GRRLIB_LoadTexturePNG (const u8 *my_png) {
     if (my_texture->data != NULL) {
         my_texture->w = width;
         my_texture->h = height;
+        my_texture->format = GX_TF_RGBA8;
         GRRLIB_SetHandle( my_texture, 0, 0 );
         if (imgProp.imgWidth != width || imgProp.imgHeight != height) {
             // PNGU has resized the texture
@@ -236,6 +252,7 @@ GRRLIB_texImg*  GRRLIB_LoadTextureBMP (const u8 *my_bmp) {
         RGBQUAD *Palette;
         my_texture->w = MyBitmapHeader.biWidth;
         my_texture->h = MyBitmapHeader.biHeight;
+        my_texture->format = GX_TF_RGBA8;
         switch(MyBitmapHeader.biBitCount) {
             case 32:    // RGBA images
                 i = 54;
@@ -407,6 +424,7 @@ GRRLIB_texImg*  GRRLIB_LoadTextureJPGEx (const u8 *my_jpg, const u32 my_size) {
 
     my_texture->w = cinfo.output_width;
     my_texture->h = cinfo.output_height;
+    my_texture->format = GX_TF_RGBA8;
     GRRLIB_SetHandle( my_texture, 0, 0 );
     GRRLIB_FlushTex( my_texture );
     return my_texture;

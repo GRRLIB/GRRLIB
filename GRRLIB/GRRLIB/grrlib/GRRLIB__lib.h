@@ -136,6 +136,7 @@ void  GRRLIB_CompoEnd(u16 posx, u16 posy, GRRLIB_texImg *tex);
 //------------------------------------------------------------------------------
 // GRRLIB_texEdit.c - Modifying the content of a texture
 GRRLIB_texImg*  GRRLIB_CreateEmptyTexture (const u32 width, const u32 height);
+GRRLIB_texImg*  GRRLIB_CreateEmptyTextureFmt (const u32 width, const u32 height, const u32 format);
 GRRLIB_texImg*  GRRLIB_LoadTexture    (const u8 *my_img);
 GRRLIB_texImg*  GRRLIB_LoadTexturePNG (const u8 *my_png);
 GRRLIB_texImg*  GRRLIB_LoadTextureJPG (const u8 *my_jpg);

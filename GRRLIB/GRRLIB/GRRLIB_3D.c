@@ -347,10 +347,10 @@ void GRRLIB_SetTexture(GRRLIB_texImg *tex, bool rep) {
     GXTexObj  texObj;
 
     if (rep == true) {
-        GX_InitTexObj(&texObj, tex->data, tex->w, tex->h, GX_TF_RGBA8, GX_REPEAT, GX_REPEAT, GX_FALSE);
+        GX_InitTexObj(&texObj, tex->data, tex->w, tex->h, tex->format, GX_REPEAT, GX_REPEAT, GX_FALSE);
     }
     else {
-        GX_InitTexObj(&texObj, tex->data, tex->w, tex->h, GX_TF_RGBA8, GX_CLAMP, GX_CLAMP, GX_FALSE);
+        GX_InitTexObj(&texObj, tex->data, tex->w, tex->h, tex->format, GX_CLAMP, GX_CLAMP, GX_FALSE);
     }
     if (GRRLIB_Settings.antialias == false) {
         GX_InitTexObjLOD(&texObj, GX_NEAR, GX_NEAR, 0.0f, 0.0f, 0.0f, 0, 0, GX_ANISO_1);
