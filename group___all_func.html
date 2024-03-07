@@ -373,8 +373,11 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>GRRLIB_Render</b> (vo
 <tr class="memdesc:ga0af29f5435a5cbdee720afb8c375ca71"><td class="mdescLeft">&#160;</td><td class="mdescRight">End GX compositing process (Make a snapshot of the screen in a texture WITH ALPHA LAYER).  <br /></td></tr>
 <tr class="separator:ga0af29f5435a5cbdee720afb8c375ca71"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga5ace4f7f4fae5016fe7c009b0e6331c9" id="r_ga5ace4f7f4fae5016fe7c009b0e6331c9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_g_r_r_l_i_b__tex_img.html">GRRLIB_texImg</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga5ace4f7f4fae5016fe7c009b0e6331c9">GRRLIB_CreateEmptyTexture</a> (const u32 width, const u32 height)</td></tr>
-<tr class="memdesc:ga5ace4f7f4fae5016fe7c009b0e6331c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an empty texture.  <br /></td></tr>
+<tr class="memdesc:ga5ace4f7f4fae5016fe7c009b0e6331c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an empty texture in GX_TF_RGBA8 format.  <br /></td></tr>
 <tr class="separator:ga5ace4f7f4fae5016fe7c009b0e6331c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gade2d994a5f55dd91c8cd1268add6970a" id="r_gade2d994a5f55dd91c8cd1268add6970a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_g_r_r_l_i_b__tex_img.html">GRRLIB_texImg</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gade2d994a5f55dd91c8cd1268add6970a">GRRLIB_CreateEmptyTextureFmt</a> (const u32 width, const u32 height, const u32 format)</td></tr>
+<tr class="memdesc:gade2d994a5f55dd91c8cd1268add6970a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an empty texture with a given format.  <br /></td></tr>
+<tr class="separator:gade2d994a5f55dd91c8cd1268add6970a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga3bcf05b86d1d2345eef642fd6eb9912d" id="r_ga3bcf05b86d1d2345eef642fd6eb9912d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_g_r_r_l_i_b__tex_img.html">GRRLIB_texImg</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga3bcf05b86d1d2345eef642fd6eb9912d">GRRLIB_LoadTexture</a> (const u8 *my_img)</td></tr>
 <tr class="memdesc:ga3bcf05b86d1d2345eef642fd6eb9912d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a texture from a buffer.  <br /></td></tr>
 <tr class="separator:ga3bcf05b86d1d2345eef642fd6eb9912d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1153,11 +1156,48 @@ GRR_EXTERN GXRModeObj *&#160;</td><td class="memItemRight" valign="bottom"><b>rm
       </table>
 </div><div class="memdoc">
 
-<p>Create an empty texture. </p>
+<p>Create an empty texture in GX_TF_RGBA8 format. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">width</td><td>Width of the new texture to create. </td></tr>
     <tr><td class="paramname">height</td><td>Height of the new texture to create. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="struct_g_r_r_l_i_b__tex_img.html" title="Structure to hold the texture information.">GRRLIB_texImg</a> structure newly created. </dd></dl>
+
+</div>
+</div>
+<a id="gade2d994a5f55dd91c8cd1268add6970a" name="gade2d994a5f55dd91c8cd1268add6970a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gade2d994a5f55dd91c8cd1268add6970a">&#9670;&#160;</a></span>GRRLIB_CreateEmptyTextureFmt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_g_r_r_l_i_b__tex_img.html">GRRLIB_texImg</a> * GRRLIB_CreateEmptyTextureFmt </td>
+          <td>(</td>
+          <td class="paramtype">const u32</td>          <td class="paramname"><span class="paramname"><em>width</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const u32</td>          <td class="paramname"><span class="paramname"><em>height</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const u32</td>          <td class="paramname"><span class="paramname"><em>format</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Create an empty texture with a given format. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">width</td><td>Width of the new texture to create. </td></tr>
+    <tr><td class="paramname">height</td><td>Height of the new texture to create. </td></tr>
+    <tr><td class="paramname">format</td><td>Format of the new texture to create. </td></tr>
   </table>
   </dd>
 </dl>
