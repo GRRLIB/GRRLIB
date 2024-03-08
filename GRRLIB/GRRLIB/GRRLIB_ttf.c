@@ -100,15 +100,67 @@ void GRRLIB_PrintfTTF(int x, int y, GRRLIB_ttfFont *myFont, const char *string, 
         return;
     }
 
-    size_t length = strlen(string) + 1;
-    wchar_t *utf32 = (wchar_t*)malloc(length * sizeof(wchar_t));
-    if (utf32 != NULL) {
-        length = mbstowcs(utf32, string, length);
-        if (length > 0) {
-            utf32[length] = L'\0';
-            GRRLIB_PrintfTTFW(x, y, myFont, utf32, fontSize, color);
+    FT_Face Face = (FT_Face)myFont->face;
+    int penX = 0;
+    int penY = fontSize;
+    FT_GlyphSlot slot = Face->glyph;
+    FT_UInt previousGlyph = 0;
+    const u8 cR = R(color);
+    const u8 cG = G(color);
+    const u8 cB = B(color);
+    const u8 cA = A(color);
+
+    if (FT_Set_Pixel_Sizes(Face, 0, fontSize) != 0) {
+        FT_Set_Pixel_Sizes(Face, 0, 12);
+    }
+
+    /* Loop over each character, until the
+     * end of the string is reached, or until the pixel width is too wide */
+    while(*string) {
+        wchar_t wchar;
+        if (((*(string + 0)) & 0x80) == 0x00) {
+            // Single-byte character (ASCII)
+            wchar = (wchar_t)*string;
+            string += 1;
         }
-        free(utf32);
+        else if (((*(string + 0)) & 0xE0) == 0xC0 && ((*(string + 1)) & 0xC0) == 0x80) {
+            // Two-byte character
+            wchar = ((wchar_t)(*string & 0x1F) << 6) | ((wchar_t)(*(string + 1)) & 0x3F);
+            string += 2;
+        }
+        else if (((*(string + 0)) & 0xF0) == 0xE0 && ((*(string + 1)) & 0xC0) == 0x80 && ((*(string + 2)) & 0xC0) == 0x80) {
+            // Three-byte character
+            wchar = ((wchar_t)(*string & 0x0F) << 12) | ((wchar_t)(*(string + 1) & 0x3F) << 6) | ((wchar_t)(*(string + 2)) & 0x3F);
+            string += 3;
+        }
+        else if (((*(string + 0)) & 0xF8) == 0xF0 && ((*(string + 1)) & 0xC0) == 0x80 && ((*(string + 2)) & 0xC0) == 0x80 && ((*(string + 3)) & 0xC0) == 0x80) {
+            // Four-byte character
+            wchar = ((wchar_t)(*string & 0x07) << 18) | ((wchar_t)(*(string + 1) & 0x3F) << 12) | ((wchar_t)(*(string + 2) & 0x3F) << 6) | ((wchar_t)(*(string + 3)) & 0x3F);
+            string += 4;
+        }
+        else {
+            // Invalid UTF-8 sequence
+            string++;
+            continue;
+        }
+
+        const FT_UInt glyphIndex = FT_Get_Char_Index(myFont->face, wchar);
+
+        if (myFont->kerning && previousGlyph && glyphIndex) {
+            FT_Vector delta;
+            FT_Get_Kerning(myFont->face, previousGlyph, glyphIndex, FT_KERNING_DEFAULT, &delta);
+            penX += delta.x >> 6;
+        }
+        if (FT_Load_Glyph(myFont->face, glyphIndex, FT_LOAD_RENDER) != 0) {
+            continue;
+        }
+
+        DrawBitmap(&slot->bitmap,
+                penX + slot->bitmap_left + x,
+                penY - slot->bitmap_top + y,
+                cR, cG, cB, cA);
+        penX += slot->advance.x >> 6;
+        previousGlyph = glyphIndex;
     }
 }
 
@@ -203,15 +255,57 @@ u32 GRRLIB_WidthTTF(GRRLIB_ttfFont *myFont, const char *string, unsigned int fon
     if (myFont == NULL || string == NULL) {
         return 0;
     }
-    u32 penX;
-    size_t length = strlen(string) + 1;
-    wchar_t *utf32 = (wchar_t*)malloc(length * sizeof(wchar_t));
-    length = mbstowcs(utf32, string, length);
-    utf32[length] = L'\0';
 
-    penX = GRRLIB_WidthTTFW(myFont, utf32, fontSize);
+    FT_Face Face = (FT_Face)myFont->face;
+    u32 penX = 0;
+    FT_UInt previousGlyph = 0;
 
-    free(utf32);
+    if (FT_Set_Pixel_Sizes(myFont->face, 0, fontSize) != 0) {
+         FT_Set_Pixel_Sizes(myFont->face, 0, 12);
+    }
+
+    while(*string) {
+        wchar_t wchar;
+        if (((*(string + 0)) & 0x80) == 0x00) {
+            // Single-byte character (ASCII)
+            wchar = (wchar_t)*string;
+            string += 1;
+        }
+        else if (((*(string + 0)) & 0xE0) == 0xC0 && ((*(string + 1)) & 0xC0) == 0x80) {
+            // Two-byte character
+            wchar = ((wchar_t)(*string & 0x1F) << 6) | ((wchar_t)(*(string + 1)) & 0x3F);
+            string += 2;
+        }
+        else if (((*(string + 0)) & 0xF0) == 0xE0 && ((*(string + 1)) & 0xC0) == 0x80 && ((*(string + 2)) & 0xC0) == 0x80) {
+            // Three-byte character
+            wchar = ((wchar_t)(*string & 0x0F) << 12) | ((wchar_t)(*(string + 1) & 0x3F) << 6) | ((wchar_t)(*(string + 2)) & 0x3F);
+            string += 3;
+        }
+        else if (((*(string + 0)) & 0xF8) == 0xF0 && ((*(string + 1)) & 0xC0) == 0x80 && ((*(string + 2)) & 0xC0) == 0x80 && ((*(string + 3)) & 0xC0) == 0x80) {
+            // Four-byte character
+            wchar = ((wchar_t)(*string & 0x07) << 18) | ((wchar_t)(*(string + 1) & 0x3F) << 12) | ((wchar_t)(*(string + 2) & 0x3F) << 6) | ((wchar_t)(*(string + 3)) & 0x3F);
+            string += 4;
+        }
+        else {
+            // Invalid UTF-8 sequence
+            string++;
+            continue;
+        }
+
+        const FT_UInt glyphIndex = FT_Get_Char_Index(myFont->face, wchar);
+
+        if (myFont->kerning && previousGlyph && glyphIndex) {
+            FT_Vector delta;
+            FT_Get_Kerning(Face, previousGlyph, glyphIndex, FT_KERNING_DEFAULT, &delta);
+            penX += delta.x >> 6;
+        }
+        if (FT_Load_Glyph(Face, glyphIndex, FT_LOAD_RENDER) != 0) {
+            continue;
+        }
+
+        penX += Face->glyph->advance.x >> 6;
+        previousGlyph = glyphIndex;
+    }
 
     return penX;
 }
