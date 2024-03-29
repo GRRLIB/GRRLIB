@@ -161,6 +161,71 @@ typedef  struct GRRLIB_Font {
     bool kerning;   /**< true whenever a face object contains kerning data that can be accessed with FT_Get_Kerning. */
 } GRRLIB_ttfFont;
 
+//------------------------------------------------------------------------------
+/**
+ * Structure that defines a material in a model. 
+ */
+typedef struct _GRRLIB_Material {
+    char* name;                 /**< Name of material (newmtl).*/
+    u8 diffuse[3];              /**< Diffuse component (Kd). */
+    u8 ambient[3];              /**< Ambient component (Ka). */
+    u8 specular[3];             /**< Specular component (Ks). */
+    u8 alpha;                   /**< Transparency of the material (d or Tr). */
+    GRRLIB_texImg* diffusetex;  /**< Diffuse texture map (map_Kd). */
+    GRRLIB_texImg* ambienttex;  /**< Ambient texture map (map_Ka). */
+    GRRLIB_texImg* speculartex; /**< Specular texture map (map_Ks). */
+    f32 shininess;              /**< Specular exponent (Ns).*/
+} GRRLIB_Material;
+/**
+ * Structure that defines a group in a model.
+ */
+typedef struct _GRRLIB_Group {
+    char*                 name;           /**< Name of this group. */
+    u32                   numtriangles;   /**< Number of triangles in this group. */
+    u32*                  triangles;      /**< Array of triangle indices. */
+    u32                   material;       /**< Index to material for group. */
+    struct _GRRLIB_Group* next;           /**< Pointer to next group in model. */
+} GRRLIB_Group;
+/**
+ * Structure that defines a triangle in a model.
+ */
+typedef struct {
+    u32 vindices[3];          /**< Array of triangle vertex indices. */
+    u32 nindices[3];          /**< Array of triangle normal indices. */
+    u32 tindices[3];          /**< Array of triangle texcoord indices.*/
+    u32 findex;               /**< Index of triangle facet normal. */
+} GRRLIB_Triangle;
+/**
+  * Structure that defines a model.
+  */
+typedef struct {
+    char*     pathname;           /**< Path to this model. */
+    char*     mtllibname;         /**< Name of the material library. */
+
+    u32       numvertices;        /**< Number of vertices in model. */
+    f32*      vertices;           /**< Array of vertices. */
+
+    u32       numnormals;         /**< Number of normals in model. */
+    f32*      normals;            /**< Array of normals. */
+
+    u32       numtexcoords;       /**< Number of texcoords in model. */
+    f32*      texcoords;          /**< Array of texture coordinates. */
+
+    u32       numfacetnorms;      /**< Number of facetnorms in model. */
+    f32*      facetnorms;         /**< Array of facetnorms. */
+
+    u32       numtriangles;       /**< Number of triangles in model. */
+    GRRLIB_Triangle* triangles;   /**< Array of triangles. */
+
+    u32       nummaterials;       /**< Number of materials in model. */
+    GRRLIB_Material* materials;   /**< Array of materials. */
+
+    u32       numgroups;          /**< Number of groups in model. */
+    GRRLIB_Group*    groups;      /**< Linked list of groups. */
+
+    guVector  position;           /**< Position of the model. */
+} GRRLIB_Model;
+
 //==============================================================================
 // Allow general access to screen and frame information
 //==============================================================================
