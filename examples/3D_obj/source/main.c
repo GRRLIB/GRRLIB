@@ -17,7 +17,6 @@ int main() {
     f32 camZ = 50.0f;
     u8 Amb = 0x00;
     f32 zlight = 0.0f;
-    GRRLIB_Model* model;
     const char strCtl1[]   = "DPAD TO ROTATE MODEL";
     const char strCtl2[]   = "PLUS/MINUS TO ZOOM MODEL";
     const char strCredit[] = "BY NONAMENO/CRAYON FROM GRRLIB TEAM";
@@ -32,11 +31,11 @@ int main() {
 
     GRRLIB_SetBackgroundColour(0x30, 0x30, 0x30, 0xFF);
 
-    model = GRRLIB_ReadOBJ("sd:/data/head_chord.obj");
+    GRRLIB_Model* model = GRRLIB_ReadOBJ("sd:/data/head_chord.obj");
 
     if(model->numnormals == 0) {
         GRRLIB_FacetNormals(model);
-        GRRLIB_VertexNormals(model, 90.0);
+        GRRLIB_VertexNormals(model, 90.0f);
     }
 
     if(model->numtexcoords == 0) {
@@ -74,15 +73,33 @@ int main() {
         GRRLIB_Render();
 
         WPAD_ScanPads();
-        if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME)  break;
-        if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_RIGHT) modelRotY++;
-        if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_LEFT)  modelRotY--;
-        if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_DOWN)  modelRotX++;
-        if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_UP)    modelRotX--;
-        if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_PLUS)  camZ -= 0.3f;
-        if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_MINUS) camZ += 0.3f;
-        if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_A)     zlight += 0.4f;
-        if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_B)     zlight -= 0.4f;
+        if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) {
+            break;
+        }
+        if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_RIGHT) {
+            modelRotY++;
+        }
+        if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_LEFT) {
+            modelRotY--;
+        }
+        if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_DOWN) {
+            modelRotX++;
+        }
+        if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_UP) {
+            modelRotX--;
+        }
+        if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_PLUS) {
+            camZ -= 0.3f;
+        }
+        if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_MINUS) {
+            camZ += 0.3f;
+        }
+        if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_A) {
+            zlight += 0.4f;
+        }
+        if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_B) {
+            zlight -= 0.4f;
+        }
         if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_1 && WPAD_ButtonsHeld(0) & WPAD_BUTTON_2) {
             WPAD_Rumble(0, true);  // Rumble on
             GRRLIB_ScrShot("sd:/grrlib_3d.png");

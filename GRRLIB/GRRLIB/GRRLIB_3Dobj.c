@@ -818,37 +818,38 @@ void GRRLIB_DeleteObj(GRRLIB_Model* model) {
  * @param model Structure that defines the model to draw.
  */
 void GRRLIB_Draw3dObj(GRRLIB_Model* model) {
-    GRRLIB_Group* group;
-    GRRLIB_texImg* tex;
-
     if(model == NULL) {
         return;
     }
 
-    group = model->groups;
+    GRRLIB_Group* group = model->groups;
     while (group) {
-        u32 Color = RGBA(model->materials[group->material].diffuse[0],
+        const u32 Color = RGBA(model->materials[group->material].diffuse[0],
             model->materials[group->material].diffuse[1],
             model->materials[group->material].diffuse[2],
             0xFF);
 
-        tex = model->materials[group->material].diffusetex;
+        GRRLIB_texImg* tex = model->materials[group->material].diffusetex;
 
         GX_ClearVtxDesc();
 
         GX_SetVtxDesc(GX_VA_POS, GX_DIRECT);
-        if(model->numnormals)
+        if(model->numnormals) {
             GX_SetVtxDesc(GX_VA_NRM, GX_DIRECT);
+        }
         GX_SetVtxDesc(GX_VA_CLR0, GX_DIRECT);
-        if(model->numtexcoords && tex)
+        if(model->numtexcoords && tex) {
             GX_SetVtxDesc(GX_VA_TEX0, GX_DIRECT);
+        }
 
         GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_POS_XYZ, GX_F32, 0);
-        if(model->numnormals)
+        if(model->numnormals) {
             GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_NRM, GX_NRM_XYZ, GX_F32, 0);
+        }
         GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_CLR0, GX_CLR_RGBA, GX_RGBA8, 0);
-        if(model->numtexcoords && tex)
+        if(model->numtexcoords && tex) {
             GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_TEX0, GX_TEX_ST, GX_F32, 0);
+        }
 
         if(model->numtexcoords && tex) {
             GX_SetTevOp(GX_TEVSTAGE0, GX_MODULATE);
@@ -940,7 +941,7 @@ void GRRLIB_VertexNormals(GRRLIB_Model* model, f32 angle) {
     }
 
     // calculate the cosine of the angle (in degrees)
-    f32 cos_angle = cos(angle * M_PI / 180.0);
+    const f32 cos_angle = cos(angle * M_PI / 180.0);
 
     // nuke any previous normals
     if (model->normals) {
@@ -1106,7 +1107,7 @@ void GRRLIB_FacetNormals(GRRLIB_Model* model) {
     model->facetnorms = (f32*)malloc(sizeof(f32) * 3 * (model->numfacetnorms + 1));
 
     for (u32 i = 0; i < model->numtriangles; i++) {
-        model->triangles[i].findex = i+1;
+        model->triangles[i].findex = i + 1;
 
         u[X] = model->vertices[3 * T(i).vindices[1] + X] -
             model->vertices[3 * T(i).vindices[0] + X];
@@ -1136,7 +1137,6 @@ void GRRLIB_FacetNormals(GRRLIB_Model* model) {
  */
 void GRRLIB_LinearTexture(GRRLIB_Model* model) {
     f32 dimensions[3];
-    f32 x, y;
 
     if(model == NULL) {
         return;
@@ -1154,8 +1154,8 @@ void GRRLIB_LinearTexture(GRRLIB_Model* model) {
 
     // do the calculations
     for(u32 i = 1; i <= model->numvertices; i++) {
-        x = model->vertices[3 * i + 0] * scalefactor;
-        y = model->vertices[3 * i + 2] * scalefactor;
+        const f32 x = model->vertices[3 * i + 0] * scalefactor;
+        const f32 y = model->vertices[3 * i + 2] * scalefactor;
         model->texcoords[2 * i + 0] = (x + 1.0) / 2.0;
         model->texcoords[2 * i + 1] = (y + 1.0) / 2.0;
     }
