@@ -28,14 +28,19 @@ THE SOFTWARE.
 
 #include <grrlib.h>
 
-#define TPL_HDR_VERSION_FIELD       0
-#define TPL_HDR_NTEXTURE_FIELD      4
-#define TPL_HDR_HDRSIZE_FIELD       8
-#define TPL_HDR_DESCR_FIELD         12
+#define TPL_HDR_VERSION_FIELD       0   /**< Version field. */
+#define TPL_HDR_NTEXTURE_FIELD      4   /**< Textrure field. */
+#define TPL_HDR_HDRSIZE_FIELD       8   /**< Header size field. */
+#define TPL_HDR_DESCR_FIELD         12  /**< Descriptor field. */
 
-// texture header
+/**
+ * Texture header.
+ */
 typedef struct _tplimgheader TPLImgHeader;
 
+/**
+ * Texture header.
+ */
 struct _tplimgheader {
     u16 height;
     u16 width;
@@ -52,9 +57,14 @@ struct _tplimgheader {
     u8 unpacked;
 } ATTRIBUTE_PACKED;
 
-// texture palette header
+/**
+ * Texture palette header.
+ */
 typedef struct _tplpalheader TPLPalHeader;
 
+/**
+ * Texture palette header.
+ */
 struct _tplpalheader {
     u16 nitems;
     u8 unpacked;
@@ -63,9 +73,14 @@ struct _tplpalheader {
     void *data;
 } ATTRIBUTE_PACKED;
 
-// texture descriptor
+/**
+ * Texture descriptor.
+ */
 typedef struct _tpldesc TPLDescHeader;
 
+/**
+ * Texture descriptor.
+ */
 struct _tpldesc {
     TPLImgHeader *imghead;
     TPLPalHeader *palhead;
