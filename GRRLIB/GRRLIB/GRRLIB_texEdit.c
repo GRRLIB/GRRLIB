@@ -42,19 +42,19 @@ typedef struct _tplimgheader TPLImgHeader;
  * Texture header.
  */
 struct _tplimgheader {
-    u16 height;
-    u16 width;
-    u32 fmt;
-    void *data;
-    u32 wraps;
-    u32 wrapt;
-    u32 minfilter;
-    u32 magfilter;
-    f32 lodbias;
-    u8 edgelod;
-    u8 minlod;
-    u8 maxlod;
-    u8 unpacked;
+    u16 height;     /**< Height of the texture in pixels. */
+    u16 width;      /**< Width of the texture in pixels. */
+    u32 fmt;        /**< Format of the texture. */
+    void *data;     /**< Pointer to the texture data. */
+    u32 wraps;      /**< Texture coordinate wrapping strategy in the S direction. */ 
+    u32 wrapt;      /**< Texture coordinate wrapping strategy in the T direction. */
+    u32 minfilter;  /**< Filter mode when the texel/pixel ratio is ≤ 1.0. */
+    u32 magfilter;  /**< Filter mode when the texel/pixel ratio is > 1.0. */
+    f32 lodbias;    /**< LOD bias. */
+    u8 edgelod;     /**< Edge LOD. */
+    u8 minlod;      /**< Minimum LOD value. */
+    u8 maxlod;      /**< Maximum LOD value. */
+    u8 unpacked;    /**< Internal flag. */
 } ATTRIBUTE_PACKED;
 
 /**
@@ -66,11 +66,11 @@ typedef struct _tplpalheader TPLPalHeader;
  * Texture palette header.
  */
 struct _tplpalheader {
-    u16 nitems;
-    u8 unpacked;
-    u8 pad;
-    u32 fmt;
-    void *data;
+    u16 nitems;     /**< Number of palette entries. */
+    u8 unpacked;    /**< Internal flag. */
+    u8 pad;         /**< Padding. */
+    u32 fmt;        /**< Format of the color lookup table (CLUT). */
+    void *data;     /**< Pointer to the color lookup table (CLUT) data. */
 } ATTRIBUTE_PACKED;
 
 /**
@@ -82,8 +82,8 @@ typedef struct _tpldesc TPLDescHeader;
  * Texture descriptor.
  */
 struct _tpldesc {
-    TPLImgHeader *imghead;
-    TPLPalHeader *palhead;
+    TPLImgHeader *imghead;  /**< Pointer to texture header structure. */
+    TPLPalHeader *palhead;  /**< Pointer to color lookup table (CLUT) header. */
 } ATTRIBUTE_PACKED;
 
 /**
