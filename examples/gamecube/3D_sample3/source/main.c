@@ -18,7 +18,6 @@
 int main() {
     float a=0;
     int cubeZ=5;
-    int i;
     float sinx=0;
 
     GRRLIB_Init();
@@ -46,7 +45,7 @@ int main() {
         if(PAD_ButtonsHeld(0) & PAD_BUTTON_B) cubeZ--;
 
         GRRLIB_3dMode(0.1,1000,45,1,0);
-        GRRLIB_SetTexture(tex_girl,0);
+        GRRLIB_SetTexture(tex_girl, FALSE);
         GRRLIB_ObjectView(0,0,cubeZ, a,a*2,a*3,1,1,1);
         GX_Begin(GX_QUADS, GX_VTXFMT0, 24);
             GX_Position3f32(-1.0f,1.0f,1.0f);
@@ -133,7 +132,7 @@ int main() {
         // Switch To 2D Mode to display text
         GRRLIB_2dMode();
         const float oldsinx=sinx;
-        for(i=0; i<rmode->efbHeight; i++) {
+        for(int i=0; i<rmode->efbHeight; i++) {
             GRRLIB_DrawTile(0+sin(sinx)*60,i,tex_screen,0,1,1,0xFFFFFFFF,i);
             sinx+=0.02f;
         }

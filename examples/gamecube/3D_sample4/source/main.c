@@ -13,9 +13,7 @@
 #include "gfx/logo.h"
 
 int main() {
-    int i;
     float a=0;
-    u32 col;
 
     GRRLIB_Init();
     PAD_Init();
@@ -35,7 +33,8 @@ int main() {
         GRRLIB_3dMode(0.1,1000,45,0,0);
         GRRLIB_ObjectView(0,0,-30, a,a*2,a*3,1,1,1);
         GX_Begin(GX_TRIANGLES, GX_VTXFMT0, logoNbFace * 3);
-        for(i=0; i<logoNbFace*3; i+=3) {
+        for(int i=0; i<logoNbFace*3; i+=3) {
+            u32 col;
             if(i<=(246*3*2))
                 col=0xFFFFFFFF;
             else

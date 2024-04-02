@@ -134,7 +134,6 @@ int main() {
     int cptx=0, cpty=0;
     int bgx=-32, bgy=-32;
     float idperso=0;
-    int i;
     float sinnonameno=0;
 
     GRRLIB_Init();
@@ -154,10 +153,22 @@ int main() {
         if (PAD_ButtonsDown(0) & PAD_BUTTON_START)  break;
 
         if((dirx==0) && (diry==0)) {
-            if (PAD_ButtonsHeld(0) & PAD_BUTTON_DOWN) { diry=-4; idperso=15;}
-            else if (PAD_ButtonsHeld(0) & PAD_BUTTON_UP) { diry=4; idperso=15;}
-            else if (PAD_ButtonsHeld(0) & PAD_BUTTON_RIGHT) { dirx=-4; idperso=1;}
-            else if (PAD_ButtonsHeld(0) & PAD_BUTTON_LEFT) { dirx=4; idperso=8;}
+            if (PAD_ButtonsHeld(0) & PAD_BUTTON_DOWN) {
+                diry=-4;
+                idperso=15;
+            }
+            else if (PAD_ButtonsHeld(0) & PAD_BUTTON_UP) {
+                diry=4;
+                idperso=15;
+            }
+            else if (PAD_ButtonsHeld(0) & PAD_BUTTON_RIGHT) {
+                dirx=-4;
+                idperso=1;
+            }
+            else if (PAD_ButtonsHeld(0) & PAD_BUTTON_LEFT) {
+                dirx=4;
+                idperso=8;
+            }
         }
 
         if((dirx==0) && (diry==0)) {
@@ -254,7 +265,7 @@ int main() {
         GRRLIB_DrawTile(TileMap1Width*9,TileMap1Height*6,tex_perso,0,1,1,0xFFFFFFFF,(int)idperso);
 
         const float oldsinnonameno=sinnonameno;
-        for(i=0; i<8; i++) {
+        for(int i=0; i<8; i++) {
             GRRLIB_DrawTile(TileMap1Width*(6+i),(TileMap1Height*10)+sin(sinnonameno)*64,tex_nonameno,0,1,1,0xFFFFFFFF,i);
             sinnonameno+=0.4F;
         }

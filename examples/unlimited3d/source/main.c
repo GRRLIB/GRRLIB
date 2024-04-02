@@ -76,7 +76,7 @@ int main() {
 
         cubeZ+=0.02f;
         GRRLIB_ObjectView((float)(((R + r-ff)*cos(t-f) - d*cos(((R + r-f)/r)*t)))/20.0f,(float)(((R + r-ff)*sin(t) - d*sin(((R + r)/r)*t)-f))/20.0f,sin(cubeZ)*10, a,a*2,a*3,1,1,1);
-        GRRLIB_SetTexture(tex_girl, 0);
+        GRRLIB_SetTexture(tex_girl, FALSE);
         GX_Begin(GX_QUADS, GX_VTXFMT0, 24);
             GX_Position3f32(-1.0f,1.0f,1.0f);
             GX_Color1u32(0xFFFFFFFF);

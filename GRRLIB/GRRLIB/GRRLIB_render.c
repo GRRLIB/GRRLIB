@@ -269,10 +269,10 @@ void  GRRLIB_DrawPart (const f32 xpos, const f32 ypos, const f32 partx, const f3
         return;
 
     // The 0.001f/x is the frame correction formula by spiffen
-    const f32 s1 = (partx /tex->w) +(0.001f /tex->w);
-    const f32 s2 = ((partx + partw)/tex->w) -(0.001f /tex->w);
-    const f32 t1 = (party /tex->h) +(0.001f /tex->h);
-    const f32 t2 = ((party + parth)/tex->h) -(0.001f /tex->h);
+    const f32 s1 = (partx / tex->w) + (0.001f / tex->w);
+    const f32 s2 = ((partx + partw) / tex->w) - (0.001f / tex->w);
+    const f32 t1 = (party / tex->h) + (0.001f / tex->h);
+    const f32 t2 = ((party + parth) / tex->h) - (0.001f / tex->h);
 
     GX_InitTexObj(&texObj, tex->data,
                   tex->w, tex->h,
@@ -349,10 +349,10 @@ void  GRRLIB_DrawTileQuad (const guVector pos[4], GRRLIB_texImg *tex, const u32 
         return;
 
     // The 0.001f/x is the frame correction formula by spiffen
-    const f32 s1 = ((     (frame %tex->nbtilew)   ) /(f32)tex->nbtilew) +(0.001f /tex->w);
-    const f32 s2 = ((     (frame %tex->nbtilew) +1) /(f32)tex->nbtilew) -(0.001f /tex->w);
-    const f32 t1 = (((int)(frame /tex->nbtilew)   ) /(f32)tex->nbtileh) +(0.001f /tex->h);
-    const f32 t2 = (((int)(frame /tex->nbtilew) +1) /(f32)tex->nbtileh) -(0.001f /tex->h);
+    const f32 s1 = ((     (frame % tex->nbtilew)    ) / (f32)tex->nbtilew) + (0.001f / tex->w);
+    const f32 s2 = ((     (frame % tex->nbtilew) + 1) / (f32)tex->nbtilew) - (0.001f / tex->w);
+    const f32 t1 = (((int)(frame / tex->nbtilew)    ) / (f32)tex->nbtileh) + (0.001f / tex->h);
+    const f32 t2 = (((int)(frame / tex->nbtilew) + 1) / (f32)tex->nbtileh) - (0.001f / tex->h);
 
     GX_InitTexObj(&texObj, tex->data,
                   tex->tilew * tex->nbtilew, tex->tileh * tex->nbtileh,
@@ -418,7 +418,7 @@ void  GRRLIB_Render (void) {
     VIDEO_Flush();                      // Flush video buffer to screen
     VIDEO_WaitVSync();                  // Wait for screen to update
     // Interlaced screens require two frames to update
-    if (rmode->viTVMode &VI_NON_INTERLACE) {
+    if (rmode->viTVMode & VI_NON_INTERLACE) {
         VIDEO_WaitVSync();
     }
 }
