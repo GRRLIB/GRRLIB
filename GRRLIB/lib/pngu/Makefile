@@ -86,9 +86,9 @@ clean:
 
 #---------------------------------------------------------------------------------
 install:
-	@mkdir --parents $(DESTDIR)/lib $(DESTDIR)/include
-	@cp --force $(OUTPUT) $(DESTDIR)/lib
-	@cp --force --parents $(HDR) $(DESTDIR)/include
+	@mkdir -p $(DESTDIR)/lib $(DESTDIR)/include
+	@cp -f $(OUTPUT) $(DESTDIR)/lib
+	@cp -f $(HDR) $(DESTDIR)/include
 
 #---------------------------------------------------------------------------------
 else
