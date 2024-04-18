@@ -34,7 +34,8 @@ BUILD		:=	build
 SOURCES		:=	.
 INCLUDES	:=	. ../lib/pngu
 
-HDR			:=	$(TARGET).h $(wildcard $(TARGET)/*.h)
+HDR			:=	$(TARGET).h
+INL			:=	$(wildcard $(TARGET)/*.h)
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -94,9 +95,10 @@ clean:
 
 #---------------------------------------------------------------------------------
 install:
-	@mkdir -p $(DESTDIR)/lib $(DESTDIR)/include
+	@mkdir -p $(DESTDIR)/lib $(DESTDIR)/include/grrlib
 	@cp -f $(OUTPUT) $(DESTDIR)/lib
 	@cp -f $(HDR) $(DESTDIR)/include
+	@cp -f $(INL) $(DESTDIR)/include/grrlib
 
 #---------------------------------------------------------------------------------
 else
