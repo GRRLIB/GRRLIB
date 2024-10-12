@@ -82,27 +82,34 @@ libjpeg     is supplied via devkitPro pacman (ppc-libjpeg-turbo)
 libfat      is supplied via devkitPro pacman (libfat-ogc)
 ```
 
-The easy way is to install GRRLIB and all the required libraries with a few
-commands:
+First, you need to make sure that all required library dependencies are installed.
+Install them with a single command:
+
+```bash
+  pacman --sync --needed --noconfirm libfat-ogc ppc-libpng ppc-freetype ppc-libjpeg-turbo
+```
+
+To install GRRLIB with Make in a few commands:
 
 ```bash
   c:
   cd \grr\GRRLIB
-  pacman --sync --needed --noconfirm libfat-ogc ppc-libpng ppc-freetype ppc-libjpeg-turbo
   make clean all install
+```
+
+If you prefer to use CMake, it can also be installed with a few commands:
+
+```bash
+  c:
+  cd \grr
+  /opt/devkitpro/portlibs/wii/bin/powerpc-eabi-cmake -B build
+  cmake --build build --target install
 ```
 
 This process may take some time depending on the speed of your PC.
 
 If you used the method above the following steps are not required, GRRLIB is
 installed and you are ready to start developing Wii homebrew games.
-
-If you want, you could install the libfat, libpng,
-libfreetype and libjpeg with there dependencies in a single command:
-
-```bash
-  pacman --sync --needed --noconfirm libfat-ogc ppc-libpng ppc-freetype ppc-libjpeg-turbo
-```
 
 Each library could also be installed individually:
 
