@@ -17,9 +17,9 @@ jobs:
 
     - name: Build library and examples
       run: |
-        (cd GRRLIB && make clean all install)
-        (cd GRRLIB/GRRLIB && make PLATFORM=cube clean all install)
-        (cd examples && make)
+        make -C GRRLIB clean all install
+        make -C GRRLIB/GRRLIB PLATFORM=cube clean all install
+        make -C examples
 
     - uses: actions/upload-artifact@master
       with:

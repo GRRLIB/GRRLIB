@@ -96,11 +96,10 @@ Go to the directory where the code was downloaded:
   cd \grr
 ```
 
-To install GRRLIB with Make in a few commands:
+To install GRRLIB with Make in a single command:
 
 ```bash
-  cd GRRLIB
-  make clean all install
+  make -C GRRLIB clean all install
 ```
 
 If you prefer to use CMake, it can also be installed with a few commands:
