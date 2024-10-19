@@ -89,19 +89,23 @@ Install them with a single command:
   pacman --sync --needed --noconfirm libfat-ogc ppc-libpng ppc-freetype ppc-libjpeg-turbo
 ```
 
-To install GRRLIB with Make in a few commands:
+Go to the directory where the code was downloaded:
 
 ```bash
   c:
-  cd \grr\GRRLIB
+  cd \grr
+```
+
+To install GRRLIB with Make in a few commands:
+
+```bash
+  cd GRRLIB
   make clean all install
 ```
 
 If you prefer to use CMake, it can also be installed with a few commands:
 
 ```bash
-  c:
-  cd \grr
   /opt/devkitpro/portlibs/wii/bin/powerpc-eabi-cmake -B build
   cmake --build build --target install
 ```
@@ -116,24 +120,21 @@ Each library could also be installed individually:
 To install libpngu:
 
 ```bash
-  c:
-  cd \grr\GRRLIB\lib\pngu
+  cd GRRLIB\lib\pngu
   make clean all install
 ```
 
 To install libgrrlib for Wii:
 
 ```bash
-  c:
-  cd \grr\GRRLIB\GRRLIB
+  cd GRRLIB\GRRLIB
   make clean all install
 ```
 
 To install libgrrlib for GameCube:
 
 ```bash
-  c:
-  cd \grr\GRRLIB\GRRLIB
+  cd GRRLIB\GRRLIB
   make PLATFORM=cube clean all install
 ```
 
