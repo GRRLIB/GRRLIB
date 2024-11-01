@@ -142,6 +142,7 @@ GRRLIB_texImg*  GRRLIB_LoadTexturePNG (const u8 *my_png);
 GRRLIB_texImg*  GRRLIB_LoadTextureJPG (const u8 *my_jpg);
 GRRLIB_texImg*  GRRLIB_LoadTextureJPGEx (const u8 *my_jpg, const u32 my_size);
 GRRLIB_texImg*  GRRLIB_LoadTextureBMP (const u8 *my_bmp);
+GRRLIB_texImg*  GRRLIB_LoadTextureTPL (const u8 *my_tpl, const int size, u32 id);
 
 //------------------------------------------------------------------------------
 // GRRLIB_gecko.c - USB_Gecko output facilities

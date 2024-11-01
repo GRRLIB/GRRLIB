@@ -28,6 +28,64 @@ THE SOFTWARE.
 
 #include <grrlib.h>
 
+#define TPL_HDR_VERSION_FIELD       0   /**< Version field. */
+#define TPL_HDR_NTEXTURE_FIELD      4   /**< Texture field. */
+#define TPL_HDR_HDRSIZE_FIELD       8   /**< Header size field. */
+#define TPL_HDR_DESCR_FIELD         12  /**< Descriptor field. */
+
+/**
+ * Texture header.
+ */
+typedef struct _tplimgheader TPLImgHeader;
+
+/**
+ * Texture header.
+ */
+struct _tplimgheader {
+    u16 height;     /**< Height of the texture in pixels. */
+    u16 width;      /**< Width of the texture in pixels. */
+    u32 fmt;        /**< Format of the texture. */
+    void *data;     /**< Pointer to the texture data. */
+    u32 wraps;      /**< Texture coordinate wrapping strategy in the S direction. */ 
+    u32 wrapt;      /**< Texture coordinate wrapping strategy in the T direction. */
+    u32 minfilter;  /**< Filter mode when the texel/pixel ratio is ≤ 1.0. */
+    u32 magfilter;  /**< Filter mode when the texel/pixel ratio is > 1.0. */
+    f32 lodbias;    /**< LOD bias. */
+    u8 edgelod;     /**< Edge LOD. */
+    u8 minlod;      /**< Minimum LOD value. */
+    u8 maxlod;      /**< Maximum LOD value. */
+    u8 unpacked;    /**< Internal flag. */
+} ATTRIBUTE_PACKED;
+
+/**
+ * Texture palette header.
+ */
+typedef struct _tplpalheader TPLPalHeader;
+
+/**
+ * Texture palette header.
+ */
+struct _tplpalheader {
+    u16 nitems;     /**< Number of palette entries. */
+    u8 unpacked;    /**< Internal flag. */
+    u8 pad;         /**< Padding. */
+    u32 fmt;        /**< Format of the color lookup table (CLUT). */
+    void *data;     /**< Pointer to the color lookup table (CLUT) data. */
+} ATTRIBUTE_PACKED;
+
+/**
+ * Texture descriptor.
+ */
+typedef struct _tpldesc TPLDescHeader;
+
+/**
+ * Texture descriptor.
+ */
+struct _tpldesc {
+    TPLImgHeader *imghead;  /**< Pointer to texture header structure. */
+    TPLPalHeader *palhead;  /**< Pointer to color lookup table (CLUT) header. */
+} ATTRIBUTE_PACKED;
+
 /**
  * This structure contains information about the type, size, and layout of a file that containing a device-independent bitmap (DIB).
  */
@@ -141,6 +199,44 @@ GRRLIB_texImg*  GRRLIB_CreateEmptyTextureFmt (const u32 width, const u32 height,
 GRRLIB_texImg*  GRRLIB_CreateEmptyTexture (const u32 width, const u32 height)
 {
     return GRRLIB_CreateEmptyTextureFmt(width, height, GX_TF_RGBA8);
+}
+
+/**
+ * Set TPL data to a GRRLIB_texImg structure.
+ * @param my_tpl The TPL buffer to set.
+ * @param size Size of the TPL buffer to set.
+ * @param id ID of the TPL buffer to set.
+ * @return A GRRLIB_texImg structure filled with image information.
+ */
+GRRLIB_texImg*  GRRLIB_LoadTextureTPL (const u8 *my_tpl, const int size, u32 id) {
+    if(my_tpl == NULL || size <= 0) {
+        return NULL;
+    }
+
+    const u32 ntextures = *(u32*)(my_tpl + TPL_HDR_NTEXTURE_FIELD);
+    if(id > ntextures) {
+        return NULL;
+    }
+
+    GRRLIB_texImg *my_texture = calloc(1, sizeof(GRRLIB_texImg));
+    if (my_texture == NULL) {
+        return NULL;
+    }
+
+    const TPLDescHeader *deschead = (TPLDescHeader*)(my_tpl + TPL_HDR_DESCR_FIELD);
+
+    u32 pos = (u32)deschead[id].imghead;
+    const TPLImgHeader *imghead = (TPLImgHeader*)(my_tpl + pos);
+
+    pos = (u32)imghead->data;
+    my_texture->data = (u8*)(my_tpl + pos);
+    my_texture->w = imghead->width;
+    my_texture->h = imghead->height;
+    my_texture->format = imghead->fmt;
+    GRRLIB_SetHandle( my_texture, 0, 0 );
+    GRRLIB_FlushTex( my_texture );
+
+    return my_texture;
 }
 
 /**
