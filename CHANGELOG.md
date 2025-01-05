@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased][]
 
 - Allow compilation and installation with cmake.
-- Added `GRRLIB_LoadTextureTPL` to load TPL data (Texture Palette Library) into a `GRRLIB_texImg`.
+- Added `GRRLIB_LoadTextureTPL()` to load TPL data (Texture Palette Library) into a `GRRLIB_texImg`.
 - Added `GRRLIB_CreateEmptyTextureFmt()` to create an empty texture with a given format.
 
 ## [4.5.1][] - 2024-03-02
