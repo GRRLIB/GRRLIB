@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2021 The GRRLIB Team
+Copyright (c) 2009-2025 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,7 @@ THE SOFTWARE.
 #include <ogc/conf.h>
 #include <stdio.h>
 #include <ogc/machine/processor.h>
-#include <fat.h>
+#include <dvm.h>
 
 #define __GRRLIB_CORE__
 #include <grrlib.h>
@@ -200,7 +200,7 @@ int  GRRLIB_Init (void) {
     atexit(GRRLIB_Exit);
 
     // Initialise the filing system
-    if (fatInitDefault() == false) {
+    if (dvmInitDefault() == false) {
         error_code = -2;
     }
 

@@ -1,7 +1,7 @@
 # Folder
 build
 
-# Compiler-generated binarie
+# Compiler-generated binary
 *.o
 *.d
 *.map

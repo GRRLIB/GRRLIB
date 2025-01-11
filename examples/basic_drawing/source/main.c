@@ -9,7 +9,6 @@
 #include <ogc/lwp_watchdog.h>   // Needed for gettime and ticks_to_millisecs
 #include <stdlib.h>
 #include <wiiuse/wpad.h>
-#include <fat.h>
 
 #include "BMfont1_png.h"
 #include "BMfont2_png.h"
