@@ -1,39 +1,45 @@
-# Sets DEVKIT_PRO variable to directory with devkitPro
-set(DEVKIT_PRO "/opt/devkitpro")
+cmake_minimum_required(VERSION 3.18)
 
-# Include needed to build with Wii toolchain
-include("${DEVKIT_PRO}/cmake/Wii.cmake")
-# Includes needed to find libraries needed by GRRLIB
-include(FindZLIB)
-include(FindJPEG)
-include(FindPNG)
-
-cmake_minimum_required(VERSION 3.5)
-
-# Your project details
 project(
-    cmake # Your project name goes here
-    VERSION 0.1.0 # Your project version goes here
-    LANGUAGES C # Or CXX if you using C++
+  application # Your project name goes here
+  VERSION 1.0.0 # Your project version goes here
+  LANGUAGES C # Or CXX if you using C++
 )
 
 # Libraries required to link GRRLIB
-find_package(Freetype REQUIRED)
-find_package(BZip2 REQUIRED)
-find_package(ZLIB REQUIRED)
-find_package(JPEG REQUIRED)
-find_package(PNG REQUIRED)
+find_library(GRRLIB grrlib REQUIRED)
+find_library(PNGU pngu REQUIRED)
+find_library(FAT fat
+  PATHS "${OGC_ROOT}/lib/${OGC_SUBDIR}"
+  REQUIRED
+)
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(JPEG REQUIRED libjpeg)
+pkg_check_modules(PNG REQUIRED libpng)
+pkg_check_modules(FREETYPE REQUIRED freetype2)
 
-# Finds some required libraries
-file(GLOB libraries
-    "${DEVKIT_PRO}/portlibs/wii/lib/*.a" # GRRLIB
-    "${DEVKIT_PRO}/libogc/lib/wii/*.a" # libfat
+add_executable(${PROJECT_NAME})
+
+target_compile_options(${PROJECT_NAME} PRIVATE
+  -Wall
 )
 
-# GRRLIB includes
-include_directories("${DEVKIT_PRO}/portlibs/wii/include")
-# Links the whole of libraries
-link_libraries(${libraries} ${FREETYPE_LIBRARIES} ${BZIP2_LIBRARIES} ${ZLIB_LIBRARIES} ${JPEG_LIBRARIES} ${PNG_LIBRARIES} -lfat)
+target_include_directories(${PROJECT_NAME} PRIVATE
+  ${DEVKITPRO}/portlibs/${OGC_CONSOLE}/include
+)
+
+target_sources(${PROJECT_NAME} PRIVATE
+  "src/main.c"
+)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE
+  ${GRRLIB}
+  ${PNGU}
+  ${PNG_LIBRARIES}
+  ${JPEG_LIBRARIES}
+  ${FREETYPE_LIBRARIES}
+  ${FAT}
+)
 
 # Here we go, builds executable
-add_executable(cmake "src/main.c")
+ogc_create_dol(${PROJECT_NAME})

@@ -20,6 +20,8 @@ jobs:
         make -C GRRLIB clean all install
         make -C GRRLIB/GRRLIB PLATFORM=cube clean all install
         make -C examples
+        /opt/devkitpro/portlibs/wii/bin/powerpc-eabi-cmake -S $GITHUB_WORKSPACE/examples/cmake -B /tmp/build-wii -G Ninja
+        cmake --build /tmp/build-wii --verbose
 
     - uses: actions/upload-artifact@master
       with:
