@@ -29,7 +29,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 )
 
 target_sources(${PROJECT_NAME} PRIVATE
-  "src/main.c"
+  "source/main.c"
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
