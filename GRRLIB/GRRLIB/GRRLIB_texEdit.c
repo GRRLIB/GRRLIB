@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2009-2024 The GRRLIB Team
+Copyright (c) 2009-2025 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -204,12 +204,11 @@ GRRLIB_texImg*  GRRLIB_CreateEmptyTexture (const u32 width, const u32 height)
 /**
  * Set TPL data to a GRRLIB_texImg structure.
  * @param my_tpl The TPL buffer to set.
- * @param size Size of the TPL buffer to set.
  * @param id ID of the TPL buffer to set.
  * @return A GRRLIB_texImg structure filled with image information.
  */
-GRRLIB_texImg*  GRRLIB_LoadTextureTPL (const u8 *my_tpl, const int size, u32 id) {
-    if(my_tpl == NULL || size <= 0) {
+GRRLIB_texImg*  GRRLIB_LoadTextureTPL (const u8 *my_tpl, u32 id) {
+    if(my_tpl == NULL || my_tpl[0] != 0x00 || my_tpl[1] != 0x20 || my_tpl[2] != 0xAF || my_tpl[3] != 0x30) {
         return NULL;
     }
 
@@ -245,7 +244,9 @@ GRRLIB_texImg*  GRRLIB_LoadTextureTPL (const u8 *my_tpl, const int size, u32 id)
  * @return A GRRLIB_texImg structure filled with image information.
  */
 GRRLIB_texImg*  GRRLIB_LoadTexture (const u8 *my_img) {
-    if (my_img[0]==0xFF && my_img[1]==0xD8 && my_img[2]==0xFF)
+    if(my_img[0]==0x00 && my_img[1]==0x20 && my_img[2]==0xAF && my_img[3]==0x30)
+        return GRRLIB_LoadTextureTPL(my_img, 0); // Load id 0 from TPL
+    else if (my_img[0]==0xFF && my_img[1]==0xD8 && my_img[2]==0xFF)
         return (GRRLIB_LoadTextureJPG(my_img));
     else if (my_img[0]=='B' && my_img[1]=='M')
         return (GRRLIB_LoadTextureBMP(my_img));
