@@ -120,7 +120,7 @@ var group___all_func =
     [ "GRRLIB_LoadTextureJPG", "group___all_func.html#ga0ae563450041c8a09e3121ba39fba777", null ],
     [ "GRRLIB_LoadTextureJPGEx", "group___all_func.html#ga2bcf92846d3a47066e4303c889a5c784", null ],
     [ "GRRLIB_LoadTexturePNG", "group___all_func.html#gae95b019b590751cdc6bc64c823ca84e0", null ],
-    [ "GRRLIB_LoadTextureTPL", "group___all_func.html#gac95589dc212bfdf275269f03e4d58928", null ],
+    [ "GRRLIB_LoadTextureTPL", "group___all_func.html#gaaf9b2004ed93c959122b4516bc614f30", null ],
     [ "GRRLIB_LoadTTF", "group___all_func.html#gac5989e925eceea3da6a44a90ac431dd7", null ],
     [ "GRRLIB_LoadTTFFromFile", "group___all_func.html#ga402b52f044c46e147e32cc1da4153829", null ],
     [ "GRRLIB_NGone", "group___all_func.html#gaaaad869c6b2cd0ac502b8ab261fe34e9", null ],
