@@ -29,9 +29,9 @@ Mtx       _GRR_view;  // Should be static as soon as all light functions needing
 static  guVector  _GRR_cam  = {0.0f, 0.0f, 0.0f};
 static  guVector  _GRR_up   = {0.0f, 1.0f, 0.0f};
 static  guVector  _GRR_look = {0.0f, 0.0f, -100.0f};
-static  guVector  _GRRaxisx = (guVector){1.0f, 0.0f, 0.0f}; // DO NOT MODIFY!!!
-static  guVector  _GRRaxisy = (guVector){0.0f, 1.0f, 0.0f}; // Even at runtime
-static  guVector  _GRRaxisz = (guVector){0.0f, 0.0f, 1.0f}; // NOT ever!
+static  guVector  _GRRaxisx = {1.0f, 0.0f, 0.0f}; // DO NOT MODIFY!!!
+static  guVector  _GRRaxisy = {0.0f, 1.0f, 0.0f}; // Even at runtime
+static  guVector  _GRRaxisz = {0.0f, 0.0f, 1.0f}; // NOT ever!
 static  Mtx       _ObjTransformationMtx;
 
 /**
@@ -378,9 +378,9 @@ void GRRLIB_DrawTorus(f32 r, f32 R, int nsides, int rings, bool filled, u32 col)
     const f32 ringDelta = 2.0 * M_PI / rings;
     const f32 sideDelta = 2.0 * M_PI / nsides;
 
-    f32 theta = 0.0;
-    f32 cosTheta = 1.0;
-    f32 sinTheta = 0.0;
+    f32 theta = 0.0f;
+    f32 cosTheta = 1.0f;
+    f32 sinTheta = 0.0f;
     for (int i = rings - 1; i >= 0; i--) {
         const f32 theta1 = theta + ringDelta;
         const f32 cosTheta1 = cosf(theta1);
@@ -391,7 +391,7 @@ void GRRLIB_DrawTorus(f32 r, f32 R, int nsides, int rings, bool filled, u32 col)
         else {
             GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 2 * (nsides + 1));
         }
-        f32 phi = 0.0;
+        f32 phi = 0.0f;
         for (int j = nsides; j >= 0; j--) {
             phi += sideDelta;
             const f32 cosPhi = cosf(phi);
@@ -701,9 +701,9 @@ void GRRLIB_SetLightSpec(u8 num, guVector dir, f32 shininess, u32 lightcolor, u3
 
     GRRLIB_Settings.lights |= (1<<num);
 
-    guMtxInverse(_GRR_view,mr);
-    guMtxTranspose(mr,mv);
-    guVecMultiplySR(mv, &ldir,&ldir);
+    guMtxInverse(_GRR_view, mr);
+    guMtxTranspose(mr, mv);
+    guVecMultiplySR(mv, &ldir, &ldir);
     GX_InitSpecularDirv(&MyLight, &ldir);
 
     GX_InitLightShininess(&MyLight, shininess);  // between 4 and 255 !!!
