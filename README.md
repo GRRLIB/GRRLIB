@@ -88,6 +88,7 @@ Install them with a single command:
 ```bash
   pacman --sync --needed --noconfirm libfat-ogc ppc-libpng ppc-freetype ppc-libjpeg-turbo
 ```
+for some linux distros and mac os use dpk-pacman instrad of pacman
 
 Go to the directory where the code was downloaded:
 
@@ -95,7 +96,10 @@ Go to the directory where the code was downloaded:
   c:
   cd \grr
 ```
-
+if copied with git clone use
+```bash
+cd GRRLIB 
+```
 To install GRRLIB with Make in a single command:
 
 ```bash
@@ -176,6 +180,7 @@ To install them, use this command line:
 ```bash
   pacman --sync --needed --noconfirm libfat-ogc ppc-libpng ppc-freetype ppc-libjpeg-turbo
 ```
+also should use dpk-pacman for mac os and some linux distros
 
 You will need to add $(PORTLIBS) to the LIBDIRS line in your makefile.
 
