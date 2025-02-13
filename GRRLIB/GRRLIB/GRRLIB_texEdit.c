@@ -261,17 +261,19 @@ GRRLIB_texImg*  GRRLIB_LoadTexture (const u8 *my_img) {
  *         If image size is not correct, the texture will be completely transparent.
  */
 GRRLIB_texImg*  GRRLIB_LoadTexturePNG (const u8 *my_png) {
-    GRRLIB_texImg *my_texture = calloc(1, sizeof(GRRLIB_texImg));
+    PNGUPROP imgProp;
+    IMGCTX ctx = PNGU_SelectImageFromBuffer(my_png);
+    if (PNGU_GetImageProperties(ctx, &imgProp) != PNGU_OK) {
+        return NULL;
+    }
 
+    GRRLIB_texImg *my_texture = calloc(1, sizeof(GRRLIB_texImg));
     if (my_texture == NULL) {
         return NULL;
     }
 
     int width = 0;
     int height = 0;
-    PNGUPROP imgProp;
-    IMGCTX ctx = PNGU_SelectImageFromBuffer(my_png);
-    PNGU_GetImageProperties(ctx, &imgProp);
     my_texture->data = PNGU_DecodeTo4x4RGBA8(ctx, imgProp.imgWidth, imgProp.imgHeight, &width, &height);
     if (my_texture->data != NULL) {
         my_texture->w = width;

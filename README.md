@@ -108,7 +108,7 @@ If you prefer to use CMake, it can also be installed with a few commands:
 
 ```bash
 /opt/devkitpro/portlibs/wii/bin/powerpc-eabi-cmake -B build
-  cmake --build build --target install
+cmake --build build --target install
 ```
 
 This process may take some time depending on the speed of your PC.
