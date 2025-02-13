@@ -86,26 +86,28 @@ First, you need to make sure that all required library dependencies are installe
 Install them with a single command:
 
 ```bash
-  pacman --sync --needed --noconfirm libfat-ogc ppc-libpng ppc-freetype ppc-libjpeg-turbo
+pacman --sync --needed --noconfirm libfat-ogc ppc-libpng ppc-freetype ppc-libjpeg-turbo
 ```
+
+On macOS and Debian based Linux distributions you will need to use `dkp-pacman` instead of `pacman`.
 
 Go to the directory where the code was downloaded:
 
 ```bash
-  c:
-  cd \grr
+c:
+cd \grr
 ```
 
 To install GRRLIB with Make in a single command:
 
 ```bash
-  make -C GRRLIB clean all install
+make -C GRRLIB clean all install
 ```
 
 If you prefer to use CMake, it can also be installed with a few commands:
 
 ```bash
-  /opt/devkitpro/portlibs/wii/bin/powerpc-eabi-cmake -B build
+/opt/devkitpro/portlibs/wii/bin/powerpc-eabi-cmake -B build
   cmake --build build --target install
 ```
 
@@ -119,22 +121,22 @@ Each library could also be installed individually:
 To install libpngu:
 
 ```bash
-  cd GRRLIB\lib\pngu
-  make clean all install
+cd GRRLIB\lib\pngu
+make clean all install
 ```
 
 To install libgrrlib for Wii:
 
 ```bash
-  cd GRRLIB\GRRLIB
-  make clean all install
+cd GRRLIB\GRRLIB
+make clean all install
 ```
 
 To install libgrrlib for GameCube:
 
 ```bash
-  cd GRRLIB\GRRLIB
-  make PLATFORM=cube clean all install
+cd GRRLIB\GRRLIB
+make PLATFORM=cube clean all install
 ```
 
 ## Using GRRLIB
@@ -174,7 +176,7 @@ This version now uses the ported libraries for the Wii.
 To install them, use this command line:
 
 ```bash
-  pacman --sync --needed --noconfirm libfat-ogc ppc-libpng ppc-freetype ppc-libjpeg-turbo
+pacman --sync --needed --noconfirm libfat-ogc ppc-libpng ppc-freetype ppc-libjpeg-turbo
 ```
 
 You will need to add $(PORTLIBS) to the LIBDIRS line in your makefile.
@@ -200,7 +202,7 @@ For example:
 LIBS	:= -lgrrlib -lpngu `$(PREFIX)pkg-config freetype2 libpng libjpeg --libs` -lfat
 ```
 
-Since GRRLIB and libpngu are now installed into the porlibs folder, make sure you don't have any leftovers from previous installations.
+Since GRRLIB and libpngu are now installed into the portlibs folder, make sure you don't have any leftovers from previous installations.
 You will need to manually delete unneeded libraries in _devkitPro\libogc\lib\wii_ as well as include files in _devkitPro\libogc\include_
 
 ## Using GitHub
