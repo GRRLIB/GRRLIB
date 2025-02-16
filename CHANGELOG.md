@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased][]
+## [4.6.0][] - 2025-02-16
 
 - Allow compilation and installation with cmake.
 - Added `GRRLIB_LoadTextureTPL()` to load TPL data (Texture Palette Library) into a `GRRLIB_texImg`.
@@ -127,7 +127,7 @@ All notable changes to this project will be documented in this file.
 - New Bitmap FX
 - Add `GRRLIB_Exit()` to free the memory allocated by GRRLIB
 
-[unreleased]: https://github.com/GRRLIB/GRRLIB/compare/v4.5.1...HEAD
+[4.6.0]: https://github.com/GRRLIB/GRRLIB/compare/v4.5.1...v4.6.0
 [4.5.1]: https://github.com/GRRLIB/GRRLIB/compare/v4.5.0...v4.5.1
 [4.5.0]: https://github.com/GRRLIB/GRRLIB/compare/v4.4.1...v4.5.0
 [4.4.1]: https://github.com/GRRLIB/GRRLIB/compare/v4.4.0...v4.4.1
