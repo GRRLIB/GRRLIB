@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.18)
 project(grrlib)
 
+option(GRRLIB_INSTALL "Generate the install target" ON)
+
 include(GNUInstallDirs)
 
 find_package(PkgConfig REQUIRED)
@@ -55,12 +57,16 @@ target_link_libraries(grrlib PUBLIC
   pngu
 )
 
-install(
-  DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/GRRLIB/GRRLIB/"
-  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
-  FILES_MATCHING PATTERN "*.h"
-)
+if(GRRLIB_INSTALL)
 
-install(TARGETS pngu grrlib
-  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-)
+  install(
+    DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/GRRLIB/GRRLIB/"
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+    FILES_MATCHING PATTERN "*.h"
+  )
+
+  install(TARGETS pngu grrlib
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  )
+
+endif()
