@@ -10,18 +10,24 @@ endif
 ifeq ($(PLATFORM),cube)
 include $(DEVKITPPC)/gamecube_rules
 
-MACHDEP		+=	-DHW_DOL
+MACHDEP     +=  -DHW_DOL
 
 # Installation directory
-DESTDIR	:=	$(PORTLIBS_PATH)/gamecube
+DESTDIR :=   $(PORTLIBS_PATH)/gamecube
 else
 include $(DEVKITPPC)/wii_rules
 
-MACHDEP		+=	-DHW_RVL
+MACHDEP     +=  -DHW_RVL
 
 # Installation directory
-DESTDIR	:=	$(PORTLIBS_PATH)/wii
+DESTDIR :=   $(PORTLIBS_PATH)/wii
 endif
+
+# --------------------------------------------------------------------------------
+# Fallbacks de include dos portlibs (caso a variável PORTLIBS_INC não exista no *_rules)
+# --------------------------------------------------------------------------------
+PORTLIBS_INC_WII ?= $(PORTLIBS_PATH)/wii/include
+PORTLIBS_INC_PPC ?= $(DEVKITPRO)/portlibs/ppc/include
 
 #---------------------------------------------------------------------------------
 # TARGET is the name of the output
@@ -29,28 +35,31 @@ endif
 # SOURCES is a list of directories containing source code
 # INCLUDES is a list of directories containing extra header files
 #---------------------------------------------------------------------------------
-TARGET		:=	grrlib
-BUILD		:=	build
-SOURCES		:=	.
-INCLUDES	:=	. ../lib/pngu
+TARGET      :=  grrlib
+BUILD       :=  build
+SOURCES     :=  .
+INCLUDES    :=  . ../lib/pngu
 
-HDR			:=	$(TARGET).h
-INL			:=	$(wildcard $(TARGET)/*.h)
+HDR         :=  $(TARGET).h
+INL         :=  $(wildcard $(TARGET)/*.h)
 
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
 
-CFLAGS	= -g -O2 -Wall $(MACHDEP) $(INCLUDE) `$(PREFIX)pkg-config freetype2 libpng libjpeg --cflags`
-CXXFLAGS	=	$(CFLAGS)
+# Observação: usamos $(PREFIX)pkg-config para chamar o pkg-config da toolchain (powerpc-eabi-pkg-config)
+CFLAGS  = -g -O2 -Wall $(MACHDEP) $(INCLUDE) \
+          `$(PREFIX)pkg-config freetype2 --cflags` \
+          `$(PREFIX)pkg-config libjpeg --cflags`
+CXXFLAGS    =   $(CFLAGS)
 
-LDFLAGS	=	-g $(MACHDEP) -Wl,-Map,$(notdir $@).map
+LDFLAGS =   -g $(MACHDEP) -Wl,-Map,$(notdir $@).map
 
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing
 # include and lib
 #---------------------------------------------------------------------------------
-LIBDIRS	:=
+LIBDIRS :=
 
 #---------------------------------------------------------------------------------
 # no real need to edit anything past this point unless you need to add additional
@@ -59,16 +68,16 @@ LIBDIRS	:=
 ifneq ($(BUILD),$(notdir $(CURDIR)))
 #---------------------------------------------------------------------------------
 
-export OUTPUT	:=	$(CURDIR)/lib$(TARGET).a
+export OUTPUT :=  $(CURDIR)/lib$(TARGET).a
 
-export VPATH	:=	$(foreach dir,$(SOURCES),$(CURDIR)/$(dir))
+export VPATH  :=  $(foreach dir,$(SOURCES),$(CURDIR)/$(dir))
 
-export DEPSDIR	:=	$(CURDIR)/$(BUILD)
+export DEPSDIR    :=  $(CURDIR)/$(BUILD)
 
 #---------------------------------------------------------------------------------
 # automatically build a list of object files for our project
 #---------------------------------------------------------------------------------
-CFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
+CFILES      :=  $(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
 
 export OFILES_SOURCES := $(CFILES:.c=.o)
 export OFILES := $(OFILES_SOURCES)
@@ -76,8 +85,11 @@ export OFILES := $(OFILES_SOURCES)
 #---------------------------------------------------------------------------------
 # build a list of include paths
 #---------------------------------------------------------------------------------
-export INCLUDE	:=	$(foreach dir,$(INCLUDES), -I$(CURDIR)/$(dir)) \
-					-I$(LIBOGC_INC)
+export INCLUDE := $(foreach dir,$(INCLUDES), -I$(CURDIR)/$(dir)) \
+                  -I$(LIBOGC_INC) \
+                  -I$(PORTLIBS_INC) \
+                  -I$(PORTLIBS_INC_WII) \
+                  -I$(PORTLIBS_INC_PPC)
 
 .PHONY: $(BUILD) clean
 
@@ -103,12 +115,12 @@ install:
 #---------------------------------------------------------------------------------
 else
 
-DEPENDS	:=	$(OFILES:.o=.d)
+DEPENDS :=  $(OFILES:.o=.d)
 
 #---------------------------------------------------------------------------------
 # main targets
 #---------------------------------------------------------------------------------
-$(OUTPUT)	:	$(OFILES)
+$(OUTPUT)   :   $(OFILES)
 
 $(OFILES_SOURCES) : $(HFILES)
 
