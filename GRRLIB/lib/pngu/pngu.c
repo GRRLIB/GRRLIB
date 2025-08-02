@@ -678,7 +678,7 @@ int PNGU_EncodeFromRGB (IMGCTX ctx, uint32_t width, uint32_t height, void *buffe
 	png_uint_32 rowbytes;
 	uint32_t y;
 
-	// Erase from the context any readed info
+	// Erase from the context any read info
 	pngu_free_info (ctx);
 	ctx->propRead = 0;
 
@@ -842,7 +842,7 @@ int PNGU_EncodeFromYCbYCr (IMGCTX ctx, uint32_t width, uint32_t height, void *bu
 	png_uint_32 rowbytes;
 	uint32_t x, y, buffWidth;
 
-	// Erase from the context any readed info
+	// Erase from the context any read info
 	pngu_free_info (ctx);
 	ctx->propRead = 0;
 

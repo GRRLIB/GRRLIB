@@ -142,8 +142,8 @@ int  GRRLIB_Init (void) {
     }
 
     // Other GX setup
-    f32 yscale    = GX_GetYScaleFactor(rmode->efbHeight, rmode->xfbHeight);
-    u32 xfbHeight = GX_SetDispCopyYScale(yscale);
+    const f32 yscale    = GX_GetYScaleFactor(rmode->efbHeight, rmode->xfbHeight);
+    const u32 xfbHeight = GX_SetDispCopyYScale(yscale);
     GX_SetDispCopySrc(0, 0, rmode->fbWidth, rmode->efbHeight);
     GX_SetDispCopyDst(rmode->fbWidth, xfbHeight);
     GX_SetCopyFilter(rmode->aa, rmode->sample_pattern, GX_TRUE, rmode->vfilter);

@@ -84,10 +84,10 @@ void PNGU_YCbYCr_TO_RGB8 (uint32_t ycbycr, uint8_t *r1, uint8_t *g1, uint8_t *b1
 *							 Image context handling							*
 ****************************************************************************/
 
-// Selects a PNG file, previosly loaded into a buffer, and creates an image context for subsequent procesing.
+// Selects a PNG file, previously loaded into a buffer, and creates an image context for subsequent processing.
 IMGCTX PNGU_SelectImageFromBuffer (const void *buffer);
 
-// Selects a PNG file, from any devoptab device, and creates an image context for subsequent procesing.
+// Selects a PNG file, from any devoptab device, and creates an image context for subsequent processing.
 IMGCTX PNGU_SelectImageFromDevice (const char *filename);
 
 // Frees resources associated with an image context. Always call this function when you no longer need the IMGCTX.
@@ -95,7 +95,7 @@ void PNGU_ReleaseImageContext (IMGCTX ctx);
 
 
 /****************************************************************************
-*							 Miscelaneous									*
+*							 Miscellaneous									*
 ****************************************************************************/
 
 // Retrieves info from selected PNG file, including image dimensions, color format, background and transparency colors.

@@ -18,7 +18,7 @@ jobs:
 
     - name: Install doxygen
       run: |
-        wget https://www.doxygen.nl/files/doxygen-1.13.2.linux.bin.tar.gz -O - | tar -xzv --directory=/tmp/
+        wget https://www.doxygen.nl/files/doxygen-1.14.0.linux.bin.tar.gz -O - | tar -xzv --directory=/tmp/
         cd /tmp/doxygen-*
         sudo make install
         sudo apt-get update
