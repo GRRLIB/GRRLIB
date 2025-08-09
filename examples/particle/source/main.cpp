@@ -92,7 +92,7 @@ int main() {
     // Feed the vector with the textures
     TextureList = { GFX_Background, GFX_Crosshair, GFX_Smoke, GFX_Font };
 
-    while (true) {
+    while (SYS_MainLoop()) {
         WPAD_ScanPads();
         u32 WPADKeyDown = WPAD_ButtonsDown(WPAD_CHAN_0);
         WPAD_SetVRes(WPAD_CHAN_0, WinW, WinH);
@@ -149,7 +149,9 @@ int main() {
         }
     }
     ExitGame();
-    return 0;
+
+    // Exit application
+    exit(0);
 }
 
 static void createEffect( Effect id, int _x, int _y ) {
@@ -250,9 +252,6 @@ static void ExitGame() {
 
     // Deinitialize GRRLIB & Video
     GRRLIB_Exit();
-
-    // Exit application
-    exit(0);
 }
 
 /**

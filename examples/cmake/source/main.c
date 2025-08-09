@@ -17,7 +17,7 @@ int main(int argc, char **argv) {
     WPAD_Init();
 
     // Loop forever
-    while(1) {
+    while(SYS_MainLoop()) {
 
         WPAD_ScanPads();  // Scan the Wiimotes
 

@@ -29,7 +29,7 @@ int main() {
     GRRLIB_SetBackgroundColour(0x00, 0x00, 0x00, 0xFF);
 
 
-    while(1) {
+    while(SYS_MainLoop()) {
         GRRLIB_2dMode();
         WPAD_ScanPads();
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) break;

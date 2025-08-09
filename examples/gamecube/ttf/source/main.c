@@ -54,7 +54,7 @@ int main(int argc, char **argv) {
     GRRLIB_SetBackgroundColour(0x00, 0x00, 0x00, 0xFF);
 
     // Loop forever
-    while(1) {
+    while(SYS_MainLoop()) {
         GRRLIB_DrawImg(0, 0, CopiedImg, 0, 1, 1, 0xFFFFFFFF);
         Letter[0] = charTable[rand() % 459];
         GRRLIB_PrintfTTFW(rand() % rmode->fbWidth - 50,

@@ -63,7 +63,7 @@ int main() {
 
     GRRLIB_SetBackgroundColour(0x00, 0x00, 0x00, 0xFF);
 
-    while(1) {
+    while(SYS_MainLoop()) {
         PAD_ScanPads();
         GRRLIB_Camera3dSettings(0.0f,0.0f,camZ, 0,1,0, 0,0,0);
 

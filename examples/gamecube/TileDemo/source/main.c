@@ -148,7 +148,7 @@ int main() {
     GRRLIB_texImg *tex_nonameno = GRRLIB_LoadTexture(nonameno_png);
     GRRLIB_InitTileSet(tex_nonameno, 32, 32, 0);
 
-    while(1) {
+    while(SYS_MainLoop()) {
         PAD_ScanPads();
         if (PAD_ButtonsDown(0) & PAD_BUTTON_START)  break;
 

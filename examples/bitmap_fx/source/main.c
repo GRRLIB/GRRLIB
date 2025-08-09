@@ -112,7 +112,7 @@ int main() {
     GRRLIB_Init();
     WPAD_Init();
 
-    while(1) {
+    while(SYS_MainLoop()) {
         WPAD_ScanPads();
         const u32 wpaddown = WPAD_ButtonsDown(0);
 

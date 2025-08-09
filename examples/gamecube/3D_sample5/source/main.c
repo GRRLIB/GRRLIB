@@ -28,7 +28,7 @@ int main(void){
     GRRLIB_Camera3dSettings(0.0f,0.0f,5.0f, 0,1,0, 0,0,0);
 
 
-    while(1) {
+    while(SYS_MainLoop()) {
         GRRLIB_2dMode();
         PAD_ScanPads();
         if(PAD_ButtonsDown(0) & PAD_BUTTON_START) exit(0);

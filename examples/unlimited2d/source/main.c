@@ -59,7 +59,7 @@ int main() {
         GRRLIB_Render();
     }
 
-    while(1) {
+    while(SYS_MainLoop()) {
         WPAD_ScanPads();
 
         GRRLIB_DrawImg(0, 0, tex_screen[screen_index], 0, 1, 1, 0xFFFFFFFF);
