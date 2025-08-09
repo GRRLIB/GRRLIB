@@ -56,8 +56,8 @@ int main() {
     u32 wait = TILE_DELAY, direction = TILE_DOWN, direction_new = TILE_DOWN;
     u8 FPS = 0;
 
-    guVector triangle[] = {{400,200,0.0f}, {500,400,0.0f}, {300,400,0.0f}};
-    u32 trianglecolor[] = {GRRLIB_GREEN, GRRLIB_RED, GRRLIB_BLUE};
+    const guVector triangle[] = {{400,200,0.0f}, {500,400,0.0f}, {300,400,0.0f}};
+    const u32 trianglecolor[] = {GRRLIB_GREEN, GRRLIB_RED, GRRLIB_BLUE};
 
     GRRLIB_Init();
 
@@ -87,7 +87,7 @@ int main() {
     GRRLIB_texImg *tex_BMfont5 = GRRLIB_LoadTexture(BMfont5_png);
     GRRLIB_InitTileSet(tex_BMfont5, 8, 16, 0);
 
-    while(1) {
+    while(SYS_MainLoop()) {
         PAD_ScanPads();
         const u32 paddown = PAD_ButtonsDown(0);
         const u32 padheld = PAD_ButtonsHeld(0);

@@ -17,7 +17,7 @@ int main(int argc, char **argv) {
     PAD_Init();
 
     // Loop forever
-    while(1) {
+    while(SYS_MainLoop()) {
         PAD_ScanPads(); // Scan the GameCube controllers
 
         // If [START/PAUSE] was pressed on the first GameCube controller, break out of the loop

@@ -22,7 +22,7 @@ int main(int argc, char **argv) {
 
     GRRLIB_SetBackgroundColour(0x40, 0x40, 0x40, 0xFF);
 
-    while(1) {
+    while(SYS_MainLoop()) {
         GRRLIB_2dMode();
         PAD_ScanPads();
         if (PAD_ButtonsDown(0) & PAD_BUTTON_START)  break;

@@ -112,7 +112,7 @@ int main() {
     GRRLIB_Init();
     PAD_Init();
 
-    while(1) {
+    while(SYS_MainLoop()) {
         PAD_ScanPads();
         const u32 paddown = PAD_ButtonsDown(0);
 

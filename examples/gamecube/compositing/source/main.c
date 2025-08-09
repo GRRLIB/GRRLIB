@@ -27,7 +27,7 @@ int main() {
 
     GRRLIB_Settings.antialias = true;
 
-    while(1) {
+    while(SYS_MainLoop()) {
         PAD_ScanPads();
         if(PAD_ButtonsDown(0) & PAD_BUTTON_START) exit(0);
 

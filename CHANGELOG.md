@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased][]
+
+- Use `SYS_MainLoop()` in all examples.
+
 ## [4.6.1][] - 2025-08-02
 
 - Fixed Makefile installation.
@@ -131,6 +135,7 @@ All notable changes to this project will be documented in this file.
 - New Bitmap FX
 - Add `GRRLIB_Exit()` to free the memory allocated by GRRLIB
 
+[unreleased]: https://github.com/GRRLIB/GRRLIB/compare/v4.6.1...HEAD
 [4.6.1]: https://github.com/GRRLIB/GRRLIB/compare/v4.6.0...v4.6.1
 [4.6.0]: https://github.com/GRRLIB/GRRLIB/compare/v4.5.1...v4.6.0
 [4.5.1]: https://github.com/GRRLIB/GRRLIB/compare/v4.5.0...v4.5.1

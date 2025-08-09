@@ -27,7 +27,7 @@ int main() {
 
     GRRLIB_Settings.antialias = true;
 
-    while(1) {
+    while(SYS_MainLoop()) {
         WPAD_ScanPads();
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) exit(0);
 

@@ -148,7 +148,7 @@ int main() {
     GRRLIB_texImg *tex_nonameno = GRRLIB_LoadTexture(nonameno_png);
     GRRLIB_InitTileSet(tex_nonameno, 32, 32, 0);
 
-    while(1) {
+    while(SYS_MainLoop()) {
         WPAD_ScanPads();
         if (WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME)  break;
 
