@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-Copyright (c) 2024 The GRRLIB Team
+Copyright (c) 2025 The GRRLIB Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -27,6 +27,8 @@ THE SOFTWARE.
 #include <stdlib.h>
 #include <math.h>
 
+static GRRLIB_EmbeddedFile* EmbeddedFile = NULL;
+
 /**
  * Shortcut to access triangles values.
  */
@@ -45,6 +47,44 @@ typedef struct _GRRLIB_Node {
     bool   averaged;
     struct _GRRLIB_Node* next;
 } GRRLIB_Node;
+
+/**
+ * Find an embedded file by name.
+ * @filename The name of the file to find.
+ * @return A pointer to the embedded file, or NULL if not found.
+ */
+static const GRRLIB_EmbeddedFile* FindEmbedded(const char* filename) {
+    if(filename == NULL) {
+        return NULL;
+    }
+    for (const GRRLIB_EmbeddedFile* f = EmbeddedFile; f->name; ++f) {
+        if (strcmp(f->name, filename) == 0) {
+            return f;
+        }
+    }
+    return NULL;
+}
+
+/**
+ * Load a texture from a file or embedded resource.
+ * @param filename The JPEG, PNG or Bitmap filename to load.
+ * @return A GRRLIB_texImg structure filled with image information.
+ *         If an error occurs NULL will be returned.
+ */
+static GRRLIB_texImg* GRRLIB_LoadTextureFromX(const char *dir, const char *filename) {
+    if (dir == NULL) {
+        const GRRLIB_EmbeddedFile* embedded_file = FindEmbedded(filename);
+        return GRRLIB_LoadTexture(embedded_file->data);
+    }
+    else {
+        char* filepath = (char*)malloc(sizeof(char) * (strlen(dir) + strlen(filename) + 1));
+        strcpy(filepath, dir);
+        strcat(filepath, filename);
+        GRRLIB_texImg* result = GRRLIB_LoadTextureFromFile(filepath);
+        free(filepath);
+        return result;
+    }
+}
 
 /**
  * Find a group in the model.
@@ -135,13 +175,23 @@ static void GRRLIB_ReadMTL(GRRLIB_Model* model, char* name) {
     char buf[128];
     f32 Red, Blue, Green;
 
-    char* dir = GRRLIB_DirName(model->pathname);
-    char* filename = (char*)malloc(sizeof(char) * (strlen(dir) + strlen(name) + 1));
-    strcpy(filename, dir);
-    strcat(filename, name);
+    char* dir = NULL;
+    char* filename = NULL;
 
     // open the file
-    FILE* file = fopen(filename, "r");
+    FILE* file = NULL;
+    const GRRLIB_EmbeddedFile* embedded_file = FindEmbedded(filename);
+    if (embedded_file) {
+        file = fmemopen((void*)embedded_file->data, embedded_file->len, "r");
+    }
+    else {
+        dir = GRRLIB_DirName(model->pathname);
+        filename = (char*)malloc(sizeof(char) * (strlen(dir) + strlen(name) + 1));
+        strcpy(filename, dir);
+        strcat(filename, name);
+        file = fopen(filename, "r");
+    }
+
     if (file != NULL) {
         exit(1);
     }
@@ -220,33 +270,21 @@ static void GRRLIB_ReadMTL(GRRLIB_Model* model, char* name) {
                 fgets(buf, sizeof(buf), file);
                 sscanf(buf, "%s %s", buf, buf); // Get file name
                 if(buf[0] != ' ') {
-                    filename = (char*)malloc(sizeof(char) * (strlen(dir) + strlen(buf) + 1));
-                    strcpy(filename, dir);
-                    strcat(filename, buf);
-                    model->materials[nummaterials].diffusetex = GRRLIB_LoadTextureFromFile(filename);
-                    free(filename);
+                    model->materials[nummaterials].diffusetex = GRRLIB_LoadTextureFromX(dir, buf);
                 }
                 break;
             case 's': // the specular texture map
                 fgets(buf, sizeof(buf), file);
                 sscanf(buf, "%s %s", buf, buf); // Get file name
                 if(buf[0] != ' ') {
-                    filename = (char*)malloc(sizeof(char) * (strlen(dir) + strlen(buf) + 1));
-                    strcpy(filename, dir);
-                    strcat(filename, buf);
-                    model->materials[nummaterials].speculartex = GRRLIB_LoadTextureFromFile(filename);
-                    free(filename);
+                    model->materials[nummaterials].speculartex = GRRLIB_LoadTextureFromX(dir, buf);
                 }
                 break;
             case 'a': // the ambient texture map
                 fgets(buf, sizeof(buf), file);
                 sscanf(buf, "%s %s", buf, buf); // Get file name
                 if(buf[0] != ' ') {
-                    filename = (char*)malloc(sizeof(char) * (strlen(dir) + strlen(buf) + 1));
-                    strcpy(filename, dir);
-                    strcat(filename, buf);
-                    model->materials[nummaterials].ambienttex = GRRLIB_LoadTextureFromFile(filename);
-                    free(filename);
+                    model->materials[nummaterials].ambienttex = GRRLIB_LoadTextureFromX(dir, buf);
                 }
                 break;
             default:
@@ -346,18 +384,6 @@ static f32 GRRLIB_Max(f32 a, f32 b) {
 }
 
 /**
- * Returns the absolute value of a float.
- * @return The absolute value of a float.
- */
-static f32 GRRLIB_Abs(f32 f)
-{
-    if (f < 0) {
-        return -f;
-    }
-    return f;
-}
-
-/**
  * Calculates the dimensions (width, height, depth) of a model.
  *
  * @param model Initialized GRRLIB_Model structure.
@@ -401,9 +427,9 @@ static void GRRLIB_Dimensions(GRRLIB_Model* model, f32* dimensions) {
     }
 
     // calculate model width, height, and depth
-    dimensions[X] = GRRLIB_Abs(maxx) + GRRLIB_Abs(minx);
-    dimensions[Y] = GRRLIB_Abs(maxy) + GRRLIB_Abs(miny);
-    dimensions[Z] = GRRLIB_Abs(maxz) + GRRLIB_Abs(minz);
+    dimensions[X] = fabsf(maxx) + fabsf(minx);
+    dimensions[Y] = fabsf(maxy) + fabsf(miny);
+    dimensions[Z] = fabsf(maxz) + fabsf(minz);
 }
 
 /**
@@ -414,14 +440,14 @@ static void GRRLIB_Dimensions(GRRLIB_Model* model, f32* dimensions) {
  */
 static void GRRLIB_SecondPass(GRRLIB_Model* model, FILE* file) {
     u32    numvertices;     /* number of vertices in model */
-    u32    numnormals;          /* number of normals in model */
-    u32    numtexcoords;        /* number of texcoords in model */
-    u32    numtriangles;        /* number of triangles in model */
+    u32    numnormals;      /* number of normals in model */
+    u32    numtexcoords;    /* number of texcoords in model */
+    u32    numtriangles;    /* number of triangles in model */
     f32*  vertices;         /* array of vertices  */
     f32*  normals;          /* array of normals */
-    f32*  texcoords;            /* array of texture coordinates */
-    GRRLIB_Group* group;            /* current group pointer */
-    u32    material;            /* current material */
+    f32*  texcoords;        /* array of texture coordinates */
+    GRRLIB_Group* group;    /* current group pointer */
+    u32    material;        /* current material */
     u32    v, n, t;
     char   buf[128];
 
@@ -716,9 +742,17 @@ static void GRRLIB_FirstPass(GRRLIB_Model* model, FILE* file) {
  * @return Returns a pointer to the created object which should be free'd with GRRLIB_DeleteObj.
  */
 GRRLIB_Model* GRRLIB_ReadOBJ(char* filename) {
-    FILE* file = fopen(filename, "r");
+    FILE* file = NULL;
+    const GRRLIB_EmbeddedFile* embedded_file = FindEmbedded(filename);
+    if (embedded_file) {
+        file = fmemopen((void*)embedded_file->data, embedded_file->len, "r");
+    }
+    else {
+        file = fopen(filename, "r");
+    }
+
     if (file == NULL) {
-        exit(1);
+        return NULL;
     }
 
     GRRLIB_Model* model = (GRRLIB_Model*)malloc(sizeof(GRRLIB_Model));
@@ -780,7 +814,9 @@ static void GRRLIB_DeleteMaterial(GRRLIB_Material* material) {
  * @param model Initialized GRRLIB_Model structure.
  */
 void GRRLIB_DeleteObj(GRRLIB_Model* model) {
-    GRRLIB_Group* group;
+    if (model == NULL) {
+        return;
+    }
 
     if (model->pathname)
         free(model->pathname);
@@ -803,7 +839,7 @@ void GRRLIB_DeleteObj(GRRLIB_Model* model) {
     }
     free(model->materials);
     while(model->groups) {
-        group = model->groups;
+        GRRLIB_Group* group = model->groups;
         model->groups = model->groups->next;
         free(group->name);
         free(group->triangles);
@@ -1150,7 +1186,7 @@ void GRRLIB_LinearTexture(GRRLIB_Model* model) {
 
     GRRLIB_Dimensions(model, dimensions);
     const f32 scalefactor =
-        2.0 / GRRLIB_Abs(GRRLIB_Max(GRRLIB_Max(dimensions[0], dimensions[1]), dimensions[2]));
+        2.0 / fabsf(GRRLIB_Max(GRRLIB_Max(dimensions[0], dimensions[1]), dimensions[2]));
 
     // do the calculations
     for(u32 i = 1; i <= model->numvertices; i++) {
@@ -1241,179 +1277,10 @@ void GRRLIB_SpheremapTexture(GRRLIB_Model* model) {
     }
 }
 
-
-
-
-static void GRRLIB_FirstPassMem(GRRLIB_Model* model, const char *buffer, u32 size) {
-    u32    numvertices;     /* number of vertices in model */
-    u32    numnormals;      /* number of normals in model */
-    u32    numtexcoords;        /* number of texcoords in model */
-    u32    numtriangles;        /* number of triangles in model */
-    GRRLIB_Group* group;            /* current group */
-    unsigned  v, n, t;
-    char      buf[128];
-    int ss;
-/*
-    char *buffer;
-    buffer = (char*)malloc(sizeof(char) * size);
-    memcpy(buffer, buffer_o, size);
-*/
-    // make a default group
-    group = GRRLIB_AddGroup(model, "default");
-
-    numvertices = numnormals = numtexcoords = numtriangles = 0;
-
-    while((ss = sscanf(buffer, "%s", buf)) != EOF) {
-        buffer += (ss + 1);
-        switch(buf[0]) {
-            case '#':               /* comment */
-                buffer = strchr(buffer, '\n') + 1;
-                break;
-            case 'v':               /* v, vn, vt */
-                switch(buf[1]) {
-                    case '\0':          /* vertex */
-                        numvertices++;
-                        break;
-                    case 'n':               /* normal */
-                        numnormals++;
-                        break;
-                    case 't':               /* texcoord */
-                        numtexcoords++;
-                        break;
-                    default:
-                        exit(1);
-                }
-                buffer = strchr(buffer, '\n') + 1;
-                break;
-            case 'm':
-                buffer = strchr(buffer, '\n') + 1;
-                sscanf(buf, "%s %s", buf, buf);
-                model->mtllibname = strdup(buf);
-                //GRRLIB_ReadMTL(model, buf);
-                break;
-            case 'u':
-                buffer = strchr(buffer, '\n') + 1;
-                break;
-            case 'g':               /* group */
-                buffer = strchr(buffer, '\n') + 1;
-                sscanf(buf, "%s", buf);
-                group = GRRLIB_AddGroup(model, buf);
-                break;
-            case 'f':               /* face */
-                v = n = t = 0;
-                sscanf(buffer, "%s", buf);
-                /* can be one of %d, %d//%d, %d/%d, %d/%d/%d %d//%d */
-                if (strstr(buf, "//")) {
-                    /* v//n */
-                    sscanf(buf, "%d//%d", &v, &n);
-                    buffer = strchr(buffer, 32) + 1;
-                    sscanf(buffer, "%d//%d", &v, &n);
-                    buffer = strchr(buffer, 32) + 1;
-                    sscanf(buffer, "%d//%d", &v, &n);
-                    buffer = strchr(buffer, 32);
-                    numtriangles++;
-                    group->numtriangles++;
-                    while(sscanf(buffer, "%d//%d", &v, &n) > 0) {
-                        buffer = strchr(buffer, 32) + 1;
-                        numtriangles++;
-                        group->numtriangles++;
-                    }
-                }
-                else if (sscanf(buf, "%d/%d/%d", &v, &t, &n) == 3) {
-                    /* v/t/n */
-                    sscanf(buffer, "%d/%d/%d", &v, &t, &n);
-                    sscanf(buffer, "%d/%d/%d", &v, &t, &n);
-                    numtriangles++;
-                    group->numtriangles++;
-                    while(sscanf(buffer, "%d/%d/%d", &v, &t, &n) > 0) {
-                        numtriangles++;
-                        group->numtriangles++;
-                    }
-                }
-                else if (sscanf(buf, "%d/%d", &v, &t) == 2) {
-                    /* v/t */
-                    sscanf(buffer, "%d/%d", &v, &t);
-                    sscanf(buffer, "%d/%d", &v, &t);
-                    numtriangles++;
-                    group->numtriangles++;
-                    while(sscanf(buffer, "%d/%d", &v, &t) > 0) {
-                        numtriangles++;
-                        group->numtriangles++;
-                    }
-                }
-                else {
-                    /* v */
-                    sscanf(buffer, "%d", &v);
-                    sscanf(buffer, "%d", &v);
-                    numtriangles++;
-                    group->numtriangles++;
-                    while(sscanf(buffer, "%d", &v) > 0) {
-                        numtriangles++;
-                        group->numtriangles++;
-                    }
-                }
-                break;
-            default:
-                buffer = strchr(buffer, '\n') + 1;
-                break;
-        }
-        if(*buffer == '\n') {
-            buffer++;
-        }
-    }
-
-    model->numvertices  = numvertices;
-    model->numnormals   = numnormals;
-    model->numtexcoords = numtexcoords;
-    model->numtriangles = numtriangles;
-
-    // allocate memory for the triangles in each group
-    group = model->groups;
-    while(group) {
-        group->triangles = (u32*)malloc(sizeof(u32) * group->numtriangles);
-        group->numtriangles = 0;
-        group = group->next;
-    }
-}
-
-GRRLIB_Model* GRRLIB_ReadOBJMem(const char *buffer, u32 size) {
-    GRRLIB_Model* model;
-
-    model = (GRRLIB_Model*)malloc(sizeof(GRRLIB_Model));
-    model->pathname      = "MEMORY";
-    model->mtllibname    = NULL;
-    model->numvertices   = 0;
-    model->vertices      = NULL;
-    model->numnormals    = 0;
-    model->normals       = NULL;
-    model->numtexcoords  = 0;
-    model->texcoords     = NULL;
-    model->numfacetnorms = 0;
-    model->facetnorms    = NULL;
-    model->numtriangles  = 0;
-    model->triangles     = NULL;
-    model->nummaterials  = 0;
-    model->materials     = NULL;
-    model->numgroups     = 0;
-    model->groups        = NULL;
-    model->position.x    = 0.0;
-    model->position.y    = 0.0;
-    model->position.z    = 0.0;
-
-    // Get a count of the number of stuff
-    GRRLIB_FirstPassMem(model, buffer, size);
-
-    // allocate memory
-    model->vertices = (f32*)malloc(sizeof(f32) * 3 * (model->numvertices + 1));
-    model->triangles = (GRRLIB_Triangle*)malloc(sizeof(GRRLIB_Triangle) * model->numtriangles);
-    if (model->numnormals) {
-        model->normals = (f32*)malloc(sizeof(f32) * 3 * (model->numnormals + 1));
-    }
-    if (model->numtexcoords) {
-        model->texcoords = (f32*)malloc(sizeof(f32) * 2 * (model->numtexcoords + 1));
-    }
-
-    //GRRLIB_SecondPassMem(model, buffer, size);
-
-    return model;
+/**
+ * Set the embedded file for the model.
+ * @param file Pointer to the GRRLIB_EmbeddedFile structure containing the embedded file data.
+ */
+void GRRLIB_SetEmbeddedFile(GRRLIB_EmbeddedFile* file) {
+    EmbeddedFile = file;
 }

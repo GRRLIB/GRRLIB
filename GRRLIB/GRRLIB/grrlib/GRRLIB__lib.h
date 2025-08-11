@@ -188,13 +188,13 @@ u32 GRRLIB_WidthTTFW(GRRLIB_ttfFont *myFont, const wchar_t *, unsigned int);
 // GRRLIB_3Dobj.c - 3D obj file functions for GRRLIB
 void GRRLIB_Draw3dObj(GRRLIB_Model* model);
 GRRLIB_Model* GRRLIB_ReadOBJ(char* filename);
-GRRLIB_Model* GRRLIB_ReadOBJMem(const char *buffer, u32 size);
 void GRRLIB_DeleteObj(GRRLIB_Model* model);
 void GRRLIB_VertexNormals(GRRLIB_Model* model, f32 angle);
 void GRRLIB_FacetNormals(GRRLIB_Model* model);
 void GRRLIB_LinearTexture(GRRLIB_Model* model);
 void GRRLIB_SpheremapTexture(GRRLIB_Model* model);
 u32 GRRLIB_FindMaterial(GRRLIB_Model* model, char* name);
+void GRRLIB_SetEmbeddedFile(GRRLIB_EmbeddedFile* file);
 
 #endif // __GRRLIB_FNLIB_H__
 /** @} */ // end of group

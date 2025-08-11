@@ -226,6 +226,12 @@ typedef struct {
     guVector  position;           /**< Position of the model. */
 } GRRLIB_Model;
 
+typedef struct {
+    const char* name;           /**< Name of the embedded file. */
+    const unsigned char* data;  /**< Pointer to the embedded file data. */
+    size_t len;                 /**< Length of the embedded file data. */
+} GRRLIB_EmbeddedFile;
+
 //==============================================================================
 // Allow general access to screen and frame information
 //==============================================================================

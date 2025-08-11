@@ -42,7 +42,7 @@ int main() {
         GRRLIB_LinearTexture(model);
     }
 
-    while(1) {
+    while(true) {
         GRRLIB_Camera3dSettings(0.0f,0.0f,camZ, 0,1,0, 0,0,0);
 
         GRRLIB_3dMode(0.1, 1000, 45, model->numtexcoords, model->numnormals);
