@@ -72,6 +72,10 @@ static const GRRLIB_EmbeddedFile* FindEmbedded(const char* filename) {
  *         If an error occurs NULL will be returned.
  */
 static GRRLIB_texImg* GRRLIB_LoadTextureMap(const char *dir, const char *filename) {
+    if(filename == NULL || filename[0] != ' ') {
+        return NULL;
+    }
+
     if (dir == NULL) {
         const GRRLIB_EmbeddedFile* embedded_file = FindEmbedded(filename);
         return GRRLIB_LoadTexture(embedded_file->data);
@@ -263,23 +267,17 @@ static void GRRLIB_ReadMTL(GRRLIB_Model* model, char* name) {
             case 'd': // the diffuse texture map
                 fgets(buf, sizeof(buf), file);
                 sscanf(buf, "%s %s", buf, buf); // Get file name
-                if(buf[0] != ' ') {
-                    model->materials[nummaterials].diffusetex = GRRLIB_LoadTextureMap(dir, buf);
-                }
+                model->materials[nummaterials].diffusetex = GRRLIB_LoadTextureMap(dir, buf);
                 break;
             case 's': // the specular texture map
                 fgets(buf, sizeof(buf), file);
                 sscanf(buf, "%s %s", buf, buf); // Get file name
-                if(buf[0] != ' ') {
-                    model->materials[nummaterials].speculartex = GRRLIB_LoadTextureMap(dir, buf);
-                }
+                model->materials[nummaterials].speculartex = GRRLIB_LoadTextureMap(dir, buf);
                 break;
             case 'a': // the ambient texture map
                 fgets(buf, sizeof(buf), file);
                 sscanf(buf, "%s %s", buf, buf); // Get file name
-                if(buf[0] != ' ') {
-                    model->materials[nummaterials].ambienttex = GRRLIB_LoadTextureMap(dir, buf);
-                }
+                model->materials[nummaterials].ambienttex = GRRLIB_LoadTextureMap(dir, buf);
                 break;
             default:
                 // eat up rest of line
@@ -844,24 +842,24 @@ void GRRLIB_Draw3dObj(GRRLIB_Model* model) {
         GX_ClearVtxDesc();
 
         GX_SetVtxDesc(GX_VA_POS, GX_DIRECT);
-        if(model->numnormals) {
+        if(model->numnormals > 0) {
             GX_SetVtxDesc(GX_VA_NRM, GX_DIRECT);
         }
         GX_SetVtxDesc(GX_VA_CLR0, GX_DIRECT);
-        if(model->numtexcoords && tex) {
+        if(model->numtexcoords > 0 && tex != NULL) {
             GX_SetVtxDesc(GX_VA_TEX0, GX_DIRECT);
         }
 
         GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_POS_XYZ, GX_F32, 0);
-        if(model->numnormals) {
+        if(model->numnormals > 0) {
             GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_NRM, GX_NRM_XYZ, GX_F32, 0);
         }
         GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_CLR0, GX_CLR_RGBA, GX_RGBA8, 0);
-        if(model->numtexcoords && tex) {
+        if(model->numtexcoords > 0 && tex != NULL) {
             GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_TEX0, GX_TEX_ST, GX_F32, 0);
         }
 
-        if(model->numtexcoords && tex) {
+        if(model->numtexcoords > 0 && tex != NULL) {
             GX_SetTevOp(GX_TEVSTAGE0, GX_MODULATE);
             GRRLIB_SetTexture(tex, 0);
         }
@@ -874,13 +872,13 @@ void GRRLIB_Draw3dObj(GRRLIB_Model* model) {
             GX_Position3f32(model->vertices[3 * T(group->triangles[i]).vindices[0] + X],
                             model->vertices[3 * T(group->triangles[i]).vindices[0] + Y],
                             model->vertices[3 * T(group->triangles[i]).vindices[0] + Z]);
-            if(model->numnormals) {
+            if(model->numnormals > 0) {
                 GX_Normal3f32(model->normals[3 * T(group->triangles[i]).nindices[0] + X],
                               model->normals[3 * T(group->triangles[i]).nindices[0] + Y],
                               model->normals[3 * T(group->triangles[i]).nindices[0] + Z]);
             }
             GX_Color1u32(Color);
-            if(model->numtexcoords && tex) {
+            if(model->numtexcoords > 0 && tex != NULL) {
                 GX_TexCoord2f32(model->texcoords[2*T(group->triangles[i]).tindices[0] + X],
                                 model->texcoords[2*T(group->triangles[i]).tindices[0] + Y]);
             }
@@ -889,13 +887,13 @@ void GRRLIB_Draw3dObj(GRRLIB_Model* model) {
             GX_Position3f32(model->vertices[3 * T(group->triangles[i]).vindices[1] + X],
                             model->vertices[3 * T(group->triangles[i]).vindices[1] + Y],
                             model->vertices[3 * T(group->triangles[i]).vindices[1] + Z]);
-            if(model->numnormals) {
+            if(model->numnormals > 0) {
                 GX_Normal3f32(model->normals[3 * T(group->triangles[i]).nindices[1] + X],
                               model->normals[3 * T(group->triangles[i]).nindices[1] + Y],
                               model->normals[3 * T(group->triangles[i]).nindices[1] + Z]);
             }
             GX_Color1u32(Color);
-            if(model->numtexcoords && tex) {
+            if(model->numtexcoords > 0 && tex != NULL) {
                 GX_TexCoord2f32(model->texcoords[2*T(group->triangles[i]).tindices[1] + X],
                                 model->texcoords[2*T(group->triangles[i]).tindices[1] + Y]);
             }
@@ -904,13 +902,13 @@ void GRRLIB_Draw3dObj(GRRLIB_Model* model) {
             GX_Position3f32(model->vertices[3 * T(group->triangles[i]).vindices[2] + X],
                             model->vertices[3 * T(group->triangles[i]).vindices[2] + Y],
                             model->vertices[3 * T(group->triangles[i]).vindices[2] + Z]);
-            if(model->numnormals) {
+            if(model->numnormals > 0) {
                 GX_Normal3f32(model->normals[3 * T(group->triangles[i]).nindices[2] + X],
                               model->normals[3 * T(group->triangles[i]).nindices[2] + Y],
                               model->normals[3 * T(group->triangles[i]).nindices[2] + Z]);
             }
             GX_Color1u32(Color);
-            if(model->numtexcoords && tex) {
+            if(model->numtexcoords > 0 && tex != NULL) {
                 GX_TexCoord2f32(model->texcoords[2*T(group->triangles[i]).tindices[2] + X],
                                 model->texcoords[2*T(group->triangles[i]).tindices[2] + Y]);
             }
