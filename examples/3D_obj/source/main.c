@@ -45,13 +45,13 @@ int main() {
     while(true) {
         GRRLIB_Camera3dSettings(0.0f,0.0f,camZ, 0,1,0, 0,0,0);
 
-        GRRLIB_3dMode(0.1, 1000, 45, model->numtexcoords, model->numnormals);
+        GRRLIB_3dMode(0.1f, 1000.0f, 45.0f, model->numtexcoords, model->numnormals);
 
         if(model->numtexcoords) {
-            GRRLIB_SetTexture(tex_obj, 0);
+            GRRLIB_SetTexture(tex_obj, false);
         }
 
-        GRRLIB_ObjectView(0, 0, 0, modelRotX, modelRotY, modelRotZ, 1, 1, 1);
+        GRRLIB_ObjectView(0.0f, 0.0f, 0.0f, modelRotX, modelRotY, modelRotZ, 1.0f, 1.0f, 1.0f);
 
         GRRLIB_SetLightAmbient(RGBA(Amb,Amb,Amb,0xFF));
         GRRLIB_SetLightDiff(0, (guVector){-6, 0, zlight}, 20.0f, 1.0f, 0xFFFFFFFF);

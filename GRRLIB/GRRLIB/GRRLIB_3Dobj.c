@@ -131,22 +131,17 @@ static GRRLIB_Group* GRRLIB_AddGroup(GRRLIB_Model* model, char* name) {
  * @return The position of the material, zero if not found.
  */
 u32 GRRLIB_FindMaterial(GRRLIB_Model* model, char* name) {
-    u32 i;
-
-    if(model == NULL || name == NULL) {
+    if (model == NULL || name == NULL) {
         return 0;
     }
 
-    for (i = 0; i < model->nummaterials; i++) {
-        if (!strcmp(model->materials[i].name, name)) {
-            goto found;
+    for (u32 i = 0; i < model->nummaterials; i++) {
+        if (strcmp(model->materials[i].name, name) == 0) {
+            return i;
         }
     }
 
-    i = 0;
-
-found:
-    return i;
+    return 0;
 }
 
 /**
@@ -176,26 +171,25 @@ static void GRRLIB_ReadMTL(GRRLIB_Model* model, char* name) {
     f32 Red, Blue, Green;
 
     char* dir = NULL;
-    char* filename = NULL;
 
     // open the file
     FILE* file = NULL;
-    const GRRLIB_EmbeddedFile* embedded_file = FindEmbedded(filename);
+    const GRRLIB_EmbeddedFile* embedded_file = FindEmbedded(name);
     if (embedded_file) {
         file = fmemopen((void*)embedded_file->data, embedded_file->len, "r");
     }
     else {
         dir = GRRLIB_DirName(model->pathname);
-        filename = (char*)malloc(sizeof(char) * (strlen(dir) + strlen(name) + 1));
+        char* filename = (char*)malloc(sizeof(char) * (strlen(dir) + strlen(name) + 1));
         strcpy(filename, dir);
         strcat(filename, name);
         file = fopen(filename, "r");
+        free(filename);
     }
 
-    if (file != NULL) {
-        exit(1);
+    if (file == NULL) {
+        return;
     }
-    free(filename);
 
     // count the number of materials in the file
     u32 nummaterials = 1;
@@ -373,17 +367,6 @@ static void GRRLIB_Normalize(f32* n) {
 }
 
 /**
- * Returns the maximum of two floats.
- * @return The maximum of two floats.
-*/
-static f32 GRRLIB_Max(f32 a, f32 b) {
-    if (a > b) {
-        return a;
-    }
-    return b;
-}
-
-/**
  * Calculates the dimensions (width, height, depth) of a model.
  *
  * @param model Initialized GRRLIB_Model structure.
@@ -439,29 +422,22 @@ static void GRRLIB_Dimensions(GRRLIB_Model* model, f32* dimensions) {
  * @param file File descriptor.
  */
 static void GRRLIB_SecondPass(GRRLIB_Model* model, FILE* file) {
-    u32    numvertices;     /* number of vertices in model */
-    u32    numnormals;      /* number of normals in model */
-    u32    numtexcoords;    /* number of texcoords in model */
-    u32    numtriangles;    /* number of triangles in model */
-    f32*  vertices;         /* array of vertices  */
-    f32*  normals;          /* array of normals */
-    f32*  texcoords;        /* array of texture coordinates */
-    GRRLIB_Group* group;    /* current group pointer */
-    u32    material;        /* current material */
     u32    v, n, t;
     char   buf[128];
 
     // set the pointer shortcuts
-    vertices     = model->vertices;
-    normals      = model->normals;
-    texcoords    = model->texcoords;
-    group        = model->groups;
+    f32* vertices       = model->vertices;  /* array of vertices */
+    f32* normals        = model->normals;   /* array of normals */
+    f32* texcoords      = model->texcoords; /* array of texture coordinates */
+    GRRLIB_Group* group = model->groups;    /* current group pointer */
 
     /* on the second pass through the file, read all the data into the
      allocated arrays */
-    numvertices = numnormals = numtexcoords = 1;
-    numtriangles = 0;
-    material = 0;
+    u32 numvertices = 1;     /* number of vertices in model */
+    u32 numnormals = 1;      /* number of normals in model */
+    u32 numtexcoords = 1;    /* number of texcoords in model */
+    u32 numtriangles = 0;    /* number of triangles in model */
+    u32 material = 0;        /* current material */
     while(fscanf(file, "%s", buf) != EOF) {
         switch(buf[0]) {
             case '#':               /* comment */
@@ -965,12 +941,6 @@ void GRRLIB_Draw3dObj(GRRLIB_Model* model) {
  */
 void GRRLIB_VertexNormals(GRRLIB_Model* model, f32 angle) {
     GRRLIB_Node*  node;
-    GRRLIB_Node*  tail;
-    GRRLIB_Node** members;
-    u32   numnormals;
-    f32   average[3];
-    f32   dot;
-    u32   avg;
 
     if(model == NULL || model->facetnorms == NULL) {
         return;
@@ -989,7 +959,7 @@ void GRRLIB_VertexNormals(GRRLIB_Model* model, f32 angle) {
     model->normals = (f32*)malloc(sizeof(f32)* 3* (model->numnormals+1));
 
     // allocate a structure that will hold a linked list of triangle indices for each vertex
-    members = (GRRLIB_Node**)malloc(sizeof(GRRLIB_Node*) * (model->numvertices + 1));
+    GRRLIB_Node** members = (GRRLIB_Node**)malloc(sizeof(GRRLIB_Node*) * (model->numvertices + 1));
     for (u32 i = 1; i <= model->numvertices; i++) {
         members[i] = NULL;
     }
@@ -1013,20 +983,20 @@ void GRRLIB_VertexNormals(GRRLIB_Model* model, f32 angle) {
     }
 
     // calculate the average normal for each vertex
-    numnormals = 1;
+    u32 numnormals = 1;
     for (u32 i = 1; i <= model->numvertices; i++) {
         // calculate an average normal for this vertex by averaging the
         // facet normal of every triangle this vertex is in
         node = members[i];
 
-        average[0] = 0.0; average[1] = 0.0; average[2] = 0.0;
-        avg = 0;
+        f32 average[3] = {0.0f, 0.0f, 0.0f};
+        u32 avg = 0;
         while (node) {
             /* only average if the dot product of the angle between the two
             facet normals is greater than the cosine of the threshold
             angle -- or, said another way, the angle between the two
             facet normals is less than (or equal to) the threshold angle */
-            dot = GRRLIB_Dot(&model->facetnorms[3 * T(node->index).findex],
+            const f32 dot = GRRLIB_Dot(&model->facetnorms[3 * T(node->index).findex],
                 &model->facetnorms[3 * T(members[i]->index).findex]);
             if (dot > cos_angle) {
                 node->averaged = true;
@@ -1097,7 +1067,7 @@ void GRRLIB_VertexNormals(GRRLIB_Model* model, f32 angle) {
     for (u32 i = 1; i <= model->numvertices; i++) {
         node = members[i];
         while (node) {
-            tail = node;
+            GRRLIB_Node* tail = node;
             node = node->next;
             free(tail);
         }
@@ -1186,7 +1156,7 @@ void GRRLIB_LinearTexture(GRRLIB_Model* model) {
 
     GRRLIB_Dimensions(model, dimensions);
     const f32 scalefactor =
-        2.0 / fabsf(GRRLIB_Max(GRRLIB_Max(dimensions[0], dimensions[1]), dimensions[2]));
+        2.0 / fabsf(fmaxf(fmaxf(dimensions[0], dimensions[1]), dimensions[2]));
 
     // do the calculations
     for(u32 i = 1; i <= model->numvertices; i++) {
@@ -1221,8 +1191,6 @@ void GRRLIB_LinearTexture(GRRLIB_Model* model) {
  * @param model Pointer to initialized GRRLIB_Model structure.
  */
 void GRRLIB_SpheremapTexture(GRRLIB_Model* model) {
-    f32 theta, phi, rho, x, y, z, r;
-
     if(model == NULL || model->normals == NULL) {
         return;
     }
@@ -1235,11 +1203,13 @@ void GRRLIB_SpheremapTexture(GRRLIB_Model* model) {
 
     // do the calculations
     for (u32 i = 1; i <= model->numnormals; i++) {
-        z = model->normals[3 * i + 0];	/* re-arrange for pole distortion */
-        y = model->normals[3 * i + 1];
-        x = model->normals[3 * i + 2];
-        r = sqrt((x * x) + (y * y));
-        rho = sqrt((r * r) + (z * z));
+        f32 theta;
+        f32 phi;
+        const f32 z = model->normals[3 * i + 0];    /* re-arrange for pole distortion */
+        const f32 y = model->normals[3 * i + 1];
+        const f32 x = model->normals[3 * i + 2];
+        const f32 r = sqrt((x * x) + (y * y));
+        const f32 rho = sqrt((r * r) + (z * z));
 
         if(r == 0.0) {
             theta = 0.0;
@@ -1254,7 +1224,7 @@ void GRRLIB_SpheremapTexture(GRRLIB_Model* model) {
             }
 
             if(y == 0.0) {
-                theta = M_PI / 2.0;	/* acos(x / r); */
+                theta = M_PI / 2.0;    /* acos(x / r); */
             }
             else {
                 theta = asin(y / r) + (M_PI / 2.0);
