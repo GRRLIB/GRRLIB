@@ -71,7 +71,7 @@ static const GRRLIB_EmbeddedFile* FindEmbedded(const char* filename) {
  * @return A GRRLIB_texImg structure filled with image information.
  *         If an error occurs NULL will be returned.
  */
-static GRRLIB_texImg* GRRLIB_LoadTextureFromX(const char *dir, const char *filename) {
+static GRRLIB_texImg* GRRLIB_LoadTextureMap(const char *dir, const char *filename) {
     if (dir == NULL) {
         const GRRLIB_EmbeddedFile* embedded_file = FindEmbedded(filename);
         return GRRLIB_LoadTexture(embedded_file->data);
@@ -89,13 +89,13 @@ static GRRLIB_texImg* GRRLIB_LoadTextureFromX(const char *dir, const char *filen
 /**
  * Find a group in the model.
  * @param model Structure that defines the model in wich the group will be searched.
- * @param name Yhe name of the group to find.
+ * @param name The name of the group to find.
  * @return The group found in the model.
  */
 static GRRLIB_Group* GRRLIB_FindGroup(GRRLIB_Model* model, char* name) {
     GRRLIB_Group* group = model->groups;
     while(group) {
-        if (!strcmp(name, group->name)) {
+        if (strcmp(name, group->name) == 0) {
             break;
         }
         group = group->next;
@@ -106,7 +106,7 @@ static GRRLIB_Group* GRRLIB_FindGroup(GRRLIB_Model* model, char* name) {
 /**
  * Add a group to the model.
  * @param model Structure that defines the model to wich the group will be added.
- * @param name Yhe name of the group to add.
+ * @param name The name of the group to add.
  * @return The group added to the model.
  */
 static GRRLIB_Group* GRRLIB_AddGroup(GRRLIB_Model* model, char* name) {
@@ -175,7 +175,7 @@ static void GRRLIB_ReadMTL(GRRLIB_Model* model, char* name) {
     // open the file
     FILE* file = NULL;
     const GRRLIB_EmbeddedFile* embedded_file = FindEmbedded(name);
-    if (embedded_file) {
+    if (embedded_file != NULL) {
         file = fmemopen((void*)embedded_file->data, embedded_file->len, "r");
     }
     else {
@@ -264,21 +264,21 @@ static void GRRLIB_ReadMTL(GRRLIB_Model* model, char* name) {
                 fgets(buf, sizeof(buf), file);
                 sscanf(buf, "%s %s", buf, buf); // Get file name
                 if(buf[0] != ' ') {
-                    model->materials[nummaterials].diffusetex = GRRLIB_LoadTextureFromX(dir, buf);
+                    model->materials[nummaterials].diffusetex = GRRLIB_LoadTextureMap(dir, buf);
                 }
                 break;
             case 's': // the specular texture map
                 fgets(buf, sizeof(buf), file);
                 sscanf(buf, "%s %s", buf, buf); // Get file name
                 if(buf[0] != ' ') {
-                    model->materials[nummaterials].speculartex = GRRLIB_LoadTextureFromX(dir, buf);
+                    model->materials[nummaterials].speculartex = GRRLIB_LoadTextureMap(dir, buf);
                 }
                 break;
             case 'a': // the ambient texture map
                 fgets(buf, sizeof(buf), file);
                 sscanf(buf, "%s %s", buf, buf); // Get file name
                 if(buf[0] != ' ') {
-                    model->materials[nummaterials].ambienttex = GRRLIB_LoadTextureFromX(dir, buf);
+                    model->materials[nummaterials].ambienttex = GRRLIB_LoadTextureMap(dir, buf);
                 }
                 break;
             default:
@@ -370,19 +370,15 @@ static void GRRLIB_Normalize(f32* n) {
  * Calculates the dimensions (width, height, depth) of a model.
  *
  * @param model Initialized GRRLIB_Model structure.
- * @param dimensions Array of 3 f32 (f32 dimensions[3])
+ * @return A guVector containing the dimensions (width, height, depth) of the model.
  */
-static void GRRLIB_Dimensions(GRRLIB_Model* model, f32* dimensions) {
-    f32 maxx, minx, maxy, miny, maxz, minz;
-
-    if(model == NULL || model->vertices == NULL || dimensions == NULL) {
-        dimensions[X] = 0;
-        dimensions[Y] = 0;
-        dimensions[Z] = 0;
-        return;
+static guVector GRRLIB_Dimensions(GRRLIB_Model* model) {
+    if(model == NULL || model->vertices == NULL) {
+        return (guVector){0.0f, 0.0f, 0.0f};
     }
 
     // get the max/mins
+    f32 maxx, minx, maxy, miny, maxz, minz;
     maxx = minx = model->vertices[3 + X];
     maxy = miny = model->vertices[3 + Y];
     maxz = minz = model->vertices[3 + Z];
@@ -410,9 +406,11 @@ static void GRRLIB_Dimensions(GRRLIB_Model* model, f32* dimensions) {
     }
 
     // calculate model width, height, and depth
-    dimensions[X] = fabsf(maxx) + fabsf(minx);
-    dimensions[Y] = fabsf(maxy) + fabsf(miny);
-    dimensions[Z] = fabsf(maxz) + fabsf(minz);
+    return (guVector){
+        fabsf(maxx) + fabsf(minx),
+        fabsf(maxy) + fabsf(miny),
+        fabsf(maxz) + fabsf(minz)
+    };
 }
 
 /**
@@ -594,9 +592,9 @@ static void GRRLIB_SecondPass(GRRLIB_Model* model, FILE* file) {
 static void GRRLIB_FirstPass(GRRLIB_Model* model, FILE* file) {
     u32    numvertices;     /* number of vertices in model */
     u32    numnormals;      /* number of normals in model */
-    u32    numtexcoords;        /* number of texcoords in model */
-    u32    numtriangles;        /* number of triangles in model */
-    GRRLIB_Group* group;            /* current group */
+    u32    numtexcoords;    /* number of texcoords in model */
+    u32    numtriangles;    /* number of triangles in model */
+    GRRLIB_Group* group;    /* current group */
     unsigned  v, n, t;
     char      buf[128];
 
@@ -720,7 +718,7 @@ static void GRRLIB_FirstPass(GRRLIB_Model* model, FILE* file) {
 GRRLIB_Model* GRRLIB_ReadOBJ(char* filename) {
     FILE* file = NULL;
     const GRRLIB_EmbeddedFile* embedded_file = FindEmbedded(filename);
-    if (embedded_file) {
+    if (embedded_file != NULL) {
         file = fmemopen((void*)embedded_file->data, embedded_file->len, "r");
     }
     else {
@@ -924,8 +922,8 @@ void GRRLIB_Draw3dObj(GRRLIB_Model* model) {
 
 /**
  * Generates smooth vertex normals for a model.
- * First builds a list of all the triangles each vertex is in.  Then
- * loops through each vertex in the the list averaging all the facet
+ * First builds a list of all the triangles each vertex is in.
+ * Then loops through each vertex in the the list averaging all the facet
  * normals of the triangles each vertex is in.  Finally, sets the
  * normal index in the triangle for the vertex to the generated smooth
  * normal.  If the dot product of a facet normal and the facet normal
@@ -989,7 +987,7 @@ void GRRLIB_VertexNormals(GRRLIB_Model* model, f32 angle) {
         // facet normal of every triangle this vertex is in
         node = members[i];
 
-        f32 average[3] = {0.0f, 0.0f, 0.0f};
+        guVector average = (guVector){0.0f, 0.0f, 0.0f};
         u32 avg = 0;
         while (node) {
             /* only average if the dot product of the angle between the two
@@ -1000,9 +998,9 @@ void GRRLIB_VertexNormals(GRRLIB_Model* model, f32 angle) {
                 &model->facetnorms[3 * T(members[i]->index).findex]);
             if (dot > cos_angle) {
                 node->averaged = true;
-                average[0] += model->facetnorms[3 * T(node->index).findex + 0];
-                average[1] += model->facetnorms[3 * T(node->index).findex + 1];
-                average[2] += model->facetnorms[3 * T(node->index).findex + 2];
+                average.x += model->facetnorms[3 * T(node->index).findex + 0];
+                average.y += model->facetnorms[3 * T(node->index).findex + 1];
+                average.z += model->facetnorms[3 * T(node->index).findex + 2];
                 avg = 1;            // we averaged at least one normal!
             }
             else {
@@ -1013,12 +1011,12 @@ void GRRLIB_VertexNormals(GRRLIB_Model* model, f32 angle) {
 
         if (avg) {
             // normalize the averaged normal
-            GRRLIB_Normalize(average);
+            guVecNormalize(&average);
 
             // add the normal to the vertex normals list
-            model->normals[3 * numnormals + 0] = average[0];
-            model->normals[3 * numnormals + 1] = average[1];
-            model->normals[3 * numnormals + 2] = average[2];
+            model->normals[3 * numnormals + 0] = average.x;
+            model->normals[3 * numnormals + 1] = average.y;
+            model->normals[3 * numnormals + 2] = average.z;
             avg = numnormals;
             numnormals++;
         }
@@ -1135,15 +1133,12 @@ void GRRLIB_FacetNormals(GRRLIB_Model* model) {
 }
 
 /**
- * Generates texture coordinates according to a
- * linear projection of the texture map.  It generates these by
- * linearly mapping the vertices onto a square.
+ * Generates texture coordinates according to a linear projection of the texture map.
+ * It generates these by linearly mapping the vertices onto a square.
  *
  * @param model Pointer to initialized GRRLIB_Model structure.
  */
 void GRRLIB_LinearTexture(GRRLIB_Model* model) {
-    f32 dimensions[3];
-
     if(model == NULL) {
         return;
     }
@@ -1154,9 +1149,9 @@ void GRRLIB_LinearTexture(GRRLIB_Model* model) {
     model->numtexcoords = model->numvertices;
     model->texcoords=(f32*)malloc(sizeof(f32)*2*(model->numtexcoords+1));
 
-    GRRLIB_Dimensions(model, dimensions);
+    const guVector dimensions = GRRLIB_Dimensions(model);
     const f32 scalefactor =
-        2.0 / fabsf(fmaxf(fmaxf(dimensions[0], dimensions[1]), dimensions[2]));
+        2.0 / fabsf(fmaxf(fmaxf(dimensions.x, dimensions.y), dimensions.z));
 
     // do the calculations
     for(u32 i = 1; i <= model->numvertices; i++) {
@@ -1179,14 +1174,11 @@ void GRRLIB_LinearTexture(GRRLIB_Model* model) {
 }
 
 /**
- * Generates texture coordinates according to a
- * spherical projection of the texture map.  Sometimes referred to as
- * spheremap, or reflection map texture coordinates.  It generates
- * these by using the normal to calculate where that vertex would map
- * onto a sphere.  Since it is impossible to map something flat
- * perfectly onto something spherical, there is distortion at the
- * poles.  This particular implementation causes the poles along the X
- * axis to be distorted.
+ * Generates texture coordinates according to a spherical projection of the texture map.
+ * Sometimes referred to as spheremap, or reflection map texture coordinates.
+ * It generates these by using the normal to calculate where that vertex would map onto a sphere.
+ * Since it is impossible to map something flat perfectly onto something spherical, there is distortion at the poles.
+ * This particular implementation causes the poles along the X axis to be distorted.
  *
  * @param model Pointer to initialized GRRLIB_Model structure.
  */
