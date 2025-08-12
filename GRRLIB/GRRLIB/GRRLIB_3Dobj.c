@@ -22,10 +22,10 @@ THE SOFTWARE.
 
 #include <grrlib.h>
 #include <malloc.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 #include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 static GRRLIB_EmbeddedFile* EmbeddedFile = NULL;
 
@@ -72,6 +72,10 @@ static const GRRLIB_EmbeddedFile* FindEmbedded(const char* filename) {
  *         If an error occurs NULL will be returned.
  */
 static GRRLIB_texImg* GRRLIB_LoadTextureMap(const char *dir, const char *filename) {
+    if(filename == NULL) {
+        return NULL;
+    }
+
     if (dir == NULL) {
         const GRRLIB_EmbeddedFile* embedded_file = FindEmbedded(filename);
         return GRRLIB_LoadTexture(embedded_file->data);
@@ -88,7 +92,7 @@ static GRRLIB_texImg* GRRLIB_LoadTextureMap(const char *dir, const char *filenam
 
 /**
  * Find a group in the model.
- * @param model Structure that defines the model in wich the group will be searched.
+ * @param model Structure that defines the model in which the group will be searched.
  * @param name The name of the group to find.
  * @return The group found in the model.
  */
@@ -105,7 +109,7 @@ static GRRLIB_Group* GRRLIB_FindGroup(GRRLIB_Model* model, char* name) {
 
 /**
  * Add a group to the model.
- * @param model Structure that defines the model to wich the group will be added.
+ * @param model Structure that defines the model to which the group will be added.
  * @param name The name of the group to add.
  * @return The group added to the model.
  */
@@ -126,7 +130,7 @@ static GRRLIB_Group* GRRLIB_AddGroup(GRRLIB_Model* model, char* name) {
 
 /**
  * Find a material in the model.
- * @param model Structure that defines the model in wich to find the material.
+ * @param model Structure that defines the model in which to find the material.
  * @param name The name of the material.
  * @return The position of the material, zero if not found.
  */
@@ -194,21 +198,11 @@ static void GRRLIB_ReadMTL(GRRLIB_Model* model, char* name) {
     // count the number of materials in the file
     u32 nummaterials = 1;
     while (fscanf(file, "%s", buf) != EOF) {
-        switch (buf[0]) {
-            case '#': // comment
-                // eat up rest of line
-                fgets(buf, sizeof(buf), file);
-                break;
-            case 'n': // newmtl
-                fgets(buf, sizeof(buf), file);
-                nummaterials++;
-                sscanf(buf, "%s %s", buf, buf);
-                break;
-            default:
-                // eat up rest of line
-                fgets(buf, sizeof(buf), file);
-                break;
+        if (buf[0] == 'n') { // newmtl
+            nummaterials++;
         }
+        // eat up rest of line
+        fgets(buf, sizeof(buf), file);
     }
 
     rewind(file);
@@ -263,23 +257,17 @@ static void GRRLIB_ReadMTL(GRRLIB_Model* model, char* name) {
             case 'd': // the diffuse texture map
                 fgets(buf, sizeof(buf), file);
                 sscanf(buf, "%s %s", buf, buf); // Get file name
-                if(buf[0] != ' ') {
-                    model->materials[nummaterials].diffusetex = GRRLIB_LoadTextureMap(dir, buf);
-                }
+                model->materials[nummaterials].diffusetex = GRRLIB_LoadTextureMap(dir, buf);
                 break;
             case 's': // the specular texture map
                 fgets(buf, sizeof(buf), file);
                 sscanf(buf, "%s %s", buf, buf); // Get file name
-                if(buf[0] != ' ') {
-                    model->materials[nummaterials].speculartex = GRRLIB_LoadTextureMap(dir, buf);
-                }
+                model->materials[nummaterials].speculartex = GRRLIB_LoadTextureMap(dir, buf);
                 break;
             case 'a': // the ambient texture map
                 fgets(buf, sizeof(buf), file);
                 sscanf(buf, "%s %s", buf, buf); // Get file name
-                if(buf[0] != ' ') {
-                    model->materials[nummaterials].ambienttex = GRRLIB_LoadTextureMap(dir, buf);
-                }
+                model->materials[nummaterials].ambienttex = GRRLIB_LoadTextureMap(dir, buf);
                 break;
             default:
                 // eat up rest of line
@@ -319,6 +307,7 @@ static void GRRLIB_ReadMTL(GRRLIB_Model* model, char* name) {
             break;
         }
     }
+    fclose(file);
     free(dir);
 }
 
@@ -792,20 +781,27 @@ void GRRLIB_DeleteObj(GRRLIB_Model* model) {
         return;
     }
 
-    if (model->pathname)
+    if (model->pathname) {
         free(model->pathname);
-    if (model->mtllibname)
+    }
+    if (model->mtllibname) {
         free(model->mtllibname);
-    if (model->vertices)
+    }
+    if (model->vertices) {
         free(model->vertices);
-    if (model->normals)
+    }
+    if (model->normals) {
         free(model->normals);
-    if (model->texcoords)
+    }
+    if (model->texcoords) {
         free(model->texcoords);
-    if (model->facetnorms)
+    }
+    if (model->facetnorms) {
         free(model->facetnorms);
-    if (model->triangles)
+    }
+    if (model->triangles) {
         free(model->triangles);
+    }
     if (model->materials) {
         for (u32 i = 0; i < model->nummaterials; i++) {
             GRRLIB_DeleteMaterial(&model->materials[i]);
@@ -844,24 +840,24 @@ void GRRLIB_Draw3dObj(GRRLIB_Model* model) {
         GX_ClearVtxDesc();
 
         GX_SetVtxDesc(GX_VA_POS, GX_DIRECT);
-        if(model->numnormals) {
+        if(model->numnormals > 0) {
             GX_SetVtxDesc(GX_VA_NRM, GX_DIRECT);
         }
         GX_SetVtxDesc(GX_VA_CLR0, GX_DIRECT);
-        if(model->numtexcoords && tex) {
+        if(model->numtexcoords > 0 && tex != NULL) {
             GX_SetVtxDesc(GX_VA_TEX0, GX_DIRECT);
         }
 
         GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_POS_XYZ, GX_F32, 0);
-        if(model->numnormals) {
+        if(model->numnormals > 0) {
             GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_NRM, GX_NRM_XYZ, GX_F32, 0);
         }
         GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_CLR0, GX_CLR_RGBA, GX_RGBA8, 0);
-        if(model->numtexcoords && tex) {
+        if(model->numtexcoords > 0 && tex != NULL) {
             GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_TEX0, GX_TEX_ST, GX_F32, 0);
         }
 
-        if(model->numtexcoords && tex) {
+        if(model->numtexcoords > 0 && tex != NULL) {
             GX_SetTevOp(GX_TEVSTAGE0, GX_MODULATE);
             GRRLIB_SetTexture(tex, 0);
         }
@@ -874,13 +870,13 @@ void GRRLIB_Draw3dObj(GRRLIB_Model* model) {
             GX_Position3f32(model->vertices[3 * T(group->triangles[i]).vindices[0] + X],
                             model->vertices[3 * T(group->triangles[i]).vindices[0] + Y],
                             model->vertices[3 * T(group->triangles[i]).vindices[0] + Z]);
-            if(model->numnormals) {
+            if(model->numnormals > 0) {
                 GX_Normal3f32(model->normals[3 * T(group->triangles[i]).nindices[0] + X],
                               model->normals[3 * T(group->triangles[i]).nindices[0] + Y],
                               model->normals[3 * T(group->triangles[i]).nindices[0] + Z]);
             }
             GX_Color1u32(Color);
-            if(model->numtexcoords && tex) {
+            if(model->numtexcoords > 0 && tex != NULL) {
                 GX_TexCoord2f32(model->texcoords[2*T(group->triangles[i]).tindices[0] + X],
                                 model->texcoords[2*T(group->triangles[i]).tindices[0] + Y]);
             }
@@ -889,13 +885,13 @@ void GRRLIB_Draw3dObj(GRRLIB_Model* model) {
             GX_Position3f32(model->vertices[3 * T(group->triangles[i]).vindices[1] + X],
                             model->vertices[3 * T(group->triangles[i]).vindices[1] + Y],
                             model->vertices[3 * T(group->triangles[i]).vindices[1] + Z]);
-            if(model->numnormals) {
+            if(model->numnormals > 0) {
                 GX_Normal3f32(model->normals[3 * T(group->triangles[i]).nindices[1] + X],
                               model->normals[3 * T(group->triangles[i]).nindices[1] + Y],
                               model->normals[3 * T(group->triangles[i]).nindices[1] + Z]);
             }
             GX_Color1u32(Color);
-            if(model->numtexcoords && tex) {
+            if(model->numtexcoords > 0 && tex != NULL) {
                 GX_TexCoord2f32(model->texcoords[2*T(group->triangles[i]).tindices[1] + X],
                                 model->texcoords[2*T(group->triangles[i]).tindices[1] + Y]);
             }
@@ -904,13 +900,13 @@ void GRRLIB_Draw3dObj(GRRLIB_Model* model) {
             GX_Position3f32(model->vertices[3 * T(group->triangles[i]).vindices[2] + X],
                             model->vertices[3 * T(group->triangles[i]).vindices[2] + Y],
                             model->vertices[3 * T(group->triangles[i]).vindices[2] + Z]);
-            if(model->numnormals) {
+            if(model->numnormals > 0) {
                 GX_Normal3f32(model->normals[3 * T(group->triangles[i]).nindices[2] + X],
                               model->normals[3 * T(group->triangles[i]).nindices[2] + Y],
                               model->normals[3 * T(group->triangles[i]).nindices[2] + Z]);
             }
             GX_Color1u32(Color);
-            if(model->numtexcoords && tex) {
+            if(model->numtexcoords > 0 && tex != NULL) {
                 GX_TexCoord2f32(model->texcoords[2*T(group->triangles[i]).tindices[2] + X],
                                 model->texcoords[2*T(group->triangles[i]).tindices[2] + Y]);
             }
