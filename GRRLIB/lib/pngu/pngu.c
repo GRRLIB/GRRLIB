@@ -1202,9 +1202,9 @@ int pngu_decode (IMGCTX ctx, uint32_t width, uint32_t height, uint32_t stripAlph
 	if ( (ctx->prop.imgColorType == PNGU_COLOR_TYPE_GRAY) || (ctx->prop.imgColorType == PNGU_COLOR_TYPE_GRAY_ALPHA) )
 		png_set_gray_to_rgb (ctx->png_ptr);
 
-    // Transform paletted images to RGB
-    if (ctx->prop.imgColorType == PNGU_COLOR_TYPE_PALETTE)
-        png_set_palette_to_rgb (ctx->png_ptr);
+	// Transform paletted images to RGB
+	if (ctx->prop.imgColorType == PNGU_COLOR_TYPE_PALETTE)
+		png_set_palette_to_rgb (ctx->png_ptr);
 
 	// Flush transformations
 	png_read_update_info (ctx->png_ptr, ctx->info_ptr);

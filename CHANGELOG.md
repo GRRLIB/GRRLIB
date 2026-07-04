@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased][]
 
 - Use `SYS_MainLoop()` in all examples.
+- Allow rendering of paletted PNG images.
 
 ## [4.6.1][] - 2025-08-02
 
