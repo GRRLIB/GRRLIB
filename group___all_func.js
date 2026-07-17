@@ -136,6 +136,7 @@ var group___all_func =
     [ "GRRLIB_Plot", "group___all_func.html#ga3d9c6c2d1661d8cbe149b27ad5f6e288", null ],
     [ "GRRLIB_PrintBMF", "group___all_func.html#gabc7a3deff6baf1923bbde413c036ef96", null ],
     [ "GRRLIB_Printf", "group___all_func.html#ga5539140382d9563e4e42dbda1694d21d", null ],
+    [ "GRRLIB_PrintfSystemFont", "group___all_func.html#ga2b75fb75bb5fcd5eb1fafa75a7b518c5", null ],
     [ "GRRLIB_PrintfTTF", "group___all_func.html#ga358e206bb75caac5bf850bd6f8f17d2a", null ],
     [ "GRRLIB_PrintfTTFW", "group___all_func.html#gaba31ba538f5ee4f1abf0fb604a34d45b", null ],
     [ "GRRLIB_PtInRect", "group___all_func.html#gaa0e1bd3df799dc1ee46067f7ce3ca8c7", null ],

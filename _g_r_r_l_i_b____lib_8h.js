@@ -55,6 +55,7 @@ var _g_r_r_l_i_b____lib_8h =
     [ "GRRLIB_ObjectViewTrans", "group___all_func.html#ga6991c87a4e1eff876be3733caa9b5947", null ],
     [ "GRRLIB_PrintBMF", "group___all_func.html#gabc7a3deff6baf1923bbde413c036ef96", null ],
     [ "GRRLIB_Printf", "group___all_func.html#ga5539140382d9563e4e42dbda1694d21d", null ],
+    [ "GRRLIB_PrintfSystemFont", "group___all_func.html#ga2b75fb75bb5fcd5eb1fafa75a7b518c5", null ],
     [ "GRRLIB_PrintfTTF", "group___all_func.html#ga358e206bb75caac5bf850bd6f8f17d2a", null ],
     [ "GRRLIB_PrintfTTFW", "group___all_func.html#gaba31ba538f5ee4f1abf0fb604a34d45b", null ],
     [ "GRRLIB_Render", "group___all_func.html#ga9840a19154f1e0cf9de14ad81ba23aef", null ],
