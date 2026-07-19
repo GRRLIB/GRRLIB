@@ -66,10 +66,6 @@ int main() {
         WPAD_SetVRes(WPAD_CHAN_0, WinW, WinH);
         WPAD_IR(WPAD_CHAN_0, &P1Mote);
 
-        // Wii Remote IR Viewport Correction
-        int P1MX = P1Mote.sx - 150;
-        int P1MY = P1Mote.sy - 150;
-
         // Update Stage
         Step++;
         if (Step == 720) {
@@ -99,6 +95,10 @@ int main() {
 
         // IR Pointer
         if (P1Mote.state == 1) {
+            // Wii Remote IR Viewport Correction
+            const int P1MX = P1Mote.sx - 150;
+            const int P1MY = P1Mote.sy - 150;
+
             GRRLIB_DrawImg( P1MX, P1MY, GFX_Blob[BlobType], 0, 1, 1, RGBA(Color, Color, Color, 255) );
         }
 
