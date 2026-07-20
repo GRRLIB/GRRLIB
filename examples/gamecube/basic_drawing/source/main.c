@@ -19,6 +19,21 @@
 #include "sprite_png.h"
 #include "ocean_bmf.h"
 #include "frontal_bmf.h"
+#include "basn0g01_png.h"
+#include "basn0g02_png.h"
+#include "basn0g04_png.h"
+#include "basn0g08_png.h"
+#include "basn0g16_png.h"
+#include "basn2c08_png.h"
+#include "basn2c16_png.h"
+#include "basn3p01_png.h"
+#include "basn3p02_png.h"
+#include "basn3p04_png.h"
+#include "basn3p08_png.h"
+#include "basn4a08_png.h"
+#include "basn4a16_png.h"
+#include "basn6a08_png.h"
+#include "basn6a16_png.h"
 
 // Tile stuff
 #define TILE_DELAY  10
@@ -63,6 +78,24 @@ int main() {
 
     PAD_Init();
 
+    GRRLIB_texImg *tex_png_suite[15] = {
+        GRRLIB_LoadTexture(basn0g01_png),
+        GRRLIB_LoadTexture(basn0g02_png),
+        GRRLIB_LoadTexture(basn0g04_png),
+        GRRLIB_LoadTexture(basn0g08_png),
+        GRRLIB_LoadTexture(basn0g16_png),
+        GRRLIB_LoadTexture(basn2c08_png),
+        GRRLIB_LoadTexture(basn2c16_png),
+        GRRLIB_LoadTexture(basn3p01_png),
+        GRRLIB_LoadTexture(basn3p02_png),
+        GRRLIB_LoadTexture(basn3p04_png),
+        GRRLIB_LoadTexture(basn3p08_png),
+        GRRLIB_LoadTexture(basn4a08_png),
+        GRRLIB_LoadTexture(basn4a16_png),
+        GRRLIB_LoadTexture(basn6a08_png),
+        GRRLIB_LoadTexture(basn6a16_png)
+    };
+
     GRRLIB_texImg *tex_test_jpg = GRRLIB_LoadTexture(test_jpg_jpg);
     GRRLIB_texImg *tex_test_bmp = GRRLIB_LoadTexture(test_bmp_bmp);
 
@@ -104,6 +137,14 @@ int main() {
                 // Draw a sprite
                 GRRLIB_DrawTile(600, 400, tex_sprite_png, 0, 2, 2, GRRLIB_WHITE, 12*4); // Rupee
                 GRRLIB_DrawTile(320+left, 240+top, tex_sprite_png, 0, 2, 2, GRRLIB_WHITE, frame);
+
+                // Draw png test-suite
+                int png_x = 10;
+                for(int i = 0; i < 15; i++) {
+                    GRRLIB_DrawImg(png_x, 375, tex_png_suite[i], 0.0f, 1.0f, 1.0f, GRRLIB_WHITE);
+                    png_x += 40;
+                }
+
                 if(direction_new != direction) {
                     // Direction has changed, modify frame immediately
                     direction = direction_new;
@@ -197,6 +238,9 @@ int main() {
         FPS = CalculateFrameRate();
     }
     // Free some textures
+    for(int i = 0; i < 15; i++) {
+        GRRLIB_FreeTexture(tex_png_suite[i]);
+    }
     GRRLIB_FreeTexture(tex_test_jpg);
     GRRLIB_FreeTexture(tex_test_bmp);
     GRRLIB_FreeTexture(tex_sprite_png);

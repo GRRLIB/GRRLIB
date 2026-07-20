@@ -1,6 +1,6 @@
 /********************************************************************************************
 
-PNGU Version : 0.2a
+PNGU
 
 Coder : frontier
 
@@ -152,9 +152,10 @@ int PNGU_DecodeToYCbYCr (IMGCTX ctx, uint32_t width, uint32_t height, void *buff
 
 	// Copy image to the output buffer
 	const uint32_t buffWidth = (width + stride) / 2;
+	const uint32_t wid2 = width / 2;
 	for (uint32_t y = 0; y < height; y++)
 	{
-		for (uint32_t x = 0; x < (width / 2); x++)
+		for (uint32_t x = 0; x < wid2; x++)
 		{
 			((uint32_t *)buffer)[y*buffWidth+x] = PNGU_RGB8_TO_YCbYCr (*(ctx->row_pointers[y]+x*6), *(ctx->row_pointers[y]+x*6+1), *(ctx->row_pointers[y]+x*6+2),
 															*(ctx->row_pointers[y]+x*6+3), *(ctx->row_pointers[y]+x*6+4), *(ctx->row_pointers[y]+x*6+5));
@@ -326,7 +327,7 @@ int PNGU_DecodeTo4x4RGB5A3 (IMGCTX ctx, uint32_t width, uint32_t height, void *b
 		{
 			for (uint32_t x = 0; x < qwidth; x++)
 			{
-				int blockbase = (y * qwidth + x) * 4;
+				const int blockbase = (y * qwidth + x) * 4;
 				uint64_t tmp;
 
 				uint64_t fieldA = *((uint64_t *)(ctx->row_pointers[y*4]+x*16));
@@ -466,7 +467,7 @@ int PNGU_DecodeTo4x4RGB5A3 (IMGCTX ctx, uint32_t width, uint32_t height, void *b
 			{
 				for (uint32_t x = 0; x < qwidth; x++)
 				{
-					int blockbase = (y * qwidth + x) * 4;
+					const int blockbase = (y * qwidth + x) * 4;
 
 					uint64_t field64 = *((uint64_t *)(ctx->row_pointers[y*4]+x*12));
 					uint64_t field32 = (uint64_t) *((uint32_t *)(ctx->row_pointers[y*4]+x*12+8));
@@ -840,7 +841,7 @@ int PNGU_EncodeFromEFB (IMGCTX ctx, uint32_t width, uint32_t height, uint32_t st
 int PNGU_EncodeFromYCbYCr (IMGCTX ctx, uint32_t width, uint32_t height, void *buffer, uint32_t stride)
 {
 	png_uint_32 rowbytes;
-	uint32_t x, y, buffWidth;
+	uint32_t x, y;
 
 	// Erase from the context any read info
 	pngu_free_info (ctx);
@@ -917,12 +918,13 @@ int PNGU_EncodeFromYCbYCr (IMGCTX ctx, uint32_t width, uint32_t height, void *bu
 	}
 
 	// Encode YCbYCr image into RGB8 format
-	buffWidth = (width + stride) / 2;
+	const uint32_t buffWidth = (width + stride) / 2;
+	const uint32_t wid2 = width / 2;
 	for (y = 0; y < height; y++)
 	{
 		ctx->row_pointers[y] = ctx->img_data + (y * rowbytes);
 
-		for (x = 0; x < (width / 2); x++)
+		for (x = 0; x < wid2; x++)
 			PNGU_YCbYCr_TO_RGB8 ( ((uint32_t *)buffer)[y*buffWidth+x],
 				((uint8_t *) ctx->row_pointers[y]+x*6), ((uint8_t *) ctx->row_pointers[y]+x*6+1),
 				((uint8_t *) ctx->row_pointers[y]+x*6+2), ((uint8_t *) ctx->row_pointers[y]+x*6+3),
