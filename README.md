@@ -111,6 +111,12 @@ If you prefer to use CMake, it can also be installed with a few commands:
 cmake --build build --target install
 ```
 
+If you prefer to use catnip, it can be installed in a single command:
+
+```bash
+catnip install wii
+```
+
 This process may take some time depending on the speed of your PC.
 
 If you used the method above the following steps are not required, GRRLIB is
