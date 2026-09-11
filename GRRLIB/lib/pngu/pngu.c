@@ -1192,6 +1192,10 @@ int pngu_decode (IMGCTX ctx, uint32_t width, uint32_t height, uint32_t stripAlph
 	if (ctx->prop.imgBitDepth == 16)
         png_set_strip_16 (ctx->png_ptr);
 
+    // Expand tRNS chunk transparency to a full alpha channel
+    if (png_get_valid(ctx->png_ptr, ctx->info_ptr, PNG_INFO_tRNS))
+        png_set_tRNS_to_alpha(ctx->png_ptr);
+
 	// Remove alpha channel if we don't need it
 	if (stripAlpha && ((ctx->prop.imgColorType == PNGU_COLOR_TYPE_RGB_ALPHA) || (ctx->prop.imgColorType == PNGU_COLOR_TYPE_GRAY_ALPHA)))
         png_set_strip_alpha (ctx->png_ptr);
@@ -1205,8 +1209,14 @@ int pngu_decode (IMGCTX ctx, uint32_t width, uint32_t height, uint32_t stripAlph
 		png_set_gray_to_rgb (ctx->png_ptr);
 
 	// Transform paletted images to RGB
-	if (ctx->prop.imgColorType == PNGU_COLOR_TYPE_PALETTE)
+	if (ctx->prop.imgColorType == PNGU_COLOR_TYPE_PALETTE) {
 		png_set_palette_to_rgb (ctx->png_ptr);
+
+        if (png_get_valid(ctx->png_ptr, ctx->info_ptr, PNG_INFO_tRNS))
+            ctx->prop.imgColorType = PNGU_COLOR_TYPE_RGB_ALPHA;
+        else
+            ctx->prop.imgColorType = PNGU_COLOR_TYPE_RGB;
+    }
 
 	// Flush transformations
 	png_read_update_info (ctx->png_ptr, ctx->info_ptr);
