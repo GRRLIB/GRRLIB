@@ -51,6 +51,7 @@ struct _IMGCTX
 
 	png_bytep *row_pointers;
 	png_bytep img_data;
+	uint32_t decodedColorType;
 };
 
 
@@ -209,7 +210,7 @@ int PNGU_DecodeToRGBA8 (IMGCTX ctx, uint32_t width, uint32_t height, void *buffe
 	const uint32_t buffWidth = width + stride;
 
 	// Check is source image has an alpha channel
-	if ( (ctx->prop.imgColorType == PNGU_COLOR_TYPE_GRAY_ALPHA) || (ctx->prop.imgColorType == PNGU_COLOR_TYPE_RGB_ALPHA) )
+	if ( (ctx->decodedColorType == PNGU_COLOR_TYPE_GRAY_ALPHA) || (ctx->decodedColorType == PNGU_COLOR_TYPE_RGB_ALPHA) )
 	{
 		// Alpha channel present, copy image to the output buffer
 		for (uint32_t y = 0; y < height; y++)
@@ -320,7 +321,7 @@ int PNGU_DecodeTo4x4RGB5A3 (IMGCTX ctx, uint32_t width, uint32_t height, void *b
 	const uint32_t qheight = height / 4;
 
 	// Check is source image has an alpha channel
-	if ( (ctx->prop.imgColorType == PNGU_COLOR_TYPE_GRAY_ALPHA) || (ctx->prop.imgColorType == PNGU_COLOR_TYPE_RGB_ALPHA) )
+	if ( (ctx->decodedColorType == PNGU_COLOR_TYPE_GRAY_ALPHA) || (ctx->decodedColorType == PNGU_COLOR_TYPE_RGB_ALPHA) )
 	{
 		// Alpha channel present, copy image to the output buffer
 		for (uint32_t y = 0; y < qheight; y++)
@@ -635,8 +636,8 @@ uint8_t * PNGU_DecodeTo4x4RGBA8 (IMGCTX ctx, uint32_t width, uint32_t height, in
 					y2 = ((y*yRatio)>>16);
 				}
 
-				if (ctx->prop.imgColorType == PNGU_COLOR_TYPE_GRAY_ALPHA ||
-					ctx->prop.imgColorType == PNGU_COLOR_TYPE_RGB_ALPHA)
+				if (ctx->decodedColorType == PNGU_COLOR_TYPE_GRAY_ALPHA ||
+					ctx->decodedColorType == PNGU_COLOR_TYPE_RGB_ALPHA)
 				{
 					if(xRatio > 0)
 						pixel = &(ctx->row_pointers[y2][x2*4]);
@@ -1192,34 +1193,44 @@ int pngu_decode (IMGCTX ctx, uint32_t width, uint32_t height, uint32_t stripAlph
 	if (ctx->prop.imgBitDepth == 16)
         png_set_strip_16 (ctx->png_ptr);
 
-    // Expand tRNS chunk transparency to a full alpha channel
-    if (png_get_valid(ctx->png_ptr, ctx->info_ptr, PNG_INFO_tRNS))
-        png_set_tRNS_to_alpha(ctx->png_ptr);
+	// Expand tRNS chunk transparency to a full alpha channel
+	if (png_get_valid(ctx->png_ptr, ctx->info_ptr, PNG_INFO_tRNS))
+		png_set_tRNS_to_alpha(ctx->png_ptr);
 
 	// Remove alpha channel if we don't need it
-	if (stripAlpha && ((ctx->prop.imgColorType == PNGU_COLOR_TYPE_RGB_ALPHA) || (ctx->prop.imgColorType == PNGU_COLOR_TYPE_GRAY_ALPHA)))
-        png_set_strip_alpha (ctx->png_ptr);
+	if (stripAlpha && (((ctx->prop.imgColorType == PNGU_COLOR_TYPE_RGB_ALPHA) || (ctx->prop.imgColorType == PNGU_COLOR_TYPE_GRAY_ALPHA)) ||
+		png_get_valid(ctx->png_ptr, ctx->info_ptr, PNG_INFO_tRNS)))
+		png_set_strip_alpha (ctx->png_ptr);
 
 	// Expand 1, 2 and 4 bit samples to 8 bit
 	if (ctx->prop.imgBitDepth < 8)
-        png_set_packing (ctx->png_ptr);
+		png_set_packing (ctx->png_ptr);
 
 	// Transform grayscale images to RGB
 	if ( (ctx->prop.imgColorType == PNGU_COLOR_TYPE_GRAY) || (ctx->prop.imgColorType == PNGU_COLOR_TYPE_GRAY_ALPHA) )
 		png_set_gray_to_rgb (ctx->png_ptr);
 
 	// Transform paletted images to RGB
-	if (ctx->prop.imgColorType == PNGU_COLOR_TYPE_PALETTE) {
+	if (ctx->prop.imgColorType == PNGU_COLOR_TYPE_PALETTE)
 		png_set_palette_to_rgb (ctx->png_ptr);
-
-        if (png_get_valid(ctx->png_ptr, ctx->info_ptr, PNG_INFO_tRNS))
-            ctx->prop.imgColorType = PNGU_COLOR_TYPE_RGB_ALPHA;
-        else
-            ctx->prop.imgColorType = PNGU_COLOR_TYPE_RGB;
-    }
 
 	// Flush transformations
 	png_read_update_info (ctx->png_ptr, ctx->info_ptr);
+	switch (png_get_color_type(ctx->png_ptr, ctx->info_ptr))
+	{
+		case PNG_COLOR_TYPE_GRAY_ALPHA:
+			ctx->decodedColorType = PNGU_COLOR_TYPE_GRAY_ALPHA;
+			break;
+		case PNG_COLOR_TYPE_RGB:
+			ctx->decodedColorType = PNGU_COLOR_TYPE_RGB;
+			break;
+		case PNG_COLOR_TYPE_RGB_ALPHA:
+			ctx->decodedColorType = PNGU_COLOR_TYPE_RGB_ALPHA;
+			break;
+		default:
+			ctx->decodedColorType = PNGU_COLOR_TYPE_UNKNOWN;
+			break;
+	}
 
 	// Allocate memory to store the image
 	rowbytes = png_get_rowbytes (ctx->png_ptr, ctx->info_ptr);

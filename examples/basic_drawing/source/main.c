@@ -35,6 +35,20 @@
 #include "basn4a16_png.h"
 #include "basn6a08_png.h"
 #include "basn6a16_png.h"
+#include "tbbn0g04_png.h"
+#include "tbbn2c16_png.h"
+#include "tbbn3p08_png.h"
+#include "tbgn2c16_png.h"
+#include "tbgn3p08_png.h"
+#include "tbrn2c08_png.h"
+#include "tbwn0g16_png.h"
+#include "tbwn3p08_png.h"
+#include "tbyn3p08_png.h"
+#include "tp0n0g08_png.h"
+#include "tp0n2c08_png.h"
+#include "tp0n3p08_png.h"
+#include "tp1n3p08_png.h"
+#include "tm3n3p02_png.h"
 
 // Tile stuff
 #define TILE_DELAY  10
@@ -81,7 +95,7 @@ int main() {
     WPAD_Init();
     WPAD_SetDataFormat(WPAD_CHAN_0, WPAD_FMT_BTNS_ACC_IR);
 
-    GRRLIB_texImg *tex_png_suite[15] = {
+    GRRLIB_texImg *tex_png_suite_basic[15] = {
         GRRLIB_LoadTexture(basn0g01_png),
         GRRLIB_LoadTexture(basn0g02_png),
         GRRLIB_LoadTexture(basn0g04_png),
@@ -97,6 +111,23 @@ int main() {
         GRRLIB_LoadTexture(basn4a16_png),
         GRRLIB_LoadTexture(basn6a08_png),
         GRRLIB_LoadTexture(basn6a16_png)
+    };
+
+    GRRLIB_texImg *tex_png_suite_transparency[14] = {
+        GRRLIB_LoadTexture(tbbn0g04_png),
+        GRRLIB_LoadTexture(tbbn2c16_png),
+        GRRLIB_LoadTexture(tbbn3p08_png),
+        GRRLIB_LoadTexture(tbgn2c16_png),
+        GRRLIB_LoadTexture(tbgn3p08_png),
+        GRRLIB_LoadTexture(tbrn2c08_png),
+        GRRLIB_LoadTexture(tbwn0g16_png),
+        GRRLIB_LoadTexture(tbwn3p08_png),
+        GRRLIB_LoadTexture(tbyn3p08_png),
+        GRRLIB_LoadTexture(tp0n0g08_png),
+        GRRLIB_LoadTexture(tp0n2c08_png),
+        GRRLIB_LoadTexture(tp0n3p08_png),
+        GRRLIB_LoadTexture(tp1n3p08_png),
+        GRRLIB_LoadTexture(tm3n3p02_png)
     };
 
     GRRLIB_texImg *tex_test_jpg = GRRLIB_LoadTexture(test_jpg_jpg);
@@ -148,7 +179,12 @@ int main() {
                 // Draw png test-suite
                 int png_x = 10;
                 for(int i = 0; i < 15; i++) {
-                    GRRLIB_DrawImg(png_x, 375, tex_png_suite[i], 0.0f, 1.0f, 1.0f, GRRLIB_WHITE);
+                    GRRLIB_DrawImg(png_x, 375, tex_png_suite_basic[i], 0.0f, 1.0f, 1.0f, GRRLIB_WHITE);
+                    png_x += 40;
+                }
+                png_x = 10;
+                for(int i = 0; i < 14; i++) {
+                    GRRLIB_DrawImg(png_x, 410, tex_png_suite_transparency[i], 0.0f, 1.0f, 1.0f, GRRLIB_WHITE);
                     png_x += 40;
                 }
 
@@ -263,7 +299,10 @@ int main() {
     }
     // Free some textures
     for(int i = 0; i < 15; i++) {
-        GRRLIB_FreeTexture(tex_png_suite[i]);
+        GRRLIB_FreeTexture(tex_png_suite_basic[i]);
+    }
+    for(int i = 0; i < 14; i++) {
+        GRRLIB_FreeTexture(tex_png_suite_transparency[i]);
     }
     GRRLIB_FreeTexture(tex_test_jpg);
     GRRLIB_FreeTexture(tex_test_bmp);
